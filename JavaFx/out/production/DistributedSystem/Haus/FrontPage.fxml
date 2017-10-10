@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -17,16 +18,29 @@
    <children>
       <Pane id="Grid" prefHeight="523.0" prefWidth="509.0">
          <children>
-            <Button id="uploadButton" fx:id="uploadButton" layoutX="209.0" layoutY="306.0" mnemonicParsing="false" onAction="#HandleButton" prefHeight="42.0" prefWidth="112.0" text="Upload" />
-            
-            <Button id="connect" fx:id="connect" layoutX="209.0" layoutY="362.0" mnemonicParsing="false" onAction="#HandleButtonAction" prefHeight="42.0" prefWidth="112.0" text="Connect" />
-            <TextField fx:id="IP" layoutX="182.0" layoutY="429.0" promptText="IP Address" />
             <ImageView fx:id="Haus" fitHeight="150.0" fitWidth="200.0" layoutX="165.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../img/HAUSIcon.png" />
             </image>
 
-         </ImageView>
+               </ImageView>
+            <VBox alignment="TOP_CENTER" layoutX="105.0" layoutY="237.0" prefHeight="272.0" prefWidth="297.0" spacing="10.0">
+               <children>
+                  <Button id="uploadButton" fx:id="uploadButton" mnemonicParsing="false" onAction="#HandleUploadAction" prefHeight="29.0" prefWidth="112.0" text="Upload" />
+                  <HBox prefHeight="43.0" prefWidth="297.0">
+                     <children>
+                        <ListView fx:id="JsonList" prefHeight="39.0" prefWidth="189.0" />
+                        <Button fx:id="Animation" mnemonicParsing="false" onAction="#HandleAnimation" prefHeight="30.0" prefWidth="113.0" text="Animate" />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="IP" prefHeight="29.0" prefWidth="297.0" promptText="IP Address" />
+                  
+                  <Button id="connect" fx:id="connect" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#HandleButtonAction" prefHeight="29.0" prefWidth="112.0" text="Connect" />
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
 
          </children>
       </Pane>
