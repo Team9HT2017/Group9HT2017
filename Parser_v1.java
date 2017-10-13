@@ -50,7 +50,6 @@ public class Parser_v1 {
      for (int i=0;i<names.size();i++){ // filling the map with <Node name, Message list>-type elements for further usage
     	  List <Object> relationships = new ArrayList <Object> ();
     	 for (int t=0;t<messages.length();t++){
-    		 System.out.println("zzzz "+messages.getJSONObject(t).get("from")+" TTT "+names.get(i).toString());
     		 if (messages.getJSONObject(t).get("from").equals(names.get(i).toString())){   			 
     			 relationships.add(messages.getJSONObject(t));
     		 }
