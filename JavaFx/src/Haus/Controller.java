@@ -73,6 +73,7 @@ public class Controller implements Initializable {
 
         FileChooser json = new FileChooser();
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+        json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
         File  SelectedFile = json.showOpenDialog(null);
         if (SelectedFile != null ) {
            // JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
