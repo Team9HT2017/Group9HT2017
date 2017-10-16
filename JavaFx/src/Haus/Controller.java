@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +36,9 @@ public class Controller implements Initializable {
 
     @FXML
     public Button Animate;
+
+
+    public String user;
 
 
     @FXML
@@ -87,7 +89,7 @@ public class Controller implements Initializable {
     }
     @FXML
     private void HandleAnimation() throws IOException {
-
+        user = "professor";
         System.out.println("animation in progress");
 
     }
