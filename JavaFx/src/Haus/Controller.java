@@ -15,7 +15,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Controller implements Initializable {
 
@@ -36,6 +38,8 @@ public class Controller implements Initializable {
 
     @FXML
     public Button Animate;
+    
+    public static String toParse;
 
 
     public String user;
@@ -71,9 +75,12 @@ public class Controller implements Initializable {
 
         FileChooser json = new FileChooser();
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+        json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
         File  SelectedFile = json.showOpenDialog(null);
         if (SelectedFile != null ) {
-            JsonList.getItems().add(SelectedFile.getCanonicalFile());
+           // JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
+            toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
+          
 
         } else {
             System.out.println("File is not valid");

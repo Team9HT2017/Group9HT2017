@@ -19,6 +19,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        Parser_v1.Parse2(Controller.toParse);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Main extends Application {
         Scene scene =new Scene(Root, 970, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
-
+       
 
 
     }
