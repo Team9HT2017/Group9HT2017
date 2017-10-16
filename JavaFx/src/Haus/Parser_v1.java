@@ -9,7 +9,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 /**
  * @Author Anthony;
  * Made with usage of JSON.org library
@@ -37,6 +36,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
+
 public class Parser_v1 { 
 	
 	private static String str = null;
@@ -57,8 +57,10 @@ public class Parser_v1 {
      JSONObject diagramElements = res.getJSONObject("diagram"); // pick array that contains high-level information about messages
      List <Object> processes = arr1.toList();
      List <Object> names = new ArrayList <Object> ();
+     List <Object> classes = new ArrayList <Object> ();
      for (int i=0;i<processes.size();i++){ // create array that contains ONLY names of nodes, classes are dumped
-    	 names.add((processes.get(i).toString().substring(6,processes.get(i).toString().indexOf(","))));  	
+    	 names.add((processes.get(i).toString().substring(6,processes.get(i).toString().indexOf(","))));
+    	 classes.add((processes.get(i).toString().substring(processes.get(i).toString().indexOf(",")+8,processes.get(i).toString().length()-1)));
      }
      JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
      JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
@@ -80,13 +82,13 @@ public class Parser_v1 {
     	 }
     	
     	// System.out.println(relationships.toString()); //for testing
-    	 result.put(names.get(i), relationships); //actual process of filling of the map
+    	 result.put(names.get(i)+"|"+classes.get(i), relationships); //actual process of filling of the map
      }
     
-    /* String result2 = ("{'meta' : "+meta.toString()+" "+", 'type' : "+"? "+type+" ?," //highlighting type with question marks for easier identification //for testing
+     String result2 = ("{'meta' : "+meta.toString()+" "+", 'type' : "+"? "+type+" ?," //highlighting type with question marks for easier identification //for testing
       		+ ""+" 'processes' : "+arr1.toString()+" "+"'diagram' : "+diagramElements.toString()); //parsing (to string)
-          System.out.println(result2.toString()); */
-     System.out.println(result.toString());
+          System.out.println(result2.toString()); 
+     
       return result; }
      
      
@@ -108,7 +110,7 @@ public class Parser_v1 {
     	  String result2 = ("{'meta' : "+arr12.toString()+" "+", 'type' : "+"? "+type+" ?,"
     	     		+" "+"'mapping' : "+arr13.toString());
     	   System.out.println(result);
-    	  //inp.frame.dispose(); //close the frame after parsing 
+    	 
     	  return null;  //change later
      }
 	return null;
