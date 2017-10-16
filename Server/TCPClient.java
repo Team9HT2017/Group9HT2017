@@ -17,8 +17,8 @@ class TCPClient {
         }
         static kindOfUser(){
 
-            if Controller.user == "professor" {
-                InetAddress IP = InetAddress.getLocalHost(); // get the professor ip
+            if Controller.user == "teacher" {
+                InetAddress IP = InetAddress.getLocalHost(); // get the teacher ip
                 return IP.getHostAddress();
         }
         else {

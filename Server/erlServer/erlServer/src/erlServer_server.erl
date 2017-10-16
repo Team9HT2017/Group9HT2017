@@ -35,7 +35,7 @@ acceptState(ServerSocket) ->
   acceptState(Socket).
 
 handle_client(Socket) ->
-  gen_tcp:send(Socket, response("Published with success")),
+  gen_tcp:send(Socket, response("")),
  receive
 %%   {tcp_closed, Socket, <<"quit">>} ->
 %%     gen_tcp:close(socket); %% To close the connection when quit is typed. MAYBE NOT NEEDED

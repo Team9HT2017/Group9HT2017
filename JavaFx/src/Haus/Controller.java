@@ -89,7 +89,7 @@ public class Controller implements Initializable {
     }
     @FXML
     private void HandleAnimation() throws IOException {
-        user = "professor";
+        user = "teacher";
         System.out.println("animation in progress");
 
     }
