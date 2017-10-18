@@ -18,7 +18,7 @@
 %%====================================================================
 
 init() ->
-	start().
+	start_server().
 
 start_server() ->
  io:format("Server started.~n"),
@@ -45,6 +45,6 @@ handle_client(Socket) ->
      handle_client(Socket)
  end.
 
-handle_message() ->
-{ok, Msg} = gen_tcp:recv(Socket, Message),
-Pid ! gen_tcp:send(Socket, Message).
+%handle_message() ->
+%{ok, Msg} = gen_tcp:recv(Socket, Message),
+%Pid ! gen_tcp:send(Socket, Message).
