@@ -9,9 +9,11 @@
 
 -module(erlServer_server).
 
+%% API
 -export([init/0]).
 
--define(Port, 8080). %% Defining the port used.
+%% Defining the port used.
+-define(Port, 8080).
 
 %%====================================================================
 %% API functions
