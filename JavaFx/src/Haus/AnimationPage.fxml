@@ -4,17 +4,8 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 
-<BorderPane id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane id="Boarder" fx:id="Boarder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.AnimationController">
    <top>
       <HBox spacing="350.0" BorderPane.alignment="CENTER">
          <children>
@@ -38,9 +29,9 @@
       <Label id="mailBox" prefHeight="443.0" prefWidth="138.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <Button id="kill" mnemonicParsing="false" text="Kill" BorderPane.alignment="CENTER">
+      <Button id="kill" fx:id="Kill" mnemonicParsing="false" onAction="#GetScene1" prefHeight="27.0" prefWidth="74.0" text="Kill" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="5.0" left="600.0" right="5.0" top="5.0" />
+            <Insets bottom="5.0" left="570.0" right="5.0" top="5.0" />
          </BorderPane.margin>
       </Button>
    </bottom>

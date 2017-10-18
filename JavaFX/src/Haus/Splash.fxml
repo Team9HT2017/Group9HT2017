@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="310.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="IPserver" fx:id="IPserver" prefHeight="55.0" prefWidth="242.0" text="Connect to the Server host " textAlignment="CENTER">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <ImageView id="Loading" fx:id="Loading" fitHeight="194.0" fitWidth="311.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/giphy.gif" />
+         </image>
+      </ImageView>
+   </children>
+</StackPane>

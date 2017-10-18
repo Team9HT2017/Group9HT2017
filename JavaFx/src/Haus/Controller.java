@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class Controller implements Initializable {
+public class Controller  implements Initializable {
 
     @FXML
     public Button uploadButton;
@@ -28,25 +28,33 @@ public class Controller implements Initializable {
     public TextField IP;
 
     @FXML
-    public Button connect;
+    public Button Connect;
 
-    @FXML
-    private GridPane Board;
 
     @FXML
     public ListView JsonList;
 
     @FXML
-    public Button Animate;
-    
+    public Button Animation;
+
+    @FXML
+    private TextField IPlocal;
+
+
     public static String toParse;
 
 
-    public String user;
+    public static String user;
+
+    private Stage stage =new Stage();
+    private SplashController.SplashScreen splash = new SplashController.SplashScreen();
+    private SplashController  controlsplash=new SplashController();
+    private Main main = new Main();
 
 
     @FXML
-    private void HandleButtonAction() throws IOException {
+    private void HandleConnection() throws IOException {
+
 
         if (IP.getText().isEmpty()) {
 
@@ -57,17 +65,38 @@ public class Controller implements Initializable {
             alert.showAndWait();
         } else {
             try {
-                FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
-                Parent Root50 =  fxmlloader.load();
-                Stage stage =new Stage();
-                stage.setTitle("Animation phase");
-                stage.setScene(new Scene(Root50));
-                stage.show();
+                showstage();
+                splash.start();
+                controlsplash.hideStack();
+                IP.clear();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+
+    }
+
+    private void showstage () throws IOException {
+
+        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
+        Parent root =  fxmlloader.load();
+        stage =new Stage();
+        stage.setTitle("Animation phase");
+        stage.setScene(new Scene(root));
+        // stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+    }
+
+    public void HideWindow(Button kill) {
+
+        this.stage = (Stage) kill.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+
+
 
     }
     @FXML
@@ -78,9 +107,10 @@ public class Controller implements Initializable {
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
         File  SelectedFile = json.showOpenDialog(null);
         if (SelectedFile != null ) {
-           // JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
+            JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
             toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
-          
+            main.getIP(IPlocal);
+
 
         } else {
             System.out.println("File is not valid");
@@ -104,6 +134,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("UPLOAD THE FILE");
 
     }
 }

@@ -1,5 +1,4 @@
 package Haus;
-
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import java.io.IOException;
 
@@ -29,8 +30,12 @@ public class Main extends Application {
         Scene scene =new Scene(Root, 970, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
-       
 
+
+
+    }
+    public void getIP(TextField text) throws UnknownHostException {
+        text.setText(String.valueOf(InetAddress.getLocalHost()));
 
     }
 
