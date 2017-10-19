@@ -42,7 +42,7 @@ start_link() ->
 %% @end
 %%--------------------------------------------------------------------
 init([]) -> % restart strategy 'one_for_one': if one goes down only that one is restarted
-  {ok, Port} = erlServer_app(port),
+  {ok, Port} = erlServer_app(Port),
   io:format("~p (~p) starting...~n"),
   {ok,
         {{one_for_one, 1, 10}, % The flag - 1 restart within 10 seconds
