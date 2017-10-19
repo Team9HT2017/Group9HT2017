@@ -20,7 +20,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        Parser_v1.Parse2(Controller.toParse);
+        Map t1 = Parser_v1.Parse2(Controller.toParse);
+        System.out.println(t1);
     }
 
     @Override
