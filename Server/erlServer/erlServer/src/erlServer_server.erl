@@ -10,7 +10,7 @@
 -module(erlServer_server).
 
 %% API
--export([init/0]).
+-export([init/0, client/0, send/0]).
 
 %% Defining the port used.
 -define(Port, 8080).
@@ -55,19 +55,68 @@ server_loop(ServerSocket) ->
   %% He will be able to read and receive messages - Change ownership
   server_loop(ServerSocket).
 
+handle_client(Socket) ->
+  receive
+%%   {tcp_closed, Socket, <<"quit">>} ->
+%%     gen_tcp:close(socket); %% To close the connection when quit is typed. MAYBE NOT NEEDED
+    {tcp, Socket, Request} ->
+      io:format("received: ~s~n", [Request]),
+      handle_client(Socket)
+  end.
+
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
 
-handle_client(Socket) ->
- receive
-%%   {tcp_closed, Socket, <<"quit">>} ->
-%%     gen_tcp:close(socket); %% To close the connection when quit is typed. MAYBE NOT NEEDED
-   {tcp, Socket, Request} ->
-     io:format("received: ~s~n", [Request]),
-     handle_client(Socket)
- end.
+client() ->
+  io:format("Starting client. Enter \'quit\' to exit.~n"),
+  connect(),
+  display_prompt(),
+  client_loop().
 
-%handle_message() ->
-%{ok, Msg} = gen_tcp:recv(Socket, Message),
-%Pid ! gen_tcp:send(Socket, Message).
+connect() ->
+  gen_tcp:connect(). %% Need to be worked
+
+send(Packet) ->
+  {ok, Socket, Packet} = gen_tcp:send(Socket, Packet),
+  {error, Reason} = io:format("Error faced: ~s~n", [Reason]).
+
+recv(Packet) ->
+  {recv, ok, Packet} = gen_tcp:recv(Socket, Packet),
+  {recv, error, Reason} = io:format("Error faced: ~s~n", [Reason]).
+
+% The prompt is handled by a separate process.
+% Every time a message is entered (and io:get_line()
+% returns) the separate process will send a message
+% to the main process (and terminate).
+
+display_prompt() ->
+  Client = self(),
+  spawn(fun () ->
+    Packet = io:get_line("> "),
+    Client ! {entered, Packet}
+        end),
+    Client ! {requested, Packet},
+  ok.
+
+client_loop() ->
+  receive
+    {send, ok, Packet}        ->
+      io:format("~s", [Packet]),
+      client_loop();
+    {recv, ok, Packet}        ->
+      io:format("~s", [Packet]),
+      client_loop();
+    {entered, "quit\n"} ->
+      leave();
+    {entered, Packet}        ->
+      % When a packet is entered we receive it,
+      recv(Packet),
+      display_prompt(),
+      client_loop();
+    {requested, Packet}        ->
+      % When a packet is requested we send it,
+      send(Packet),
+      display_prompt(),
+      client_loop()
+  end.

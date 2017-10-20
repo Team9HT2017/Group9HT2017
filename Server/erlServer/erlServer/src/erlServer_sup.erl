@@ -8,6 +8,7 @@
 %%%-------------------------------------------------------------------
 
 -module(erlServer_sup).
+
 -behaviour(supervisor).
 
 %% API
@@ -42,11 +43,10 @@ start_link() ->
 %% @end
 %%--------------------------------------------------------------------
 init([]) -> % restart strategy 'one_for_one': if one goes down only that one is restarted
-  {ok, Port} = erlServer_app(Port),
   io:format("~p (~p) starting...~n"),
   {ok,
-        {{one_for_one, 1, 10}, % The flag - 1 restart within 10 seconds
-            [{erlServer, {erlServer_server, init, []}, permanent, 5000, worker, [erlServer_server]}]}}.
+        {{one_for_one, 3, 60}, % The flag - 1 restart within 10 seconds
+            [{erlServer, {erlServer_server, init, []}, permanent, 1000, worker, [erlServer_server]}]}}.
             % CHILD: name of the module we call: Server; the name of the function: start_server
             % The argument we will use = []; Restart permanent => always restart;
             % Shutdown = milliseconds (times to do correctly) or infinity; Type = worker/supervisor;
