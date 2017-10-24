@@ -15,7 +15,7 @@
 -export([start_link/0]).
 
 %% Supervisor callbacks
--export([init/1]).
+-export([init/1, start_socket/0, terminate_socket/0, empty_listeners/0]).
 
 -define(SERVER, ?MODULE).
 
@@ -45,8 +45,8 @@ start_link() ->
 init([]) -> % restart strategy 'one_for_one': if one goes down only that one is restarted
   io:format("~p (~p) starting...~n"),
   {ok,
-        {{one_for_one, 3, 60}, % The flag - 1 restart within 10 seconds
-            [{erlServer, {erlServer_server, init, []}, permanent, 1000, worker, [erlServer_server]}]}}.
+        {{one_for_one, 5, 30}, % The flag - 5 restart within 30 seconds
+            [{erlServer_server, {erlServer_server, init, []}, permanent, 1000, worker, [erlServer_server]}]}}.
             % CHILD: name of the module we call: Server; the name of the function: start_server
             % The argument we will use = []; Restart permanent => always restart;
             % Shutdown = milliseconds (times to do correctly) or infinity; Type = worker/supervisor;
@@ -55,3 +55,17 @@ init([]) -> % restart strategy 'one_for_one': if one goes down only that one is 
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
+
+start_socket() ->
+  supervisor:start_child(?MODULE, []).
+
+terminate_socket() ->
+  supervisor:delete_child(?MODULE, []).
+
+empty_listeners() ->
+  [start_socket() || _ <- lists:seq(1,20)],
+  ok.
+%% Start with 20 listeners so that many multiple connections can
+%% be started at once, without serialization. In best circumstances,
+%% a process would keep the count active at all times to insure nothing
+%% bad happens over time when processes get killed too much.
