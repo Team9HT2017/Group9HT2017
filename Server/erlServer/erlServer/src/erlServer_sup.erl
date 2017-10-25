@@ -44,11 +44,14 @@ start_link() ->
 %%--------------------------------------------------------------------
 init([]) -> % restart strategy 'one_for_one': if one goes down only that one is restarted
   io:format("~p (~p) starting...~n"),
+  {ok, Port} = application:get_env(port),
+  {ok, ListenSocket} = gen_tcp:listen(Port, [{active,once}, {packet,line}]), %% Set the socket into {active_once} mode.
+  spawn_link(fun empty_listeners/0),
   {ok,
         {{one_for_one, 5, 30}, % The flag - 5 restart within 30 seconds
-            [{erlServer_server, {erlServer_server, init, []}, permanent, 1000, worker, [erlServer_server]}]}}.
+            [{erlServer_server, {erlServer_server, init, [ListenSocket]}, permanent, 1000, worker, [erlServer_server]}]}}.
             % CHILD: name of the module we call: Server; the name of the function: start_server
-            % The argument we will use = []; Restart permanent => always restart;
+            % We will pass the socket as an argument; Restart permanent => always restart;
             % Shutdown = milliseconds (times to do correctly) or infinity; Type = worker/supervisor;
             % Module = erl_Server
 
