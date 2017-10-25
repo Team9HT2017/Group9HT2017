@@ -10,43 +10,55 @@
 -module(erlServer_server).
 
 %% API
--export([init/0]).
+-export([init/0, start_server/0]).
 
 %% Defining the port used.
--define(Port, 8080).
+-define(PORT, 8080).
 
-%%====================================================================
-%% API functions
-%%====================================================================
+%%%===================================================================
+%%% API
+%%%===================================================================
 
+%%--------------------------------------------------------------------
+%% @doc
+%% Initializes the server
+%%
+%% @end
+%%--------------------------------------------------------------------
 init() ->
 	start_server().
 
+%%%===================================================================
+%%% Server callbacks
+%%%===================================================================
+
+%%--------------------------------------------------------------------
+%% @private
+%% @doc
+%% Starts the server
+%%
+%% @end
+%%--------------------------------------------------------------------
 start_server() ->
  io:format("Server started.~n"),
- {ok, ServerSocket} = gen_tcp:listen(?Port, [binary, {packet, 0}, % packet, raw
+ Pid = spawn_link(fun() ->
+   {ok, ServerSocket} = gen_tcp:listen(?PORT, [binary, {packet, 0}, % packet, raw
    {reuseaddr, true}, {active, true}]),
   io:format("~p", [ServerSocket]),
-    server_loop(ServerSocket).
+    server_loop(ServerSocket) end),
+  {ok, Pid}.
 
 server_loop(ServerSocket) ->
  {ok, Socket} = gen_tcp:accept(ServerSocket),
-  Pid = spawn(fun() -> handle_client(Socket) end),
+  Pid1 = spawn(fun() -> erlServer_client:client() end),
   inet:setopts(Socket, [{packet, 0}, binary, %% To change between active and passive modes when listening to messages.
     {nodelay, true}, {active, true}]),
-  gen_tcp:controlling_process(Socket, Pid), %% Let this PID guy take over my socket,
+  gen_tcp:controlling_process(Socket, Pid1), %% Let this PID guy take over my socket,
   %% He will be able to read and receive messages - Change ownership
   server_loop(ServerSocket).
 
-handle_client(Socket) ->
- receive
-%%   {tcp_closed, Socket, <<"quit">>} ->
-%%     gen_tcp:close(socket); %% To close the connection when quit is typed. MAYBE NOT NEEDED
-   {tcp, Socket, Request} ->
-     io:format("received: ~s~n", [Request]),
-     handle_client(Socket)
- end.
+%%%===================================================================
+%%% Internal functions
+%%%===================================================================
 
-%handle_message() ->
-%{ok, Msg} = gen_tcp:recv(Socket, Message),
-%Pid ! gen_tcp:send(Socket, Message).
+

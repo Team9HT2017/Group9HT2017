@@ -6,6 +6,36 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
+import javafx.scene.control.Button;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+//@Author Fahd;
+public class AnimationController implements Initializable {
+
+
+    @FXML
+    public Button Kill;
+
+    Controller controller = new Controller();
+
+
+    @FXML
+    private void GetScene1()  throws IOException {
+
+        controller.HideWindow(Kill);
+
+    }
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        System.out.println("Animation Phase");
+
+    }
 
 import java.io.IOException;
 import java.net.URL;

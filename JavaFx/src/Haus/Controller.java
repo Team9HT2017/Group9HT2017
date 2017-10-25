@@ -28,7 +28,6 @@ public class Controller  implements Initializable {
     @FXML
     public Button Connect;
 
-
     @FXML
     public ListView<File> JsonList;
 
@@ -38,10 +37,18 @@ public class Controller  implements Initializable {
     @FXML
     private TextField IPlocal;
 
+    @FXML
+    private TextField IPlocal;
+
     public static String toParse;
 
 
-    public String user;
+    public static String user;
+
+    private Stage stage =new Stage();
+    private SplashController.SplashScreen splash = new SplashController.SplashScreen();
+    private SplashController  controlsplash=new SplashController();
+    private Main main = new Main();
 
     private Stage stage =new Stage();
     private SplashController.SplashScreen splash = new SplashController.SplashScreen();
@@ -75,8 +82,8 @@ public class Controller  implements Initializable {
     }
 
     private void showstage() throws IOException {
-
-        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
+	FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
+        //FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
         Parent root =  fxmlloader.load();
         stage =new Stage();
         stage.setTitle("Animation phase");
@@ -109,6 +116,9 @@ public class Controller  implements Initializable {
             
 
             main.getIP(IPlocal);
+            JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
+            toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
+            main.getIP(IPlocal);
 
         } else {
             System.out.println("File is not valid");
@@ -135,7 +145,6 @@ public class Controller  implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         System.out.println("UPLOAD THE FILE");
     }
 }
