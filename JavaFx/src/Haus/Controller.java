@@ -37,18 +37,10 @@ public class Controller  implements Initializable {
     @FXML
     private TextField IPlocal;
 
-    @FXML
-    private TextField IPlocal;
-
     public static String toParse;
 
 
     public static String user;
-
-    private Stage stage =new Stage();
-    private SplashController.SplashScreen splash = new SplashController.SplashScreen();
-    private SplashController  controlsplash=new SplashController();
-    private Main main = new Main();
 
     private Stage stage =new Stage();
     private SplashController.SplashScreen splash = new SplashController.SplashScreen();
