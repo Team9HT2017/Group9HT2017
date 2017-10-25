@@ -7,11 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-
-
 import java.util.Map;
 
 

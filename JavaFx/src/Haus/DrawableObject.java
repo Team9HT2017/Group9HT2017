@@ -1,19 +1,19 @@
 package Haus;
 
-import java.util.Random;
-
 import javafx.scene.image.Image;
+
+import java.util.Random;
 
 public class DrawableObject {
 	
 	public String name;
 	public Image image;
-	public double x, y;
+	public int x, y;
 	
-	public DrawableObject(Object obj) {
+	public DrawableObject(Object obj, int x, int y) {
 		Random rand = new Random();
-		x = rand.nextInt(10) * 32;
-		y = rand.nextInt(10) * 16;
+		this.x = rand.nextInt(x);
+		this.y = rand.nextInt(y);
 		name = obj.toString();
 		image = new Image("/img/house.png");
 	}
