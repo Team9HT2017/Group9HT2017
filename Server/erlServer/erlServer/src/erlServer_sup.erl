@@ -1,8 +1,9 @@
 %%%-------------------------------------------------------------------
 %%% @author LFigueroa
 %%% @copyright (C) 2017, <HAUS PROJECT>
-%%% @doc This class runs the supervisor for this application,
-%%%      which can restart the system once for each 10 seconds.
+%%% @doc
+%%% This class runs the supervisor for this application,
+%%% which can restart the system once for each 10 seconds.
 %%% @end
 %%% Created : 11. Oct 2017 15:42
 %%%-------------------------------------------------------------------
@@ -26,7 +27,7 @@
 %% @end
 %%--------------------------------------------------------------------
 start_link() ->
-    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
+  supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
 %%%===================================================================
 %%% Supervisor callbacks
@@ -43,17 +44,17 @@ start_link() ->
 %% @end
 %%--------------------------------------------------------------------
 init([]) -> % restart strategy 'one_for_one': if one goes down only that one is restarted
-  io:format("~p (~p) starting...~n"),
-  {ok, Port} = application:get_env(port),
-  {ok, ListenSocket} = gen_tcp:listen(Port, [{active,once}, {packet,line}]), %% Set the socket into {active_once} mode.
-  spawn_link(fun empty_listeners/0),
+  io:format("starting...~n"),
+  %{ok, Port} = application:get_env(port),
+  %{ok, ListenSocket} = gen_tcp:listen(Port, [{active,once}, {packet,line}]), %% Set the socket into {active_once} mode.
+  spawn_link(fun() -> empty_listeners() end),
   {ok,
-        {{one_for_one, 5, 30}, % The flag - 5 restart within 30 seconds
-            [{erlServer_server, {erlServer_server, init, [ListenSocket]}, permanent, 1000, worker, [erlServer_server]}]}}.
-            % CHILD: name of the module we call: Server; the name of the function: start_server
-            % We will pass the socket as an argument; Restart permanent => always restart;
-            % Shutdown = milliseconds (times to do correctly) or infinity; Type = worker/supervisor;
-            % Module = erl_Server
+    {{one_for_one, 5, 30}, % The flag - 5 restart within 30 seconds
+      [{erlServer_server, {erlServer_server, init, []}, permanent, 1000, worker, [erlServer_server]}]}}.
+% CHILD: name of the module we call: Server; the name of the function: start_server
+% We will pass the socket as an argument; Restart permanent => always restart;
+% Shutdown = milliseconds (times to do correctly) or infinity; Type = worker/supervisor;
+% Module = erl_Server
 
 %%%===================================================================
 %%% Internal functions

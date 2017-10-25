@@ -1,6 +1,9 @@
 package Haus;
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> ddbbaaabfc2e7b04cbed6083e0124be9d8361bdf
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,10 +12,15 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+<<<<<<< HEAD
+import java.io.IOException;
+
+=======
 import java.util.Map;
 import java.io.IOException;
 
 
+>>>>>>> ddbbaaabfc2e7b04cbed6083e0124be9d8361bdf
 public class Main extends Application {
 
 
