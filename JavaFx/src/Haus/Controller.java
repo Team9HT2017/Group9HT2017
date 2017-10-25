@@ -9,17 +9,15 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class Controller implements Initializable {
+public class Controller  implements Initializable {
 
     @FXML
     public Button uploadButton;
@@ -28,25 +26,31 @@ public class Controller implements Initializable {
     public TextField IP;
 
     @FXML
-    public Button connect;
+    public Button Connect;
+
 
     @FXML
-    private GridPane Board;
+    public ListView<File> JsonList;
 
     @FXML
-    public ListView JsonList;
+    public Button Animation;
 
     @FXML
-    public Button Animate;
-    
+    private TextField IPlocal;
+
     public static String toParse;
 
 
     public String user;
 
+    private Stage stage =new Stage();
+    private SplashController.SplashScreen splash = new SplashController.SplashScreen();
+    private SplashController  controlsplash=new SplashController();
+    private Main main = new Main();
 
     @FXML
-    private void HandleButtonAction() throws IOException {
+    private void HandleConnection() throws IOException {
+
 
         if (IP.getText().isEmpty()) {
 
@@ -57,12 +61,11 @@ public class Controller implements Initializable {
             alert.showAndWait();
         } else {
             try {
-                FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
-                Parent Root50 =  fxmlloader.load();
-                Stage stage =new Stage();
-                stage.setTitle("Animation phase");
-                stage.setScene(new Scene(Root50));
-                stage.show();
+                showstage();
+                splash.start();
+                controlsplash.hideStack();
+                IP.clear();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -70,6 +73,29 @@ public class Controller implements Initializable {
         }
 
     }
+
+    private void showstage() throws IOException {
+
+        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
+        Parent root =  fxmlloader.load();
+        stage =new Stage();
+        stage.setTitle("Animation phase");
+        stage.setScene(new Scene(root));
+        // stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+    }
+
+    public void HideWindow(Button kill) {
+
+        this.stage = (Stage) kill.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+
+
+
+    }
+
     @FXML
     private void HandleUploadAction() throws IOException {
 
@@ -78,9 +104,11 @@ public class Controller implements Initializable {
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
         File  SelectedFile = json.showOpenDialog(null);
         if (SelectedFile != null ) {
-           // JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
+            JsonList.getItems().add(SelectedFile.getCanonicalFile());
             toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
-          
+            
+
+            main.getIP(IPlocal);
 
         } else {
             System.out.println("File is not valid");
@@ -92,26 +120,25 @@ public class Controller implements Initializable {
     public void HandleButton () {
         System.out.println("launch the server");
 
-
     }
+
     @FXML
     private void HandleAnimation() throws IOException {
-        user = "teacher";
         System.out.println("animation in progress");
-
+        
+        AnimationController.runAnim(Parser_v1.Parse2(toParse));
+        
+        showstage();
     }
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        System.out.println("UPLOAD THE FILE");
     }
 }
-
-
-
-
-
 
 
 

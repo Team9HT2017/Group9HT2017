@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/user/Documents/Group9HT2017/Libraries/json-20170516.jar"/>
+	<classpathentry kind="output" path="out/production/DistributedSystem"/>
+</classpath>

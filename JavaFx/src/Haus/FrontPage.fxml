@@ -6,43 +6,44 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Controller">
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <Pane id="Grid" prefHeight="523.0" prefWidth="509.0">
-         <children>
-            <ImageView fx:id="Haus" fitHeight="150.0" fitWidth="200.0" layoutX="165.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../img/HAUSIcon.png" />
-            </image>
+<GridPane id="Welcome" fx:id="Welcome" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Controller">
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Pane id="Grid" fx:id="firstpage" prefHeight="523.0" prefWidth="509.0">
+            <children>
+                <ImageView fx:id="Haus" fitHeight="150.0" fitWidth="200.0" layoutX="165.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/HAUSIcon.png" />
+                    </image>
 
-               </ImageView>
-            <VBox alignment="TOP_CENTER" layoutX="105.0" layoutY="237.0" prefHeight="272.0" prefWidth="297.0" spacing="10.0">
-               <children>
-                  <Button id="uploadButton" fx:id="uploadButton" mnemonicParsing="false" onAction="#HandleUploadAction" prefHeight="29.0" prefWidth="112.0" text="Upload" />
-                  <HBox prefHeight="43.0" prefWidth="297.0">
-                     <children>
-                        <ListView fx:id="JsonList" prefHeight="39.0" prefWidth="189.0" />
-                        <Button fx:id="Animation" mnemonicParsing="false" onAction="#HandleAnimation" prefHeight="30.0" prefWidth="113.0" text="Animate" />
-                     </children>
-                  </HBox>
-                  <TextField fx:id="IP" prefHeight="29.0" prefWidth="297.0" promptText="IP Address" />
-                  
-                  <Button id="connect" fx:id="connect" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#HandleButtonAction" prefHeight="29.0" prefWidth="112.0" text="Connect" />
-               </children>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </VBox>
+                </ImageView>
+                <VBox alignment="TOP_CENTER" layoutX="105.0" layoutY="237.0" prefHeight="272.0" prefWidth="297.0" spacing="10.0">
+                    <children>
+                        <Button id="uploadButton" fx:id="uploadButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#HandleUploadAction" prefHeight="29.0" prefWidth="112.0" text="Upload" />
+                        <HBox prefHeight="43.0" prefWidth="297.0">
+                            <children>
+                                <ListView fx:id="JsonList" prefHeight="39.0" prefWidth="189.0" />
+                                <Button id="Animation" fx:id="Animation" mnemonicParsing="false" onAction="#HandleAnimation" prefHeight="30.0" prefWidth="113.0" text="Animate" />
+                            </children>
+                        </HBox>
+                        <TextField fx:id="IP" prefHeight="29.0" prefWidth="297.0" promptText="IP Address" />
 
-         </children>
-      </Pane>
-   </children>
+                        <Button id="Connect" fx:id="Connect" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#HandleConnection" prefHeight="29.0" prefWidth="112.0" text="Connect" />
+                        <TextField fx:id="IPlocal" />
+                    </children>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                </VBox>
+
+            </children>
+        </Pane>
+    </children>
 </GridPane>
