@@ -21,7 +21,7 @@ public class Main extends Application {
 
         launch(args);
 
-        Map t1 = Parser_v1.Parse2(Controller.toParse);
+        Map<?, ?> t1 = Parser_v1.Parse2(Controller.toParse);
         System.out.println(t1);
     }
 
