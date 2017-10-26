@@ -10,9 +10,9 @@ rel/example_project
 .concrete/DEV_MODE
 .rebar
 
-# Metadata and recommenders
-.metadata/
-.recommenders/
+# IntelliJ auto generate files
+.idea
+*.iml
 
 # Compiled class file
 *.class
