@@ -27,6 +27,7 @@ public class AnimationController implements Initializable {
 	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 	static Character[][] grid;
     Controller controller = new Controller();
+    static double mapScale = 0.3;
 
     @FXML
     private void GetScene1() throws IOException {
@@ -38,7 +39,7 @@ public class AnimationController implements Initializable {
     
 	public static void runAnim(Map<?, ?> map)
 	{
-		int nodeNum = (int) (map.keySet().size() * 1.5);
+		int nodeNum = (int) (map.keySet().size() * mapScale);
 		grid = new Character[nodeNum][nodeNum];
 		Random rand = new Random();
 
@@ -64,8 +65,8 @@ public class AnimationController implements Initializable {
 					grid[node.x - 1][node.y + 1] == 'H' ||
 					grid[node.x + 1][node.y + 1] == 'H';)
 			{
-				node.x = rand.nextInt(nodeNum - 2) + 1;
-				node.y = rand.nextInt(nodeNum - 2) + 1;
+				node.x = rand.nextInt((nodeNum) - 2) + 1;
+				node.y = rand.nextInt((nodeNum) - 2) + 1;
 				
 			}
 
@@ -85,34 +86,41 @@ public class AnimationController implements Initializable {
 	//  from 2D to an Isometric 
 	public Point twoDToIso(Point point){
 		  Point tempPt = new Point(0,0);
-		  tempPt.x = point.x - point.y + 100;
-		  tempPt.y = (point.x + point.y) / 2 + 100;
+		  tempPt.x = point.x - point.y + (int)canvas.getWidth()/2 - 16;
+		  tempPt.y = (point.x + point.y) / 2 + (int)((canvas.getHeight()/2)-nodes.size() * (8 * mapScale));
 		  return(tempPt);
 		}
 
 	public void initialize(URL location, ResourceBundle resources) {
-	
+		canvas.setWidth((nodes.size() * 32) * mapScale + 80);
+		canvas.setHeight((nodes.size() * 16) * mapScale + 80);
+		int housenum = 0;
+		DrawableObject node = nodes.get(0);
 		System.out.println("Initializing anim");
-		Image grass = new Image("/img/Isotile.png");
+		Image grass = new Image("/img/Isotile_grass.png");
 		gc = canvas.getGraphicsContext2D();
 		gc.setFont(new Font("Consolas", 10));
-		for(int i = 0; i < (int) nodes.size() * 1.5; i++)
+		for(int i = 0; i < (int) (nodes.size()) * mapScale - 1; i++)
 		{
-			DrawableObject node = nodes.get(i/2);
-			for(int j = 0; j < (int) nodes.size() * 1.5; j++)
+
+			for(int j = 0; j < (int) (nodes.size()) * mapScale - 1; j++)
 			{
 				switch (grid[i][j]){
 					case 'G':
 						gc.drawImage(grass, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y );
 						break;
 					case 'H':
+						node = nodes.get(housenum);
+						housenum++;
 						gc.drawImage(node.image, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y - 16);
-						gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y);
+						//gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y - 16);
+						System.out.println(node.name);
+
 						break;
 				}
 			}
 
-			
+
 
 			//gc.drawImage(node.image, node.x * 32, node.y * 32);
 		}
