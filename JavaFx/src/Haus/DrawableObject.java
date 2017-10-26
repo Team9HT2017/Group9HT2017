@@ -12,8 +12,8 @@ public class DrawableObject {
 	
 	public DrawableObject(Object obj, int x, int y) {
 		Random rand = new Random();
-		this.x = rand.nextInt(x);
-		this.y = rand.nextInt(y);
+		this.x = rand.nextInt(x - 2) + 1;
+		this.y = rand.nextInt(y - 2) + 1;
 		name = obj.toString();
 		image = new Image("/img/house.png");
 	}

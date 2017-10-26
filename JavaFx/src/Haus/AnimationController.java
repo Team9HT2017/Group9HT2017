@@ -38,7 +38,7 @@ public class AnimationController implements Initializable {
     
 	public static void runAnim(Map<?, ?> map)
 	{
-		int nodeNum = map.keySet().size();
+		int nodeNum = (int) (map.keySet().size() * 1.5);
 		grid = new Character[nodeNum][nodeNum];
 		Random rand = new Random();
 
@@ -57,11 +57,16 @@ public class AnimationController implements Initializable {
 		//Build 2d grid map ('H'ouse)
 		for(DrawableObject node : nodes)
 		{
-			//For loop makes sure there are no houses sharing the same tilespace
-			for(; grid[node.x][node.y] == 'H'; )
+			//For loop makes sure there are no houses sharing a diagonally adjacent tilespace
+			for(; 	grid[node.x - 1][node.y - 1] == 'H' || 
+					grid[node.x + 1][node.y -1] == 'H' ||
+					grid[node.x][node.y] == 'H' ||
+					grid[node.x - 1][node.y + 1] == 'H' ||
+					grid[node.x + 1][node.y + 1] == 'H';)
 			{
-				node.x = rand.nextInt(nodeNum);
-				node.y = rand.nextInt(nodeNum);
+				node.x = rand.nextInt(nodeNum - 2) + 1;
+				node.y = rand.nextInt(nodeNum - 2) + 1;
+				
 			}
 
 			grid[node.x][node.y] = 'H';
@@ -76,31 +81,38 @@ public class AnimationController implements Initializable {
 			System.out.println();
 		}
 	}
+	
+	//  from 2D to an Isometric 
+	public Point twoDToIso(Point point){
+		  Point tempPt = new Point(0,0);
+		  tempPt.x = point.x - point.y + 100;
+		  tempPt.y = (point.x + point.y) / 2 + 100;
+		  return(tempPt);
+		}
 
 	public void initialize(URL location, ResourceBundle resources) {
-		
+	
 		System.out.println("Initializing anim");
 		Image grass = new Image("/img/Isotile.png");
 		gc = canvas.getGraphicsContext2D();
 		gc.setFont(new Font("Consolas", 10));
-		int i = 0;
-		for(DrawableObject node : nodes)
+		for(int i = 0; i < (int) nodes.size() * 1.5; i++)
 		{
-			for(int j = 0; j < nodes.size(); j++)
+			DrawableObject node = nodes.get(i/2);
+			for(int j = 0; j < (int) nodes.size() * 1.5; j++)
 			{
 				switch (grid[i][j]){
 					case 'G':
-						gc.drawImage(grass, i * 32, j * 16);
+						gc.drawImage(grass, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y );
 						break;
 					case 'H':
-						gc.drawImage(node.image, i * 32, (j * 16) - 16);
-						gc.fillText(node.name, i * 32, (j * 16) - 16);
+						gc.drawImage(node.image, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y - 16);
+						gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y);
 						break;
 				}
 			}
 
-			i++;
-
+			
 
 			//gc.drawImage(node.image, node.x * 32, node.y * 32);
 		}
