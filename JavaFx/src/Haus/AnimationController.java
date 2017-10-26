@@ -90,10 +90,11 @@ public class AnimationController implements Initializable {
 			{
 				switch (grid[i][j]){
 					case 'G':
-						gc.drawImage(grass, i*32, j*16);
+						gc.drawImage(grass, i * 32, j * 16);
 						break;
 					case 'H':
-						gc.drawImage(node.image, i*32, (j*16) - 16);
+						gc.drawImage(node.image, i * 32, (j * 16) - 16);
+						gc.fillText(node.name, i * 32, (j * 16) - 16);
 						break;
 				}
 			}
@@ -102,7 +103,6 @@ public class AnimationController implements Initializable {
 
 
 			//gc.drawImage(node.image, node.x * 32, node.y * 32);
-			//gc.fillText(node.name, node.x * 32, node.y *32);
 		}
 	}
 	
