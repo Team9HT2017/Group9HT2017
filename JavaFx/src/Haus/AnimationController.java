@@ -27,7 +27,13 @@ public class AnimationController implements Initializable {
 	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 	static Character[][] grid;
     Controller controller = new Controller();
-    static double mapScale = 0.3;
+
+    /*
+    IMPORTANT!
+    CHANGE THE FOLLOWING VARIABLE TO CHANGE THE SCALE (X and Y = nodes*scale)
+    Note: There is a minimum map scale for each number of nodes (ex. 1.25 for 4 nodes, much lower for 50 (a bit lower than 0.3)). The program WILL crash if set too low.
+     */
+    static double mapScale = 1.5;
 
     @FXML
     private void GetScene1() throws IOException {
@@ -100,10 +106,10 @@ public class AnimationController implements Initializable {
 		Image grass = new Image("/img/Isotile_grass.png");
 		gc = canvas.getGraphicsContext2D();
 		gc.setFont(new Font("Consolas", 10));
-		for(int i = 0; i < (int) (nodes.size()) * mapScale - 1; i++)
+		for(int i = 0; i < (int) (nodes.size() * mapScale); i++)
 		{
 
-			for(int j = 0; j < (int) (nodes.size()) * mapScale - 1; j++)
+			for(int j = 0; j < (int) (nodes.size() * mapScale); j++)
 			{
 				switch (grid[i][j]){
 					case 'G':
