@@ -1,7 +1,7 @@
 ehaus
 =====
 
-An OTP application
+Haus Erlang Server Application
 
 Build
 -----
