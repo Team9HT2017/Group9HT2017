@@ -11,11 +11,12 @@ rel/example_project
 .rebar
 
 # IntelliJ auto generate files
-.idea
+JavaFx/.idea
 *.iml
 
-# Compiled class file
+# Compiled class files and out folder
 *.class
+JavaFX/out
 
 # Log file
 *.log
