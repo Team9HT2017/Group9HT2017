@@ -1,0 +1,21 @@
+{application, ehaus,
+  [{description, "An OTP application"},
+    {vsn, "1.0"},
+    {registered, []},
+    {mod, {ehaus, []}},
+    {applications,
+      [kernel,
+        stdlib, sasl
+      ]},
+    {env, []},
+    {modules, [ehaus,
+      ehaus_sup,
+      ehaus_clients,
+      ehaus_client_sup,
+      ehaus_client,
+      ehaus_client_manager]},
+
+    {maintainers, ["Laiz Figueroa"]},
+    {licenses, ["Apache 2.0"]},
+    {links, []}
+  ]}.

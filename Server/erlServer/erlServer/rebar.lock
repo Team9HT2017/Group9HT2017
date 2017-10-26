@@ -1,8 +1,0 @@
-[{<<"cowboy">>,
-  {git,"https://github.com/extend/cowboy.git",
-       {ref,"46b2ea0aaa7fe891bfdf3f8a0c47357393e72cf6"}},
-  0},
- {<<"ranch">>,
-  {git,"git://github.com/extend/ranch.git",
-       {ref,"aeceeae9b2df201a20d201cc7c23341ffdc170f3"}},
-  1}].

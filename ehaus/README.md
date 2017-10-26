@@ -1,4 +1,4 @@
-erlServer
+ehaus
 =====
 
 An OTP application
