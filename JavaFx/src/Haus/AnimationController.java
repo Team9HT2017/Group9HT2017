@@ -33,7 +33,7 @@ public class AnimationController implements Initializable {
     CHANGE THE FOLLOWING VARIABLE TO CHANGE THE SCALE (X and Y = nodes*scale)
     Note: There is a minimum map scale for each number of nodes (ex. 1.25 for 4 nodes, much lower for 50 (a bit lower than 0.3)). The program WILL crash if set too low.
      */
-    static double mapScale = 1.5;
+    static double mapScale;
 
     @FXML
     private void GetScene1() throws IOException {
@@ -45,6 +45,7 @@ public class AnimationController implements Initializable {
     
 	public static void runAnim(Map<?, ?> map)
 	{
+		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6);
 		int nodeNum = (int) (map.keySet().size() * mapScale);
 		grid = new Character[nodeNum][nodeNum];
 		Random rand = new Random();
@@ -54,6 +55,8 @@ public class AnimationController implements Initializable {
 		{
 			nodes.add(new DrawableObject(obj, nodeNum, nodeNum));
 		}
+
+
 
 		//Build 2d grid map ('G'rass)
 		for(int i = 0; i < nodeNum; i++)
@@ -119,7 +122,7 @@ public class AnimationController implements Initializable {
 						node = nodes.get(housenum);
 						housenum++;
 						gc.drawImage(node.image, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y - 16);
-						//gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y - 16);
+						gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new Point(i* 16, j * 16)).y - 16);
 						System.out.println(node.name);
 
 						break;
