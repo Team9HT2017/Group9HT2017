@@ -15,8 +15,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+
+import com.ericsson.otp.erlang.OtpErlangDecodeException;
+import com.ericsson.otp.erlang.OtpErlangExit;
 
 public class Controller  implements Initializable {
 
@@ -38,7 +43,7 @@ public class Controller  implements Initializable {
     @FXML
     private TextField IPlocal;
 
-    public static String toParse;
+    public static String toParse=null;
 
 
     public static String user;
@@ -112,6 +117,13 @@ public class Controller  implements Initializable {
             JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
             toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
             main.getIP(IPlocal);
+			try {
+				ServerConnection.sendExp(Parser_v1.Parse2(toParse).toString().replaceAll("\"", "^"),"put");
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}		
+			
 
         } else {
             System.out.println("File is not valid");
@@ -127,9 +139,30 @@ public class Controller  implements Initializable {
 
     @FXML
     private void HandleAnimation() throws IOException {
+    	String pars = null;
+    	Map <Object,Object> toSim = new HashMap <Object,Object>();
         System.out.println("animation in progress");
-        
-        AnimationController.runAnim(Parser_v1.Parse2(toParse));
+        if (toParse == null){
+        try {
+        	pars = (ServerConnection.sendExp("nope","get_map").replaceAll( "','", "").replaceAll("'", ""));
+        	pars = pars.substring(1, pars.length()-1);
+        	while (pars.length()>1){
+        	if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
+        	String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
+        	String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
+        	pars=pars.substring(0,pars.lastIndexOf("&"));
+        	toSim.put(key,val);}
+        	}
+        	System.out.println(toSim.toString());
+        	
+		} catch  (Exception e) {
+            System.out.println("No connection to the server");
+			e.printStackTrace();
+		}       
+        AnimationController.runAnim(toSim);}
+        else {
+        	AnimationController.runAnim(Parser_v1.Parse2(toParse));
+        }
         
         showstage();
     }

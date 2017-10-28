@@ -40,7 +40,7 @@ public class Parser_v1 {
 	
 	private static String str = null;
    public static Map Parse2 (String toParse){
-	   Map <Object,List <Object>> result = new HashMap <Object,List <Object>>();
+	   Map <Object,String> result = new HashMap <Object,String>();
 	 
      str = toParse.replaceAll("\\s+"," "); //remove all long spaces (more than 1) to prevent parser from crashing
  
@@ -81,12 +81,12 @@ public class Parser_v1 {
     	 }
     	
     	// System.out.println(relationships.toString()); //for testing
-    	 result.put(names.get(i)+"|"+classes.get(i), relationships); //actual process of filling of the map
+    	 result.put("&"+names.get(i)+"|"+classes.get(i),relationships+"?"); //actual process of filling of the map
      }
     
      String result2 = ("{'meta' : "+meta.toString()+" "+", 'type' : "+"? "+type+" ?," //highlighting type with question marks for easier identification //for testing
       		+ ""+" 'processes' : "+arr1.toString()+" "+"'diagram' : "+diagramElements.toString()); //parsing (to string)
-          System.out.println(result2.toString()); 
+         // System.out.println(result2.toString()); 
      
       return result; }
      
@@ -99,7 +99,7 @@ public class Parser_v1 {
     	  JSONArray arr13 = res.getJSONArray("relationships");
     	  String result2 = ("{'meta' : "+arr12.toString()+" "+", 'type' : "+"? "+type+" ?,"
     	     		+ ""+" 'classes' : "+arr11.toString()+" "+"'relationships' : "+arr13.toString());
-    	  System.out.println(result);
+    	  //System.out.println(result);
     	 
     	  return null ; //change later
      }
@@ -108,7 +108,7 @@ public class Parser_v1 {
     	  JSONArray arr13 = res.getJSONArray("mapping");
     	  String result2 = ("{'meta' : "+arr12.toString()+" "+", 'type' : "+"? "+type+" ?,"
     	     		+" "+"'mapping' : "+arr13.toString());
-    	   System.out.println(result);
+    	   //System.out.println(result);
     	 
     	  return null;  //change later
      }
