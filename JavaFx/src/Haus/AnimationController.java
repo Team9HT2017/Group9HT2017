@@ -50,43 +50,42 @@ public class AnimationController implements Initializable {
 		}
 		return false;
 	}
-	
-	// connection between a and b and print the connected nodes 
+
+	// connection between a and b and print the connected nodes
 	public static void connectTwoNodes(int a, int b) {
 		nodes.get(a).addConnection(nodes.get(b));
 		nodes.get(b).addConnection(nodes.get(a));
 		System.out.println(nodes.get(a).name + " is connected to " + nodes.get(b).name);
-		
-		int smallerX=nodes.get(b).x;
-		
-		int biggerX=nodes.get(a).x;
-		
-		int smallerY=nodes.get(b).y;
-		int biggerY=nodes.get(a).y;
-		
-		if(nodes.get(a).x<nodes.get(b).x) {
-			smallerX=nodes.get(a).x;
-			biggerX=nodes.get(b).x;
+
+		// assuming the different 2 nodes points a and b
+		int smallerX = nodes.get(b).x;
+		int biggerX = nodes.get(a).x;
+		int smallerY = nodes.get(b).y;
+		int biggerY = nodes.get(a).y;
+
+		// checking the points on the xs coordinates
+		if (nodes.get(a).x < nodes.get(b).x) {
+			smallerX = nodes.get(a).x;
+			biggerX = nodes.get(b).x;
 		}
-			
-		if(nodes.get(a).y<nodes.get(b).y) {
-			smallerY=nodes.get(a).y;
-			biggerY=nodes.get(b).y;
-		}
-		
-		// avoid writeing over a house
-		//smallerX+=1;
-		//biggerX-=1;
-		//smallerY+=1;
-		//biggerY-=1;
-		for(int i=smallerX;i<=biggerX;i++) {
-			if(grid[i][smallerY]!='H')
-			    grid[i][smallerY]='R';
+		if (nodes.get(a).y < nodes.get(b).y) {
+			smallerY = nodes.get(a).y;
+			biggerY = nodes.get(b).y;
 		}
 
-		for(int i=smallerY;i<=biggerY;i++) {
-			if(grid[biggerX][i]!='H')
-			grid[biggerX][i]='R';
+		// avoid writeing over a house
+		// smallerX+=1;
+		// biggerX-=1;
+		// smallerY+=1;
+		// biggerY-=1;
+		for (int i = smallerX; i <= biggerX; i++) {
+			if (grid[i][smallerY] != 'H')
+				grid[i][smallerY] = 'R';
+		}
+
+		for (int i = smallerY; i <= biggerY; i++) {
+			if (grid[biggerX][i] != 'H')
+				grid[biggerX][i] = 'R';
 		}
 	}
 
@@ -98,17 +97,17 @@ public class AnimationController implements Initializable {
 	 */
 	public static int findConnectionNode(int a) {
 		int ret = -1;
-		int nextX=10000;
-	
-		
-			for (int i = 0; i < nodes.size(); i++) {
-				if (grid[nodes.get(i).x][nodes.get(i).y]=='H' && nodes.get(a).y<=nodes.get(i).y && nodes.get(i).y<nextX && a!=i) {
-					nextX= nodes.get(i).y;
-					 ret = i;
-				}
+		int nextX = 10000;
+
+		for (int i = 0; i < nodes.size(); i++) {
+			if (grid[nodes.get(i).x][nodes.get(i).y] == 'H' && nodes.get(a).y <= nodes.get(i).y
+					&& nodes.get(i).y < nextX && a != i) {
+				nextX = nodes.get(i).y;
+				ret = i;
 			}
-			return ret;
-		
+		}
+		return ret;
+
 	}
 
 	public static void runAnim(Map<?, ?> map) {
@@ -142,11 +141,11 @@ public class AnimationController implements Initializable {
 		}
 		// build 2D grid map ('R'oad)
 		for (int i = 0; i < nodes.size(); i++) {
-			if( grid[nodes.get(i).x][nodes.get(i).y] == 'H') {
-			int con = findConnectionNode(i);
-			
-			if (con != -1)
-				connectTwoNodes(i, con);
+			if (grid[nodes.get(i).x][nodes.get(i).y] == 'H') {
+				int con = findConnectionNode(i);
+
+				if (con != -1)
+					connectTwoNodes(i, con);
 			}
 		}
 
@@ -191,8 +190,8 @@ public class AnimationController implements Initializable {
 					// gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
 					// Point(i* 16, j * 16)).y - 16);
 					System.out.println(node.name);
-
 					break;
+				// missing the road drawing as iso and picture
 				}
 			}
 
