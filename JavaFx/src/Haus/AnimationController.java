@@ -56,6 +56,38 @@ public class AnimationController implements Initializable {
 		nodes.get(a).addConnection(nodes.get(b));
 		nodes.get(b).addConnection(nodes.get(a));
 		System.out.println(nodes.get(a).name + " is connected to " + nodes.get(b).name);
+		
+		int smallerX=nodes.get(b).x;
+		
+		int biggerX=nodes.get(a).x;
+		
+		int smallerY=nodes.get(b).y;
+		int biggerY=nodes.get(a).y;
+		
+		if(nodes.get(a).x<nodes.get(b).x) {
+			smallerX=nodes.get(a).x;
+			biggerX=nodes.get(b).x;
+		}
+			
+		if(nodes.get(a).y<nodes.get(b).y) {
+			smallerY=nodes.get(a).y;
+			biggerY=nodes.get(b).y;
+		}
+		
+		// avoid writeing over a house
+		//smallerX+=1;
+		//biggerX-=1;
+		//smallerY+=1;
+		//biggerY-=1;
+		for(int i=smallerX;i<=biggerX;i++) {
+			if(grid[i][smallerY]!='H')
+			    grid[i][smallerY]='R';
+		}
+
+		for(int i=smallerY;i<=biggerY;i++) {
+			if(grid[biggerX][i]!='H')
+			grid[biggerX][i]='R';
+		}
 	}
 
 	/**
@@ -66,18 +98,17 @@ public class AnimationController implements Initializable {
 	 */
 	public static int findConnectionNode(int a) {
 		int ret = -1;
-		if (!nodes.get(a).isConnected || otherNotConnectedExists()) {
-			// return the index of the node that has the shortest distance
-			double minDistance = 3000;
+		int nextX=10000;
+	
+		
 			for (int i = 0; i < nodes.size(); i++) {
-				if (nodes.get(a).distance(nodes.get(i)) < minDistance && i != a
-						&& !nodes.get(a).isConnectedTo(nodes.get(i))) {
-					minDistance = nodes.get(a).distance(nodes.get(i));
-					ret = i;
+				if (grid[nodes.get(i).x][nodes.get(i).y]=='H' && nodes.get(a).y<=nodes.get(i).y && nodes.get(i).y<nextX && a!=i) {
+					nextX= nodes.get(i).y;
+					 ret = i;
 				}
 			}
-		}
-		return ret;
+			return ret;
+		
 	}
 
 	public static void runAnim(Map<?, ?> map) {
@@ -111,10 +142,12 @@ public class AnimationController implements Initializable {
 		}
 		// build 2D grid map ('R'oad)
 		for (int i = 0; i < nodes.size(); i++) {
+			if( grid[nodes.get(i).x][nodes.get(i).y] == 'H') {
 			int con = findConnectionNode(i);
+			
 			if (con != -1)
-				connectTwoNodes(con, i);
-
+				connectTwoNodes(i, con);
+			}
 		}
 
 		// Print 2d char map to terminal for debugging purposes
