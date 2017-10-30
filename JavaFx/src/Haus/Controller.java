@@ -125,11 +125,24 @@ public class Controller  implements Initializable {
 
     @FXML
     private void HandleAnimation() throws IOException {
-        System.out.println("animation in progress");
-        
-        AnimationController.runAnim(Parser_v1.Parse2(toParse));
-        
-        showstage();
+
+        try {
+
+            System.out.println("animation in progress");
+            AnimationController.runAnim(Parser_v1.Parse2(toParse));
+            showstage();
+
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Load a file ");
+            alert.setHeaderText(null);
+            alert.setContentText("Load the file to animate");
+            alert.showAndWait();
+            System.out.println(e);
+
+        }
+
     }
 
 
