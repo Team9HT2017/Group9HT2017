@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class SplashController  implements Initializable {
 
     @FXML
-    public StackPane stack;
+    public static StackPane Stack;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,8 +78,8 @@ public class SplashController  implements Initializable {
     }
 
     public void hideStack() {
-        if (this.stack != null) {
-            this.stack.getScene().getWindow().hide();
+        if (this.Stack != null) {
+            this.Stack.getScene().getWindow().hide();
         }
     }
 

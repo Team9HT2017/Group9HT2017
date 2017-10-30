@@ -12,16 +12,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AnimationController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AnimationController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Haus/AnimationController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="45" column="61" lean-forward="true" selection-start-line="45" selection-start-column="61" selection-end-line="45" selection-end-column="61" />
+            <state relative-caret-position="193">
+              <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#610#626#0" expanded="true" />
                 <element signature="e#746#752#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SplashController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Haus/SplashController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="328">
+              <caret line="78" column="0" lean-forward="true" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,6 +150,7 @@
         <option value="$PROJECT_DIR$/src/Haus/AnimationPage.fxml" />
         <option value="$PROJECT_DIR$/src/Haus/Road.java" />
         <option value="$PROJECT_DIR$/src/Haus/AnimationController.java" />
+        <option value="$PROJECT_DIR$/src/Haus/SplashController.java" />
       </list>
     </option>
   </component>
@@ -352,12 +363,12 @@
       <workItem from="1509135364855" duration="2038000" />
       <workItem from="1509191071805" duration="17129000" />
       <workItem from="1509358287055" duration="3871000" />
-      <workItem from="1509367443502" duration="1795000" />
+      <workItem from="1509367443502" duration="2156000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53992000" />
+    <option name="totallyTimeSpent" value="54353000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -448,22 +459,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Haus/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="133" column="20" lean-forward="false" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
-          <folding>
-            <marker date="1509369383412" expanded="true" signature="2018:2049" ph="{...}" />
-            <marker date="1509369383412" expanded="true" signature="2091:2217" ph="{...}" />
-            <marker date="1509369383412" expanded="true" signature="2286:3125" ph="{...}" />
-            <marker date="1509369383412" expanded="true" signature="3169:3226" ph="{...}" />
-            <marker date="1509369383412" expanded="true" signature="3292:3455" ph="{...}" />
-            <marker date="1509369383412" expanded="false" signature="3539:3550" ph=" { " />
-            <marker date="1509369383412" expanded="false" signature="3588:3594" ph=" }" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Haus/DrawableObject.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -936,13 +931,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Haus/AnimationController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="45" column="61" lean-forward="true" selection-start-line="45" selection-start-column="61" selection-end-line="45" selection-end-column="61" />
+        <state relative-caret-position="193">
+          <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#610#626#0" expanded="true" />
             <element signature="e#746#752#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Haus/SplashController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="78" column="0" lean-forward="true" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
