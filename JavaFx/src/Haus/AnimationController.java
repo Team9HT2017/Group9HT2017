@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.util.Pair;
 
 import java.awt.*;
 import java.io.IOException;
@@ -27,12 +28,8 @@ public class AnimationController implements Initializable {
 	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 	static Character[][] grid;
 	Controller controller = new Controller();
+	static ArrayList<Road> roads = new ArrayList<Road>();
 
-	/*
-    IMPORTANT!
-    CHANGE THE FOLLOWING VARIABLE TO CHANGE THE SCALE (X and Y = nodes*scale)
-    Note: There is a minimum map scale for each number of nodes (ex. 1.25 for 4 nodes, much lower for 50 (a bit lower than 0.3)). The program WILL crash if set too low.
-     */
 	static double mapScale;
 
 	@FXML
@@ -42,47 +39,10 @@ public class AnimationController implements Initializable {
 
 	}
 
-	public static boolean otherNotConnectedExists() {
-		for (DrawableObject e : nodes) {
-			if (!e.isConnected)
-				return true;
-		}
-		return false;
-	}
-
-	// connection between a and b and print the connected nodes
-	public static void connectTwoNodes(int a, int b) {
-		nodes.get(a).addConnection(nodes.get(b));
-		nodes.get(b).addConnection(nodes.get(a));
-		System.out.println(nodes.get(a).name + " is connected to " + nodes.get(b).name);
-	}
-
-	/**
-	 * @return the index of the node that the passed node with index a should
-	 *         connect with
-	 * @param a
-	 *            the index of the node who we want to find a connection for
-	 */
-	public static int findConnectionNode(int a) {
-		int ret = -1;
-		if (!nodes.get(a).isConnected || otherNotConnectedExists()) {
-			// return the index of the node that has the shortest distance
-			double minDistance = 3000;
-			for (int i = 0; i < nodes.size(); i++) {
-				if (nodes.get(a).distance(nodes.get(i)) < minDistance && i != a
-						&& !nodes.get(a).isConnectedTo(nodes.get(i))) {
-					minDistance = nodes.get(a).distance(nodes.get(i));
-					ret = i;
-				}
-			}
-		}
-		return ret;
-	}
-
 
 	public static void runAnim(Map<?, ?> map)
 	{
-		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6);
+		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6)*2;
 		int nodeNum = (int) (map.keySet().size() * mapScale);
 		grid = new Character[nodeNum][nodeNum];
 		Random rand = new Random();
@@ -99,6 +59,26 @@ public class AnimationController implements Initializable {
 			Arrays.fill(grid[i], 'G');
 		}
 
+
+		// Build 2d grid map ('R'oads)
+		for(int i = 0; i < nodes.size() - 1; i++) {
+			Road road = new Road(nodes.get(i), nodes.get(i + 1));
+			//roads.add(road);
+			int j = 0;
+			for (Pair tile : road.segments[j]) {
+				grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';
+				j++;
+			}
+		}
+		for(int i = 1; i < nodeNum - 1; i++) {
+			for (int j = 1; j < nodeNum - 1; j++) {
+				if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j + 1] == 'R' && grid[i - 1][j - 1] == 'R' && grid[i - 1][j + 1] == 'R' && grid[i + 1][j - 1] == 'R' && grid[i][j] == 'R') {
+					grid[i][j] = 'G';
+				}
+			}
+		}
+
+
 		// Build 2d grid map ('H'ouse)
 		for (DrawableObject node : nodes) {
 			// For loop makes sure there are no houses sharing a diagonally adjacent
@@ -112,13 +92,6 @@ public class AnimationController implements Initializable {
 			}
 
 			grid[node.x][node.y] = 'H';
-		}
-		// build 2D grid map ('R'oad)
-		for (int i = 0; i < nodes.size(); i++) {
-			int con = findConnectionNode(i);
-			if (con != -1)
-				connectTwoNodes(con, i);
-
 		}
 
 		// Print 2d char map to terminal for debugging purposes
@@ -145,6 +118,7 @@ public class AnimationController implements Initializable {
 		DrawableObject node = nodes.get(0);
 		System.out.println("Initializing anim");
 		Image grass = new Image("/img/Isotile_grass.png");
+		Image road = new Image("/img/Isotile_road.png");
 		gc = canvas.getGraphicsContext2D();
 		gc.setFont(new Font("Consolas", 10));
 		for (int i = 0; i < (int) (nodes.size() * mapScale); i++) {
@@ -163,6 +137,49 @@ public class AnimationController implements Initializable {
 						// Point(i* 16, j * 16)).y - 16);
 						System.out.println(node.name);
 
+						break;
+					case 'R':
+						if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_roadCross.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R' ) {
+							gc.drawImage(new Image("/img/Isotile_roadT-Y.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' ) {
+							gc.drawImage(new Image("/img/Isotile_roadT+Y.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R' ) {
+							gc.drawImage(new Image("/img/Isotile_roadT-X.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R' ) {
+							gc.drawImage(new Image("/img/Isotile_roadT+X.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_road^.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_road}.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_roadv.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_road{.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i + 1][j] == 'R' || grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i + 1][j] == 'H' && grid[i - 1][j] == 'H')
+						{
+							gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						else if (grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H')
+						{
+							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						}
 						break;
 				}
 			}
