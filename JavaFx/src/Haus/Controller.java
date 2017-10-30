@@ -11,6 +11,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,35 +49,31 @@ public class Controller  implements Initializable {
 
     private Stage stage =new Stage();
     private Main main = new Main();
-   // private SplashController.SplashScreen splash = new SplashController.SplashScreen();
-   // private SplashController  controlsplash=new SplashController();
 
-    @FXML
-    private void HandleConnection() throws IOException {
+        @FXML
+        private void HandleConnection() throws IOException {
 
 
-        if (IP.getText().isEmpty()) {
+            if (IP.getText().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Validate IP ");
-            alert.setHeaderText(null);
-            alert.setContentText("type the server IP address");
-            alert.showAndWait();
-        } else {
-            try {
-                if (uploaded)
-                    showstage();
-                IP.clear();
-                //splash.start();
-                //controlsplash.hideStack();
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Validate IP ");
+                alert.setHeaderText(null);
+                alert.setContentText("type the server IP address");
+                alert.showAndWait();
+            } else {
+                try {
+                    if (uploaded)
+                        showstage();
+                        IP.clear();
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
         }
-
-    }
 
     private void showstage() throws IOException {
 
@@ -108,7 +106,7 @@ public class Controller  implements Initializable {
         if (SelectedFile != null ) {
             JsonList.getItems().add(SelectedFile.getCanonicalFile());
             toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
-            
+
 
             main.getIP(IPlocal);
             JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
@@ -131,7 +129,7 @@ public class Controller  implements Initializable {
             System.out.println("animation in progress");
             AnimationController.runAnim(Parser_v1.Parse2(toParse));
             showstage();
-            //yourProcess();
+            yourProcess();
 
 
         } catch (Exception e) {
@@ -146,9 +144,9 @@ public class Controller  implements Initializable {
 
     }
 
-    /**
+
      public void yourProcess() {
-     String scriptName = "/Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
+     String scriptName = "/usr/bin/open -a Terminal  /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
      try {
 
      Runtime rt = Runtime.getRuntime();
@@ -169,7 +167,7 @@ public class Controller  implements Initializable {
      e.printStackTrace();
      }
      }
-     **/
+
 
 
 
