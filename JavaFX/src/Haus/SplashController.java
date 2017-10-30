@@ -54,6 +54,8 @@ public class SplashController  implements Initializable {
                             Stage stage = new Stage();
                             stage.setScene(scene);
                             stage.show();
+                            Stack.getScene().getWindow().hide();
+
 
 
                         }
