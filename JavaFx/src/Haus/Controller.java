@@ -78,6 +78,7 @@ public class Controller  implements Initializable {
     }
 
     private void showstage() throws IOException {
+
         FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
         Parent root =  fxmlloader.load();
         stage =new Stage();
@@ -113,16 +114,12 @@ public class Controller  implements Initializable {
             JsonList.getItems().add(SelectedFile.getCanonicalFile()); // replaced with my new function below
             toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
             main.getIP(IPlocal);
+            uploaded=true;
+
 
         } else {
             System.out.println("File is not valid");
         }
-
-    }
-
-    @FXML
-    public void HandleButton () {
-        System.out.println("launch the server");
 
     }
 
@@ -134,6 +131,7 @@ public class Controller  implements Initializable {
             System.out.println("animation in progress");
             AnimationController.runAnim(Parser_v1.Parse2(toParse));
             showstage();
+            //yourProcess();
 
 
         } catch (Exception e) {
@@ -147,6 +145,31 @@ public class Controller  implements Initializable {
         }
 
     }
+
+    /**
+     public void yourProcess() {
+     String scriptName = "/Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
+     try {
+
+     Runtime rt = Runtime.getRuntime();
+     Process process = rt.exec(scriptName);
+
+     BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+     String line=null;
+     while((line=input.readLine()) != null) {
+     System.out.println(line);
+     }
+
+     int exitVal = process.waitFor();
+     System.out.println("Exited with error code "+exitVal);
+
+     } catch(Exception e) {
+     System.out.println(e.toString());
+     e.printStackTrace();
+     }
+     }
+     **/
 
 
 
