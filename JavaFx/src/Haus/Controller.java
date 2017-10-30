@@ -40,6 +40,8 @@ public class Controller  implements Initializable {
 
     public static String toParse;
 
+    public static boolean uploaded = false;
+
 
     public static String user;
 
@@ -61,7 +63,8 @@ public class Controller  implements Initializable {
             alert.showAndWait();
         } else {
             try {
-                showstage();
+                if (uploaded)
+                    showstage();
                 IP.clear();
                 //splash.start();
                 //controlsplash.hideStack();
