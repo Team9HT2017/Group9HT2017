@@ -22,14 +22,14 @@ import java.util.logging.Logger;
 public class SplashController  implements Initializable {
 
     @FXML
-    public StackPane stack;
+    private StackPane Stack;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         new SplashScreen().start();
     }
 
-    public static class SplashScreen extends Thread {
+    class SplashScreen extends Thread {
 
         @Override
         public void run() {
@@ -37,7 +37,7 @@ public class SplashController  implements Initializable {
             while (!Thread.currentThread().isInterrupted()) {
 
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
@@ -54,6 +54,8 @@ public class SplashController  implements Initializable {
                             Stage stage = new Stage();
                             stage.setScene(scene);
                             stage.show();
+                            Stack.getScene().getWindow().hide();
+
 
 
                         }
@@ -76,8 +78,8 @@ public class SplashController  implements Initializable {
     }
 
     public void hideStack() {
-        if (this.stack != null) {
-            this.stack.getScene().getWindow().hide();
+        if (this.Stack != null) {
+            this.Stack.getScene().getWindow().hide();
         }
     }
 

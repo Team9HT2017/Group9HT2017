@@ -44,9 +44,9 @@ public class Controller  implements Initializable {
     public static String user;
 
     private Stage stage =new Stage();
-    private SplashController.SplashScreen splash = new SplashController.SplashScreen();
-    private SplashController  controlsplash=new SplashController();
     private Main main = new Main();
+   // private SplashController.SplashScreen splash = new SplashController.SplashScreen();
+   // private SplashController  controlsplash=new SplashController();
 
     @FXML
     private void HandleConnection() throws IOException {
@@ -62,9 +62,9 @@ public class Controller  implements Initializable {
         } else {
             try {
                 showstage();
-                splash.start();
-                controlsplash.hideStack();
                 IP.clear();
+                //splash.start();
+                //controlsplash.hideStack();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -75,13 +75,11 @@ public class Controller  implements Initializable {
     }
 
     private void showstage() throws IOException {
-	FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
-        //FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
+        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
         Parent root =  fxmlloader.load();
         stage =new Stage();
         stage.setTitle("Animation phase");
         stage.setScene(new Scene(root));
-        // stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
     }
