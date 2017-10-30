@@ -2,16 +2,20 @@ package Haus;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
-
+import java.util.Optional;
 
 
 public class Main extends Application {
@@ -24,6 +28,7 @@ public class Main extends Application {
 
         Map<?, ?> t1 = Parser_v1.Parse2(Controller.toParse);
         System.out.println(t1);
+
     }
 
     @Override
@@ -34,6 +39,10 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        primaryStage.setOnCloseRequest(e ->  {
+            e.consume();
+            closeprogram(primaryStage);
+        });
 
     }
     public void getIP(TextField text) throws UnknownHostException {
@@ -41,5 +50,21 @@ public class Main extends Application {
 
     }
 
+    private void closeprogram(Stage stage) {
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Look, a Confirmation Dialog");
+        alert.setContentText("Are you ok with this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage.close();
+            // ... user chose OK
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+
+    }
 
 }
