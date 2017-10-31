@@ -72,8 +72,8 @@ public class AnimationController implements Initializable {
 		}
 		for(int i = 1; i < nodeNum - 1; i++) {
 			for (int j = 1; j < nodeNum - 1; j++) {
-				if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j + 1] == 'R' && grid[i - 1][j - 1] == 'R' && grid[i - 1][j + 1] == 'R' && grid[i + 1][j - 1] == 'R' && grid[i][j] == 'R') {
-					grid[i][j] = 'G';
+				if (grid[i + 1][j] == 'R' && (grid[i - 1][j] == 'R' || grid[i - 1][j] == 'T') && (grid[i][j + 1] == 'R' || grid[i][j + 1] == 'T') && (grid[i][j - 1] == 'R' || grid[i][j - 1] == 'T') && grid[i + 1][j + 1] == 'R' && (grid[i - 1][j - 1] == 'R' || grid[i - 1][j - 1] == 'T') && grid[i - 1][j + 1] == 'R' && grid[i + 1][j - 1] == 'R' && (grid[i][j] == 'R')) {
+					grid[i][j] = 'T';
 				}
 			}
 		}
@@ -180,6 +180,9 @@ public class AnimationController implements Initializable {
 						{
 							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
 						}
+						break;
+					case 'T':
+						gc.drawImage(new Image("/img/Isotile_tree.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y - 8);
 						break;
 				}
 			}
