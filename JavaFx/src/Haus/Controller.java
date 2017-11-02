@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -45,7 +46,7 @@ public class Controller  implements Initializable {
     public static boolean uploaded = false;
 
 
-    public static String user;
+    public static String client;
 
     private Stage stage =new Stage();
     private Main main = new Main();
@@ -97,7 +98,7 @@ public class Controller  implements Initializable {
     }
 
     @FXML
-    private void HandleUploadAction() throws IOException {
+    private void HandleUploadAction() throws Exception {
 
         FileChooser json = new FileChooser();
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -114,6 +115,8 @@ public class Controller  implements Initializable {
             main.getIP(IPlocal);
             uploaded=true;
 
+            String ip  = Inet4Address.getLocalHost().getHostAddress();
+            TCPClient.main("teacher", ip);
 
         } else {
             System.out.println("File is not valid");
@@ -127,6 +130,11 @@ public class Controller  implements Initializable {
         try {
 
             System.out.println("animation in progress");
+
+            client = "student";
+            String teacherIp  = IP.getText();
+            TCPClient.main("student", teacherIp);
+
             AnimationController.runAnim(Parser_v1.Parse2(toParse));
             showstage();
             yourProcess();
