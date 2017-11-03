@@ -61,6 +61,7 @@ do_listen(PortNum, State = #s{port_num = none}) ->
   SocketOptions =
     [{active,    once},
       {mode,      binary},
+      {packet, 2},
       {keepalive, true},
       {reuseaddr, true}],
   {ok, Listener} = gen_tcp:listen(PortNum, SocketOptions),
