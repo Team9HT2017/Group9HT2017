@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="First" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.UserController">
+   <children>
+      <Pane fx:id="FirstPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;">
+         <children>
+            <ImageView fitHeight="262.0" fitWidth="287.0" layoutX="169.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/HAUSLogo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="teacherButton" layoutX="120.0" layoutY="310.0" mnemonicParsing="false" text="Create a Class" onAction="#ChangeToTeacherMain">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+            <Button fx:id="studentButton" layoutX="360.0" layoutY="310.0" mnemonicParsing="false" text="Join a Class" onAction="#ChangeToStudentMain">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
