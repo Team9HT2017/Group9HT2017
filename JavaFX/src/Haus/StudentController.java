@@ -13,12 +13,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentController implements Initializable {
+public class StudentController extends AnchorPane {
 
     @FXML
     public Button animateButton;
@@ -26,12 +27,10 @@ public class StudentController implements Initializable {
     @FXML
     public static TextField classID;
 
-    private Stage stage = new Stage();
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+//    @Override
+//    public void initialize(URL location, ResourceBundle resources) {
+//
+//    }
     @FXML
     private void HandleAnimation() throws IOException {
 
@@ -56,10 +55,9 @@ public class StudentController implements Initializable {
 
     }
     private void showStage() throws IOException {
-
         FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
         Parent root =  fxmlloader.load();
-        stage = new Stage();
+        Stage stage = new Stage();
         stage.setTitle("Loading Animation ...");
         stage.setScene(new Scene(root));
         stage.show();

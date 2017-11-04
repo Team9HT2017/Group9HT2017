@@ -22,6 +22,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -34,7 +36,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class TeacherController implements Initializable {
+public class TeacherController extends AnchorPane {
 
     @FXML
     public Button selectDiagramButton;
@@ -47,7 +49,7 @@ public class TeacherController implements Initializable {
 
     public static String toParse;
 
-    private Stage stage = new Stage();
+   // private Stage stage = new Stage();
 
     public static boolean uploaded = false;
 
@@ -79,31 +81,27 @@ public class TeacherController implements Initializable {
             TCPClient.main("teacher", ip);
 
             AnimationController.runAnim(Parser_v1.Parse2(toParse));
-            showStage();
+          //  showStage();
 
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Loading Error");
             alert.setHeaderText(null);
-            alert.setContentText("Load the file to animate");
+            alert.setContentText("Please load the file to start the animation..");
             alert.showAndWait();
             System.out.println(e);
 
         }
     }
+    
+    
+//    private void showStage() throws IOException {
+//
+//        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
+//        Parent root =  fxmlloader.load();
+//        stage.setTitle("Loading Animation ...");
+//        stage.setScene(new Scene(root));
+//        stage.show();
+//    }
 
-    private void showStage() throws IOException {
-
-        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
-        Parent root =  fxmlloader.load();
-        stage = new Stage();
-        stage.setTitle("Loading Animation ...");
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 }
