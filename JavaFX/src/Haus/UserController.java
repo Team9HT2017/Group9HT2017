@@ -23,8 +23,6 @@ import java.io.IOException;
 
 public class UserController {
 
-	Main main = new Main();
-
 	@FXML
 	public Button teacherButton;
 

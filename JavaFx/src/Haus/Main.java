@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Class to start the application, sets its basic characteristics.
  *
- * @author
+ * @author Fahd Debbiche
  * @version 1.0
  *
  * @editor Laiz Figueroa
@@ -50,7 +50,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent Root = FXMLLoader.load(getClass().getResource("FrontPage.fxml"));
+        Parent Root = FXMLLoader.load(getClass().getResource("UserSelection.fxml"));
         primaryStage.setTitle("Haus Diagram Simulator");
         //To get the application user's screen size and pass it to the set the application size
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -61,7 +61,7 @@ public class Main extends Application {
 
         primaryStage.setOnCloseRequest(e ->  {
             e.consume();
-            closeprogram(primaryStage);
+            closeProgram(primaryStage);
         });
     }
 
@@ -84,7 +84,7 @@ public class Main extends Application {
      * @param stage
      *
      */
-    private void closeprogram(Stage stage) {
+    private void closeProgram(Stage stage) {
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Leaving so soon!");

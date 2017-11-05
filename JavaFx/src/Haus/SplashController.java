@@ -1,6 +1,5 @@
 package Haus;
 
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,21 +8,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class will handle loading page. This will be called to give time to
+ * the application to start the server, receive the data and animate it.
+ *
+ * @author Fahd Debbiche
+ * @version 1.0
+ *
+ */
 
-//@Author Fahd ;
-
-public class SplashController  implements Initializable {
+public class SplashController implements Initializable {
 
     @FXML
     private StackPane Stack;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -36,8 +39,8 @@ public class SplashController  implements Initializable {
         public void run() {
 
             while (!Thread.currentThread().isInterrupted()) {
-
                 try {
+
                     Thread.sleep(2000);
                     Platform.runLater(new Runnable() {
                         @Override
@@ -56,12 +59,8 @@ public class SplashController  implements Initializable {
                             stage.setScene(scene);
                             stage.show();
                             Stack.getScene().getWindow().hide();
-
-
-
                         }
                     });
-
 
                 } catch (InterruptedException e) {
 
@@ -69,20 +68,7 @@ public class SplashController  implements Initializable {
 
                 }
                 Thread.currentThread().interrupt();
-
-
             }
-
-        }
-
-
-    }
-
-    public void hideStack() {
-        if (this.Stack != null) {
-            this.Stack.getScene().getWindow().hide();
         }
     }
-
-
 }

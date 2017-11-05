@@ -3,20 +3,21 @@ package Haus;
 import java.io.*;
 import java.net.*;
 /**
- * Created by Laiz Figueroa on 29/10/17.
+ * This class handles the connection between the application and the server.
  *
- * A class to connect the server with the application
+ * @author Anthony Path and Laiz Figueroa
+ * @version 1.0
  *
  */
 
 public class TCPClient {
+
     public static void main(String user, String ip) throws Exception {
 
-        String sentence = ""; // string to hold messages
+        String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
-        String message = Parser_v1.Parse2(Controller.toParse).toString();
+        String message = Parser_v1.Parse2(TeacherController.toParse).toString();
         String request = "request";
-
 
         Reader inputData = new StringReader(message);
         BufferedReader inFromUser = new BufferedReader(inputData);

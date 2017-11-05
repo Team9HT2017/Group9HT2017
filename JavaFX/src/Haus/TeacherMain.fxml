@@ -1,35 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TeacherController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TeacherController">
    <children>
-      <GridPane fx:id="teacherPane" layoutX="4.0" layoutY="-2.0" prefHeight="407.0" prefWidth="600.0" style="-fx-background-color: white;">
+      <GridPane fx:id="teacherPane" layoutX="4.0" layoutY="-2.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="429.0" minWidth="10.0" prefWidth="300.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="300.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="300.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="278.0" minHeight="10.0" prefHeight="278.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="169.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="253.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="selectDiagramButton" mnemonicParsing="false" text="Select Diagram" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#selectDiagram">
+            <Button fx:id="selectDiagramButton" mnemonicParsing="false" onAction="#selectDiagram" text="Select Diagram" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="17.0" />
                </font>
+               <GridPane.margin>
+                  <Insets left="67.0" top="30.0" />
+               </GridPane.margin>
             </Button>
-            <ListView fx:id="diagramPath" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="animateDiagramButton" mnemonicParsing="false" text="Animate Diagram" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#createAnimation">
+            <ListView fx:id="diagramPath" disable="true" prefHeight="40.0" prefWidth="400.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="250.0" right="250.0" />
+               </GridPane.margin></ListView>
+            <Button fx:id="animateDiagramButton" mnemonicParsing="false" onAction="#createAnimation" text="Animate Diagram" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="17.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="120.0" left="65.0" />
+               </GridPane.margin>
             </Button>
+            <ImageView fx:id="createClassMsg" fitHeight="169.0" fitWidth="840.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="3">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </ImageView>
          </children>
       </GridPane>
    </children>

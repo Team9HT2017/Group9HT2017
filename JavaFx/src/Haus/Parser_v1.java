@@ -2,17 +2,18 @@ package Haus;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @Author Anthony;
- * Made with usage of JSON.org library
-
-Copyright (c) 2002 JSON.org
+ * This class will perform the parsing. It will takes the .json file and
+ * parse it into a map.
+ *
+ * @author Anthony Path
+ * @version 1.0
+ * @copyright Copyright (c) 2002 JSON.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,10 +36,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
-
 public class Parser_v1 { 
 	
 	private static String str = null;
+
    public static Map Parse2 (String toParse){
 	   Map <Object,List <Object>> result = new HashMap <Object,List <Object>>();
 	 

@@ -1,9 +1,15 @@
 package Haus;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+/**
+ * This class handles ...
+ *
+ * @author
+ * @version 1.0
+ *
+ */
 
 public class Road {
 

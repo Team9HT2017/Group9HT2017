@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.StudentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.StudentController">
    <children>
-      <GridPane fx:id="studentPane" layoutX="-6.0" layoutY="-4.0" prefHeight="406.0" prefWidth="606.0" style="-fx-background-color: white;">
+      <GridPane fx:id="studentPane" layoutX="-6.0" layoutY="-4.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -22,8 +25,19 @@
                <font>
                   <Font size="17.0" />
                </font>
+               <GridPane.margin>
+                  <Insets bottom="150.0" left="60.0" />
+               </GridPane.margin>
             </Button>
-            <TextField fx:id="classID" promptText="Class Number" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="classID" alignment="CENTER" promptText="Class Number" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="35.0" />
+               </font></TextField>
+            <ImageView fx:id="joinClassMsg" fitHeight="150.0" fitWidth="840.0" pickOnBounds="true" preserveRatio="true">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </ImageView>
          </children>
       </GridPane>
    </children>

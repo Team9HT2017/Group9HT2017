@@ -1,9 +1,16 @@
 package Haus;
 
 import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 import java.util.Random;
+
+/**
+ * This class handles ...
+ *
+ * @author
+ * @version 1.0
+ *
+ */
 
 public class DrawableObject {
 

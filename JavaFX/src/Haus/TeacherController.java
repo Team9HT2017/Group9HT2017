@@ -5,36 +5,30 @@ package Haus;
  * upload a diagram into the system, get the Class identification
  * and open a class for his/hers students.
  *
- * @author
+ * @author Fahd Debbiche
  * @version 1.0
  *
  * @author Laiz Figueroa
  * @version 1.1
- * Modification: Created two new classes from the previous version.
+ * Modification: Created this new class from the previous version Controller by Fahd.
  *
  */
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Inet4Address;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Scanner;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+
 
 public class TeacherController extends AnchorPane {
 
@@ -49,10 +43,17 @@ public class TeacherController extends AnchorPane {
 
     public static String toParse;
 
-   // private Stage stage = new Stage();
+    private Stage stage = new Stage();
 
     public static boolean uploaded = false;
 
+    /**
+     * Method to give action to the Select Diagram button on the TeacherMain interface,
+     * which by pressing it the user will have a system browser to look for the file
+     * in .json and .txt format.
+     *
+     * @throws IOException
+     */
     @FXML
     private void selectDiagram() throws Exception {
 
@@ -60,6 +61,7 @@ public class TeacherController extends AnchorPane {
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
         File SelectedFile = json.showOpenDialog(null);
+
         if (SelectedFile != null) {
             diagramPath.getItems().add(SelectedFile.getCanonicalFile());
             toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
@@ -70,6 +72,13 @@ public class TeacherController extends AnchorPane {
         }
     }
 
+    /**
+     * Method to give action to the Animate Diagram button on the TeacherMain interface,
+     * which by pressing it the user will be starting the server, sending the diagram
+     * to it, and being redirected to the animation page.
+     *
+     * @throws IOException
+     */
     @FXML
     private void createAnimation() throws IOException {
 
@@ -81,7 +90,7 @@ public class TeacherController extends AnchorPane {
             TCPClient.main("teacher", ip);
 
             AnimationController.runAnim(Parser_v1.Parse2(toParse));
-          //  showStage();
+            showStage();
 
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -94,14 +103,13 @@ public class TeacherController extends AnchorPane {
         }
     }
     
-    
-//    private void showStage() throws IOException {
-//
-//        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
-//        Parent root =  fxmlloader.load();
-//        stage.setTitle("Loading Animation ...");
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//    }
+    private void showStage() throws IOException {
+
+        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
+        Parent root =  fxmlloader.load();
+        stage.setTitle("Loading Animation ...");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
 }
