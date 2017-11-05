@@ -8,30 +8,23 @@ package Haus;
  * @author Laiz Figueroa
  * @version 1.0
  * 
- * 
- * @author Rema Salman
+ * @editor Rema Salman
  * @version 1.1
  * Modification: Created the connection in the button actions with the error handling.
- *
  *
  */
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class UserController {
+
 	Main main = new Main();
+
 	@FXML
 	public Button teacherButton;
 
@@ -42,37 +35,47 @@ public class UserController {
 	AnchorPane first;
 
 	/**
-	 * Description: button action, which change the UserSelection anchorPane into
-	 * the teacher's anchorePane.
+	 * Method to give action to the Create class button, which change the UserSelection anchorPane into
+	 * the teacher's anchorPane.
 	 * 
 	 */
 	@FXML
-	private void ChangeToTeacherMain() {
+	private void changeToTeacherMain() {
 		try {
 			// adding TeacherMain anchorPane instead of the UserSelection anchorPane
 			first.getChildren().add(FXMLLoader.load(getClass().getResource("TeacherMain.fxml")));
+
 		} catch (IOException e) {
-			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Loading Error");
-			alert.setHeaderText(null);
-			alert.setContentText("Something went wrong! please try again ..");
-			alert.showAndWait();
+			loadingAlert();
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Method to give action to the Join class button on the UserSelection interface,
+	 * which by pressing it the user will be redirected to the student page.
+	 *
+	 */
+	@FXML
+	private void changeToStudentMain() {
+		try {
+			// adding StudentMain anchorPane instead of the UserSelection anchorPane
+			first.getChildren().add(FXMLLoader.load(getClass().getResource("StudentMain.fxml")));
+
+		} catch (IOException e) {
+			loadingAlert();
 			e.printStackTrace();
 		}
 	}
 
-	@FXML
-	private void ChangeToStudentMain() {
-		try {
-			first.getChildren().add(FXMLLoader.load(getClass().getResource("StudentMain.fxml")));
-		} catch (IOException e) {
-			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Loading Error");
-			alert.setHeaderText(null);
-			alert.setContentText("Something went wrong! please try again ..");
-			alert.showAndWait();
-			e.printStackTrace();
-		}
-
+	/**
+	 * Method to load a pop up a dialog to warn the user about loading problems.
+	 *
+	 */
+	private void loadingAlert(){
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("Loading Error");
+		alert.setHeaderText(null);
+		alert.setContentText("Something went wrong!" + "\n" + "Please try again ...");
+		alert.showAndWait();
 	}
 }

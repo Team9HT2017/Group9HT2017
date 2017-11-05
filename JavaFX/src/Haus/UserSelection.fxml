@@ -16,12 +16,12 @@
                   <Image url="@../img/HAUSLogo.png" />
                </image>
             </ImageView>
-            <Button fx:id="teacherButton" layoutX="120.0" layoutY="310.0" mnemonicParsing="false" text="Create a Class" onAction="#ChangeToTeacherMain">
+            <Button fx:id="teacherButton" layoutX="120.0" layoutY="310.0" mnemonicParsing="false" text="Create a Class" onAction="#changeToTeacherMain">
                <font>
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button fx:id="studentButton" layoutX="360.0" layoutY="310.0" mnemonicParsing="false" text="Join a Class" onAction="#ChangeToStudentMain">
+            <Button fx:id="studentButton" layoutX="360.0" layoutY="310.0" mnemonicParsing="false" text="Join Class" onAction="#changeToStudentMain">
                <font>
                   <Font size="17.0" />
                </font>
