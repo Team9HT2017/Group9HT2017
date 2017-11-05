@@ -34,12 +34,14 @@ public class UserController {
 
 	/**
 	 * Method to give action to the Create class button, which change the UserSelection anchorPane into
-	 * the teacher's anchorPane.
+	 * the teacher's anchorPane, after clearing the first (UserSelection) pane.
 	 * 
 	 */
 	@FXML
 	private void changeToTeacherMain() {
 		try {
+			// clearing the first (UserSelection) pane
+			first.getChildren().clear();
 			// adding TeacherMain anchorPane instead of the UserSelection anchorPane
 			first.getChildren().add(FXMLLoader.load(getClass().getResource("TeacherMain.fxml")));
 
@@ -51,11 +53,13 @@ public class UserController {
 	/**
 	 * Method to give action to the Join class button on the UserSelection interface,
 	 * which by pressing it the user will be redirected to the student page.
-	 *
+	 * Replacing the panes and clearing the first (UserSelection) pane.
 	 */
 	@FXML
 	private void changeToStudentMain() {
 		try {
+			// clearing the first (UserSelection) pane.
+			first.getChildren().clear();
 			// adding StudentMain anchorPane instead of the UserSelection anchorPane
 			first.getChildren().add(FXMLLoader.load(getClass().getResource("StudentMain.fxml")));
 

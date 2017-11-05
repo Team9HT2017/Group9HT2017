@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TeacherController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TeacherController">
    <children>
-      <GridPane fx:id="teacherPane" layoutX="4.0" layoutY="-2.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
+      <GridPane fx:id="teacherPane" layoutX="4.0" layoutY="-2.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="-2.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="429.0" minWidth="10.0" prefWidth="300.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="300.0" />
@@ -17,9 +20,9 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="278.0" minHeight="10.0" prefHeight="278.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="169.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="253.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="138.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="169.0" minHeight="0.0" prefHeight="38.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="245.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button fx:id="selectDiagramButton" mnemonicParsing="false" onAction="#selectDiagram" text="Select Diagram" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -30,7 +33,7 @@
                   <Insets left="67.0" top="30.0" />
                </GridPane.margin>
             </Button>
-            <ListView fx:id="diagramPath" disable="true" prefHeight="40.0" prefWidth="400.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <ListView fx:id="diagramPath" disable="true" prefHeight="21.0" prefWidth="400.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="250.0" right="250.0" />
                </GridPane.margin></ListView>
