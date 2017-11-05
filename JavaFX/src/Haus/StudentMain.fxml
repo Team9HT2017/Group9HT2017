@@ -7,9 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.StudentController">
+<AnchorPane fx:id="studentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.StudentController">
    <children>
-      <GridPane fx:id="studentPane" layoutX="-6.0" layoutY="-4.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
+      <GridPane  layoutX="-6.0" layoutY="-4.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -38,6 +38,18 @@
                   <Insets left="30.0" right="30.0" />
                </GridPane.margin>
             </ImageView>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="40.0" >
+               <GridPane.margin>
+                  <Insets left="50.0" top="-150.0" />
+               </GridPane.margin>
+                <graphic>
+              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+              <image>       
+                <Image url="/img/house.png" preserveRatio="false" smooth="false" />          
+              </image>
+              </ImageView>
+           </graphic>
+            </Button>
          </children>
       </GridPane>
    </children>

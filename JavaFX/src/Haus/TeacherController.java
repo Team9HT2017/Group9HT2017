@@ -16,13 +16,15 @@ package Haus;
  * @version 1.1
  * Modification: Handling the alerts in case of errors existence. 
  * 				Checking if the file uploaded before pressing (starting) animate.
- *				
+ *				Adding the backButton with an icon and its functionalities 
  */
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.util.List;
 import java.util.Scanner;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
@@ -46,14 +49,17 @@ public class TeacherController extends AnchorPane {
 	public Button animateDiagramButton;
 
 	@FXML
+	public Button backButton;
+
+	@FXML
 	public ListView<File> diagramPath;
 
+	@FXML
+	AnchorPane teacherPane;
+
 	public static String toParse;
-
-	private Stage stage = new Stage(); 
-
+	private Stage stage = new Stage();
 	public static boolean uploaded = false;
-	
 
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
@@ -123,11 +129,37 @@ public class TeacherController extends AnchorPane {
 		stage.setTitle("Loading Animation ...");
 		stage.setScene(new Scene(root));
 		stage.show();
+
+	}
+
+	/**
+	 * Method for going back to the first page, in case no
+	 * 
+	 * @throws IOException
+	 */
+	@FXML
+	private void backButton() throws IOException {
+		if (uploaded) {
+			backButton.disabledProperty();
+			loadingAlert("You have already chosen a file to be animated");
+		} else {
+			try {
+				// backButton.disabledProperty();
+				teacherPane.getChildren().clear();
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
+
+			} catch (Exception e) {
+				loadingAlert("You have already chosen a file to be animated");
+				System.out.println(e);
+			}
+		}
 	}
 
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
-	 *@param String represents the message displayed to the user
+	 * 
+	 * @param String
+	 *            represents the message displayed to the user
 	 *
 	 */
 	private void loadingAlert(String msg) {

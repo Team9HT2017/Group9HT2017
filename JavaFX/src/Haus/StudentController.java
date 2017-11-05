@@ -30,41 +30,80 @@ import java.io.IOException;
 
 public class StudentController extends AnchorPane {
 
-    @FXML
-    public Button animateButton;
+	@FXML
+	public Button animateButton;
 
-    @FXML
-    public static TextField classID;
+	@FXML
+	public static TextField classID;
+	
+	@FXML
+	AnchorPane studentPane;
 
-    @FXML
-    private void HandleAnimation() throws IOException {
+	@FXML
+	public Button backButton;
+	
 
-        if (classID.getText().isEmpty()) {
+	@FXML
+	private void HandleAnimation() throws IOException {
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Validate Class");
-            alert.setHeaderText(null);
-            alert.setContentText("Type the class identification, provided by the teacher!");
-            alert.showAndWait();
+		if (classID.getText().isEmpty()) {
 
-        } else {
-            try {
-                if (TeacherController.uploaded)
-                    showStage();
-                    classID.clear();
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Validate Class");
+			alert.setHeaderText(null);
+			alert.setContentText("Type the class identification, provided by the teacher!");
+			alert.showAndWait();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+		} else {
+			try {
+				if (TeacherController.uploaded)
+					showStage();
+				classID.clear();
 
-    private void showStage() throws IOException {
-        FXMLLoader fxmlloader =  new FXMLLoader(getClass().getResource("Splash.fxml"));
-        Parent root =  fxmlloader.load();
-        Stage stage = new Stage();
-        stage.setTitle("Loading Animation ...");
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * Method for going back to the first page, in case no
+	 * 
+	 * @throws IOException
+	 */
+	@FXML
+	private void backButton() throws IOException {
+		try {
+			studentPane.getChildren().clear();
+			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
+		} catch (Exception e) {
+			loadingAlert("You have already chosen a file to be animated");
+			System.out.println(e);
+		}
+	}
+
+	private void showStage() throws IOException {
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Splash.fxml"));
+		Parent root = fxmlloader.load();
+		Stage stage = new Stage();
+		stage.setTitle("Loading Animation ...");
+		stage.setScene(new Scene(root));
+		stage.show();
+	}
+
+	/**
+	 * Method to load a pop up a dialog to warn the user about loading problems.
+	 * 
+	 * @param String
+	 *            represents the message displayed to the user
+	 *
+	 */
+	private void loadingAlert(String msg) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("Loading Error");
+		alert.setHeaderText(null);
+		alert.setContentText(msg + "\n" + "Please try again ...");
+		alert.showAndWait();
+	}
+
 }
