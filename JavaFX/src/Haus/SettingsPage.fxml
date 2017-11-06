@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackSettings" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.SettingsController">
    <children>
       <GridPane prefHeight="300.0" prefWidth="400.0">
         <columnConstraints>
@@ -25,7 +28,7 @@
                   <Insets bottom="20.0" right="20.0" />
                </GridPane.margin>
             </Slider>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="107.0" text="Settings" textAlignment="CENTER" GridPane.columnSpan="3">
+            <Label fx:id="settingsLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="107.0" text="Settings" textAlignment="CENTER" GridPane.columnSpan="3">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -41,17 +44,17 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label text="No" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="noHouseName" text="No" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="10.0" left="1.0" top="30.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="houseName" text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="10.0" left="129.0" top="30.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Color-blind mode" GridPane.rowIndex="2">
+            <Label fx:id="slideDescription1" text="Color-blind mode" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="20.0" left="20.0" />
                </GridPane.margin>
@@ -64,12 +67,12 @@
                   <Insets bottom="20.0" right="20.0" />
                </GridPane.margin>
             </Slider>
-            <Label text="No" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="noColorMode" text="No" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="10.0" left="1.0" top="30.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="colorMode" text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="10.0" left="129.0" top="30.0" />
                </GridPane.margin>
