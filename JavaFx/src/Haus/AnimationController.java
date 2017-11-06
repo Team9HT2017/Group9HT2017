@@ -26,7 +26,7 @@ import java.util.*;
 public class AnimationController implements Initializable {
 
 	@FXML
-	public Button Kill;
+	public Button leaveAnimation;
 
 	@FXML
 	Canvas canvas;
@@ -46,7 +46,7 @@ public class AnimationController implements Initializable {
 	@FXML
 	private void GetScene1() throws IOException {
 
-		controller.HideWindow(Kill);
+		controller.HideWindow(leaveAnimation);
 
 	}
 
