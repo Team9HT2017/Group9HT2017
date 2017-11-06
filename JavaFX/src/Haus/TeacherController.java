@@ -29,6 +29,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -78,6 +79,7 @@ public class TeacherController extends AnchorPane {
 				diagramPath.getItems().add(SelectedFile.getCanonicalFile());
 				toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
 				uploaded = true;
+				classId();
 
 			} else {
 				System.out.println("File is not valid");
@@ -167,5 +169,17 @@ public class TeacherController extends AnchorPane {
 		alert.setContentText(msg);
 		alert.showAndWait();
 	}
+
+    private void classId() throws Exception {
+
+        String ip  = Inet4Address.getLocalHost().getHostAddress();
+        //TCPClient.main("teacher", ip);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("WELCOME");
+        alert.setHeaderText("Your class number is: ");
+        alert.setContentText(ip);
+        alert.showAndWait();
+    }
 
 }
