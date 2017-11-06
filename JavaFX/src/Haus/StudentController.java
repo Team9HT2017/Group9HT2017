@@ -7,13 +7,10 @@ package Haus;
  * @author Fahd Debbiche
  * @version 1.0
  *
- * @author Laiz Figueroa
+ * @author Laiz Figueroa and Rema Salman
  * @version 1.1
- * Modification: Created this new class from the previous version Controller by Fahd.
- *
- * @editor Rema Salman
- * @version 1.2
- * Modification: Created the connection in the button actions with the error handling.
+ * Modification - Laiz: Created this new class from the previous version Controller by Fahd.
+ * Modification - Rema: Created the connection in the button actions with the error handling.
  *
  */
 
@@ -94,7 +91,7 @@ public class StudentController extends AnchorPane {
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
 	 * 
-	 * @param String
+	 * @param msg
 	 *            represents the message displayed to the user
 	 *
 	 */

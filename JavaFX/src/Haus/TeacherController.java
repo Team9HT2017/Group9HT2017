@@ -8,15 +8,12 @@ package Haus;
  * @author Fahd Debbiche
  * @version 1.0
  *
- * @author Laiz Figueroa
+ * @author Laiz Figueroa and Rema Salman
  * @version 1.1
- * Modification: Created this new class from the previous version Controller by Fahd.
- *
- *@author Rema Salman
- * @version 1.1
- * Modification: Handling the alerts in case of errors existence. 
- * 				Checking if the file uploaded before pressing (starting) animate.
- *				Adding the backButton with an icon and its functionalities 
+ * Modification - Laiz: Created this new class from the previous version Controller by Fahd.
+ * Modification - Rema: Handling the alerts in case of errors existence;
+ * 				 		Checking if the file uploaded before pressing (starting) animate;
+ *				 		Adding the backButton with an icon and its functionalities.
  */
 
 import javafx.fxml.FXML;
@@ -67,6 +64,7 @@ public class TeacherController extends AnchorPane {
 	 * for the file in .json and .txt format.
 	 *
 	 * @throws IOException
+	 *
 	 */
 	@FXML
 	private void selectDiagram() throws IOException {
@@ -136,6 +134,7 @@ public class TeacherController extends AnchorPane {
 	 * Method for going back to the first page, in case no
 	 * 
 	 * @throws IOException
+	 *
 	 */
 	@FXML
 	private void backButton() throws IOException {
@@ -157,16 +156,15 @@ public class TeacherController extends AnchorPane {
 
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
-	 * 
-	 * @param String
-	 *            represents the message displayed to the user
+	 *
+	 * @param msg
 	 *
 	 */
 	private void loadingAlert(String msg) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle("Loading Error");
 		alert.setHeaderText(null);
-		alert.setContentText(msg + "\n" + "Please try again ...");
+		alert.setContentText(msg);
 		alert.showAndWait();
 	}
 
