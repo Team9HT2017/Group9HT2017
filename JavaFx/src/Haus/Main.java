@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,6 +41,21 @@ public class Main extends Application {
         Map<?, ?> t1 = Parser_v1.Parse2(TeacherController.toParse);
         System.out.println(t1);
 
+        ArrayList<Object> result =Parser_v1.ParseInorder(TeacherController.toParse) ;
+
+        // for testing purposes
+        for (int j = 0; j <result.size(); j++) {
+            System.out.println(result.get(j));
+
+        }
+        // for testing purposes
+        for (int j = 0; j < t1.keySet().toArray().length; j++) {
+            System.out.println(t1.get(t1.keySet().toArray()[j]));
+
+        }
+        System.out.println(t1.keySet());
+        System.out.println(t1.entrySet());
+        
     }
     /**
      * Method to start the front page and define its size characteristics.

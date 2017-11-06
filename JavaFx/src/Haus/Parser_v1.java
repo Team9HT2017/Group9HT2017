@@ -116,6 +116,52 @@ public class Parser_v1 {
 	return null;
       
    }
+    /**
+     * @Author Fahd;
+     * use anthony's version to access json objects and creates a new ArrayList of Arraylists to get the messages in order
+     **/
+    public static ArrayList ParseInorder (String Parse){
+
+        ArrayList<ArrayList<Object>> ordering = new ArrayList<ArrayList<Object>>();
+
+        str = Parse.replaceAll("\\s+"," "); //remove all long spaces (more than 1) to prevent parser from crashing
+
+        JSONObject res = new JSONObject(str); //create JSON object from input
+        Object type =  res.get("type");
+
+        if (type.equals("sequence_diagram")){
+
+            JSONObject diagramElements = res.getJSONObject("diagram"); // pick array that contains high-level information about messages
+
+            JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
+            JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+
+            for (int i=0;i<diagramElements2.length();i++){
+                JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+                for (int t=0;t<temp.length();t++){
+                    messages.put(temp.get(t)); // finally creating array of message
+
+                }
+                for (int t=0;t<messages.length();t++){        // finally creating array of messages
+                    ArrayList<Object> inner = new ArrayList<Object>();
+
+                    inner.add(messages.getJSONObject(t).get("from"));
+                    inner.add(messages.getJSONObject(t).get("node"));
+                    inner.add(messages.getJSONObject(t).get("to"));
+                    inner.add(messages.getJSONObject(t).get("message"));
+
+                    ordering.add(inner);
+
+                }
+
+            }
+
+
+        }
+
+        return ordering;
+    }
+
    
    /*public static void main(String [] args){
 	   Parse2();
