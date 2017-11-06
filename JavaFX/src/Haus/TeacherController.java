@@ -85,7 +85,7 @@ public class TeacherController extends AnchorPane {
 				System.out.println("File is not valid");
 			}
 		} catch (Exception e) {
-			loadingAlert("You have already selected a file!");
+			dialog("ERROR HANDELING","You have already selected a file!");
 			System.out.println(e);
 
 		}
@@ -114,12 +114,12 @@ public class TeacherController extends AnchorPane {
 				showStage();
 
 			} catch (Exception e) {
-				loadingAlert("Animation got corrupted!");
+				dialog("ERROR HANDELING", "Animation got corrupted!");
 				System.out.println(e);
 			}
 			// if the file is not already uploaded
 		} else
-			loadingAlert("File not uploaded!");
+			dialog("FILE MISSING", "File not uploaded!");
 	}
 
 	private void showStage() throws IOException {
@@ -142,7 +142,7 @@ public class TeacherController extends AnchorPane {
 	private void backButton() throws IOException {
 		if (uploaded) {
 			backButton.disabledProperty();
-			loadingAlert("You have already chosen a file to be animated");
+			dialog("ERROR LOADING","You have already chosen a file to be animated");
 		} else {
 			try {
 				// backButton.disabledProperty();
@@ -150,7 +150,7 @@ public class TeacherController extends AnchorPane {
 				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
 
 			} catch (Exception e) {
-				loadingAlert("You have already chosen a file to be animated");
+				dialog("ERROR LOADING","You have already chosen a file to be animated");
 				System.out.println(e);
 			}
 		}
@@ -162,9 +162,9 @@ public class TeacherController extends AnchorPane {
 	 * @param msg
 	 *
 	 */
-	private void loadingAlert(String msg) {
+	private void dialog(String title, String msg) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.setTitle("Loading Error");
+		alert.setTitle(title);
 		alert.setHeaderText(null);
 		alert.setContentText(msg);
 		alert.showAndWait();

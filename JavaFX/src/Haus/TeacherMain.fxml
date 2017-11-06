@@ -52,7 +52,7 @@
                <graphic>
               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
               <image>       
-                <Image url="/img/house.png" preserveRatio="false" smooth="false" />          
+                <Image url="/img/backButton.png" preserveRatio="false" smooth="false" />          
               </image>
               </ImageView>
            </graphic>
