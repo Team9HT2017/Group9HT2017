@@ -30,7 +30,7 @@
                      <font>
                         <Font size="17.0" />
                      </font></Label>
-                      <Button id="settings" fx:id="settingsButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Settings">
+                      <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Settings" onAction="#openSettings">
                           <HBox.margin>
                               <Insets bottom="10.0" left="610.0" right="20.0" top="20.0" />
                           </HBox.margin>
@@ -53,7 +53,7 @@
                <children>
                   <Canvas fx:id="mailboxAnimation" disable="true" height="250.0" width="200.0" />
                   <TextArea fx:id="messageLog" disable="true" editable="false" prefHeight="313.0" prefWidth="200.0" wrapText="true" />
-                    <Button id="kill" fx:id="leaveAnimation" mnemonicParsing="false" onAction="#GetScene1" text="Leave Animation">
+                    <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#getScene1" text="Leave Animation">
                      <font>
                         <Font size="14.0" />
                      </font>

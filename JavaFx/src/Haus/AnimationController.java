@@ -1,12 +1,16 @@
 package Haus;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
 import java.io.IOException;
@@ -22,33 +26,67 @@ import java.util.*;
  * @author Leo Persson and Rema Salman
  * @version 1.0
  *
+ * @author Laiz Figueroa
+ * @version 1.1
+ * Modification: Changed the layout and disposition of elements;
+ * 				 Added the settings functionality;
+ *
  */
 public class AnimationController implements Initializable {
+
+    GraphicsContext gc;
+
+    static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
+
+    static Character[][] grid;
+
+    static ArrayList<Road> roads = new ArrayList<Road>();
+
+    static double mapScale;
+
+    Controller controller = new Controller();
+
+    private Stage stage = new Stage();
 
 	@FXML
 	public Button leaveAnimation;
 
 	@FXML
-	Canvas canvas;
-
-	GraphicsContext gc;
-
-	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
-
-	static Character[][] grid;
-
-	static ArrayList<Road> roads = new ArrayList<Road>();
-
-	static double mapScale;
-
-	Controller controller = new Controller();
+	public Button settingsButton;
 
 	@FXML
-	private void GetScene1() throws IOException {
+	Canvas canvas;
+
+	/**
+     * Method to give action to the Leave Animation button. When the users press, it
+     * will leave the animation and go back to the first page.
+     *
+     * @throws IOException
+     *
+     */
+	@FXML
+	private void getScene1() throws IOException {
 
 		controller.HideWindow(leaveAnimation);
 
 	}
+    /**
+     * Method to give action to the Settings button. When the users press, it
+     * will open a new window with all the changes possible for the system.
+     *
+     * @throws IOException
+     *
+     */
+	@FXML
+	private void openSettings() throws IOException {
+
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+        Parent root = fxmlloader.load();
+        stage.setTitle("Settings");
+        stage.setScene(new Scene(root));
+        stage.show();
+	}
+
 
 	public static void runAnim(Map<?, ?> map)
 	{
