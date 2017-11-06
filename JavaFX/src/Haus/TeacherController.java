@@ -133,7 +133,7 @@ public class TeacherController extends AnchorPane {
 	}
 
 	/**
-	 * Method for going back to the first page, in case no
+	 * Method for going back to the first page, in case no file has been uploaded
 	 * 
 	 * @throws IOException
 	 *
@@ -142,7 +142,7 @@ public class TeacherController extends AnchorPane {
 	private void backButton() throws IOException {
 		if (uploaded) {
 			backButton.disabledProperty();
-			dialog("ERROR LOADING","You have already chosen a file to be animated");
+			dialog("FILE UPLOADED","You have already chosen a file to be animated");
 		} else {
 			try {
 				// backButton.disabledProperty();
@@ -150,7 +150,7 @@ public class TeacherController extends AnchorPane {
 				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
 
 			} catch (Exception e) {
-				dialog("ERROR LOADING","You have already chosen a file to be animated");
+				dialog("FILE UPLOADED","You have already chosen a file to be animated");
 				System.out.println(e);
 			}
 		}
