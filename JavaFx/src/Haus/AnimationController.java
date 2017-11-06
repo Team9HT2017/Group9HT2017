@@ -8,11 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
@@ -57,7 +59,7 @@ public class AnimationController implements Initializable {
 	@FXML
 	Canvas canvas;
 
-	/**
+    /**
      * Method to give action to the Leave Animation button. When the users press, it
      * will leave the animation and go back to the first page.
      *
@@ -68,8 +70,9 @@ public class AnimationController implements Initializable {
 	private void getScene1() throws IOException {
 
 		controller.HideWindow(leaveAnimation);
+        TeacherController.uploaded=false;
 
-	}
+    }
     /**
      * Method to give action to the Settings button. When the users press, it
      * will open a new window with all the changes possible for the system.

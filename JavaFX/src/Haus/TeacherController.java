@@ -20,17 +20,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.util.List;
+
 import java.util.Scanner;
 
 import javafx.scene.Parent;
@@ -50,7 +49,7 @@ public class TeacherController extends AnchorPane {
 	public Button backButton;
 
 	@FXML
-	public ListView<File> diagramPath;
+	public  ListView<File> diagramPath;
 
 	@FXML
 	AnchorPane teacherPane;
@@ -109,9 +108,10 @@ public class TeacherController extends AnchorPane {
 
 				String ip = Inet4Address.getLocalHost().getHostAddress();
 				TCPClient.main("teacher", ip);
-
 				AnimationController.runAnim(Parser_v1.Parse2(toParse));
 				showStage();
+                diagramPath.getItems().clear();
+
 
 			} catch (Exception e) {
 				dialog("ERROR HANDELING", "Animation got corrupted!");
@@ -132,7 +132,8 @@ public class TeacherController extends AnchorPane {
 
 	}
 
-	/**
+
+    /**
 	 * Method for going back to the first page, in case no file has been uploaded
 	 * 
 	 * @throws IOException
@@ -169,6 +170,7 @@ public class TeacherController extends AnchorPane {
 		alert.setContentText(msg);
 		alert.showAndWait();
 	}
+
 
     private void classId() throws Exception {
 
