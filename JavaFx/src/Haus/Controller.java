@@ -137,8 +137,6 @@ public class Controller  implements Initializable {
 
             AnimationController.runAnim(Parser_v1.Parse2(toParse));
             showstage();
-            yourProcess();
-
 
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -151,30 +149,6 @@ public class Controller  implements Initializable {
         }
 
     }
-
-
-     public void yourProcess() {
-     String scriptName = "/usr/bin/open -a Terminal  /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
-     try {
-
-     Runtime rt = Runtime.getRuntime();
-     Process process = rt.exec(scriptName);
-
-     BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-     String line=null;
-     while((line=input.readLine()) != null) {
-     System.out.println(line);
-     }
-
-     int exitVal = process.waitFor();
-     System.out.println("Exited with error code "+exitVal);
-
-     } catch(Exception e) {
-     System.out.println(e.toString());
-     e.printStackTrace();
-     }
-     }
 
 
 

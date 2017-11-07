@@ -24,10 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Inet4Address;
 
 import java.util.Scanner;
@@ -107,10 +104,11 @@ public class TeacherController extends AnchorPane {
 				System.out.println("Animation in progress");
 
 				String ip = Inet4Address.getLocalHost().getHostAddress();
-				TCPClient.main("teacher", ip);
+				//TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser_v1.Parse2(toParse));
 				showStage();
                 diagramPath.getItems().clear();
+                runScript();
 
 
 			} catch (Exception e) {
@@ -183,5 +181,37 @@ public class TeacherController extends AnchorPane {
         alert.setContentText(ip);
         alert.showAndWait();
     }
+
+
+    public void runScript() {
+        //  String scriptName = "/usr/bin/open -a Terminal  /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
+        File file = new File(".");
+        for(String fileNames : file.list()) System.out.println(fileNames);
+
+        try {
+
+            ProcessBuilder pb = new ProcessBuilder("./runserver.sh", "arg1", "arg2");
+            pb.inheritIO();
+            Process process = pb.start();
+
+            InputStream input = process.getInputStream();
+            System.out.println(input);
+
+            OutputStream output = process.getOutputStream();
+            System.out.println(output);
+
+            int exitValue = process.waitFor();
+            if (exitValue != 0) {
+                // check for errors
+                new BufferedInputStream(process.getErrorStream());
+                throw new RuntimeException("execution of script failed!");
+            }
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
