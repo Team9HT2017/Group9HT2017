@@ -11,7 +11,6 @@ import javafx.util.Pair;
 
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
@@ -27,7 +26,7 @@ public class AnimationController implements Initializable {
 	GraphicsContext gc;
 	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 	static Character[][] grid;
-	Controller controller = new Controller();
+	MainController mainController = new MainController();
 	static ArrayList<Road> roads = new ArrayList<Road>();
 
 	static double mapScale;
@@ -35,43 +34,45 @@ public class AnimationController implements Initializable {
 	@FXML
 	private void GetScene1() throws IOException {
 
-		controller.HideWindow(Kill);
+		mainController.HideWindow(Kill);
 
 	}
 
 
 	public static void runAnim(Map<?, ?> map)
 	{
-		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6)*2;
-		int nodeNum = (int) (map.keySet().size() * mapScale);
-		grid = new Character[nodeNum][nodeNum];
+		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6) * 2;
+		int mapSize = (int) (map.keySet().size() * mapScale);
+		grid = new Character[mapSize][mapSize];
 		Random rand = new Random();
 
 		System.out.println("Creating DrawableObjects");
 		for (Object obj : map.keySet()) {
-			nodes.add(new DrawableObject(obj, nodeNum, nodeNum));
+			nodes.add(new DrawableObject(obj, mapSize, mapSize));
 		}
 
 
 
 		// Build 2d grid map ('G'rass)
-		for (int i = 0; i < nodeNum; i++) {
+		for (int i = 0; i < mapSize; i++) {
 			Arrays.fill(grid[i], 'G');
 		}
 
 
 		// Build 2d grid map ('R'oads)
-		for(int i = 0; i < nodes.size() - 1; i++) {
-			Road road = new Road(nodes.get(i), nodes.get(i + 1));
-			//roads.add(road);
-			int j = 0;
-			for (Pair tile : road.segments[j]) {
-				grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';
-				j++;
-			}
+		ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
+		for (DrawableObject node : nodes)
+		{
+			//Change the x and y to be the coordinate we want on each house
+			djikstraNodes.add(new DjikstraNode(node.x + 1, node.y, nodeDistances(node, nodes), node));
 		}
-		for(int i = 1; i < nodeNum - 1; i++) {
-			for (int j = 1; j < nodeNum - 1; j++) {
+
+		/*
+		 * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
+		 */
+
+		for(int i = 1; i < mapSize - 1; i++) {
+			for (int j = 1; j < mapSize - 1; j++) {
 				if (grid[i + 1][j] == 'R' && (grid[i - 1][j] == 'R' || grid[i - 1][j] == 'T') && (grid[i][j + 1] == 'R' || grid[i][j + 1] == 'T') && (grid[i][j - 1] == 'R' || grid[i][j - 1] == 'T') && grid[i + 1][j + 1] == 'R' && (grid[i - 1][j - 1] == 'R' || grid[i - 1][j - 1] == 'T') && grid[i - 1][j + 1] == 'R' && grid[i + 1][j - 1] == 'R' && (grid[i][j] == 'R')) {
 					grid[i][j] = 'T';
 				}
@@ -86,8 +87,8 @@ public class AnimationController implements Initializable {
 			for (; grid[node.x - 1][node.y - 1] == 'H' || grid[node.x + 1][node.y - 1] == 'H'
 					|| grid[node.x][node.y] == 'H' || grid[node.x - 1][node.y + 1] == 'H'
 					|| grid[node.x + 1][node.y + 1] == 'H';) {
-				node.x = rand.nextInt((nodeNum) - 2) + 1;
-				node.y = rand.nextInt((nodeNum) - 2) + 1;
+				node.x = rand.nextInt((mapSize) - 2) + 1;
+				node.y = rand.nextInt((mapSize) - 2) + 1;
 
 			}
 
@@ -95,8 +96,8 @@ public class AnimationController implements Initializable {
 		}
 
 		// Print 2d char map to terminal for debugging purposes
-		for (int i = 0; i < nodeNum; i++) {
-			for (int j = 0; j < nodeNum; j++) {
+		for (int i = 0; i < mapSize; i++) {
+			for (int j = 0; j < mapSize; j++) {
 				System.out.print(grid[j][i]);
 			}
 			System.out.println();
@@ -176,7 +177,7 @@ public class AnimationController implements Initializable {
 						{
 							gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
 						}
-						else if (grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H')
+						else //(grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H')
 						{
 							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
 						}
@@ -188,6 +189,18 @@ public class AnimationController implements Initializable {
 			}
 			// gc.drawImage(node.image, node.x * 32, node.y * 32);
 		}
+	}
+
+	static int[] nodeDistances (DrawableObject node, ArrayList<DrawableObject> nodes)
+	{
+		int[] dists = new int[nodes.size()];
+		int i = 0;
+		for (DrawableObject node2: nodes) {
+			dists[i] = Math.abs(node2.x - node.x) + Math.abs(node2.y - node.y);
+			i++;
+		}
+		Arrays.sort(dists);
+		return dists;
 	}
 
 }

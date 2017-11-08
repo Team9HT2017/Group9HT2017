@@ -2,7 +2,6 @@ package Haus;
 
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,7 +25,7 @@ public class Main extends Application {
 
         launch(args);
 
-        Map<?, ?> t1 = Parser_v1.Parse2(Controller.toParse);
+        Map<?, ?> t1 = Parser_v1.Parse2(MainController.toParse);
         System.out.println(t1);
 
     }

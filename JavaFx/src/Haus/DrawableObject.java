@@ -10,6 +10,7 @@ public class DrawableObject {
 	public String name;
 	public Image image;
 	public int x, y;
+	public int[] nodeDistances;
 
 	public DrawableObject(Object obj, int x, int y) {
 		Random rand = new Random();
