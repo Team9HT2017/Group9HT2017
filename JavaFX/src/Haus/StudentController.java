@@ -77,7 +77,10 @@ public class StudentController extends AnchorPane {
 				}
 
 			}  else {
-					showStage();
+				// changing pane into the Splash contains  
+				studentPane.getChildren().clear();
+	            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("Splash.fxml")));
+					//showStage();
 					classID.clear();
 				}
 		}
