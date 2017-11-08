@@ -107,9 +107,13 @@ public class TeacherController extends AnchorPane {
 				String ip = Inet4Address.getLocalHost().getHostAddress();
 				//TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser_v1.Parse2(toParse));
-				showStage();
+				//showStage();
                 diagramPath.getItems().clear();
                 runScript();
+                
+                // Showing the Splash(loading page)
+                teacherPane.getChildren().clear();
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("Splash.fxml")));
 
 
 			} catch (Exception e) {

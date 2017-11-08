@@ -48,17 +48,18 @@ public class SplashController implements Initializable {
                             Parent root = null;
 
                             try {
-                                root = FXMLLoader.load(getClass().getResource("AnimationPage.fxml"));
-
+                                //root = FXMLLoader.load(getClass().getResource("AnimationPage.fxml"));
+                                Stack.getChildren().clear();
+                                Stack.getChildren().add(FXMLLoader.load(getClass().getResource("AnimationPage.fxml")));
 
                             } catch (IOException ex) {
                                 Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            Scene scene = new Scene(root);
-                            Stage stage = new Stage();
-                            stage.setScene(scene);
-                            stage.show();
-                            Stack.getScene().getWindow().hide();
+//                            Scene scene = new Scene(root);
+//                            Stage stage = new Stage();
+//                            stage.setScene(scene);
+//                            stage.show();
+//                            Stack.getScene().getWindow().hide();
                         }
                     });
 
