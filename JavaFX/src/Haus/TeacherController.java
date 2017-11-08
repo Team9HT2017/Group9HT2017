@@ -32,6 +32,7 @@ import java.util.Scanner;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class TeacherController extends AnchorPane {
@@ -173,12 +174,15 @@ public class TeacherController extends AnchorPane {
     private void classId() throws Exception {
 
         String ip  = Inet4Address.getLocalHost().getHostAddress();
-        //TCPClient.main("teacher", ip);
+        TCPClient.main("teacher", ip);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("WELCOME");
-        alert.setHeaderText("Your class number is: ");
-        alert.setContentText(ip);
+        alert.setHeaderText(null);
+        alert.setContentText("Your class number is: " + ip);
+        alert.initModality(Modality.NONE); // To enable the user to navigate to other windows
+		alert.setX(900);
+		alert.setY(20);
         alert.showAndWait();
     }
 

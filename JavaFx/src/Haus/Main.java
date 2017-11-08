@@ -71,7 +71,8 @@ public class Main extends Application {
         //To get the application user's screen size and pass it to the set the application size
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         Scene scene = new Scene(Root, screenBounds.getHeight() + 200, screenBounds.getHeight());
-
+        primaryStage.setX(0);
+        primaryStage.setY(10);
         primaryStage.setScene(scene);
         primaryStage.show();
 
