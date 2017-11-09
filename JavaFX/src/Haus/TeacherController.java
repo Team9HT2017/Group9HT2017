@@ -82,7 +82,6 @@ public class TeacherController extends AnchorPane {
 				System.out.println("File is not valid");
 			}
 		} catch (Exception e) {
-			dialog("ERROR HANDELING", "You have already selected a file!");
 			System.out.println(e);
 
 		}
