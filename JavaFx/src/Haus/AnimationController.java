@@ -183,8 +183,10 @@ public class AnimationController implements Initializable {
 						housenum++;
 						gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
 								twoDToIso(new Point(i * 16, j * 16)).y - 16);
-						// gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
-						// Point(i* 16, j * 16)).y - 16);
+						if (SettingsController.houseNameSlider.getValue() == 1) {
+							 gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
+									 Point(i* 16, j * 16)).y - 16);
+						}
 						System.out.println(node.name);
 						break;
 
