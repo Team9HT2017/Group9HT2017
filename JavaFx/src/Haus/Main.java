@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,103 +25,125 @@ import java.util.Optional;
  * @version 1.0
  *
  * @editor Laiz Figueroa
- * @version 1.1
- * Modifications: Added comments, Dialog when closing the application more personalised,
- * different size management for the application.
+ * @version 1.1 Modifications: Added comments, Dialog when closing the
+ *          application more personalised, different size management for the
+ *          application.
  *
+ *@editor Rema Salman
+ * @version 1.2 Modifications: hidewindow for handling LeaveAnimation button's action and restarting the application  
  */
 
 public class Main extends Application {
 
+	Stage stage = new Stage();
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
+		launch(args);
 
-        launch(args);
+		Map<?, ?> t1 = Parser_v1.Parse2(TeacherController.toParse);
+		System.out.println(t1);
 
-        Map<?, ?> t1 = Parser_v1.Parse2(TeacherController.toParse);
-        System.out.println(t1);
+		ArrayList<Object> result = Parser_v1.ParseInorder(TeacherController.toParse);
 
-        ArrayList<Object> result =Parser_v1.ParseInorder(TeacherController.toParse) ;
+		// for testing purposes
+		for (int j = 0; j < result.size(); j++) {
+			System.out.println(result.get(j));
 
-        // for testing purposes
-        for (int j = 0; j <result.size(); j++) {
-            System.out.println(result.get(j));
+		}
+		// for testing purposes
+		for (int j = 0; j < t1.keySet().toArray().length; j++) {
+			System.out.println(t1.get(t1.keySet().toArray()[j]));
 
-        }
-        // for testing purposes
-        for (int j = 0; j < t1.keySet().toArray().length; j++) {
-            System.out.println(t1.get(t1.keySet().toArray()[j]));
+		}
+		System.out.println(t1.keySet());
+		System.out.println(t1.entrySet());
 
-        }
-        System.out.println(t1.keySet());
-        System.out.println(t1.entrySet());
-        
-    }
-    /**
-     * Method to start the front page and define its size characteristics.
-     *
-     * @param primaryStage
-     * @throws Exception
-     */
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+	}
 
-        Parent Root = FXMLLoader.load(getClass().getResource("UserSelection.fxml"));
-        primaryStage.setTitle("Haus Diagram Simulator");
-        //To get the application user's screen size and pass it to the set the application size
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        Scene scene = new Scene(Root, screenBounds.getHeight() + 200, screenBounds.getHeight());
-        primaryStage.setX(0);
-        primaryStage.setY(10);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+	/**
+	 * Method to start the front page and define its size characteristics.
+	 *
+	 * @param primaryStage
+	 * @throws Exception
+	 */
+	@Override
+	public void start(Stage primaryStage) throws Exception {
 
-        primaryStage.setOnCloseRequest(e ->  {
-            e.consume();
-            closeProgram(primaryStage);
-        });
-    }
+		Parent Root = FXMLLoader.load(getClass().getResource("UserSelection.fxml"));
+		primaryStage.setTitle("Haus Diagram Simulator");
+		// To get the application user's screen size and pass it to the set the
+		// application size
+		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+		Scene scene = new Scene(Root, screenBounds.getHeight() + 200, screenBounds.getHeight());
+		primaryStage.setX(0);
+		primaryStage.setY(10);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 
-    /**
-     * Method to get the teacher's IP to display to the users in order to
-     * connect to the server.
-     *
-     * @param text
-     *
-     */
-    public void getIP(TextField text) throws UnknownHostException {
-        text.setText(String.valueOf(InetAddress.getLocalHost().getHostAddress()));
-    }
+		primaryStage.setOnCloseRequest(e -> {
+			e.consume();
+			closeProgram(primaryStage);
+		});
+	}
 
-    /**
-     * Method to display a dialog when the user try to close the application,
-     * then it asks if they user is aware of what he is doing. This will close
-     * safely the application.
-     *
-     * @param stage
-     *
-     */
-    private void closeProgram(Stage stage) {
+	/**
+	 * Method to get the teacher's IP to display to the users in order to connect to
+	 * the server.
+	 *
+	 * @param text
+	 *
+	 */
+	public void getIP(TextField text) throws UnknownHostException {
+		text.setText(String.valueOf(InetAddress.getLocalHost().getHostAddress()));
+	}
 
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Leaving so soon!");
-        alert.setHeaderText(null);
-        alert.setContentText("Do you really want to leave the application?");
+	/**
+	 * Method to display a dialog when the user try to close the application, then
+	 * it asks if they user is aware of what he is doing. This will close safely the
+	 * application.
+	 *
+	 * @param stage
+	 *
+	 */
+	private void closeProgram(Stage stage) {
 
-        // To modify the kind of buttons we have on the dialog
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeCancel = new ButtonType("No");
-        // To add the buttons defined above to the dialog
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeCancel);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Leaving so soon!");
+		alert.setHeaderText(null);
+		alert.setContentText("Do you really want to leave the application?");
 
-        // To perform the close application when yes is selected
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeYes){
-            stage.close();
-            // ... user chose Yes
-        } else {
-            // ... user chose No or closed the dialog
-        }
-    }
+		// To modify the kind of buttons we have on the dialog
+		ButtonType buttonTypeYes = new ButtonType("Yes");
+		ButtonType buttonTypeCancel = new ButtonType("No");
+		// To add the buttons defined above to the dialog
+		alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeCancel);
+
+		// To perform the close application when yes is selected
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeYes) {
+			stage.close();
+			// ... user chose Yes
+		} else {
+			// ... user chose No or closed the dialog
+		}
+	}
+
+	/**
+	 * Method to hide the animation window and restarting the application from the
+	 * user selection page
+	 * 
+	 * @param Button:
+	 *            the leaveAnimation button is passed as an argument to be handled
+	 *            as its action
+	 * @throws Exception
+	 *
+	 */
+	public void hideWindow(Button leaveAnimation) throws Exception {
+		this.stage = (Stage) leaveAnimation.getScene().getWindow();
+		// for restarting the application 
+		stage.close();
+		start(stage);
+
+	}
 }

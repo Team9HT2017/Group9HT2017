@@ -7,12 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
@@ -47,8 +45,8 @@ public class AnimationController implements Initializable {
 
 	static double mapScale;
 
-	Controller controller = new Controller();
-
+	//Controller controller = new Controller();
+	Main main = new Main();
 	private Stage stage = new Stage();
 
 	@FXML
@@ -60,47 +58,18 @@ public class AnimationController implements Initializable {
 	@FXML
 	Canvas canvas;
 
-	@FXML
-	public AnchorPane animationPage;
-
 	/**
 	 * Method to give action to the Leave Animation button. When the users press, it
-	 * will leave the animation and go back to the first page, also stop the
-	 * teacher's uploading process.
-	 *
-	 * @throws IOException
+	 * will leave the animation and go back to the first page.
+	 * @throws Exception 
 	 *
 	 */
 	@FXML
-	private void getScene1() throws IOException {
-		TeacherController.uploaded = false;
-		try {
-			// clearing the animation pane
-			animationPage.getChildren().clear();
-			// adding users anchorPane instead of the animation's anchorPane
-			animationPage.getChildren().add(FXMLLoader.load(getClass().getResource("UserController.fxml")));
-		} catch (IOException e) {
-			dialog("LOADING ERROR", "Please try to leave the animation again");
-			e.printStackTrace();
-		}
-	}
+	private void getScene1() throws Exception {
 
-	/**
-	 * Method to load a pop up a dialog to warn the user about loading problems.
-	 *
-	 * @param title:
-	 *            string represents the dialog title
-	 * @param msg:
-	 *            string represents the message of the error or a notification for
-	 *            the user
-	 *
-	 */
-	private void dialog(String title, String msg) {
-		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(msg);
-		alert.showAndWait();
+		main.hideWindow(leaveAnimation);
+		TeacherController.uploaded = false;
+
 	}
 
 	/**
