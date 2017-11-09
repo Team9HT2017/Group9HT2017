@@ -7,10 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
@@ -21,34 +23,33 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * This class will handle the animation page, where the user can
- * see the diagram animation, see the log created, do the settings
- * adjustments, and leave the animation.
+ * This class will handle the animation page, where the user can see the diagram
+ * animation, see the log created, do the settings adjustments, and leave the
+ * animation.
  *
  * @author Leo Persson and Rema Salman
  * @version 1.0
  *
  * @author Laiz Figueroa
- * @version 1.1
- * Modification: Changed the layout and disposition of elements;
- * 				 Added the settings functionality;
+ * @version 1.1 Modification: Changed the layout and disposition of elements;
+ *          Added the settings functionality;
  *
  */
 public class AnimationController implements Initializable {
 
-    GraphicsContext gc;
+	GraphicsContext gc;
 
-    static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
+	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
-    static Character[][] grid;
+	static Character[][] grid;
 
-    static ArrayList<Road> roads = new ArrayList<Road>();
+	static ArrayList<Road> roads = new ArrayList<Road>();
 
-    static double mapScale;
+	static double mapScale;
 
-    Controller controller = new Controller();
+	Controller controller = new Controller();
 
-    private Stage stage = new Stage();
+	private Stage stage = new Stage();
 
 	@FXML
 	public Button leaveAnimation;
@@ -59,41 +60,68 @@ public class AnimationController implements Initializable {
 	@FXML
 	Canvas canvas;
 
-    /**
-     * Method to give action to the Leave Animation button. When the users press, it
-     * will leave the animation and go back to the first page.
-     *
-     * @throws IOException
-     *
-     */
+	@FXML
+	public AnchorPane animationPage;
+
+	/**
+	 * Method to give action to the Leave Animation button. When the users press, it
+	 * will leave the animation and go back to the first page, also stop the
+	 * teacher's uploading process.
+	 *
+	 * @throws IOException
+	 *
+	 */
 	@FXML
 	private void getScene1() throws IOException {
+		TeacherController.uploaded = false;
+		try {
+			// clearing the animation pane
+			animationPage.getChildren().clear();
+			// adding users anchorPane instead of the animation's anchorPane
+			animationPage.getChildren().add(FXMLLoader.load(getClass().getResource("UserController.fxml")));
+		} catch (IOException e) {
+			dialog("LOADING ERROR", "Please try to leave the animation again");
+			e.printStackTrace();
+		}
+	}
 
-		controller.HideWindow(leaveAnimation);
-        TeacherController.uploaded=false;
+	/**
+	 * Method to load a pop up a dialog to warn the user about loading problems.
+	 *
+	 * @param title:
+	 *            string represents the dialog title
+	 * @param msg:
+	 *            string represents the message of the error or a notification for
+	 *            the user
+	 *
+	 */
+	private void dialog(String title, String msg) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
+	}
 
-    }
-    /**
-     * Method to give action to the Settings button. When the users press, it
-     * will open a new window with all the changes possible for the system.
-     *
-     * @throws IOException
-     *
-     */
+	/**
+	 * Method to give action to the Settings button. When the users press, it will
+	 * open a new window with all the changes possible for the system.
+	 *
+	 * @throws IOException
+	 *
+	 */
 	@FXML
 	private void openSettings() throws IOException {
 
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
-        Parent root = fxmlloader.load();
-        stage.setTitle("Settings");
-        stage.setScene(new Scene(root));
-        stage.show();
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+		Parent root = fxmlloader.load();
+		stage.setTitle("Settings");
+		stage.setScene(new Scene(root));
+		stage.show();
 	}
 
-
-	public static void runAnim(Map<?, ?> map)
-	{
-		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6)*2;
+	public static void runAnim(Map<?, ?> map) {
+		mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6) * 2;
 		int nodeNum = (int) (map.keySet().size() * mapScale);
 		grid = new Character[nodeNum][nodeNum];
 		Random rand = new Random();
@@ -109,9 +137,9 @@ public class AnimationController implements Initializable {
 		}
 
 		// Build 2d grid map ('R'oads)
-		for(int i = 0; i < nodes.size() - 1; i++) {
+		for (int i = 0; i < nodes.size() - 1; i++) {
 			Road road = new Road(nodes.get(i), nodes.get(i + 1));
-			//roads.add(road);
+			// roads.add(road);
 			int j = 0;
 			for (Pair tile : road.segments[j]) {
 				grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';
@@ -119,9 +147,13 @@ public class AnimationController implements Initializable {
 			}
 		}
 
-		for(int i = 1; i < nodeNum - 1; i++) {
+		for (int i = 1; i < nodeNum - 1; i++) {
 			for (int j = 1; j < nodeNum - 1; j++) {
-				if (grid[i + 1][j] == 'R' && (grid[i - 1][j] == 'R' || grid[i - 1][j] == 'T') && (grid[i][j + 1] == 'R' || grid[i][j + 1] == 'T') && (grid[i][j - 1] == 'R' || grid[i][j - 1] == 'T') && grid[i + 1][j + 1] == 'R' && (grid[i - 1][j - 1] == 'R' || grid[i - 1][j - 1] == 'T') && grid[i - 1][j + 1] == 'R' && grid[i + 1][j - 1] == 'R' && (grid[i][j] == 'R')) {
+				if (grid[i + 1][j] == 'R' && (grid[i - 1][j] == 'R' || grid[i - 1][j] == 'T')
+						&& (grid[i][j + 1] == 'R' || grid[i][j + 1] == 'T')
+						&& (grid[i][j - 1] == 'R' || grid[i][j - 1] == 'T') && grid[i + 1][j + 1] == 'R'
+						&& (grid[i - 1][j - 1] == 'R' || grid[i - 1][j - 1] == 'T') && grid[i - 1][j + 1] == 'R'
+						&& grid[i + 1][j - 1] == 'R' && (grid[i][j] == 'R')) {
 					grid[i][j] = 'T';
 				}
 			}
@@ -174,69 +206,70 @@ public class AnimationController implements Initializable {
 
 				switch (grid[i][j]) {
 
-					case 'G':
-						gc.drawImage(grass, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						break;
+				case 'G':
+					gc.drawImage(grass, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+					break;
 
-					case 'H':
-						node = nodes.get(housenum);
-						housenum++;
-						gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y - 16);
-//						if (SettingsController.houseNameSlider.getValue() == 1) {
-//							 gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
-//									 Point(i* 16, j * 16)).y - 16);
-//						}
-						System.out.println(node.name);
-						break;
+				case 'H':
+					node = nodes.get(housenum);
+					housenum++;
+					gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
+							twoDToIso(new Point(i * 16, j * 16)).y - 16);
+					// if (SettingsController.houseNameSlider.getValue() == 1) {
+					// gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
+					// Point(i* 16, j * 16)).y - 16);
+					// }
+					System.out.println(node.name);
+					break;
 
-					case 'R':
-						if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_roadCross.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R' ) {
-							gc.drawImage(new Image("/img/Isotile_roadT-Y.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' ) {
-							gc.drawImage(new Image("/img/Isotile_roadT+Y.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R' ) {
-							gc.drawImage(new Image("/img/Isotile_roadT-X.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R' ) {
-							gc.drawImage(new Image("/img/Isotile_roadT+X.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_road^.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_road}.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_roadv.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_road{.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i + 1][j] == 'R' || grid[i - 1][j] == 'R') {
-							gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i + 1][j] == 'H' && grid[i - 1][j] == 'H')
-						{
-							gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						else if (grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H')
-						{
-							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-						}
-						break;
+				case 'R':
+					if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R'
+							&& grid[i][j - 1] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadCross.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadT-Y.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadT+Y.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadT-X.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadT+X.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_road^.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_road}.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadv.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_road{.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i + 1][j] == 'R' || grid[i - 1][j] == 'R') {
+						gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i + 1][j] == 'H' && grid[i - 1][j] == 'H') {
+						gc.drawImage(new Image("/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					} else if (grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H') {
+						gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y);
+					}
+					break;
 
-					case 'T':
-						gc.drawImage(new Image("/img/Isotile_tree.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y - 8);
-						break;
+				case 'T':
+					gc.drawImage(new Image("/img/Isotile_tree.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+							twoDToIso(new Point(i * 16, j * 16)).y - 8);
+					break;
 				}
 			}
 			// gc.drawImage(node.image, node.x * 32, node.y * 32);
