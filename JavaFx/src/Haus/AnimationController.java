@@ -20,6 +20,7 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
+import javafx.scene.control.TextArea;
 
 /**
  * This class will handle the animation page, where the user can see the diagram
@@ -60,7 +61,7 @@ public class AnimationController implements Initializable {
 	Canvas canvas;
 
     @FXML
-    TextArea messageLog;
+    private TextArea messageLog;
 
 
 	/**
