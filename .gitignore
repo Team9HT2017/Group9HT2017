@@ -16,7 +16,6 @@ JavaFx/.idea
 
 # Compiled class files and out folder
 *.class
-JavaFX/out
 
 # Log file
 *.log
