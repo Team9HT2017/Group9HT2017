@@ -1,4 +1,4 @@
-package Haus;
+package Haus.Application.Controllers;
 
 /**
  * This class will handle the teacher's interface, where he/she can
@@ -16,6 +16,8 @@ package Haus;
  *				 		Adding the backButton with an icon and its functionalities.
  */
 
+import Haus.Application.Parser;
+import Haus.NetworkHandlers.TCPClient;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -105,7 +107,7 @@ public class TeacherController extends AnchorPane {
 
 				String ip = Inet4Address.getLocalHost().getHostAddress();
 				// TCPClient.main("teacher", ip);
-				AnimationController.runAnim(Parser_v1.Parse2(toParse));
+				AnimationController.runAnim(Parser.Parse2(toParse));
 
 				// showStage();
 				diagramPath.getItems().clear();

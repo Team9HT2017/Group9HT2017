@@ -1,4 +1,7 @@
-package Haus;
+package Haus.NetworkHandlers;
+
+import Haus.Application.Controllers.TeacherController;
+import Haus.Application.Parser;
 
 import java.io.*;
 import java.net.*;
@@ -16,7 +19,7 @@ public static  String fromServ="nope";
 
         String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
-        String message = Parser_v1.Parse2(TeacherController.toParse).toString();
+        String message = Parser.Parse2(TeacherController.toParse).toString();
         String request = "request";
       
 

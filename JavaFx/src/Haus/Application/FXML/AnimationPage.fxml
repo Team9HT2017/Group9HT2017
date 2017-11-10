@@ -15,9 +15,9 @@
 <?import javafx.scene.control.*?>
 
 
-<AnchorPane id="animationPage" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.AnimationController">
+<AnchorPane id="animationPage" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.AnimationController">
    <children>
-      <BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="@ScrollPaneOverwrite.css">
+      <BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="@../CSS/ScrollPaneOverwrite.css">
           <top>
               <HBox spacing="10.0" BorderPane.alignment="CENTER">
                   <children>

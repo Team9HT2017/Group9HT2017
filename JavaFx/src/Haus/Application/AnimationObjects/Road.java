@@ -1,5 +1,6 @@
-package Haus;
+package Haus.Application.AnimationObjects;
 
+import Haus.Application.Controllers.AnimationController;
 import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class Road {
 
 
     //static variables
-    static ArrayList<Pair>[] segments = new ArrayList[AnimationController.nodes.size()];
+    public static ArrayList<Pair>[] segments = new ArrayList[AnimationController.nodes.size()];
     static int counter = 0;
 
     public Road(DrawableObject origin, DrawableObject destination)

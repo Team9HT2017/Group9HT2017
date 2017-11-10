@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="studentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.StudentController">
+<AnchorPane fx:id="studentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.StudentController">
    <children>
       <GridPane  layoutX="-6.0" layoutY="-4.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
         <columnConstraints>
@@ -45,7 +45,7 @@
                 <graphic>
               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
               <image>       
-                <Image url="/img/backButton.png" preserveRatio="false" smooth="false" />          
+                <Image url="/Haus/Application/img/backButton.png" preserveRatio="false" smooth="false" />
               </image>
               </ImageView>
            </graphic>

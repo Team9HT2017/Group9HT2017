@@ -1,4 +1,4 @@
-package Haus;
+package Haus.Application.Controllers;
 
 /**
  * Class to give the student a specific interface for his/her to connect to the

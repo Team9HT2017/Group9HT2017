@@ -1,5 +1,6 @@
-package Haus;
+package Haus.Application;
 
+import Haus.Application.Controllers.TeacherController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -42,10 +43,10 @@ public class Main extends Application {
         launch(args);
 
 
-        Map<?, ?> t1 = Parser_v1.Parse2(TeacherController.toParse);
+        Map<?, ?> t1 = Parser.Parse2(TeacherController.toParse);
         System.out.println(t1);
 
-        ArrayList <ArrayList<Object>> result =Parser_v1.ParseInorder(TeacherController.toParse) ;
+        ArrayList <ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse) ;
 
         // for testing purposes
         for (int j = 0; j < result.size(); j++) {
@@ -71,7 +72,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent Root = FXMLLoader.load(getClass().getResource("UserSelection.fxml"));
+        Parent Root = FXMLLoader.load(getClass().getResource("FXML/UserSelection.fxml"));
         primaryStage.setTitle("Haus Diagram Simulator");
         // To get the application user's screen size and pass it to the set the
         // application size

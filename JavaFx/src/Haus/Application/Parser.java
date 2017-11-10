@@ -1,5 +1,5 @@
 
-package Haus;
+package Haus.Application;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ SOFTWARE.
  **/
 
 
-public class Parser_v1 {
+public class Parser {
 
     private static String str = null;
 

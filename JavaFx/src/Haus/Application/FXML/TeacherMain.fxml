@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TeacherController">
+<AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.TeacherController">
    <children>
       <GridPane layoutX="4.0" layoutY="-2.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="-2.0">
         <columnConstraints>
@@ -52,7 +52,7 @@
                <graphic>
               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
               <image>       
-                <Image url="/img/backButton.png" preserveRatio="false" smooth="false" />          
+                <Image url="/Haus/Application/img/backButton.png" preserveRatio="false" smooth="false" />
               </image>
               </ImageView>
            </graphic>

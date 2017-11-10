@@ -1,4 +1,4 @@
-package Haus;
+package Haus.NetworkHandlers;
 
 
 import java.io.BufferedReader;

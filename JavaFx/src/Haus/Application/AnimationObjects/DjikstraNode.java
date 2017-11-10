@@ -1,4 +1,4 @@
-package Haus;
+package Haus.Application.AnimationObjects;
 
 public class DjikstraNode {
     public int x, y;
