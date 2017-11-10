@@ -20,7 +20,8 @@
   listener = none :: none | gen_tcp:socket()}).
 
 listen(PortNum) ->
-  gen_server:call(?MODULE, {listen, PortNum}).
+  gen_server:call(?MODULE, {listen, PortNum}),
+  mapStorage:start().
 
 ignore() ->
   gen_server:cast(?MODULE, ignore).

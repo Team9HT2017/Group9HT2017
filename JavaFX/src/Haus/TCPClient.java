@@ -11,13 +11,14 @@ import java.net.*;
  */
 
 public class TCPClient {
-
-    public static void main(String user, String ip) throws Exception {
+public static  String fromServ="nope";
+    public static String main(String user, String ip) throws Exception {
 
         String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
         String message = Parser_v1.Parse2(TeacherController.toParse).toString();
         String request = "request";
+      
 
         Reader inputData = new StringReader(message);
         BufferedReader inFromUser = new BufferedReader(inputData);
@@ -35,12 +36,12 @@ public class TCPClient {
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 
-            sentence = inFromUser.readLine(); // here we get the parsed doc
-            outToServer.writeUTF(sentence + '\n'); // send it to server
+        //    sentence = inFromUser.readLine(); // here we get the parsed doc
+            outToServer.writeUTF(message + '\n'); // send it to server
             request = inRequest.readLine(); // Ask to send the file
             System.out.println("Request file" + request);
-            modifiedSentence = inFromServer.readLine(); // Receive the parsed file
-            System.out.println("FROM SERVER: " + modifiedSentence);
+            fromServ = inFromServer.readLine(); // Receive the parsed file
+            System.out.println("FROM SERVER: " + fromServ);
 
 
 
@@ -55,15 +56,16 @@ public class TCPClient {
             // here we receive msg from server
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            sentence = inRequest.readLine(); // Get the request from the user to the server
-            outToServer.writeUTF(sentence + '\n'); // Send the request
-            modifiedSentence = inFromServer.readLine(); // Receive the parsed file
-            System.out.println("FROM SERVER: " + modifiedSentence);
+          //  sentence = inRequest.readLine(); // Get the request from the user to the server
+            outToServer.writeUTF("GET" + '\n'); // Send the request
+            fromServ = inFromServer.readLine(); // Receive the parsed file
+            System.out.println("FROM SERVER: " + fromServ);
 
 
             clientSocket.close();
             System.out.println("Socket closed!");
 
         }
+		return fromServ;
     }
 }

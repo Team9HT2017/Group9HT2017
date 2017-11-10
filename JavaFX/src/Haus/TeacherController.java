@@ -47,7 +47,7 @@ public class TeacherController extends AnchorPane {
 	public Button backButton;
 
 	@FXML
-	public  ListView<File> diagramPath;
+	public ListView<File> diagramPath;
 
 	@FXML
 	AnchorPane teacherPane;
@@ -82,7 +82,6 @@ public class TeacherController extends AnchorPane {
 				System.out.println("File is not valid");
 			}
 		} catch (Exception e) {
-			dialog("ERROR HANDELING","You have already selected a file!");
 			System.out.println(e);
 
 		}
@@ -105,12 +104,19 @@ public class TeacherController extends AnchorPane {
 				System.out.println("Animation in progress");
 
 				String ip = Inet4Address.getLocalHost().getHostAddress();
-				//TCPClient.main("teacher", ip);
+				// TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser_v1.Parse2(toParse));
+
+				// showStage();
+				diagramPath.getItems().clear();
+				//runScript();
+
 				showStage();
                 diagramPath.getItems().clear();
-                runScript();
 
+				// Showing the Splash(loading page)
+				teacherPane.getChildren().clear();
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("Splash.fxml")));
 
 			} catch (Exception e) {
 				dialog("ERROR HANDELING", "Animation got corrupted!");
@@ -131,8 +137,7 @@ public class TeacherController extends AnchorPane {
 
 	}
 
-
-    /**
+	/**
 	 * Method for going back to the first page, in case no file has been uploaded
 	 * 
 	 * @throws IOException
@@ -142,7 +147,7 @@ public class TeacherController extends AnchorPane {
 	private void backButton() throws IOException {
 		if (uploaded) {
 			backButton.disabledProperty();
-			dialog("FILE UPLOADED","You have already chosen a file to be animated");
+			dialog("FILE UPLOADED", "You have already chosen a file to be animated");
 		} else {
 			try {
 				// backButton.disabledProperty();
@@ -150,7 +155,7 @@ public class TeacherController extends AnchorPane {
 				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
 
 			} catch (Exception e) {
-				dialog("FILE UPLOADED","You have already chosen a file to be animated");
+				dialog("FILE UPLOADED", "You have already chosen a file to be animated");
 				System.out.println(e);
 			}
 		}
@@ -159,8 +164,11 @@ public class TeacherController extends AnchorPane {
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
 	 *
-	 * @param msg
-	 *
+	 * @param title:
+	 *            string represents the dialog title
+	 * @param msg:
+	 *            string represents the message of the error or a notification for
+	 *            the user
 	 */
 	private void dialog(String title, String msg) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -170,52 +178,54 @@ public class TeacherController extends AnchorPane {
 		alert.showAndWait();
 	}
 
+	private void classId() throws Exception {
 
-    private void classId() throws Exception {
+		String ip = Inet4Address.getLocalHost().getHostAddress();
+		TCPClient.main("teacher", ip);
 
-        String ip  = Inet4Address.getLocalHost().getHostAddress();
-        TCPClient.main("teacher", ip);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("WELCOME");
-        alert.setHeaderText(null);
-        alert.setContentText("Your class number is: " + ip);
-        alert.initModality(Modality.NONE); // To enable the user to navigate to other windows
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("WELCOME");
+		alert.setHeaderText(null);
+		alert.setContentText("Your class number is: " + ip);
+		alert.initModality(Modality.NONE); // To enable the user to navigate to other windows
 		alert.setX(900);
 		alert.setY(20);
-        alert.showAndWait();
-    }
+		alert.showAndWait();
+	}
+	/**
+	 * Method to run the Script responsible for running the server in a seperate process.
+	**/
 
+	public void runScript() {
+		// String scriptName = "/usr/bin/open -a Terminal
+		// /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
+		File file = new File(".");
+		for (String fileNames : file.list())
+			System.out.println(fileNames);
 
-    public void runScript() {
-        //  String scriptName = "/usr/bin/open -a Terminal  /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
-        File file = new File(".");
-        for(String fileNames : file.list()) System.out.println(fileNames);
+		try {
 
-        try {
+			ProcessBuilder pb = new ProcessBuilder("./runserver.sh", "arg1", "arg2");
+			pb.inheritIO();
+			Process process = pb.start();
 
-            ProcessBuilder pb = new ProcessBuilder("./runserver.sh", "arg1", "arg2");
-            pb.inheritIO();
-            Process process = pb.start();
+			InputStream input = process.getInputStream();
+			System.out.println(input);
 
-            InputStream input = process.getInputStream();
-            System.out.println(input);
+			OutputStream output = process.getOutputStream();
+			System.out.println(output);
 
-            OutputStream output = process.getOutputStream();
-            System.out.println(output);
-
-            int exitValue = process.waitFor();
-            if (exitValue != 0) {
-                // check for errors
-                new BufferedInputStream(process.getErrorStream());
-                throw new RuntimeException("execution of script failed!");
-            }
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+			int exitValue = process.waitFor();
+			if (exitValue != 0) {
+				// check for errors
+				new BufferedInputStream(process.getErrorStream());
+				throw new RuntimeException("execution of script failed!");
+			}
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -43,14 +43,16 @@ listen(Parent, Debug, ListenSocket) ->
 loop(Parent, Debug, State = #s{socket = Socket}) ->
   ok = inet:setopts(Socket, [{active, once}]),
   receive
-    {tcp, Socket, <<"bye\r\n">>} ->
+    {tcp, Socket, <<"GET\n">>} ->
       ok = io:format("~p Client saying goodbye. Bye!~n", [self()]),
-      ok = gen_tcp:send(Socket, "Bye!\r\n"),
+      M=mapStorage:get_map(),
+      ok = gen_tcp:send(Socket,M ),
       ok = gen_tcp:shutdown(Socket, read_write),
       exit(normal);
     {tcp, Socket, Message} ->
       ok = io:format("~p received: ~tp~n", [self(), Message]),
       ok = gen_tcp:send(Socket, ["You sent: ", Message]),
+      mapStorage:send(Message),
       loop(Parent, Debug, State);
     {tcp_closed, Socket} ->
       ok = io:format("~p Socket closed, retiring.~n", [self()]),

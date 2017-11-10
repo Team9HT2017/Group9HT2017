@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -25,50 +26,74 @@ import java.util.logging.Logger;
 
 public class SplashController implements Initializable {
 
-    @FXML
-    private StackPane Stack;
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	private StackPane Stack;
 
-        new SplashScreen().start();
-    }
+	@FXML
+	private ProgressBar progressBar;
 
-    class SplashScreen extends Thread {
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 
-        @Override
-        public void run() {
+		new SplashScreen().start();
+	}
 
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
+	class SplashScreen extends Thread {
 
-                    Thread.sleep(2000);
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            Parent root = null;
+		@Override
+		public void run() {
 
-                            try {
-                                root = FXMLLoader.load(getClass().getResource("AnimationPage.fxml"));
+			while (!Thread.currentThread().isInterrupted()) {
+				try {
 
+					Thread.sleep(2000);
+					inProgressBar();
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Parent root = null;
 
-                            } catch (IOException ex) {
-                                Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            Scene scene = new Scene(root);
-                            Stage stage = new Stage();
-                            stage.setScene(scene);
-                            stage.show();
-                            Stack.getScene().getWindow().hide();
-                        }
-                    });
+							try {
+								// root = FXMLLoader.load(getClass().getResource("AnimationPage.fxml"));
+								Stack.getChildren().clear();
+								Stack.getChildren().add(FXMLLoader.load(getClass().getResource("AnimationPage.fxml")));
 
-                } catch (InterruptedException e) {
+							} catch (IOException ex) {
+								Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);
+							}
+							// Scene scene = new Scene(root);
+							// Stage stage = new Stage();
+							// stage.setScene(scene);
+							// stage.show();
+							// Stack.getScene().getWindow().hide();
+						}
+					});
 
-                    Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, e);
+				} catch (InterruptedException e) {
 
-                }
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
+					Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, e);
+
+				}
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
+
+	/**
+	 * This method for updating the progress bar contains gradually according the
+	 * given sleep time
+	 */
+	private void inProgressBar() {
+		double p = progressBar.getProgress();
+		// Updating the progress in the bar
+		for (double i = p; i <= 10; i++) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			progressBar.setProgress(i + 0.1);
+		}
+	}
 }
