@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
+import java.util.ArrayList;
 
 /**
  * This class will handle the animation page, where the user can see the diagram
@@ -58,6 +59,10 @@ public class AnimationController implements Initializable {
 	@FXML
 	Canvas canvas;
 
+    @FXML
+    TextArea messageLog;
+
+
 	/**
 	 * Method to give action to the Leave Animation button. When the users press, it
 	 * will leave the animation and go back to the first page.
@@ -87,6 +92,23 @@ public class AnimationController implements Initializable {
 		stage.setTitle("Settings");
 		stage.setScene(new Scene(root));
 		stage.show();
+	}
+
+	public void LogmMessages ()  {
+
+		ArrayList<ArrayList<Object>>  logs = Parser_v1.ParseInorder(TeacherController.toParse);
+		String transmission ;
+		ArrayList<Object>  inner  ;
+
+		for (int j = 0; j < logs.size() ; j++) {
+			inner = logs.get(j);
+			for (int i = 0; i < inner.size(); i++) {
+				transmission = String.format("%s%n", inner.get(i));
+				this.messageLog.appendText("" + transmission);
+			}
+		}
+
+
 	}
 
 	public static void runAnim(Map<?, ?> map) {
@@ -160,6 +182,11 @@ public class AnimationController implements Initializable {
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
+        try {
+            LogmMessages();
+        }catch (Exception e ) {
+            e.printStackTrace();
+        }
 		canvas.setWidth((nodes.size() * 32) * mapScale + 80);
 		canvas.setHeight((nodes.size() * 16) * mapScale + 80);
 		int housenum = 0;

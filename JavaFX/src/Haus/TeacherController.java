@@ -106,9 +106,13 @@ public class TeacherController extends AnchorPane {
 				String ip = Inet4Address.getLocalHost().getHostAddress();
 				// TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser_v1.Parse2(toParse));
+
 				// showStage();
 				diagramPath.getItems().clear();
-				runScript();
+				//runScript();
+
+				showStage();
+                diagramPath.getItems().clear();
 
 				// Showing the Splash(loading page)
 				teacherPane.getChildren().clear();
@@ -188,6 +192,9 @@ public class TeacherController extends AnchorPane {
 		alert.setY(20);
 		alert.showAndWait();
 	}
+	/**
+	 * Method to run the Script responsible for running the server in a seperate process.
+	**/
 
 	public void runScript() {
 		// String scriptName = "/usr/bin/open -a Terminal
