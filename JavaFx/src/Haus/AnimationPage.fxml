@@ -6,43 +6,67 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="652.0" stylesheets="@ScrollPaneOverwrite.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.AnimationController">
-    <top>
-        <HBox spacing="350.0" BorderPane.alignment="CENTER">
-            <children>
-                <TextField id="Username" promptText="username">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </HBox.margin>
-                </TextField>
-                <Button id="settings" mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Settings">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="50.0" right="10.0" top="5.0" />
-                    </HBox.margin>
-                </Button>
-            </children>
-        </HBox>
-    </top>
-    <left>
-        <TextArea id="logs" prefHeight="231.0" prefWidth="161.0" BorderPane.alignment="CENTER" />
-    </left>
-    <right>
-        <Label id="mailBox" prefHeight="443.0" prefWidth="138.0" BorderPane.alignment="CENTER" />
-    </right>
-    <bottom>
-        <Button id="kill" fx:id="Kill" mnemonicParsing="false" onAction="#GetScene1" prefHeight="27.0" prefWidth="74.0" text="Kill" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-                <Insets bottom="5.0" left="570.0" right="5.0" top="5.0" />
-            </BorderPane.margin>
-        </Button>
-    </bottom>
-    <center>
-        <ScrollPane id="animation" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Canvas id="#canvas" fx:id="canvas" height="888.0" width="1776.0" />
-        </ScrollPane>
-    </center>
-</BorderPane>
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.AnimationController">
+   <children>
+      <BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="@ScrollPaneOverwrite.css">
+          <top>
+              <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                  <children>
+                  <ImageView fx:id="colorId" disable="true" fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="25.0" />
+                     </HBox.margin></ImageView>
+                  <Label fx:id="username" disable="true" prefHeight="38.0" prefWidth="94.0" text="Username">
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="17.0" />
+                     </font></Label>
+                      <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#openSettings" prefHeight="27.0" prefWidth="76.0" text="Settings">
+                          <HBox.margin>
+                              <Insets bottom="10.0" left="610.0" right="20.0" top="20.0" />
+                          </HBox.margin>
+                      </Button>
+                  </children>
+              </HBox>
+          </top>
+          <center>
+              <ScrollPane id="animation" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                 <content>
+                     <Canvas id="#canvas" fx:id="canvas" disable="true" height="888.0" width="1776.0" />
+                 </content>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" />
+               </BorderPane.margin>
+              </ScrollPane>
+          </center>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Canvas fx:id="mailboxAnimation" disable="true" height="250.0" width="200.0" />
+                  <TextArea fx:id="messageLog" disable="true" editable="false" prefHeight="313.0" prefWidth="200.0" wrapText="true" />
+                    <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#getScene1" text="Leave Animation">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="38.0" right="20.0" top="20.0" />
+                     </VBox.margin>
+                    </Button>
+               </children>
+               <padding>
+                  <Insets left="10.0" right="20.0" />
+               </padding>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

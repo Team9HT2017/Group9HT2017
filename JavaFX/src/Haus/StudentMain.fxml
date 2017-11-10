@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="studentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.StudentController">
+   <children>
+      <GridPane  layoutX="-6.0" layoutY="-4.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="animateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#HandleAnimation" text="See Class Animation" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="150.0" left="60.0" />
+               </GridPane.margin>
+            </Button>
+            <TextField fx:id="classID" alignment="CENTER" promptText="Class Number" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="35.0" />
+               </font></TextField>
+            <ImageView fx:id="joinClassMsg" fitHeight="150.0" fitWidth="840.0" pickOnBounds="true" preserveRatio="true">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </ImageView>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="40.0" >
+               <GridPane.margin>
+                  <Insets left="50.0" top="-150.0" />
+               </GridPane.margin>
+                <graphic>
+              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+              <image>       
+                <Image url="/img/backButton.png" preserveRatio="false" smooth="false" />          
+              </image>
+              </ImageView>
+           </graphic>
+            </Button>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

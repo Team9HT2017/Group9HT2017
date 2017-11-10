@@ -2,17 +2,18 @@ package Haus;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @Author Anthony;
- * Made with usage of JSON.org library
-
-Copyright (c) 2002 JSON.org
+ * This class will perform the parsing. It will takes the .json file and
+ * parse it into a map.
+ *
+ * @author Anthony Path
+ * @version 1.0
+ * @copyright Copyright (c) 2002 JSON.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,10 +36,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
-
 public class Parser_v1 { 
 	
 	private static String str = null;
+
    public static Map Parse2 (String toParse){
 	   Map <Object,String> result = new HashMap <Object,String>();
 	 
@@ -115,6 +116,52 @@ public class Parser_v1 {
 	return null;
       
    }
+    /**
+     * @Author Fahd;
+     * use anthony's version to access json objects and creates a new ArrayList of Arraylists to get the messages in order
+     **/
+    public static ArrayList ParseInorder (String Parse){
+
+        ArrayList<ArrayList<Object>> ordering = new ArrayList<ArrayList<Object>>();
+
+        str = Parse.replaceAll("\\s+"," "); //remove all long spaces (more than 1) to prevent parser from crashing
+
+        JSONObject res = new JSONObject(str); //create JSON object from input
+        Object type =  res.get("type");
+
+        if (type.equals("sequence_diagram")){
+
+            JSONObject diagramElements = res.getJSONObject("diagram"); // pick array that contains high-level information about messages
+
+            JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
+            JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+
+            for (int i=0;i<diagramElements2.length();i++){
+                JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+                for (int t=0;t<temp.length();t++){
+                    messages.put(temp.get(t)); // finally creating array of message
+
+                }
+                for (int t=0;t<messages.length();t++){        // finally creating array of messages
+                    ArrayList<Object> inner = new ArrayList<Object>();
+
+                    inner.add(messages.getJSONObject(t).get("from"));
+                    inner.add(messages.getJSONObject(t).get("node"));
+                    inner.add(messages.getJSONObject(t).get("to"));
+                    inner.add(messages.getJSONObject(t).get("message"));
+
+                    ordering.add(inner);
+
+                }
+
+            }
+
+
+        }
+
+        return ordering;
+    }
+
    
    /*public static void main(String [] args){
 	   Parse2();

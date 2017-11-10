@@ -1,41 +1,87 @@
 package Haus;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import javafx.util.Pair;
-
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-//@Author Leo; Rema
-
+/**
+ * This class will handle the animation page, where the user can
+ * see the diagram animation, see the log created, do the settings
+ * adjustments, and leave the animation.
+ *
+ * @author Leo Persson and Rema Salman
+ * @version 1.0
+ *
+ * @author Laiz Figueroa
+ * @version 1.1
+ * Modification: Changed the layout and disposition of elements;
+ * 				 Added the settings functionality;
+ *
+ */
 public class AnimationController implements Initializable {
 
+    static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
+
+    static Character[][] grid;
+
+	GraphicsContext gc;
+	static ArrayList<Road> roads = new ArrayList<Road>();
+
+    static double mapScale;
+
+    private Stage stage = new Stage();
+
 	@FXML
-	public Button Kill;
+	public Button leaveAnimation;
+
+	@FXML
+	public Button settingsButton;
+
 	@FXML
 	Canvas canvas;
 
-	GraphicsContext gc;
-	static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
-	static Character[][] grid;
-	MainController mainController = new MainController();
-	static ArrayList<Road> roads = new ArrayList<Road>();
-
-	static double mapScale;
-
+    /**
+     * Method to give action to the Leave Animation button. When the users press, it
+     * will leave the animation and go back to the first page.
+     *
+     * @throws IOException
+     *
+     */
 	@FXML
-	private void GetScene1() throws IOException {
+	private void getScene1() throws IOException {
 
-		mainController.HideWindow(Kill);
+        TeacherController.uploaded=false;
 
+    }
+    /**
+     * Method to give action to the Settings button. When the users press, it
+     * will open a new window with all the changes possible for the system.
+     *
+     * @throws IOException
+     *
+     */
+	@FXML
+	private void openSettings() throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+        Parent root = fxmlloader.load();
+        stage.setTitle("Settings");
+        stage.setScene(new Scene(root));
+        stage.show();
 	}
 
 
@@ -51,13 +97,10 @@ public class AnimationController implements Initializable {
 			nodes.add(new DrawableObject(obj, mapSize, mapSize));
 		}
 
-
-
 		// Build 2d grid map ('G'rass)
 		for (int i = 0; i < mapSize; i++) {
 			Arrays.fill(grid[i], 'G');
 		}
-
 
 		// Build 2d grid map ('R'oads)
 		ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
@@ -79,7 +122,6 @@ public class AnimationController implements Initializable {
 			}
 		}
 
-
 		// Build 2d grid map ('H'ouse)
 		for (DrawableObject node : nodes) {
 			// For loop makes sure there are no houses sharing a diagonally adjacent
@@ -91,7 +133,6 @@ public class AnimationController implements Initializable {
 				node.y = rand.nextInt((mapSize) - 2) + 1;
 
 			}
-
 			grid[node.x][node.y] = 'H';
 		}
 
@@ -125,10 +166,13 @@ public class AnimationController implements Initializable {
 		for (int i = 0; i < (int) (nodes.size() * mapScale); i++) {
 
 			for (int j = 0; j < (int) (nodes.size() * mapScale); j++) {
+
 				switch (grid[i][j]) {
+
 					case 'G':
 						gc.drawImage(grass, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
 						break;
+
 					case 'H':
 						node = nodes.get(housenum);
 						housenum++;
@@ -137,8 +181,8 @@ public class AnimationController implements Initializable {
 						// gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
 						// Point(i* 16, j * 16)).y - 16);
 						System.out.println(node.name);
-
 						break;
+
 					case 'R':
 						if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R') {
 							gc.drawImage(new Image("/img/Isotile_roadCross.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
@@ -182,6 +226,7 @@ public class AnimationController implements Initializable {
 							gc.drawImage(new Image("/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
 						}
 						break;
+
 					case 'T':
 						gc.drawImage(new Image("/img/Isotile_tree.png"), twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y - 8);
 						break;
