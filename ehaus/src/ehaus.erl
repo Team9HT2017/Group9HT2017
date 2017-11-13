@@ -52,8 +52,7 @@ ignore() ->
 start() ->
     application:ensure_started(sasl),
     application:start(?MODULE),
-    io:format("Starting server..."),
-    listen(8080).
+    io:format("Starting server...").
 
 %%--------------------------------------------------------------------
 %% @private
