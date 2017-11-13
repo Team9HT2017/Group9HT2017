@@ -50,8 +50,8 @@ public class AnimationController implements Initializable {
 
 	static double mapScale;
 
-	//Controller controller = new Controller();
 	Main main = new Main();
+
 	private Stage stage = new Stage();
 
 	@FXML
@@ -197,92 +197,109 @@ public class AnimationController implements Initializable {
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
-        try {
-            LogmMessages();
-        }catch (Exception e ) {
-            e.printStackTrace();
-        }
+		try {
+			LogmMessages();
+		}catch (Exception e ) {
+			e.printStackTrace();
+		}
+		System.out.println("Initializing anim 1st");
+
+		animate();
+		// gc.drawImage(node.image, node.x * 32, node.y * 32);
+	}
+	/**
+	 * Method to clean the canvas when needed.
+	 *
+	 */
+	public void cleanAnimationCanvas() {
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+	}
+
+	public void animate(){
+		System.out.println("Initializing anim 2nd");
 		canvas.setWidth((nodes.size() * 32) * mapScale + 80);
 		canvas.setHeight((nodes.size() * 16) * mapScale + 80);
-		int housenum = 0;
-		DrawableObject node = nodes.get(0);
-		System.out.println("Initializing anim");
-		Image grass = new Image("/Haus/Application/img/Isotile_grass.png");
-		Image road = new Image("/Haus/Application/img/Isotile_road.png");
 		gc = canvas.getGraphicsContext2D();
 		gc.setFont(new Font("Consolas", 10));
+		DrawableObject node = nodes.get(0);
+		int housenum = 0;
+		Image grass = new Image("/Haus/Application/img/Isotile_grass.png");
+
 		for (int i = 0; i < (int) (nodes.size() * mapScale); i++) {
 
 			for (int j = 0; j < (int) (nodes.size() * mapScale); j++) {
 
 				switch (grid[i][j]) {
-				case 'G':
-					gc.drawImage(grass, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
-					break;
+					case 'G':
+						gc.drawImage(grass, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new Point(i * 16, j * 16)).y);
+						break;
 
-				case 'H':
-					node = nodes.get(housenum);
-					housenum++;
-					gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
-							twoDToIso(new Point(i * 16, j * 16)).y - 16);
-					// if (SettingsController.houseNameSlider.getValue() == 1) {
-					// gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
-					// Point(i* 16, j * 16)).y - 16);
-					// }
-					System.out.println(node.name);
-					break;
+					case 'H':
+						node = nodes.get(housenum);
+						housenum++;
+						gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y - 16);
 
-				case 'R':
-					if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R'
-							&& grid[i][j - 1] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadCross.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT-Y.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT+Y.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT-X.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT+X.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_road^.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_road}.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadv.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_road{.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i + 1][j] == 'R' || grid[i - 1][j] == 'R') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i + 1][j] == 'H' && grid[i - 1][j] == 'H') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					} else if (grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H') {
-						gc.drawImage(new Image("/Haus/Application/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-								twoDToIso(new Point(i * 16, j * 16)).y);
-					}
-					break;
+						//If the settings are selected to print the name of the users on the houses it goes inside this condition.
+						if (SettingsController.names == 1){
+							gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
+									Point(i* 16, j * 16)).y - 16);
+						}
 
-				case 'T':
-					gc.drawImage(new Image("/Haus/Application/img/Isotile_tree.png"), twoDToIso(new Point(i * 16, j * 16)).x,
-							twoDToIso(new Point(i * 16, j * 16)).y - 8);
-					break;
+						System.out.println(node.name);
+						break;
+
+					case 'R':
+						if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R'
+								&& grid[i][j - 1] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadCross.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT-Y.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT+Y.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT-X.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadT+X.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_road^.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_road}.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadv.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_road{.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i + 1][j] == 'R' || grid[i - 1][j] == 'R') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i + 1][j] == 'H' && grid[i - 1][j] == 'H') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_road.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						} else if (grid[i][j + 1] == 'H' && grid[i][j - 1] == 'H') {
+							gc.drawImage(new Image("/Haus/Application/img/Isotile_roadY.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+									twoDToIso(new Point(i * 16, j * 16)).y);
+						}
+						break;
+
+					case 'T':
+						gc.drawImage(new Image("/Haus/Application/img/Isotile_tree.png"), twoDToIso(new Point(i * 16, j * 16)).x,
+								twoDToIso(new Point(i * 16, j * 16)).y - 8);
+						break;
 				}
 			}
-			// gc.drawImage(node.image, node.x * 32, node.y * 32);
 		}
 	}
 
