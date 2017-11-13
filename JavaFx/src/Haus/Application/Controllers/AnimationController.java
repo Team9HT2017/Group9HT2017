@@ -143,6 +143,7 @@ public class AnimationController implements Initializable {
 		 * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
 		 */
 
+		/*
 		for (int i = 0; i < nodes.size() - 1; i++) {
 			Road road = new Road(nodes.get(i), nodes.get(i + 1));
 			// roads.add(road);
@@ -152,6 +153,7 @@ public class AnimationController implements Initializable {
 				j++;
 			}
 		}
+		*/
 
 		for (int i = 1; i < mapSize - 1; i++) {
 			for (int j = 1; j < mapSize - 1; j++) {
@@ -303,3 +305,30 @@ public class AnimationController implements Initializable {
 	}
 
 }
+/*
+	private static int [] closestHouseSide (DrawableObject n1){
+		double A=10000;
+		DrawableObject clos = null;
+		for (int i=0;i<nodes.size();i++){
+			if (n1.distance(nodes.get(i))<=A && n1!=nodes.get(i)&& grid[nodes.get(i).x][nodes.get(i).y]=='H'){
+				A=n1.distance(nodes.get(i));
+				clos=nodes.get(i);
+				
+			}
+		}
+		System.out.println("here");
+		int [] closestSide = new int [2];
+		double s1 = Math.sqrt(Math.pow(n1.x - (clos.x+1), 2) + Math.pow(n1.y - (clos.y), 2));
+		double s2 = Math.sqrt(Math.pow(n1.x - (clos.x-1), 2) + Math.pow(n1.y - (clos.y), 2));
+		double s3 = Math.sqrt(Math.pow(n1.x - (clos.x), 2) + Math.pow(n1.y - (clos.y+1), 2));
+		double s4 = Math.sqrt(Math.pow(n1.x - (clos.x), 2) + Math.pow(n1.y - (clos.y-1), 2));
+		double [] arr1 = {s1,s2,s3,s4};
+		Arrays.sort(arr1);
+		if (arr1[0]==s1){
+			closestSide[0] = clos.x+1; closestSide[1] = clos.y;		
+		}else if (arr1[0]==s2) {closestSide[0] = clos.x-1; closestSide[1] = clos.y;	} 
+		else if (arr1[0]==s3){closestSide[0] = clos.x; closestSide[1] = clos.y+1;	} 
+		else {closestSide[0] = clos.x; closestSide[1] = clos.y-1;	}
+		return closestSide;
+	}
+	*/
