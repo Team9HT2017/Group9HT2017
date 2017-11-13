@@ -43,7 +43,7 @@ public class UserController {
 			// clearing the first (UserSelection) pane
 			first.getChildren().clear();
 			// adding TeacherMain anchorPane instead of the UserSelection anchorPane
-			first.getChildren().add(FXMLLoader.load(getClass().getResource("TeacherMain.fxml")));
+			first.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/TeacherMain.fxml")));
 
 		} catch (IOException e) {
 			loadingAlert();
