@@ -143,6 +143,7 @@ public class AnimationController implements Initializable {
 		 * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
 		 */
 
+		/*
 		for (int i = 0; i < nodes.size() - 1; i++) {
 			Road road = new Road(nodes.get(i), nodes.get(i + 1));
 			// roads.add(road);
@@ -152,6 +153,7 @@ public class AnimationController implements Initializable {
 				j++;
 			}
 		}
+		*/
 
 		for (int i = 1; i < mapSize - 1; i++) {
 			for (int j = 1; j < mapSize - 1; j++) {
