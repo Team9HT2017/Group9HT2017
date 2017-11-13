@@ -109,16 +109,14 @@ public class TeacherController extends AnchorPane {
 				// TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser.Parse2(toParse));
 
-				// showStage();
-				diagramPath.getItems().clear();
-				//runScript();
+			
 
-				showStage();
+				//showStage();
                 diagramPath.getItems().clear();
-
+            	System.out.println("7777");
 				// Showing the Splash(loading page)
 				teacherPane.getChildren().clear();
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("Splash.fxml")));
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
 
 			} catch (Exception e) {
 				dialog("ERROR HANDELING", "Animation got corrupted!");
@@ -131,7 +129,7 @@ public class TeacherController extends AnchorPane {
 
 	private void showStage() throws IOException {
 
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Splash.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../FMXL/Splash.fxml"));
 		Parent root = fxmlloader.load();
 		stage.setTitle("Loading Animation ...");
 		stage.setScene(new Scene(root));
@@ -197,7 +195,7 @@ public class TeacherController extends AnchorPane {
 	/**
 	 * Method to run the Script responsible for running the server in a seperate process.
 	**/
-
+/*
 	public void runScript() {
 		// String scriptName = "/usr/bin/open -a Terminal
 		// /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
@@ -229,5 +227,5 @@ public class TeacherController extends AnchorPane {
 			e.printStackTrace();
 		}
 	}
-
+*/
 }
