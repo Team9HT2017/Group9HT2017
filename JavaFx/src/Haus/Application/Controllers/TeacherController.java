@@ -183,7 +183,7 @@ public class TeacherController extends AnchorPane {
 	private void classId() throws Exception {
 
 		String ip = Inet4Address.getLocalHost().getHostAddress();
-		//TCPClient.main("teacher", ip);
+		TCPClient.main("teacher", ip);
 
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("WELCOME");

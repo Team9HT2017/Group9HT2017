@@ -38,7 +38,7 @@ public class StudentController extends AnchorPane {
     public Button animateButton;
 
     @FXML
-    public static TextField classID;
+    private TextField classID1;
 
     @FXML
     AnchorPane studentPane;
@@ -56,9 +56,10 @@ public class StudentController extends AnchorPane {
 
 	@FXML
 	private void HandleAnimation() throws IOException {
+  System.out.println(classID1);
+ 
 
-
-			if  (classID.getText()==null||classID.getText().isEmpty()) {
+			if  (classID1.getText()==null||classID1.getText().isEmpty()) {
 
 				try {
 					Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -78,15 +79,18 @@ public class StudentController extends AnchorPane {
 		        System.out.println("animation in progress");
 		       
 		        try {
-		        	pars = (TCPClient.main("student",classID.getText()).replaceAll( "','", "").replaceAll("'", ""));
-		        	pars = pars.substring(1, pars.length()-1);
+		        	pars = (TCPClient.main("student",classID1.getText()).replaceAll( "','", "").replaceAll("'", ""));
+		        	pars = pars.substring(2, pars.length()-1);
+		        	System.out.println("success");
 		        	while (pars.length()>1){
+		        		System.out.println("success2");
 		        	if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
 		        	String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
 		        	String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
 		        	pars=pars.substring(0,pars.lastIndexOf("&"));
 		        	toSim.put(key,val);}
 		        	}
+		        	System.out.println("success3");
 		        	System.out.println(toSim.toString());
 		        	
 				} catch  (Exception e) {
@@ -95,9 +99,9 @@ public class StudentController extends AnchorPane {
 				}  
 		        AnimationController.runAnim(toSim);
 				studentPane.getChildren().clear();
-	            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("./FXML/Splash.fxml")));
+	            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
 					//showStage();
-					classID.clear();
+					classID1.clear();
 				}
 		}
 	

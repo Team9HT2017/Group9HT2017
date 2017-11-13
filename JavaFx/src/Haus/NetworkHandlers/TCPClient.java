@@ -19,17 +19,19 @@ public static  String fromServ="nope";
 
         String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
-        String message = Parser.Parse2(TeacherController.toParse,true).toString();
+       
         String request = "request";
       
 
-        Reader inputData = new StringReader(message);
-        BufferedReader inFromUser = new BufferedReader(inputData);
-
-        Reader inputRequest = new StringReader(request);
-        BufferedReader inRequest = new BufferedReader(inputRequest);
+        
 
         if (user == "teacher") {
+        	 String message = Parser.Parse2(TeacherController.toParse,true).toString();
+        	 Reader inputData = new StringReader(message);
+             BufferedReader inFromUser = new BufferedReader(inputData);
+
+             Reader inputRequest = new StringReader(request);
+             BufferedReader inRequest = new BufferedReader(inputRequest);
             ip  = Inet4Address.getLocalHost().getHostAddress();
             Socket clientSocket = new Socket(ip, 8080);
             System.out.println(clientSocket);
