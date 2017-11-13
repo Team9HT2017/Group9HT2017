@@ -40,7 +40,7 @@ import javafx.scene.control.TextArea;
 public class AnimationController implements Initializable {
 
 
-	GraphicsContext gc;
+	static GraphicsContext gc;
 
 	public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
@@ -61,7 +61,7 @@ public class AnimationController implements Initializable {
 	public Button settingsButton;
 
 	@FXML
-	Canvas canvas;
+	static Canvas canvas;
 
     @FXML
     private TextArea messageLog;
@@ -225,10 +225,10 @@ public class AnimationController implements Initializable {
 					housenum++;
 					gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
 							twoDToIso(new Point(i * 16, j * 16)).y - 16);
-					// if (SettingsController.houseNameSlider.getValue() == 1) {
-					// gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
-					// Point(i* 16, j * 16)).y - 16);
-					// }
+					if (SettingsController.names == 1){
+					 	gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
+					 	Point(i* 16, j * 16)).y - 16);
+					 }
 					System.out.println(node.name);
 					break;
 
@@ -284,6 +284,10 @@ public class AnimationController implements Initializable {
 			}
 			// gc.drawImage(node.image, node.x * 32, node.y * 32);
 		}
+	}
+
+	public static void cleanAnimationCanvas(){
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
 
 	static int[] nodeDistances (DrawableObject node, ArrayList<DrawableObject> nodes)
