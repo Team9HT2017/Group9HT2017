@@ -19,7 +19,7 @@ public static  String fromServ="nope";
 
         String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
-        String message = Parser.Parse2(TeacherController.toParse).toString();
+        String message = Parser.Parse2(TeacherController.toParse,true).toString();
         String request = "request";
       
 
@@ -38,7 +38,7 @@ public static  String fromServ="nope";
             // here we receive msg from server
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-
+            message = message.replaceAll("\"", "^");
         //    sentence = inFromUser.readLine(); // here we get the parsed doc
             outToServer.writeUTF(message + '\n'); // send it to server
             request = inRequest.readLine(); // Ask to send the file
@@ -62,6 +62,7 @@ public static  String fromServ="nope";
           //  sentence = inRequest.readLine(); // Get the request from the user to the server
             outToServer.writeUTF("GET" + '\n'); // Send the request
             fromServ = inFromServer.readLine(); // Receive the parsed file
+            
             System.out.println("FROM SERVER: " + fromServ);
 
 

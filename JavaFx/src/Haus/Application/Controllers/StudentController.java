@@ -15,6 +15,7 @@ package Haus.Application.Controllers;
  */
 
 import javafx.fxml.FXML;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +25,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import Haus.NetworkHandlers.TCPClient;
+
+
 
 public class StudentController extends AnchorPane {
 
@@ -51,19 +58,7 @@ public class StudentController extends AnchorPane {
 	private void HandleAnimation() throws IOException {
 
 
-		if ( !TeacherController.uploaded) {
-			try {
-
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Validate Class");
-				alert.setHeaderText(null);
-				alert.setContentText("No Server to join");
-				alert.showAndWait();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else  {
-			if  (classID.getText().isEmpty()) {
+			if  (classID.getText()==null||classID.getText().isEmpty()) {
 
 				try {
 					Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -78,13 +73,34 @@ public class StudentController extends AnchorPane {
 
 			}  else {
 				// changing pane into the Splash contains  
+				String pars = null;
+		    	Map <Object,Object> toSim = new HashMap <Object,Object>();
+		        System.out.println("animation in progress");
+		       
+		        try {
+		        	pars = (TCPClient.main("student",classID.getText()).replaceAll( "','", "").replaceAll("'", ""));
+		        	pars = pars.substring(1, pars.length()-1);
+		        	while (pars.length()>1){
+		        	if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
+		        	String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
+		        	String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
+		        	pars=pars.substring(0,pars.lastIndexOf("&"));
+		        	toSim.put(key,val);}
+		        	}
+		        	System.out.println(toSim.toString());
+		        	
+				} catch  (Exception e) {
+		            System.out.println("No connection to the server");
+					e.printStackTrace();
+				}  
+		        AnimationController.runAnim(toSim);
 				studentPane.getChildren().clear();
-	            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("Splash.fxml")));
+	            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("./FXML/Splash.fxml")));
 					//showStage();
 					classID.clear();
 				}
 		}
-	}
+	
 
     /**
      * Method for going back to the first page, in case no

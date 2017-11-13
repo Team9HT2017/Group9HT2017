@@ -42,7 +42,7 @@ public class Main extends Application {
 
         launch(args);
 
-
+/*
         Map<?, ?> t1 = Parser.Parse2(TeacherController.toParse);
         System.out.println(t1);
 
@@ -60,7 +60,7 @@ public class Main extends Application {
         }
         System.out.println(t1.keySet());
         System.out.println(t1.entrySet());
-
+*/
     }
 
     /**

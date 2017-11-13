@@ -41,8 +41,8 @@ public class Parser {
 
     private static String str = null;
 
-    public static Map Parse2(String toParse) {
-        Map<Object, List<Object>> result = new HashMap<Object, List<Object>>();
+    public static Map Parse2(String toParse,boolean send) {
+        Map<Object, Object> result = new HashMap<Object, Object>();
 
         str = toParse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
 
@@ -83,7 +83,9 @@ public class Parser {
                 }
 
                 // System.out.println(relationships.toString()); //for testing
+                if (!send){
                 result.put(names.get(i) + "|" + classes.get(i), relationships); //actual process of filling of the map
+                }else{ result.put("&"+names.get(i) + "|" + classes.get(i), relationships+"?");}
             }
 
             String result2 = ("{'meta' : " + meta.toString() + " " + ", 'type' : " + "? " + type + " ?," //highlighting type with question marks for easier identification //for testing
