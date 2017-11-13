@@ -113,12 +113,12 @@ public class TeacherController extends AnchorPane {
 				diagramPath.getItems().clear();
 				//runScript();
 
-				showStage();
+				//showStage();
                 diagramPath.getItems().clear();
 
 				// Showing the Splash(loading page)
 				teacherPane.getChildren().clear();
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("Splash.fxml")));
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
 
 			} catch (Exception e) {
 				dialog("ERROR HANDELING", "Animation got corrupted!");
@@ -131,7 +131,7 @@ public class TeacherController extends AnchorPane {
 
 	private void showStage() throws IOException {
 
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Splash.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../FXML/Splash.fxml"));
 		Parent root = fxmlloader.load();
 		stage.setTitle("Loading Animation ...");
 		stage.setScene(new Scene(root));
