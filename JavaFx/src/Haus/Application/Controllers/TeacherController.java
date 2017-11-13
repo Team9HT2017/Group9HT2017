@@ -129,11 +129,9 @@ public class TeacherController extends AnchorPane {
 
 	private void showStage() throws IOException {
 
-<<<<<<< HEAD
+
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../FMXL/Splash.fxml"));
-=======
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../FXML/Splash.fxml"));
->>>>>>> 12a54390942cf6b0d479c63f13027e4c493f877a
+
 		Parent root = fxmlloader.load();
 		stage.setTitle("Loading Animation ...");
 		stage.setScene(new Scene(root));
