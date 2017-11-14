@@ -1,4 +1,20 @@
 package Haus.Application.Controllers;
+import Haus.Application.Parser;
+import Haus.NetworkHandlers.TCPClient;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import java.io.*;
+import java.net.Inet4Address;
+import java.util.Scanner;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * This class will handle the teacher's interface, where he/she can
@@ -15,29 +31,6 @@ package Haus.Application.Controllers;
  * 				 		Checking if the file uploaded before pressing (starting) animate;
  *				 		Adding the backButton with an icon and its functionalities.
  */
-
-import Haus.Application.Main;
-import Haus.Application.Parser;
-import Haus.NetworkHandlers.TCPClient;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
-
-import java.io.*;
-import java.net.Inet4Address;
-
-import java.util.Scanner;
-
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class TeacherController extends AnchorPane {
 
@@ -59,9 +52,9 @@ public class TeacherController extends AnchorPane {
 	public static String toParse;
 	private Stage stage = new Stage();
 	public static boolean uploaded = false;
-UserController userController = new UserController();
-	
-	
+    UserController userController = new UserController();
+
+
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
 	 * interface, which by pressing it the user will have a system browser to look
