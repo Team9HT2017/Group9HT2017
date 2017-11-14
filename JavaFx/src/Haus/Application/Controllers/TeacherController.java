@@ -16,8 +16,10 @@ package Haus.Application.Controllers;
  *				 		Adding the backButton with an icon and its functionalities.
  */
 
+import Haus.Application.Main;
 import Haus.Application.Parser;
 import Haus.NetworkHandlers.TCPClient;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -192,10 +194,12 @@ public class TeacherController extends AnchorPane {
 		alert.initModality(Modality.NONE); // To enable the user to navigate to other windows
 		alert.setX(900);
 		alert.setY(20);
-		alert.showAndWait();
+		alert.setResizable(false);
+        alert.showAndWait();
+
 	}
 	/**
-	 * Method to run the Script responsible for running the server in a seperate process.
+	 * Method to run the Script responsible for running the server in a separated process.
 	**/
 /*
 	public void runScript() {

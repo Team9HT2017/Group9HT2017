@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="stackSettings" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.SettingsController">
+<StackPane fx:id="stackSettings" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.SettingsController">
    <children>
       <GridPane prefHeight="300.0" prefWidth="400.0">
         <columnConstraints>
@@ -14,10 +15,10 @@
             <ColumnConstraints />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="81.0" minHeight="8.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Slider fx:id="houseNameSlider" blockIncrement="1.0" majorTickUnit="1.0" max="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -30,7 +31,7 @@
                   <Font name="System Bold" size="20.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="20.0" left="148.0" right="20.0" />
+                  <Insets bottom="20.0" left="148.0" right="20.0" top="20.0" />
                </GridPane.margin>
             </Label>
             <Label fx:id="sliderDescription" text="Identify houses with names" GridPane.rowIndex="1">
@@ -51,30 +52,7 @@
                   <Insets bottom="10.0" left="129.0" top="30.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="sliderDescription1" text="Color-blind mode" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets bottom="20.0" left="20.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Slider fx:id="colorblindSlider" blockIncrement="1.0" majorTickUnit="1.0" max="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets bottom="20.0" right="20.0" />
-               </GridPane.margin>
-            </Slider>
-            <Label fx:id="noColorMode" text="No" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="1.0" top="30.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="colorMode" text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="129.0" top="30.0" />
-               </GridPane.margin>
-            </Label>
-            <Button fx:id="applyButton" mnemonicParsing="false" text="Apply" onAction="#applySettingsSelection" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applySettingsSelection" text="Apply" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="16.0" />
                </font>

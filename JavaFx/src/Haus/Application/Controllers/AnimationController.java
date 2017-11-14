@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -66,7 +67,6 @@ public class AnimationController implements Initializable {
     @FXML
     private TextArea messageLog;
 
-
 	/**
 	 * Method to give action to the Leave Animation button. When the users press, it
 	 * will leave the animation and go back to the first page.
@@ -98,7 +98,7 @@ public class AnimationController implements Initializable {
 		stage.show();
 	}
 
-	public void LogmMessages ()  {
+	public void logMessages ()  {
 
 		ArrayList<ArrayList<Object>>  logs = Parser.ParseInorder(TeacherController.toParse);
 		String transmission ;
@@ -111,8 +111,6 @@ public class AnimationController implements Initializable {
 				this.messageLog.appendText("" + transmission);
 			}
 		}
-
-
 	}
 
 	public static void runAnim(Map<?, ?> map) {
@@ -198,7 +196,7 @@ public class AnimationController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			LogmMessages();
+			logMessages();
 		}catch (Exception e ) {
 			e.printStackTrace();
 		}
@@ -213,6 +211,7 @@ public class AnimationController implements Initializable {
 	 */
 	public void cleanAnimationCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
 
 	}
 

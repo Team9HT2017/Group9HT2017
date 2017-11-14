@@ -135,8 +135,8 @@ public class Main extends Application {
      * Method to hide the animation window and restarting the application from the
      * user selection page
      *
-     * @param Button:
-     *            the leaveAnimation button is passed as an argument to be handled
+     * @param leaveAnimation
+     *            the button is passed as an argument to be handled
      *            as its action
      * @throws Exception
      *
