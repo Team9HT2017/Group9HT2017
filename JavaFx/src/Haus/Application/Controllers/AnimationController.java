@@ -16,11 +16,13 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.scene.text.FontSmoothingType;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.text.AttributedCharacterIterator;
 import java.util.*;
 import java.util.ArrayList;
 import javafx.scene.control.TextArea;
@@ -242,8 +244,11 @@ public class AnimationController implements Initializable {
 
 						//If the settings are selected to print the name of the users on the houses it goes inside this condition.
 						if (SettingsController.names == 1){
+                            gc.setFont(new Font("Calibri", 14));
+                            gc.setFontSmoothingType(FontSmoothingType.GRAY);
 							gc.fillText(node.name, twoDToIso(new Point(i* 16, j * 16)).x, twoDToIso(new
 									Point(i* 16, j * 16)).y - 16);
+
 						}
 
 						System.out.println(node.name);

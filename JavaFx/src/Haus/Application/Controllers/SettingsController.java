@@ -52,7 +52,7 @@ public class SettingsController {
         stage.setX(0);
         stage.setY(10);
         stage.show();
-        
+
         TeacherController.uploaded = false;
         AnimationController controller = loader.getController();
 
