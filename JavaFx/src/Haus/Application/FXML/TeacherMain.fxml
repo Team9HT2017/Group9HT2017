@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.TeacherController">
+<AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.TeacherController">
    <children>
       <GridPane layoutX="4.0" layoutY="-2.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="-2.0">
         <columnConstraints>
@@ -45,22 +52,25 @@
                   <Insets bottom="120.0" left="65.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="40.0" >
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="40.0">
                <GridPane.margin>
                   <Insets left="50.0" top="-150.0" />
                </GridPane.margin>
                <graphic>
               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
               <image>       
-                <Image url="/Haus/Application/img/backButton.png" preserveRatio="false" smooth="false" />
+                <Image preserveRatio="false" smooth="false" url="/Haus/Application/img/backButton.png" />
               </image>
               </ImageView>
            </graphic>
             </Button>
-            <ImageView fx:id="prepareClassMsg" fitHeight="150.0" fitWidth="840.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="prepareClassMsg" disable="true" fitHeight="300.0" fitWidth="840.0" pickOnBounds="true">
                <GridPane.margin>
-                  <Insets left="30.0" right="30.0" />
+                  <Insets left="30.0" right="30.0" top="100.0" />
                </GridPane.margin>
+               <image>
+                  <Image url="@../img/Teacher.png" />
+               </image>
             </ImageView>
          </children>
       </GridPane>
