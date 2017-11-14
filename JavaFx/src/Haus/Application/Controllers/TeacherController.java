@@ -59,7 +59,9 @@ public class TeacherController extends AnchorPane {
 	public static String toParse;
 	private Stage stage = new Stage();
 	public static boolean uploaded = false;
-
+UserController userController = new UserController();
+	
+	
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
 	 * interface, which by pressing it the user will have a system browser to look
@@ -84,6 +86,8 @@ public class TeacherController extends AnchorPane {
 
 			} else {
 				System.out.println("File is not valid");
+				
+				userController.dialog("File missing","You have not chosen a file"+"\n" + "Please try again ...");
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -121,12 +125,12 @@ public class TeacherController extends AnchorPane {
 				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
 
 			} catch (Exception e) {
-				dialog("ERROR HANDELING", "Animation got corrupted!");
+				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
 				System.out.println(e);
 			}
 			// if the file is not already uploaded
 		} else
-			dialog("FILE MISSING", "File not uploaded!");
+			userController.dialog("FILE MISSING", "File not uploaded!");
 	}
 
 	private void showStage() throws IOException {
@@ -149,17 +153,16 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void backButton() throws IOException {
-		if (uploaded) {
+		if (uploaded == true) {
 			backButton.disabledProperty();
-			dialog("FILE UPLOADED", "You have already chosen a file to be animated");
+			userController.dialog("FILE UPLOADED", "You have already chosen a file to be animated");
 		} else {
 			try {
 				// backButton.disabledProperty();
 				teacherPane.getChildren().clear();
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/UserSelection.fxml")));
 
-			} catch (Exception e) {
-				dialog("FILE UPLOADED", "You have already chosen a file to be animated");
+			} catch (Exception e) {				
 				System.out.println(e);
 			}
 		}

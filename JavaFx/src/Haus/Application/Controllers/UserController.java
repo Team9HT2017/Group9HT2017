@@ -33,8 +33,9 @@ public class UserController {
 	AnchorPane first;
 
 	/**
-	 * Method to give action to the Create class button, which change the UserSelection anchorPane into
-	 * the teacher's anchorPane, after clearing the first (UserSelection) pane.
+	 * Method to give action to the Create class button, which change the
+	 * UserSelection anchorPane into the teacher's anchorPane, after clearing the
+	 * first (UserSelection) pane.
 	 * 
 	 */
 	@FXML
@@ -46,14 +47,15 @@ public class UserController {
 			first.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/TeacherMain.fxml")));
 
 		} catch (IOException e) {
-			loadingAlert();
+			dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
 			e.printStackTrace();
 		}
 	}
+
 	/**
-	 * Method to give action to the Join class button on the UserSelection interface,
-	 * which by pressing it the user will be redirected to the student page.
-	 * Replacing the panes and clearing the first (UserSelection) pane.
+	 * Method to give action to the Join class button on the UserSelection
+	 * interface, which by pressing it the user will be redirected to the student
+	 * page. Replacing the panes and clearing the first (UserSelection) pane.
 	 */
 	@FXML
 	private void changeToStudentMain() {
@@ -64,20 +66,26 @@ public class UserController {
 			first.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/StudentMain.fxml")));
 
 		} catch (IOException e) {
-			loadingAlert();
+			dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
 			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
-	 *
+	 ** 
+	 * @param title:
+	 *            string represents the dialog title
+	 * @param msg:
+	 *            string represents the message of the error or a notification for
+	 *            the user
+	 * 
 	 */
-	private void loadingAlert(){
+	public void dialog(String title,String msg) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.setTitle("Loading Error");
+		alert.setTitle(title);
 		alert.setHeaderText(null);
-		alert.setContentText("Something went wrong!" + "\n" + "Please try again ...");
+		alert.setContentText(msg);
 		alert.showAndWait();
 	}
 }
