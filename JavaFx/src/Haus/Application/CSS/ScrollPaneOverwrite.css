@@ -4,3 +4,6 @@
 #canvas{
     -fx-background: #B0E2FF;
 }
+.text-area {
+    -fx-text-fill: #1e88e5;
+}

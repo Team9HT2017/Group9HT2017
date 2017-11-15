@@ -162,7 +162,7 @@ public class Parser {
                 // for (Map.Entry<Object, Object> entry : User.entrySet())
                 //  {
                 //  if (entry.getKey().toString().equals("" + messages.getJSONObject(t).get("to") ) &&  entry.getValue().toString().equals("" +messages.getJSONObject(t).get("from")) ) {
-                if (User.containsValue(User.get(messages.getJSONObject(t).get("to")))) {
+                if ( ( " "+User.get(messages.getJSONObject(t).get("to"))).equals( " "+messages.getJSONObject(t).get("from"))) {
                     inner.add(" { Node " + messages.getJSONObject(t).get("from"));
                     inner.add(" Reply back ");
                     inner.add("to " + messages.getJSONObject(t).get("to"));
