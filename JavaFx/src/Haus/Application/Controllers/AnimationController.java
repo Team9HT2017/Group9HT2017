@@ -100,20 +100,39 @@ public class AnimationController implements Initializable {
         stage.show();
     }
 
-    public void logMessages() {
+  public void LogmMessages ()  {
+         try {
+		ArrayList<ArrayList<Object>>  logs = Parser.ParseInorder(TeacherController.toParse);
+		System.out.println("Logs "+logs);
+		String transmission ;
+		ArrayList<Object>  inner  ;
 
-        ArrayList<ArrayList<Object>> logs = Parser.ParseInorder(TeacherController.toParse);
-        String transmission;
-        ArrayList<Object> inner;
-
-        for (int j = 0; j < logs.size(); j++) {
-            inner = logs.get(j);
-            for (int i = 0; i < inner.size(); i++) {
-                transmission = String.format("%s%n", inner.get(i));
-                this.messageLog.appendText("" + transmission);
-            }
+		for (int j = 0; j < logs.size() ; j++) {
+			inner = logs.get(j);
+			for (int i = 0; i < inner.size(); i++) {
+				transmission = String.format("%s%n", inner.get(i));
+				this.messageLog.appendText("" + transmission);
+			}
+		}
+         }catch (Exception E){
+        	 System.out.println("Before: "+StudentController.toMessageLog);
+        	 String [] arr1 = StudentController.toMessageLog.split("], ");
+        	 arr1[0]=arr1[0].substring(1, arr1[0].length());
+        	 arr1[arr1.length-1]=arr1[arr1.length-1].substring(0, arr1[arr1.length-1].length()-1);
+        	 System.out.println("After: "+arr1[0]+" || "+arr1[arr1.length-1]);
+        	 String inner;
+        	 String transmission;
+        	 for (int j = 0; j < arr1.length ; j++) {
+     			inner = arr1[j];
+     			String [] inn = inner.split(", ");
+     			for (int i = 0; i < inn.length; i++) {
+     				transmission = String.format("%s%n", inn[i].replaceAll("^", ""));
+     				this.messageLog.appendText("" + transmission);
+     			}
+     		}
+         }
         }
-    }
+
 
     public static void runAnim(Map<?, ?> map) {
         mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6) * 2;

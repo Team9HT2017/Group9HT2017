@@ -34,6 +34,9 @@ import Haus.NetworkHandlers.TCPClient;
 
 public class StudentController extends AnchorPane {
 
+
+        public static String toMessageLog;
+
 	@FXML
 	public Button animateButton;
 
@@ -70,27 +73,29 @@ public class StudentController extends AnchorPane {
 			}
 
 		} else {
-			// changing pane into the Splash contains
-			String pars = null;
-			Map<Object, Object> toSim = new HashMap<Object, Object>();
-			System.out.println("animation in progress");
+			// changing pane into the Splash contains  
+				String pars = null;
+		    	Map <Object,Object> toSim = new HashMap <Object,Object>();
+		        System.out.println("animation in progress");
+		       
+		        try {
+		        	String [] topars = (TCPClient.main("student",classID1.getText()).replaceAll( "','", "").replaceAll("'", "").split("~"));
+		        	
+		        	pars=topars[0];
+		        	toMessageLog=topars[1];
+		        	pars = pars.substring(2, pars.length()-1);
+		        
+		        	while (pars.length()>1){
 
-			try {
-				pars = (TCPClient.main("student", classID1.getText()).replaceAll("','", "").replaceAll("'", ""));
-				pars = pars.substring(2, pars.length() - 1);
-				System.out.println("success");
-				while (pars.length() > 1) {
-					System.out.println("success2");
-					if (pars.lastIndexOf("&") != -1 && pars.lastIndexOf("=") != -1 && pars.lastIndexOf("?") != -1) {
-						String key = pars.substring(pars.lastIndexOf("&") + 1, pars.lastIndexOf("="));
-						String val = pars.substring(pars.lastIndexOf("=") + 1, pars.lastIndexOf("?") - 1);
-						pars = pars.substring(0, pars.lastIndexOf("&"));
-						toSim.put(key, val);
-					}
-				}
-				System.out.println("success3");
-				System.out.println(toSim.toString());
-
+		        	if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
+		        	String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
+		        	String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
+		        	pars=pars.substring(0,pars.lastIndexOf("&"));
+		        	toSim.put(key,val);}
+		        	}
+		        
+		        	System.out.println(toSim.toString());
+		        	
 			} catch (Exception e) {
 				System.out.println("No connection to the server");
 				e.printStackTrace();

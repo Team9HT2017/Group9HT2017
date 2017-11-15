@@ -26,7 +26,7 @@ public static  String fromServ="nope";
         
 
         if (user == "teacher") {
-        	 String message = Parser.Parse2(TeacherController.toParse,true).toString();
+        	 String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
         	 Reader inputData = new StringReader(message);
              BufferedReader inFromUser = new BufferedReader(inputData);
 
