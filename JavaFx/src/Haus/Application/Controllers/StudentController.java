@@ -95,7 +95,11 @@ public class StudentController extends AnchorPane {
 		        	}
 		        
 		        	System.out.println(toSim.toString());
-		        	
+		        		AnimationController.runAnim(toSim);
+			studentPane.getChildren().clear();
+			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
+			// showStage();
+			classID1.clear();
 			} catch (Exception e) {
 				System.out.println("No connection to the server");
 				e.printStackTrace();
@@ -103,11 +107,7 @@ public class StudentController extends AnchorPane {
 				userController.dialog("Loading Error",
 						"Connection to the class got corrupted" + "\n" + "Please try again ...");
 			}
-			AnimationController.runAnim(toSim);
-			studentPane.getChildren().clear();
-			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
-			// showStage();
-			classID1.clear();
+		
 		}
 	}
 

@@ -126,7 +126,7 @@ public class AnimationController implements Initializable {
      			inner = arr1[j];
      			String [] inn = inner.split(", ");
      			for (int i = 0; i < inn.length; i++) {
-     				transmission = String.format("%s%n", inn[i].replaceAll("^", ""));
+     				transmission = String.format("%s%n", inn[i]);
      				this.messageLog.appendText("" + transmission);
      			}
      		}
