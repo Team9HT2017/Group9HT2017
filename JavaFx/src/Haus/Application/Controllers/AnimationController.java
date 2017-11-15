@@ -100,7 +100,7 @@ public class AnimationController implements Initializable {
         stage.show();
     }
 
-  public void LogmMessages ()  {
+  public void logMessages ()  {
          try {
 		ArrayList<ArrayList<Object>>  logs = Parser.ParseInorder(TeacherController.toParse);
 		System.out.println("Logs "+logs);
