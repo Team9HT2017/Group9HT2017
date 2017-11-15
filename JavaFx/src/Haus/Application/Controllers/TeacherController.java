@@ -1,4 +1,5 @@
 package Haus.Application.Controllers;
+
 import Haus.Application.Parser;
 import Haus.NetworkHandlers.TCPClient;
 import javafx.fxml.FXML;
@@ -53,6 +54,7 @@ public class TeacherController extends AnchorPane {
 	private Stage stage = new Stage();
 	public static boolean uploaded = false;
     UserController userController = new UserController();
+    public static Alert alert;
 
 
 	/**
@@ -164,9 +166,9 @@ public class TeacherController extends AnchorPane {
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
 	 *
-	 * @param title:
+	 * @param title
 	 *            string represents the dialog title
-	 * @param msg:
+	 * @param msg
 	 *            string represents the message of the error or a notification for
 	 *            the user
 	 */
@@ -183,7 +185,7 @@ public class TeacherController extends AnchorPane {
 		String ip = Inet4Address.getLocalHost().getHostAddress();
 		TCPClient.main("teacher", ip);
 
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("WELCOME");
 		alert.setHeaderText(null);
 		alert.setContentText("Your class number is: " + ip);
@@ -191,9 +193,11 @@ public class TeacherController extends AnchorPane {
 		alert.setX(900);
 		alert.setY(20);
 		alert.setResizable(false);
-        alert.showAndWait();
+        alert.show();
+
 
 	}
+    
 	/**
 	 * Method to run the Script responsible for running the server in a separated process.
 	**/

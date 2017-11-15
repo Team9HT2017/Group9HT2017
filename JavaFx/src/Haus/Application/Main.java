@@ -86,19 +86,20 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
             closeProgram(primaryStage);
+            TeacherController.alert.close();
         });
     }
 
-    /**
-     * Method to get the teacher's IP to display to the users in order to connect to
-     * the server.
-     *
-     * @param text
-     *
-     */
-    public void getIP(TextField text) throws UnknownHostException {
-        text.setText(String.valueOf(InetAddress.getLocalHost().getHostAddress()));
-    }
+//    /**
+//     * Method to get the teacher's IP to display to the users in order to connect to
+//     * the server.
+//     *
+//     * @param text
+//     *
+//     */
+//    public void getIP(TextField text) throws UnknownHostException {
+//        text.setText(String.valueOf(InetAddress.getLocalHost().getHostAddress()));
+//    }
 
     /**
      * Method to display a dialog when the user try to close the application, then
@@ -125,6 +126,7 @@ public class Main extends Application {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeYes) {
             stage.close();
+            TeacherController.alert.close();
             // ... user chose Yes
         } else {
             // ... user chose No or closed the dialog
