@@ -4,3 +4,24 @@
 #canvas{
     -fx-background: #B0E2FF;
 }
+
+@font-face {
+    font-family: Century Gothic;
+    src: url('CenturyGothicRegular.ttf');
+}
+
+.button{
+    -fx-text-fill: #fefefe;
+    -fx-background-color: #404040;
+    -fx-background-size: 80%;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #fefefe;
+    -fx-border-width: 3px;
+    -fx-padding: 5;
+    -fx-font-weight: 500;
+    -fx-font-family: 'Century Gothic';
+}
+.anchorpane{
+    -fx-background-color: #111111;
+}
