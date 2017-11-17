@@ -22,6 +22,11 @@
     -fx-font-weight: 500;
     -fx-font-family: 'Century Gothic';
 }
-.anchorpane{
+
+#animationPage {
     -fx-background-color: #111111;
+}
+
+.text-area {
+    -fx-text-fill: #1e88e5;
 }

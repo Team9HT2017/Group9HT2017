@@ -15,6 +15,8 @@
 -export([start/0, start/1]).
 -export([start/2, stop/1]).
 
+-define(PORT, 8080).
+
 %%--------------------------------------------------------------------
 %% @private
 %% @doc
@@ -65,12 +67,12 @@ start() ->
 %%
 %% @end
 %%--------------------------------------------------------------------
-start(Port) ->
-    ok = start(),
-    ok = ehaus_client_manager:listen(Port),
+start(?PORT) ->
+  ok = start(),
+  ok = ehaus_client_manager:listen(?PORT),
     %% ok = function -> always check that the returned value was the expected
     %% one, and not invisible errors happening in the background.
-    io:format("Startup complete, listening on ~w~n", [Port]).
+    io:format("Startup complete, listening on ~w~n", [?PORT]).
 
 %%--------------------------------------------------------------------
 %% @private
@@ -83,7 +85,9 @@ start(Port) ->
 %% @end
 %%--------------------------------------------------------------------
 start(normal, _Args) ->
-    ehaus_sup:start_link().
+    ehaus_sup:start_link(),
+    ehaus_client_manager:listen(?PORT).
+
 
 %%--------------------------------------------------------------------
 %% @private
