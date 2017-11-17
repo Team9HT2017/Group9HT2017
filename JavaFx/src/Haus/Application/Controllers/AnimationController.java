@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
@@ -52,6 +53,13 @@ public class AnimationController implements Initializable {
     static double mapScale;
 
     static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
+
+    public static Comparator<TreeMap<Integer, DrawableObject>> distSorterComp = new Comparator<TreeMap<Integer, DrawableObject>>() {
+        public int compare(TreeMap<Integer, DrawableObject> nodeDist1, TreeMap<Integer, DrawableObject> nodeDist2) {
+            if((int)nodeDist1.firstKey() < (int)nodeDist2.firstKey()) return 1;
+            return 0;
+        }
+    };
 
     Main main = new Main();
 
@@ -131,20 +139,6 @@ public class AnimationController implements Initializable {
             Arrays.fill(grid[i], 'G');
         }
 
-        // Build 2d grid map ('R'oads)
-        for (DrawableObject node : nodes) {
-            //Change the x and y to be the coordinate we want on each house
-
-            /*
-             * Set x and y to be equal to the Point from chooseSide method here.
-             */
-
-            djikstraNodes.add(new DjikstraNode(node.x, node.y, nodeDistance(node, nodes), node));
-        }
-
-		/*
-         * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
-		 */
 
         for (int i = 0; i < nodes.size() - 1; i++) {
             Road road = new Road(nodes.get(i), nodes.get(i + 1));
@@ -181,6 +175,25 @@ public class AnimationController implements Initializable {
             }
             grid[node.x][node.y] = 'H';
         }
+
+        // Build 2d grid map ('R'oads)
+        //for (int i = 1; i < nodes.size(); i++) {
+            //Change the x and y to be the coordinate we want on each house
+
+            /*
+             * Set x and y to be equal to the Point from chooseSide method here.
+             */
+            int count = 0;
+            for (TreeMap<Integer, DrawableObject> treeMap : nodeDistances()){
+                Point p = closestHouseSide(nodes.get(count), treeMap.get(treeMap.firstKey()));
+                djikstraNodes.add(new DjikstraNode(p.x, p.y, nodes.get(count)));
+                count++;
+            }
+        //}
+
+		/*
+         * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
+		 */
 
         // Print 2d char map to terminal for debugging purposes
         for (int i = 0; i < mapSize; i++) {
@@ -319,14 +332,32 @@ public class AnimationController implements Initializable {
         }
     }
 
-    static int[] nodeDistance(DrawableObject node, ArrayList<DrawableObject> nodes) {
-        int[] dists = new int[nodes.size()];
+    static ArrayList<TreeMap<Integer, DrawableObject>> nodeDistances() {
+
+
+        //Map<Integer, DrawableObject>[] dists = new TreeMap<Integer, DrawableObject>()[];
+        ArrayList<TreeMap<Integer, DrawableObject>> dists = new ArrayList<TreeMap<Integer, DrawableObject>>();
         int i = 0;
-        for (DrawableObject node2 : nodes) {
-            dists[i] = Math.abs(node2.x - node.x) + Math.abs(node2.y - node.y);
+        for (DrawableObject nodeOrigin : nodes) {
+            //Add TreeMaps to ArrayList
+            dists.add(new TreeMap<Integer, DrawableObject>());
+            for (DrawableObject nodeDestination : nodes) {
+
+                // Calculate delta for Destination and Origin
+                int dX = Math.abs(nodeDestination.x - nodeOrigin.y);
+                int dY = Math.abs(nodeDestination.y - nodeOrigin.y);
+
+                // Add distances to TreeMap
+                if(dX + dY != 0){
+                    dists.get(i).put(dX + dY, nodeDestination);
+                }
+            }
             i++;
         }
-        Arrays.sort(dists);
+        Collections.sort(dists, distSorterComp);
+
+        //Purge first element (distance to self)
+        for(TreeMap<Integer, DrawableObject> treeMap : dists) treeMap.remove(treeMap.firstKey());
         return dists;
     }
 
@@ -336,12 +367,12 @@ public class AnimationController implements Initializable {
         double dY = destination.y - origin.y;
 
         double radians = Math.atan2(dY, dX);
-        double degrees = radians*180/Math.PI;
+        //double degrees = (radians*180/Math.PI);
 
         // select side based on angle from origin to destination
-        if (degrees <= 45 && degrees > 315) return new Point(origin.x + 1, origin.y);
-        else if (degrees <= 315 && degrees > 225) return new Point(origin.x, origin.y + 1);
-        else if (degrees <= 225 && degrees > 135) return new Point(origin.x - 1, origin.y);
+        if (radians <= Math.PI*0.25 && radians > 0 || radians > Math.PI*1.75 && radians <= Math.PI*2) return new Point(origin.x + 1, origin.y);
+        else if (radians <= Math.PI*0.75 && radians > Math.PI*0.25) return new Point(origin.x, origin.y + 1);
+        else if (radians <= Math.PI*1.25 && radians > Math.PI*0.75) return new Point(origin.x - 1, origin.y);
         else return new Point(origin.x, origin.y - 1);
 
 
@@ -381,4 +412,6 @@ public class AnimationController implements Initializable {
         return closestSide;
          */
     }
+
+
 }
