@@ -99,7 +99,7 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
             closeProgram(primaryStage);
-            TeacherController.alert.close();
+            //TeacherController.alert.close();
         });
     }
 

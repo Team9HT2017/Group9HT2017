@@ -111,9 +111,17 @@ public class TeacherController extends AnchorPane {
 	@FXML
 	private void createAnimation() throws IOException {
 		// checking if the file is uploaded before animation starts
+        String OS = System.getProperty("os.name").toLowerCase();
+        String mac= "./runserver";
+        String windows="./runwindows";
 		if (uploaded) {
+		    if (OS.contains("mac"))
+                runScript(mac);
 
-                runScript();
+            else if (OS.contains("wind")) {
+                runScript(windows);
+
+            }
 
 
 			try {
@@ -237,16 +245,16 @@ public class TeacherController extends AnchorPane {
 	 * Method to run the Script responsible for running the server in a separated process.
 	**/
 
-	public void runScript() {
+	public void runScript(String server) {
 		// String scriptName = "/usr/bin/open -a Terminal
-		//File file = new File(".");
-		//for (String fileNames : file.list())
-		//System.out.println(fileNames);
+		File file = new File(".");
+		for (String fileNames : file.list())
+		System.out.println(fileNames);
 		Thread one = new Thread(() -> {
 
                 try {
 
-                    ProcessBuilder pb = new ProcessBuilder("./runserver.sh", "arg1", "arg2");
+                    ProcessBuilder pb = new ProcessBuilder(server, "arg1", "arg2");
                     pb.inheritIO();
                     Process process = pb.start();
 
