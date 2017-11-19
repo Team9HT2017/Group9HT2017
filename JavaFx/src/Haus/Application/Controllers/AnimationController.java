@@ -46,7 +46,7 @@ public class AnimationController implements Initializable {
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
-    static Character[][] grid;
+    public static Character[][] grid;
 
     static ArrayList<Road> roads = new ArrayList<Road>();
 
@@ -106,7 +106,7 @@ public class AnimationController implements Initializable {
         stage.setTitle("Settings");
         stage.setScene(new Scene(root));
         stage.show();
-    }
+    } 
 
   public void logMessages ()  {
          try {
@@ -158,7 +158,7 @@ public class AnimationController implements Initializable {
             Arrays.fill(grid[i], 'G');
         }
 
-
+/*
         for (int i = 0; i < nodes.size() - 1; i++) {
             Road road = new Road(nodes.get(i), nodes.get(i + 1));
             // roads.add(road);
@@ -180,7 +180,7 @@ public class AnimationController implements Initializable {
                 }
             }
         }
-
+*/
         // Build 2d grid map ('H'ouse)
         for (DrawableObject node : nodes) {
             // For loop makes sure there are no houses sharing a diagonally adjacent
@@ -206,10 +206,23 @@ public class AnimationController implements Initializable {
             for (TreeMap<Integer, DrawableObject> treeMap : nodeDistances()){
                 Point p = closestHouseSide(nodes.get(count), treeMap.get(treeMap.firstKey()));
                 djikstraNodes.add(new DjikstraNode(p.x, p.y, nodes.get(count)));
+               
                 count++;
             }
         //}
-
+            for (int i = 0; i < nodes.size() - 1; i++) {
+           
+                Road road = new Road(djikstraNodes.get(i).x,djikstraNodes.get(i).y, djikstraNodes.get(i + 1).x,djikstraNodes.get(i + 1).y);
+                // roads.add(road);
+                int j = 0;
+                for (Pair tile : road.segments[j]) {
+                	//if ( grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
+                    grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';//}
+                    j++;
+                }
+            }
+            
+          
 		/*
          * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
 		 */
