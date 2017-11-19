@@ -37,6 +37,7 @@ import java.util.Optional;
 public class Main extends Application {
 
     Stage stage = new Stage();
+    public static Scene scene;
 
     public static void main(String[] args) {
 
@@ -64,20 +65,32 @@ public class Main extends Application {
     }
 
     /**
-     * Method to start the front page and define its size characteristics.
+     * Method to start the front page.
      *
      * @param primaryStage
+     *
      * @throws Exception
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         Parent Root = FXMLLoader.load(getClass().getResource("FXML/UserSelection.fxml"));
-        primaryStage.setTitle("Haus Diagram Simulator");
         // To get the application user's screen size and pass it to the set the
         // application size
+        getScene(Root, primaryStage);
+    }
+
+    /**
+     * Method to define the application window's characteristics. And to close the window when asked.
+     *
+     * @param root
+     * @param primaryStage
+     *
+     */
+    public static void getScene(Parent root, Stage primaryStage){
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        Scene scene = new Scene(Root, screenBounds.getHeight() + 200, screenBounds.getHeight());
+        scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight());
+        primaryStage.setTitle("Haus Diagram Simulator");
         primaryStage.setX(0);
         primaryStage.setY(10);
         primaryStage.setScene(scene);
@@ -109,7 +122,7 @@ public class Main extends Application {
      * @param stage
      *
      */
-    private void closeProgram(Stage stage) {
+    private static void closeProgram(Stage stage) {
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Leaving so soon!");

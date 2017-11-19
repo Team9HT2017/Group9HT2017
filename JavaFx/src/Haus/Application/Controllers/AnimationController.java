@@ -13,9 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.text.FontSmoothingType;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
@@ -54,6 +56,10 @@ public class AnimationController implements Initializable {
 
     static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
 
+    private Stage stage1;
+
+    Parent root;
+
     public static Comparator<TreeMap<Integer, DrawableObject>> distSorterComp = new Comparator<TreeMap<Integer, DrawableObject>>() {
         public int compare(TreeMap<Integer, DrawableObject> nodeDist1, TreeMap<Integer, DrawableObject> nodeDist2) {
             if((int)nodeDist1.firstKey() < (int)nodeDist2.firstKey()) return 1;
@@ -87,8 +93,10 @@ public class AnimationController implements Initializable {
     @FXML
     private void getScene1() throws Exception {
 
-        main.hideWindow(leaveAnimation);
         TeacherController.uploaded = false;
+        stage1 = (Stage) leaveAnimation.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("../FXML/UserSelection.fxml"));
+        Main.getScene(root, stage1);
 
     }
 
