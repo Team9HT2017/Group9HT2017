@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-echo script
-ls
-echo after ls
 cd ..
-cd ehaus-0.1.0
+tar -zxvf ehaus-0.1.0.tar.gz
 bin/ehaus console
