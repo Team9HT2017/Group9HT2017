@@ -112,8 +112,8 @@ public class TeacherController extends AnchorPane {
 	private void createAnimation() throws IOException {
 		// checking if the file is uploaded before animation starts
         String OS = System.getProperty("os.name").toLowerCase();
-        String mac= "./runserver";
-        String windows="./runwindows";
+        String mac= "./runserver.sh";
+        String windows="./runwindows.sh";
 		if (uploaded) {
 		    if (OS.contains("mac"))
                 runScript(mac);
