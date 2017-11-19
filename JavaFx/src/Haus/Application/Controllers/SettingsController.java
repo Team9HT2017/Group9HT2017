@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
 /**
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class SettingsController {
 
     @FXML
-    public Slider houseNameSlider;
+    public CheckBox namesCheck;
 
     @FXML
     public Button applyButton;
@@ -29,7 +29,7 @@ public class SettingsController {
     private void applySettingsSelection() throws Exception {
         Stage stage = (Stage) applyButton.getScene().getWindow();
 
-        if (houseNameSlider.getValue() == 1) {
+        if (namesCheck.isSelected()) {
             names = 1;
         } else {
             names =0;

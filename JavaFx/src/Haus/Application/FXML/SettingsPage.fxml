@@ -5,62 +5,63 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackSettings" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.SettingsController">
-   <children>
-      <GridPane prefHeight="300.0" prefWidth="400.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="234.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="144.0" />
-            <ColumnConstraints />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="81.0" minHeight="8.0" prefHeight="15.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Slider fx:id="houseNameSlider" blockIncrement="1.0" majorTickUnit="1.0" max="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<StackPane fx:id="stackSettings" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.SettingsController">
+    <children>
+        <GridPane prefHeight="200.0" prefWidth="371.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="234.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="144.0" />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="settingsLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="107.0" text="Settings" textAlignment="CENTER" GridPane.columnSpan="3">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="20.0" left="102.0" right="20.0" top="20.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="sliderDescription" text="Display houses' names" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="20.0" left="20.0" />
+                    </GridPane.margin>
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applySettingsSelection" text="Apply" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                    </GridPane.margin>
+                </Button>
+            <CheckBox fx:id="namesCheck" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets bottom="20.0" right="20.0" />
+                  <Insets bottom="16.0" left="20.0" />
                </GridPane.margin>
-            </Slider>
-            <Label fx:id="settingsLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="107.0" text="Settings" textAlignment="CENTER" GridPane.columnSpan="3">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font size="14.0" />
                </font>
-               <GridPane.margin>
-                  <Insets bottom="20.0" left="148.0" right="20.0" top="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="sliderDescription" text="Identify houses with names" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="20.0" left="20.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Label fx:id="noHouseName" text="No" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="1.0" top="30.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="houseName" text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="129.0" top="30.0" />
-               </GridPane.margin>
-            </Label>
-            <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applySettingsSelection" text="Apply" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="5.0" left="70.0" right="20.0" />
-               </GridPane.margin>
-            </Button>
-         </children>
-      </GridPane>
-   </children>
+            </CheckBox>
+            </children>
+        </GridPane>
+    </children>
 </StackPane>
