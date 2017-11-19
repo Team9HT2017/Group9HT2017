@@ -113,14 +113,16 @@ public class TeacherController extends AnchorPane {
 		// checking if the file is uploaded before animation starts
 		if (uploaded) {
 
+                runScript();
+
+
 			try {
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
 			    inProgressBar();
 				System.out.println("Animation in progress");
-
 				String ip = Inet4Address.getLocalHost().getHostAddress();
-				// TCPClient.main("teacher", ip);
+				TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser.Parse2(toParse,false));
 
 				//showStage();
@@ -159,7 +161,7 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void backButton() throws IOException {
-		if (uploaded == true) {
+		if (uploaded ) {
 			backButton.disabledProperty();
 			userController.dialog("FILE UPLOADED", "You have already chosen a file to be animated");
 		} else {
@@ -234,37 +236,47 @@ public class TeacherController extends AnchorPane {
 	/**
 	 * Method to run the Script responsible for running the server in a separated process.
 	**/
-/*
+
 	public void runScript() {
 		// String scriptName = "/usr/bin/open -a Terminal
-		// /Users/fahddebbiche/Desktop/Group9HT2017/JavaFX/src/runserver.sh";
-		File file = new File(".");
-		for (String fileNames : file.list())
-			System.out.println(fileNames);
+		//File file = new File(".");
+		//for (String fileNames : file.list())
+		//System.out.println(fileNames);
+		Thread one = new Thread(() -> {
 
-		try {
+                try {
 
-			ProcessBuilder pb = new ProcessBuilder("./runserver.sh", "arg1", "arg2");
-			pb.inheritIO();
-			Process process = pb.start();
+                    ProcessBuilder pb = new ProcessBuilder("./runserver.sh", "arg1", "arg2");
+                    pb.inheritIO();
+                    Process process = pb.start();
 
-			InputStream input = process.getInputStream();
-			System.out.println(input);
+                    // InputStream input = process.getInputStream();
+                    // System.out.println(input);
+                    int exitValue = process.waitFor();
 
-			OutputStream output = process.getOutputStream();
-			System.out.println(output);
+                    if (exitValue != 0) {
+                        // check for errors
+                        new BufferedInputStream(process.getErrorStream());
+                        throw new RuntimeException("execution of script failed!");
 
-			int exitValue = process.waitFor();
-			if (exitValue != 0) {
-				// check for errors
-				new BufferedInputStream(process.getErrorStream());
-				throw new RuntimeException("execution of script failed!");
-			}
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+                    }
+
+                    File log = new File("log");
+                    pb.redirectErrorStream(true);
+                    pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
+
+                    OutputStream output = process.getOutputStream();
+                    System.out.println(output.toString());
+                    System.out.println("Nope, it doesnt...again.");
+                } catch (InterruptedException v) {
+                    System.out.println(v);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+		});
+
+		one.start();
+
 	}
-*/
 }
