@@ -3,9 +3,7 @@ package Haus.Application.Controllers;
 import Haus.Application.Parser;
 import Haus.NetworkHandlers.TCPClient;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import java.io.*;
@@ -31,6 +29,11 @@ import javafx.stage.Stage;
  * Modification - Rema: Handling the alerts in case of errors existence;
  * 				 		Checking if the file uploaded before pressing (starting) animate;
  *				 		Adding the backButton with an icon and its functionalities.
+ *
+ * @author Laiz Figueroa
+ * @version 1.2
+ * Modification - Integrated the old Splash class code into this class.
+ *
  */
 
 public class TeacherController extends AnchorPane {
@@ -49,6 +52,12 @@ public class TeacherController extends AnchorPane {
 
 	@FXML
 	AnchorPane teacherPane;
+
+	@FXML
+	private ProgressBar progressBarTeacher;
+
+	@FXML
+	private Label IPServerTeacher;
 
 	public static String toParse;
 	private Stage stage = new Stage();
@@ -103,21 +112,23 @@ public class TeacherController extends AnchorPane {
 	private void createAnimation() throws IOException {
 		// checking if the file is uploaded before animation starts
 		if (uploaded) {
+
 			try {
+                progressBarTeacher.setVisible(true);
+                IPServerTeacher.setVisible(true);
+			    inProgressBar();
 				System.out.println("Animation in progress");
 
 				String ip = Inet4Address.getLocalHost().getHostAddress();
 				// TCPClient.main("teacher", ip);
 				AnimationController.runAnim(Parser.Parse2(toParse,false));
 
-			
-
 				//showStage();
                 diagramPath.getItems().clear();
             	
 				// Showing the Splash(loading page)
 				teacherPane.getChildren().clear();
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/AnimationPage.fxml")));
 
 			} catch (Exception e) {
 				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
@@ -164,7 +175,7 @@ public class TeacherController extends AnchorPane {
 	}
 
 	/**
-	 * Method to load a pop up a dialog to warn the user about loading problems.
+	 * Method to load a pop up dialog to warn the user about loading problems.
 	 *
 	 * @param title
 	 *            string represents the dialog title
@@ -179,7 +190,11 @@ public class TeacherController extends AnchorPane {
 		alert.setContentText(msg);
 		alert.showAndWait();
 	}
-
+    /**
+     * Method to load a pop up dialog to provide the class number (IP) to the teacher.
+     *
+     * @throws Exception
+     */
 	private void classId() throws Exception {
 
 		String ip = Inet4Address.getLocalHost().getHostAddress();
@@ -197,6 +212,24 @@ public class TeacherController extends AnchorPane {
 
 
 	}
+
+    /**
+     * This method for updating the progress bar contains gradually according the
+     * given sleep time.
+     */
+    private void inProgressBar() {
+        double p = progressBarTeacher.getProgress();
+        // Updating the progress in the bar
+        for (double i = p; i <= 10; i++) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            progressBarTeacher.setProgress(i + 0.1);
+        }
+    }
     
 	/**
 	 * Method to run the Script responsible for running the server in a separated process.
