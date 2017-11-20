@@ -19,6 +19,7 @@ import java.util.List;
 public class TCPClient {
 public static  String fromServ="nope";
 public static String teacherUsername="";
+public static String studentUsername="";
     @SuppressWarnings("rawtypes")
 	public static String main(String user, String ip) throws Exception {
 
@@ -59,7 +60,7 @@ public static String teacherUsername="";
           
           
           
-            outToServer.writeUTF(message+'\n'+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ')+"!?!"+"TEACHER\n"); // send it to server
+            outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ')+"!?!"+"TEACHER\n"); // send it to server
             request = inRequest.readLine(); // Ask to send the file
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
@@ -83,7 +84,9 @@ public static String teacherUsername="";
             fromServ = inFromServer.readLine(); // Receive the parsed file
             
             System.out.println("FROM SERVER: " + fromServ);
-
+            String [] temp = fromServ.split("!*!");
+            studentUsername=temp[1];
+            fromServ=temp[0];
 
             clientSocket.close();
             System.out.println("Socket closed!");

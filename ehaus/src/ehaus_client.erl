@@ -43,14 +43,15 @@ listen(Parent, Debug, ListenSocket) ->
 loop(Parent, Debug, State = #s{socket = Socket}) ->
   ok = inet:setopts(Socket, [{active, once}]),
   receive
-    {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
-      Username = userNameHandler:assignUserName(Socket),
-      ok = gen_tcp:send(Socket,Username),
-      loop(Parent, Debug, State);
-    {tcp, Socket, <<"GET\n">>} -> % request to get map
+%%    {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
+%%      Username = userNameHandler:assignUserName(Socket),
+%%      ok = gen_tcp:send(Socket,Username),
+%%      loop(Parent, Debug, State);
+    {tcp, Socket, <<"GET\n">>} -> % request to get map (ans username at the same time)
       M=mapStorage:get_map(),
+      Username = userNameHandler:assignUserName(Socket),
       io:format("~p Map: ~n", [M]),
-      ok = gen_tcp:send(Socket,M ),
+      ok = gen_tcp:send(Socket,[M,<<"!*!">>,Username,"\n"]), % this is how we concatenate binary string, just put like a list
       ok = gen_tcp:shutdown(Socket, read_write),
       exit(normal);
     {tcp, Socket, InitialMessage} -> % all message requests
