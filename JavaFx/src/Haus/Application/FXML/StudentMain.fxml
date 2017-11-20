@@ -16,9 +16,11 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="258.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="270.0" minHeight="10.0" prefHeight="270.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button fx:id="animateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#HandleAnimation" text="See Class Animation" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -26,7 +28,7 @@
                   <Font size="17.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="150.0" left="90.0" />
+                  <Insets bottom="120.0" left="90.0" />
                </GridPane.margin>
             </Button>
             <TextField fx:id="classID1" alignment="CENTER" promptText="Enter Class Number" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -34,9 +36,9 @@
                   <Font size="35.0" />
                </font>
             </TextField>
-            <ImageView fx:id="joinClassMsg" fitHeight="300.0" fitWidth="840.0" pickOnBounds="true">
+            <ImageView fx:id="joinClassMsg" fitHeight="47.0" fitWidth="835.0" pickOnBounds="true" preserveRatio="true">
                <GridPane.margin>
-                  <Insets left="30.0" right="30.0" top="100.0" />
+                  <Insets left="53.0" right="30.0" top="100.0" />
                </GridPane.margin>
                <image>
                   <Image url="@../img/Student.png" />
@@ -54,6 +56,19 @@
               </ImageView>
            </graphic>
             </Button>
+            <Label fx:id="IPServerStudent" prefHeight="26.0" prefWidth="101.0" text="Animating ..." textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="130.0" right="50.0" />
+               </GridPane.margin>
+            </Label>
+            <ProgressBar fx:id="progressBarStudent" prefHeight="19.0" prefWidth="305.0" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="30.0" />
+               </GridPane.margin>
+            </ProgressBar>
          </children>
       </GridPane>
    </children>
