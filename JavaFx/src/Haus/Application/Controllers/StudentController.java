@@ -14,6 +14,10 @@ package Haus.Application.Controllers;
  * 						Notifying the user in case of disconnecting with the server
  * 						Creating the userController object to be used in the dialogs for reducing duplications.
  *
+ * @author Laiz Figueroa
+ * @version 1.2
+ * Modification - Integrated the old Splash class code into this class.
+ *
  */
 
 import javafx.fxml.FXML;
@@ -21,9 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -35,7 +37,7 @@ import Haus.NetworkHandlers.TCPClient;
 public class StudentController extends AnchorPane {
 
 
-        public static String toMessageLog;
+    public static String toMessageLog;
 
 	@FXML
 	public Button animateButton;
@@ -49,6 +51,12 @@ public class StudentController extends AnchorPane {
 	@FXML
 	public Button backButton;
 
+	@FXML
+	private ProgressBar progressBarStudent;
+
+    @FXML
+    private Label IPServerStudent;
+
 	UserController userController = new UserController();
 
 	/**
@@ -61,6 +69,10 @@ public class StudentController extends AnchorPane {
 
 	@FXML
 	private void HandleAnimation() throws IOException {
+
+        progressBarStudent.setVisible(true);
+        IPServerStudent.setVisible(true);
+	    inProgressBar();
 		System.out.println(classID1);
 
 		if (classID1.getText() == null || classID1.getText().isEmpty()) {
@@ -128,11 +140,29 @@ public class StudentController extends AnchorPane {
 	}
 
 	private void showStage() throws IOException {
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("Splash.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
 		Parent root = fxmlloader.load();
 		Stage stage = new Stage();
 		stage.setTitle("Loading Animation ...");
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
+
+    /**
+     * This method for updating the progress bar contains gradually according the
+     * given sleep time.
+     */
+    private void inProgressBar() {
+        double p = progressBarStudent.getProgress();
+        // Updating the progress in the bar
+        for (double i = p; i <= 10; i++) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            progressBarStudent.setProgress(i + 0.1);
+        }
+    }
 }

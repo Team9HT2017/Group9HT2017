@@ -13,9 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.text.FontSmoothingType;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.awt.*;
@@ -46,13 +48,17 @@ public class AnimationController implements Initializable {
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
-    static Character[][] grid;
+    public static Character[][] grid;
 
     static ArrayList<Road> roads = new ArrayList<Road>();
 
     static double mapScale;
 
     static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
+
+    private Stage stage1;
+
+    Parent root;
 
     public static Comparator<TreeMap<Integer, DrawableObject>> distSorterComp = new Comparator<TreeMap<Integer, DrawableObject>>() {
         public int compare(TreeMap<Integer, DrawableObject> nodeDist1, TreeMap<Integer, DrawableObject> nodeDist2) {
@@ -87,8 +93,10 @@ public class AnimationController implements Initializable {
     @FXML
     private void getScene1() throws Exception {
 
-        main.hideWindow(leaveAnimation);
         TeacherController.uploaded = false;
+        stage1 = (Stage) leaveAnimation.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("../FXML/UserSelection.fxml"));
+        Main.getScene(root, stage1);
 
     }
 
@@ -106,7 +114,7 @@ public class AnimationController implements Initializable {
         stage.setTitle("Settings");
         stage.setScene(new Scene(root));
         stage.show();
-    }
+    } 
 
   public void logMessages ()  {
          try {
@@ -158,7 +166,7 @@ public class AnimationController implements Initializable {
             Arrays.fill(grid[i], 'G');
         }
 
-
+/*
         for (int i = 0; i < nodes.size() - 1; i++) {
             Road road = new Road(nodes.get(i), nodes.get(i + 1));
             // roads.add(road);
@@ -180,7 +188,7 @@ public class AnimationController implements Initializable {
                 }
             }
         }
-
+*/
         // Build 2d grid map ('H'ouse)
         for (DrawableObject node : nodes) {
             // For loop makes sure there are no houses sharing a diagonally adjacent
@@ -206,10 +214,23 @@ public class AnimationController implements Initializable {
             for (TreeMap<Integer, DrawableObject> treeMap : nodeDistances()){
                 Point p = closestHouseSide(nodes.get(count), treeMap.get(treeMap.firstKey()));
                 djikstraNodes.add(new DjikstraNode(p.x, p.y, nodes.get(count)));
+               
                 count++;
             }
         //}
-
+            for (int i = 0; i < nodes.size() - 1; i++) {
+           
+                Road road = new Road(djikstraNodes.get(i).x,djikstraNodes.get(i).y, djikstraNodes.get(i + 1).x,djikstraNodes.get(i + 1).y);
+                // roads.add(road);
+                int j = 0;
+                for (Pair tile : road.segments[j]) {
+                	//if ( grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
+                    grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';//}
+                    j++;
+                }
+            }
+            
+          
 		/*
          * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
 		 */
