@@ -1,6 +1,6 @@
-package Haus.Application.AnimationObjects;
+package Haus.TechnicalFramework.AnimationObjects;
 
-import Haus.Application.Controllers.AnimationController;
+import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;

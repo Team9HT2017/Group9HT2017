@@ -1,4 +1,4 @@
-package Haus.Application.Controllers;
+package Haus.TechnicalFramework.Controllers;
 
 /**
  * Class to give the student a specific interface for his/her to connect to the
@@ -109,7 +109,7 @@ public class StudentController extends AnchorPane {
 		        	System.out.println(toSim.toString());
 		        		AnimationController.runAnim(toSim);
 			studentPane.getChildren().clear();
-			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/Splash.fxml")));
+			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/Splash.fxml")));
 			// showStage();
 			classID1.clear();
 			} catch (Exception e) {
@@ -140,7 +140,7 @@ public class StudentController extends AnchorPane {
 	}
 
 	private void showStage() throws IOException {
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("AnimationPage.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml"));
 		Parent root = fxmlloader.load();
 		Stage stage = new Stage();
 		stage.setTitle("Loading Animation ...");

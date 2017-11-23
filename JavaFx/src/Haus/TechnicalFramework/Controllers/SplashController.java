@@ -1,4 +1,4 @@
-package Haus.Application.Controllers;
+package Haus.TechnicalFramework.Controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -55,7 +55,7 @@ public class SplashController implements Initializable {
 							try {
 								// root = FXMLLoader.load(getClass().getResource("AnimationPage.fxml"));
 								Stack.getChildren().clear();
-								Stack.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/AnimationPage.fxml")));
+								Stack.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
 
 							} catch (IOException ex) {
 								Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);

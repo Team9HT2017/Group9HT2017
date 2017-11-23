@@ -1,4 +1,4 @@
-package Haus.Application.AnimationObjects;
+package Haus.TechnicalFramework.AnimationObjects;
 
 import javafx.scene.image.Image;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class DrawableObject {
 		this.x = rand.nextInt(x - 2) + 1;
 		this.y = rand.nextInt(y - 2) + 1;
 		name = obj.toString();
-		image = new Image("/Haus/Application/img/house.png");
+		image = new Image("/Haus/DataStorage/img/house.png");
 		connections = new ArrayList<DrawableObject>();
 	}
 

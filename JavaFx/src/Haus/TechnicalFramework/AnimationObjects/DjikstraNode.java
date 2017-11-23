@@ -1,4 +1,4 @@
-package Haus.Application.AnimationObjects;
+package Haus.TechnicalFramework.AnimationObjects;
 
 import java.util.ArrayList;
 import java.io.*;
@@ -16,7 +16,7 @@ public class DjikstraNode {
 		this.x = x;
 		this.y = y;
 		this.affiliatedHouse = affiliatedHouse;
-		System.out.println("this dijNode is" + this.x + "," + this.y + affiliatedHouse.name);
+		//System.out.println("this dijNode is" + this.x + "," + this.y + affiliatedHouse.name);
 		neigbours=new ArrayList<DjikstraNode>();
 	}
 

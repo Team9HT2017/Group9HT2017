@@ -1,7 +1,7 @@
-package Haus.Application.Controllers;
+package Haus.TechnicalFramework.Controllers;
 
-import Haus.Application.Parser;
 import Haus.NetworkHandlers.TCPClient;
+import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -115,13 +115,13 @@ public class TeacherController extends AnchorPane {
         String mac= "./runserver.sh";
         String windows="./runwindows.sh";
 		if (uploaded) {
-		    if (OS.contains("mac"))
-                runScript(mac);
-
-            else if (OS.contains("wind")) {
-                runScript(windows);
-
-            }
+//		    if (OS.contains("mac"))
+//                runScript(mac);
+//
+//            else if (OS.contains("wind")) {
+//                runScript(windows);
+//
+//            }
 
 
 			try {
@@ -138,8 +138,9 @@ public class TeacherController extends AnchorPane {
             	
 				// Showing the Splash(loading page)
 				teacherPane.getChildren().clear();
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/AnimationPage.fxml")));
-
+                System.out.println(" this is executed");
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+                System.out.println("Not executed");
 			} catch (Exception e) {
 				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
 				System.out.println(e);
@@ -152,7 +153,7 @@ public class TeacherController extends AnchorPane {
 	private void showStage() throws IOException {
 
 
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../FMXL/Splash.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/Splash.fxml"));
 
 		Parent root = fxmlloader.load();
 		stage.setTitle("Loading Animation ...");
@@ -176,7 +177,7 @@ public class TeacherController extends AnchorPane {
 			try {
 				// backButton.disabledProperty();
 				teacherPane.getChildren().clear();
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/UserSelection.fxml")));
+				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/UserSelection.fxml")));
 
 			} catch (Exception e) {				
 				System.out.println(e);

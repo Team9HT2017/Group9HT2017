@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="studentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.StudentController">
+<AnchorPane fx:id="studentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.StudentController">
    <children>
       <GridPane layoutX="-6.0" layoutY="-4.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
         <columnConstraints>
@@ -41,7 +41,7 @@
                   <Insets left="53.0" right="30.0" top="100.0" />
                </GridPane.margin>
                <image>
-                  <Image url="@../img/Student.png" />
+                  <Image url="@../../DataStorage/img/Student.png" />
                </image>
             </ImageView>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="40.0">
@@ -51,7 +51,7 @@
                 <graphic>
               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
               <image>       
-                <Image preserveRatio="false" smooth="false" url="/Haus/Application/img/backButton.png" />
+                <Image preserveRatio="false" smooth="false" url="/Haus/DataStorage/img/backButton.png" />
               </image>
               </ImageView>
            </graphic>

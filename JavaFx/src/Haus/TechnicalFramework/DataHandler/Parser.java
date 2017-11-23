@@ -1,5 +1,5 @@
 
-package Haus.Application;
+package Haus.TechnicalFramework.DataHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

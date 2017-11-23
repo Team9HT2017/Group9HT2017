@@ -1,6 +1,6 @@
-package Haus.Application.Controllers;
+package Haus.TechnicalFramework.Controllers;
 
-import Haus.Application.Main;
+import Haus.PresentationUI.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,7 +37,7 @@ public class SettingsController {
             stage.close();
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/AnimationPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml"));
         Parent root = (Parent) loader.load();
         Main.getScene(root, stage);
 

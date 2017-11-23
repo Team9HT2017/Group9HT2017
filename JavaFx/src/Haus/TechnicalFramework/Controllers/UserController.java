@@ -1,4 +1,4 @@
-package Haus.Application.Controllers;
+package Haus.TechnicalFramework.Controllers;
 
 /**
  * Class to give the user a specific interface for his/her needs.
@@ -44,7 +44,7 @@ public class UserController {
 			// clearing the first (UserSelection) pane
 			first.getChildren().clear();
 			// adding TeacherMain anchorPane instead of the UserSelection anchorPane
-			first.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/TeacherMain.fxml")));
+			first.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/TeacherMain.fxml")));
 
 		} catch (IOException e) {
 			dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
@@ -63,7 +63,7 @@ public class UserController {
 			// clearing the first (UserSelection) pane.
 			first.getChildren().clear();
 			// adding StudentMain anchorPane instead of the UserSelection anchorPane
-			first.getChildren().add(FXMLLoader.load(getClass().getResource("../FXML/StudentMain.fxml")));
+			first.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/StudentMain.fxml")));
 
 		} catch (IOException e) {
 			dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");

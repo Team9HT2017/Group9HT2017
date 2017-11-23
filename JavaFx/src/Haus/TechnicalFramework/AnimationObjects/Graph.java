@@ -1,4 +1,4 @@
-package Haus.Application.AnimationObjects;
+package Haus.TechnicalFramework.AnimationObjects;
 import java.io.*;
 import java.util.*;
  //source https://rosettacode.org/wiki/Dijkstra%27s_algorithm#Java

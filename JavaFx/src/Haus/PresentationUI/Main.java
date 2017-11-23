@@ -1,6 +1,6 @@
-package Haus.Application;
+package Haus.PresentationUI;
 
-import Haus.Application.Controllers.TeacherController;
+import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -74,7 +74,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent Root = FXMLLoader.load(getClass().getResource("FXML/UserSelection.fxml"));
+        Parent Root = FXMLLoader.load(getClass().getResource("../PresentationUI/FXML/UserSelection.fxml"));
         // To get the application user's screen size and pass it to the set the
         // application size
         getScene(Root, primaryStage);

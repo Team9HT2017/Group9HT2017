@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="first" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.Application.Controllers.UserController">
+<AnchorPane fx:id="first" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.UserController">
    <children>
       <GridPane prefHeight="700.0" prefWidth="900.0">
          <columnConstraints>
@@ -26,7 +26,7 @@
          <children>
             <ImageView fitHeight="462.0" fitWidth="510.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../img/HAUSLogo.png" />
+                  <Image url="@../../DataStorage/img/HAUSLogo.png" />
                </image>
             </ImageView>
             <Button fx:id="teacherButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeToTeacherMain" text="Create a Class" GridPane.columnIndex="1" GridPane.rowIndex="2">

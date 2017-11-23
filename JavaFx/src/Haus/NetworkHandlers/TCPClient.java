@@ -1,7 +1,7 @@
 package Haus.NetworkHandlers;
 
-import Haus.Application.Controllers.TeacherController;
-import Haus.Application.Parser;
+import Haus.TechnicalFramework.Controllers.TeacherController;
+import Haus.TechnicalFramework.DataHandler.Parser;
 
 import java.io.*;
 import java.net.*;
