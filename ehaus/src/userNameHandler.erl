@@ -34,8 +34,8 @@ get_list()->  %  function to get user names list from the loop
   userNameHandler ! {self(),get},
   receive {_,List} ->List end.
 
-assignUserName(Socket)-> % function to assign user name to new user
-  userNameHandler ! {self(),assign,Socket},
+assignUserName(IP)-> % function to assign user name to new user
+  userNameHandler ! {self(),assign,IP},
   receive {_,Username,ok} -> lists:flatten(string:replace(Username,<<"+">>,<<"\n">>)) end. % so that Java can read WTH is going on (username)
 
 get_Username(Name) ->  % function to get a specific username from a list
