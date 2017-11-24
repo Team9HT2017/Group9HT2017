@@ -22,6 +22,7 @@
 listen(PortNum) ->
   gen_server:call(?MODULE, {listen, PortNum}),
   mapStorage:start(),
+  transferMessage:start(),
   userNameHandler:start().
 
 ignore() ->

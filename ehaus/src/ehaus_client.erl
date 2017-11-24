@@ -43,7 +43,7 @@ listen(Parent, Debug, ListenSocket) ->
 loop(Parent, Debug, State = #s{socket = Socket}) ->
   ok = inet:setopts(Socket, [{active, once}]),
   receive
-%%    {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
+%%      {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
 %%      Username = userNameHandler:assignUserName(Socket),
 %%      ok = gen_tcp:send(Socket,Username),
 %%      loop(Parent, Debug, State);
@@ -67,9 +67,21 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
         loop(Parent, Debug, State);
         <<"STUDENT\n">>-> % student wants to send message
       ok = io:format("~p received: ~tp~n", [self(), Message]),
-      ok = gen_tcp:send(Socket, ["You sent: ", Message]),
+          Mess=string:split(Message,"!^!",all),
+         [ActualMessage,Type]=Mess,
+          case Type of <<"SEND">> ->  % sender sends message
+                R1 = string:split(ActualMessage,"to",all),
+                [To,_]=string:split(R1,",",all),
+                RecipTry=userNameHandler:get_Username(To),
+                ToSend=transferMessage:store_message(ActualMessage),
+                [{Socket,_}]=RecipTry,
+                ok = gen_tcp:send(Socket, [ToSend,"\n"]);
+            true->    % recipient sends confirmation
+            Distributive = transferMessage:find_message(ActualMessage),
+              Users = userNameHandler:get_list(),
+          [Socket1||{Socket1,_}<-Users,gen_tcp:send(Socket1,Distributive)]
+              end,
       loop(Parent, Debug, State)
-      % student messaging goes here
         end;
     {tcp_closed, Socket} ->
       ok = io:format("~p Socket closed, retiring.~n", [self()]),
