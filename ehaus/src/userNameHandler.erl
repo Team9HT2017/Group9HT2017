@@ -10,7 +10,7 @@
 -author("Lone ranger").
 
 
--export([start/0,putUserNames/1,get_list/0,assignUserName/1,get_Usernames/1]).
+-export([start/0,putUserNames/1,get_list/0,assignUserName/1,get_Username/1]).
 
 
 %Functions related to storing and sending user names on the server
@@ -34,13 +34,14 @@ get_list()->  %  function to get user names list from the loop
   userNameHandler ! {self(),get},
   receive {_,List} ->List end.
 
-assignUserName(Socket)-> % function to assign user name to new user
-  userNameHandler ! {self(),assign,Socket},
+assignUserName(IP)-> % function to assign user name to new user
+  userNameHandler ! {self(),assign,IP},
   receive {_,Username,ok} -> lists:flatten(string:replace(Username,<<"+">>,<<"\n">>)) end. % so that Java can read WTH is going on (username)
 
-get_Usernames(Name) ->  % function to get a specific username from a list
+get_Username(Name) ->  % function to get a specific username from a list
   userNameHandler ! {self(),search,Name},
-  receive {found, Username}-> Username end.
+  receive {found, UsernameID}-> UsernameID;
+  not_found -> not_found end.
 
 loopUserNames(List)-> % User names handling loop, which is connected to all client processes
   receive
@@ -56,8 +57,10 @@ loopUserNames(List)-> % User names handling loop, which is connected to all clie
       io:format("~p New List ~n",[NewList]),
       loopUserNames(NewList);
     {Pid,search,Name} ->
-      [ Name || {Socket,Username} <- List,  Name=:=Username],
-      Pid ! {found, Name},
+      L=[ {Socket,Name} || {Socket,Username} <- List,  Name=:=Username],
+      case L of [] -> Pid ! not_found;
+      true ->Pid ! {found, L}
+      end,
       loopUserNames(List);
     {Pid,get} ->
       Pid ! {self(),List},

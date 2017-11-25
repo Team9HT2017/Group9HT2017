@@ -30,12 +30,14 @@ init(Parent, ListenSocket) ->
 listen(Parent, Debug, ListenSocket) ->
   case gen_tcp:accept(ListenSocket) of
     {ok, Socket} ->
+      % socketManager:addSocket(Socket),
       {ok, _} = start(ListenSocket),
       {ok, Peer} = inet:peername(Socket),
       ok = io:format("~p Connection accepted from: ~p~n", [self(), Peer]),
       State = #s{socket = Socket},
       loop(Parent, Debug, State);
     {error, closed} ->
+      % socketManager:deleteSocket(Socket),
       ok = io:format("~p Retiring: Listen socket closed.~n", [self()]),
       exit(normal)
   end.
@@ -43,13 +45,15 @@ listen(Parent, Debug, ListenSocket) ->
 loop(Parent, Debug, State = #s{socket = Socket}) ->
   ok = inet:setopts(Socket, [{active, once}]),
   receive
-%%    {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
+%%      {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
 %%      Username = userNameHandler:assignUserName(Socket),
 %%      ok = gen_tcp:send(Socket,Username),
 %%      loop(Parent, Debug, State);
     {tcp, Socket, <<"GET\n">>} -> % request to get map (ans username at the same time)
       M=mapStorage:get_map(),
-      Username = userNameHandler:assignUserName(Socket),
+      {ok, Peer} = inet:peername(Socket),
+      {IP,_}=Peer,
+      Username = userNameHandler:assignUserName(IP),
       io:format("~p Map: ~n", [M]),
       ok = gen_tcp:send(Socket,[M,<<"!*!">>,Username,"\n"]), % this is how we concatenate binary string, just put like a list
       ok = gen_tcp:shutdown(Socket, read_write),
@@ -62,14 +66,30 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
         [Map,Usernames]=Content,
         mapStorage:send(Map), % send map to storage
         userNameHandler:putUserNames(Usernames), % send user name list to storage
-        Username = userNameHandler:assignUserName(Socket),
+        {ok, Peer} = inet:peername(Socket),
+        {IP,_}=Peer,
+        Username = userNameHandler:assignUserName(IP),
         ok = gen_tcp:send(Socket, ["Your username: ", Username]),
         loop(Parent, Debug, State);
         <<"STUDENT\n">>-> % student wants to send message
-      ok = io:format("~p received: ~tp~n", [self(), Message]),
-      ok = gen_tcp:send(Socket, ["You sent: ", Message]),
+      ok = io:format("~p received: ~tp~n", [self(), Message]), % "test!^!SEND!?!STUDENT\n"
+          Mess=string:split(Message,"!^!",all),
+         [ActualMessage,Type]=Mess,
+          case Type of <<"SEND">> ->  % sender sends message
+                R1 = string:split(ActualMessage,"to",all),
+                [To,_]=string:split(R1,",",all),
+                RecipTry=userNameHandler:get_Username(To),
+                ToSend=transferMessage:store_message(ActualMessage),
+                [{IP,_}]=RecipTry,
+                {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
+                % SocketSend
+                ok = gen_tcp:send(SocketSend, [ToSend,"\n"]);
+            true->    % recipient sends confirmation
+            Distributive = transferMessage:find_message(ActualMessage),
+              Users = userNameHandler:get_list(),
+          [IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
+              end,
       loop(Parent, Debug, State)
-      % student messaging goes here
         end;
     {tcp_closed, Socket} ->
       ok = io:format("~p Socket closed, retiring.~n", [self()]),
