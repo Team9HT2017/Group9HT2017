@@ -73,15 +73,15 @@ public class UserController {
 
 	/**
 	 * Method to load a pop up a dialog to warn the user about loading problems.
-	 ** 
-	 * @param title:
+	 *
+	 * @param title
 	 *            string represents the dialog title
-	 * @param msg:
+	 * @param msg
 	 *            string represents the message of the error or a notification for
 	 *            the user
 	 * 
 	 */
-	public void dialog(String title,String msg) {
+	public void dialog(String title, String msg) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
