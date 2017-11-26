@@ -50,17 +50,17 @@ public static String studentUsername="";
             List <Object> ordered = new ArrayList <Object>();
             for (int i=0;i<users.length;i++){
             	if (!users[i].toString().contains("Gateway")){
-            	  ordered.add(users[i]+"+"); //+ servers as indicator for Erlang to add "\n" in its place so that Java can read username later
+            	  ordered.add(users[i].toString().split("\\|")[0].replaceAll("\\s+", ""));
             	}else{
-            	gateway=users[i].toString();}
+            	gateway=users[i].toString().split("\\|")[0].replaceAll("\\s+", ""));}
             }
-           ordered.add(gateway+"+");
+           ordered.add(gateway);
             
             
           
           
           
-            outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ')+"!?!"+"TEACHER\n"); // send it to server
+            outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ').replaceAll("\\s+", "")+"!?!"+"TEACHER\n"); // send it to server
             request = inRequest.readLine(); // Ask to send the file
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
