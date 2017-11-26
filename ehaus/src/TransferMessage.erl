@@ -44,9 +44,9 @@ message_loop(Messages,ID)-> %message handling loop
   receive
     {Pid,send,Message} ->
      Add={Message,ID},
-      ID++
+      IDNew=ID+1,
       Pid ! {self,Add},
-      message_loop([Add|Messages],ID);
+      message_loop([Add|Messages],IDNew);
     {Pid,find,Id} ->
       L=[Message||{Message,Ident}<-Messages,Ident=:=Id],
       case L of [] -> Pid ! nope;

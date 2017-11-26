@@ -36,7 +36,7 @@ get_list()->  %  function to get user names list from the loop
 
 assignUserName(IP)-> % function to assign user name to new user
   userNameHandler ! {self(),assign,IP},
-  receive {_,Username,ok} -> lists:flatten(string:replace(Username,<<"+">>,<<"\n">>)) end. % so that Java can read WTH is going on (username)
+  receive {_,Username,ok} -> lists:flatten([Username,<<"\n">>]) end. % so that Java can read WTH is going on (username)
 
 get_Username(Name) ->  % function to get a specific username from a list
   userNameHandler ! {self(),search,Name},
@@ -50,20 +50,54 @@ loopUserNames(List)-> % User names handling loop, which is connected to all clie
       NameList = string:split(New,",",all), % splitting user name list to string
       io:format("~p List ~n",[NameList]),
       loopUserNames(NameList);
-    {Pid,assign,Socket} -> Username=lists:last(List), %assigning user name to client. Taking (and deleting) user name from the list, making a pair of it and IP, and putting this pair to the list
+    {Pid,assign,Socket} ->
+
+      Username=lists:last(List), %assigning user name to client. Taking (and deleting) user name from the list, making a pair of it and IP, and putting this pair to the list
       ToPut={Socket,Username},
       NewList=[ToPut|lists:delete(Username,List)], %
       Pid ! {self,Username,ok},
       io:format("~p New List ~n",[NewList]),
       loopUserNames(NewList);
     {Pid,search,Name} ->
+      io:format("~p Name: ~n",[Name]),
       L=[ {Socket,Name} || {Socket,Username} <- List,  Name=:=Username],
-      case L of [] -> Pid ! not_found;
-      true ->Pid ! {found, L}
-      end,
+      %case L of [] -> Pid ! not_found;
+      Pid ! {found, L},
+      %end,
       loopUserNames(List);
     {Pid,get} ->
       Pid ! {self(),List},
       loopUserNames(List)
   end.
 
+
+
+%%loopUserNames(List)-> % User names handling loop, which is connected to all client processes
+%%  receive
+%%    {Pid,put,New} ->
+%%      Pid ! {self(),ok},
+%%      NameList = string:split(New,",",all), % splitting user name list to string
+%%      io:format("~p List ~n",[NameList]),
+%%      loopUserNames(NameList);
+%%    {Pid,assign,IP} ->
+%%      I=[{Test,_}||{Test,_}<-List,Test=:=IP],
+%%      case I of []->
+%%        Username=lists:last(List), %assigning user name to client. Taking (and deleting) user name from the list, making a pair of it and IP, and putting this pair to the list
+%%        ToPut={IP,Username},
+%%        NewList=[ToPut|lists:delete(Username,List)],
+%%        Pid ! {self(),Username,ok},
+%%        io:format("~p New List ~n",[NewList]),
+%%        loopUserNames(NewList);
+%%        true -> Pid ! {self(),duplicate},
+%%          %in case this IP has username
+%%          loopUserNames(List) end;
+%%    {Pid,search,Name} ->
+%%      L=[ {Socket,Name} || {Socket,Username} <- List,  Name=:=Username],
+%%      case L of [] -> Pid ! not_found;
+%%        true ->Pid ! {found, L}
+%%      end,
+%%      loopUserNames(List);
+%%    {Pid,get} ->
+%%      Pid ! {self(),List},
+%%      loopUserNames(List)
+%%  end.

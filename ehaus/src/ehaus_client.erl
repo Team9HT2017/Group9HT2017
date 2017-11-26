@@ -77,14 +77,17 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
          [ActualMessage,Type]=Mess,
           case Type of <<"SEND">> ->  % sender sends message
                 R1 = string:split(ActualMessage,"to",all),
-                [To,_]=string:split(R1,",",all),
+            io:format("~p Splitted.~n", [R1]),
+            [_,Part]=R1,
+                [To,_]=string:split(Part,",",all),
+            io:format("~p Recipient: ~n", [To]),
                 RecipTry=userNameHandler:get_Username(To),
                 ToSend=transferMessage:store_message(ActualMessage),
                 [{IP,_}]=RecipTry,
                 {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
                 % SocketSend
-                ok = gen_tcp:send(SocketSend, [ToSend,"\n"]);
-            true->    % recipient sends confirmation
+                ok = gen_tcp:send(SocketSend, [ActualMessage,"\n"]);
+            true->    % recipient sends confirmation (ID of message as actual message)
             Distributive = transferMessage:find_message(ActualMessage),
               Users = userNameHandler:get_list(),
           [IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
