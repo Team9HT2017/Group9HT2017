@@ -169,28 +169,23 @@ public class AnimationController implements Initializable {
         for (DrawableObject node : nodes) {
             // For loop makes sure there are no houses sharing a diagonally adjacent
             // tilespace
-        	
-           /* for (; grid[node.x - 1][node.y - 1] == 'H' || grid[node.x + 1][node.y - 1] == 'H'
-                    || grid[node.x][node.y] == 'H' || grid[node.x - 1][node.y + 1] == 'H'
-                    || grid[node.x + 1][node.y + 1] == 'H'; ) {*/
-            	while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ //!= for road
+            	while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ // putting houses in random order, avoididing center of map (main road will be there)
                 node.x = rand.nextInt((mapSize) - 2) + 1;}
-                while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){
+                while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){ //ensuring houses will be placed on even Y axis so that roads can be built between them
                 node.y = rand.nextInt((mapSize) - 2) + 1;}
 
-           // }
-            grid[node.x][node.y] = 'H';
-            houseLocs[m]=node.x+","+(node.y-1);
+           
+            grid[node.x][node.y] = 'H'; // placing house on map
+            houseLocs[m]=node.x+","+(node.y-1); // adding location near the house to array for road building
             m++;
             System.out.println("X= "+node.x);
             System.out.println("Y= "+node.y);
         }
 
-        Road road = new Road(mapSize/2,1,mapSize/2,mapSize-1);
+        Road road = new Road(mapSize/2,1,mapSize/2,mapSize-1); // building road in the middle of the map
         // roads.add(road);
         int k = 0;
-        for (Pair tile : road.segments[k]) {
-        	//if ( grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
+        for (Pair tile : road.segments[k]) { // building road in the middle of the map
         	if (grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
             grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';}
             k++;
@@ -200,7 +195,7 @@ public class AnimationController implements Initializable {
         	System.out.println("H="+h);
         }
         System.out.println(Arrays.toString(houseLocs));
-        for (String h:houseLocs){
+        for (String h:houseLocs){ // building road from each house to the main road
         	String [] divide = h.split(",");
         	System.out.println("Divide ="+Arrays.toString(divide));
         	int x1=Integer.parseInt(divide[0]);
