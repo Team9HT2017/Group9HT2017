@@ -46,15 +46,16 @@ public static String studentUsername="";
             // here we receive msg from server
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             Object [] users = Parser.Parse2(TeacherController.toParse,false).keySet().toArray();
-            String gateway = "";
+          String gateway = "";
             List <Object> ordered = new ArrayList <Object>();
             for (int i=0;i<users.length;i++){
             	if (!users[i].toString().contains("Gateway")){
-            	  ordered.add(users[i].toString().split("\\|")[0].replaceAll("\\s+", ""));
+            	  ordered.add(users[i].toString().split("\\|")[0].replaceAll("\\s+", "")); //+ servers as indicator for Erlang to add "\n" in its place so that Java can read username later
             	}else{
             	gateway=users[i].toString().split("\\|")[0].replaceAll("\\s+", "");}
             }
-           ordered.add(gateway);
+            if (!gateway.equals("")){
+           ordered.add(gateway);}
             
             
           
@@ -64,8 +65,10 @@ public static String studentUsername="";
             request = inRequest.readLine(); // Ask to send the file
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
-            System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf("g")-1),fromServ.length())); 
-            teacherUsername=fromServ.substring((fromServ.indexOf("g")-1),fromServ.length()));
+            System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf(":")+2),fromServ.length())); 
+            teacherUsername=fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
+
+
 
 
             clientSocket.close();
