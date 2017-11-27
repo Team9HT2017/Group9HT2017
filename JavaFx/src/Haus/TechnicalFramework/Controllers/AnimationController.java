@@ -163,12 +163,10 @@ public class AnimationController implements Initializable {
         for (int i = 0; i < mapSize; i++) {
             Arrays.fill(grid[i], 'G');
         }
-        String [] houseLocs = new String [nodes.size()];
+        String [] houseLocs = new String [nodes.size()]; // array for near-house locations
         // Build 2d grid map ('H'ouse)
         int m=0;
         for (DrawableObject node : nodes) {
-            // For loop makes sure there are no houses sharing a diagonally adjacent
-            // tilespace
             	while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ // putting houses in random order, avoididing center of map (main road will be there)
                 node.x = rand.nextInt((mapSize) - 2) + 1;}
                 while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){ //ensuring houses will be placed on even Y axis so that roads can be built between them
@@ -212,38 +210,7 @@ public class AnimationController implements Initializable {
         	      }
                 
         	}
-        
-        
-        
-        
-        // Build 2d grid map ('R'oads)
-        //for (int i = 1; i < nodes.size(); i++) {
-            //Change the x and y to be the coordinate we want on each house
-
-            /*
-             * Set x and y to be equal to the Point from chooseSide method here.
-             */
-           /* int count = 0;
-            for (TreeMap<Integer, DrawableObject> treeMap : nodeDistances()){
-                Point p = closestHouseSide(nodes.get(count), treeMap.get(treeMap.firstKey()));
-                djikstraNodes.add(new DjikstraNode(p.x, p.y, nodes.get(count)));
-
-                count++;
-            }
-        //}
-           /* for (int i = 0; i < nodes.size() - 1; i++) {
-
-
-                Road road = new Road(djikstraNodes.get(i).x,djikstraNodes.get(i).y, djikstraNodes.get(i + 1).x,djikstraNodes.get(i + 1).y);
-                // roads.add(road);
-                int j = 0;
-                for (Pair tile : road.segments[j]) {
-                	//if ( grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
-                    grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';//}
-                    j++;
-                }
-            }*/
-
+      
           
 		/*
          * Draw road first, then add junctions to djikstraNodes and draw next based on available nodes in network.
@@ -385,87 +352,5 @@ public class AnimationController implements Initializable {
             }
         }
     }
-
-    static ArrayList<TreeMap<Integer, DrawableObject>> nodeDistances() {
-
-
-        //Map<Integer, DrawableObject>[] dists = new TreeMap<Integer, DrawableObject>()[];
-        ArrayList<TreeMap<Integer, DrawableObject>> dists = new ArrayList<TreeMap<Integer, DrawableObject>>();
-        int i = 0;
-        for (DrawableObject nodeOrigin : nodes) {
-            //Add TreeMaps to ArrayList
-            dists.add(new TreeMap<Integer, DrawableObject>());
-            for (DrawableObject nodeDestination : nodes) {
-
-                // Calculate delta for Destination and Origin
-                int dX = Math.abs(nodeDestination.x - nodeOrigin.y);
-                int dY = Math.abs(nodeDestination.y - nodeOrigin.y);
-
-                // Add distances to TreeMap
-                if(dX + dY != 0){
-                    dists.get(i).put(dX + dY, nodeDestination);
-                }
-            }
-            i++;
-        }
-        Collections.sort(dists, distSorterComp);
-
-        //Purge first element (distance to self)
-        for(TreeMap<Integer, DrawableObject> treeMap : dists) treeMap.remove(treeMap.firstKey());
-        return dists;
-    }
-
-    private static Point closestHouseSide(DrawableObject origin, DrawableObject destination) {
-        // calculate difference in x and y pos between houses
-        double dX = destination.x - origin.x;
-        double dY = destination.y - origin.y;
-
-        double radians = Math.atan2(dY, dX);
-        //double degrees = (radians*180/Math.PI);
-
-        // select side based on angle from origin to destination
-        if (radians <= Math.PI*0.25 && radians > 0 || radians > Math.PI*1.75 && radians <= Math.PI*2) return new Point(origin.x + 1, origin.y);
-        else if (radians <= Math.PI*0.75 && radians > Math.PI*0.25) return new Point(origin.x, origin.y + 1);
-        else if (radians <= Math.PI*1.25 && radians > Math.PI*0.75) return new Point(origin.x - 1, origin.y);
-        else return new Point(origin.x, origin.y - 1);
-
-
-        //Old function, keep as backup for now
-
-        /**
-        double A = 10000;
-        DrawableObject clos = null;
-        for (int i = 0; i < nodes.size(); i) {
-            if (n1.distance(nodes.get(i)) <= A && n1 != nodes.get(i) && grid[nodes.get(i).x][nodes.get(i).y] == 'H') {
-                A = n1.distance(nodes.get(i));
-                clos = nodes.get(i);
-
-            }
-        }
-        System.out.println("here");
-        int[] closestSide = new int[2];
-        double s1 = Math.sqrt(Math.pow(n1.x - (clos.x + 1), 2) + Math.pow(n1.y - (clos.y), 2));
-        double s2 = Math.sqrt(Math.pow(n1.x - (clos.x - 1), 2) + Math.pow(n1.y - (clos.y), 2));
-        double s3 = Math.sqrt(Math.pow(n1.x - (clos.x), 2) + Math.pow(n1.y - (clos.y + 1), 2));
-        double s4 = Math.sqrt(Math.pow(n1.x - (clos.x), 2) + Math.pow(n1.y - (clos.y - 1), 2));
-        double[] arr1 = {s1, s2, s3, s4};
-        Arrays.sort(arr1);
-        if (arr1[0] == s1) {
-            closestSide[0] = clos.x + 1;
-            closestSide[1] = clos.y;
-        } else if (arr1[0] == s2) {
-            closestSide[0] = clos.x - 1;
-            closestSide[1] = clos.y;
-        } else if (arr1[0] == s3) {
-            closestSide[0] = clos.x;
-            closestSide[1] = clos.y + 1;
-        } else {
-            closestSide[0] = clos.x;
-            closestSide[1] = clos.y - 1;
-        }
-        return closestSide;
-         */
-    }
-
 
 }
