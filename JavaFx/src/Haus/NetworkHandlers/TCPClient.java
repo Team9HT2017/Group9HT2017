@@ -65,7 +65,7 @@ public static String studentUsername="";
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
             System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf("g")-1),fromServ.length())); 
-            teacherUsername=fromServ;
+            teacherUsername=fromServ.substring((fromServ.indexOf("g")-1),fromServ.length()));
 
 
             clientSocket.close();
