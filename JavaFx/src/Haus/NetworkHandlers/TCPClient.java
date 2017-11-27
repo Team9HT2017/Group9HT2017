@@ -52,7 +52,7 @@ public static String studentUsername="";
             	if (!users[i].toString().contains("Gateway")){
             	  ordered.add(users[i].toString().split("\\|")[0].replaceAll("\\s+", ""));
             	}else{
-            	gateway=users[i].toString().split("\\|")[0].replaceAll("\\s+", ""));}
+            	gateway=users[i].toString().split("\\|")[0].replaceAll("\\s+", "");}
             }
            ordered.add(gateway);
             
