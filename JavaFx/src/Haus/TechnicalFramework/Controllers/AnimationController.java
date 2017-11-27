@@ -163,21 +163,64 @@ public class AnimationController implements Initializable {
         for (int i = 0; i < mapSize; i++) {
             Arrays.fill(grid[i], 'G');
         }
-
+        String [] houseLocs = new String [nodes.size()];
         // Build 2d grid map ('H'ouse)
+        int m=0;
         for (DrawableObject node : nodes) {
             // For loop makes sure there are no houses sharing a diagonally adjacent
             // tilespace
-            for (; grid[node.x - 1][node.y - 1] == 'H' || grid[node.x + 1][node.y - 1] == 'H'
+        	
+           /* for (; grid[node.x - 1][node.y - 1] == 'H' || grid[node.x + 1][node.y - 1] == 'H'
                     || grid[node.x][node.y] == 'H' || grid[node.x - 1][node.y + 1] == 'H'
-                    || grid[node.x + 1][node.y + 1] == 'H'; ) {
-                node.x = rand.nextInt((mapSize) - 2) + 1;
-                node.y = rand.nextInt((mapSize) - 2) + 1;
+                    || grid[node.x + 1][node.y + 1] == 'H'; ) {*/
+            	while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ //!= for road
+                node.x = rand.nextInt((mapSize) - 2) + 1;}
+                while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){
+                node.y = rand.nextInt((mapSize) - 2) + 1;}
 
-            }
+           // }
             grid[node.x][node.y] = 'H';
+            houseLocs[m]=node.x+","+(node.y-1);
+            m++;
+            System.out.println("X= "+node.x);
+            System.out.println("Y= "+node.y);
         }
 
+        Road road = new Road(mapSize/2,1,mapSize/2,mapSize-1);
+        // roads.add(road);
+        int k = 0;
+        for (Pair tile : road.segments[k]) {
+        	//if ( grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
+        	if (grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
+            grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';}
+            k++;
+        }
+        Arrays.sort(houseLocs);
+        for (String h:houseLocs){
+        	System.out.println("H="+h);
+        }
+        System.out.println(Arrays.toString(houseLocs));
+        for (String h:houseLocs){
+        	String [] divide = h.split(",");
+        	System.out.println("Divide ="+Arrays.toString(divide));
+        	int x1=Integer.parseInt(divide[0]);
+        	int y1=Integer.parseInt(divide[1]);
+        	if (x1<mapSize/2){
+        	      for (int u=x1;u<mapSize/2;u++){       	    	
+        	    	  grid[u][y1]='R';
+        	    	 
+        	      }}else {
+        	    	  for (int u=x1;u>mapSize/2;u--){       	    	
+            	    	  grid[u][y1]='R';
+            	    	
+            	      }
+        	      }
+                
+        	}
+        
+        
+        
+        
         // Build 2d grid map ('R'oads)
         //for (int i = 1; i < nodes.size(); i++) {
             //Change the x and y to be the coordinate we want on each house
@@ -185,7 +228,7 @@ public class AnimationController implements Initializable {
             /*
              * Set x and y to be equal to the Point from chooseSide method here.
              */
-            int count = 0;
+           /* int count = 0;
             for (TreeMap<Integer, DrawableObject> treeMap : nodeDistances()){
                 Point p = closestHouseSide(nodes.get(count), treeMap.get(treeMap.firstKey()));
                 djikstraNodes.add(new DjikstraNode(p.x, p.y, nodes.get(count)));
@@ -193,7 +236,7 @@ public class AnimationController implements Initializable {
                 count++;
             }
         //}
-            for (int i = 0; i < nodes.size() - 1; i++) {
+           /* for (int i = 0; i < nodes.size() - 1; i++) {
 
 
                 Road road = new Road(djikstraNodes.get(i).x,djikstraNodes.get(i).y, djikstraNodes.get(i + 1).x,djikstraNodes.get(i + 1).y);
@@ -204,7 +247,7 @@ public class AnimationController implements Initializable {
                     grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';//}
                     j++;
                 }
-            }
+            }*/
 
           
 		/*
