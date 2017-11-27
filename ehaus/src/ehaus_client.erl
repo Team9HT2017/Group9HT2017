@@ -69,7 +69,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
         {ok, Peer} = inet:peername(Socket),
         {IP,_}=Peer,
         Username = userNameHandler:assignUserName(IP),
-        ok = gen_tcp:send(Socket, ["Your username: ", Username]),
+        ok = gen_tcp:send(Socket, [Username]),
         loop(Parent, Debug, State);
         <<"STUDENT\n">>-> % student wants to send message
       ok = io:format("~p received: ~tp~n", [self(), Message]), % "test!^!SEND!?!STUDENT\n"
