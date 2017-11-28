@@ -58,6 +58,8 @@ public class StudentController extends AnchorPane {
     private Label IPServerStudent;
 
 	UserController userController = new UserController();
+    
+    public static String topars;
 
 	/**
 	 * method to inform the student whether the teacher uploaded the file or not In
@@ -91,23 +93,25 @@ public class StudentController extends AnchorPane {
 		        System.out.println("animation in progress");
 		       
 		        try {
-		        	String [] topars = (TCPClient.main("student",classID1.getText()).replaceAll( "','", "").replaceAll("'", "").split("~"));
-		        	
-		        	pars=topars[0];
-		        	toMessageLog=topars[1];
-		        	pars = pars.substring(2, pars.length()-1);
-		        
-		        	while (pars.length()>1){
-
-		        	if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
-		        	String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
-		        	String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
-		        	pars=pars.substring(0,pars.lastIndexOf("&"));
-		        	toSim.put(key,val);}
-		        	}
-		        
-		        	System.out.println(toSim.toString());
-		        		AnimationController.runAnim(toSim);
+                    
+                    topars = (TCPClient.main("student", classID1.getText(), "");
+//                    String [] topars = (TCPClient.main("student", classID1.getText(), "").replaceAll( "','", "").replaceAll("'", "").split("~"));
+//
+//                    pars=topars[0];
+//                    toMessageLog=topars[1];
+//                    pars = pars.substring(2, pars.length()-1);
+//
+//                    while (pars.length()>1){
+//
+//                    if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
+//                    String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
+//                    String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
+//                    pars=pars.substring(0,pars.lastIndexOf("&"));
+//                    toSim.put(key,val);}
+//                    }
+//
+//                    System.out.println(toSim.toString());
+//                        AnimationController.runAnim(toSim);
 			studentPane.getChildren().clear();
 			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/Splash.fxml")));
 			// showStage();
@@ -134,7 +138,7 @@ public class StudentController extends AnchorPane {
 			studentPane.getChildren().clear();
 			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
 		} catch (Exception e) {
-			System.out.println(e);
+			 e.printStackTrace();
 			userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
 		}
 	}

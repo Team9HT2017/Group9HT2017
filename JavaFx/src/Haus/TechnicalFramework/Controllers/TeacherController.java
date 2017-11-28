@@ -64,6 +64,8 @@ public class TeacherController extends AnchorPane {
 	public static boolean uploaded = false;
     UserController userController = new UserController();
     public static Alert alert;
+    
+    public static String user;
 
 
 	/**
@@ -125,12 +127,14 @@ public class TeacherController extends AnchorPane {
 
 
 			try {
+                map = Arrays.deepToString(AnimationController.runAnim(Parser.Parse2(TeacherController.toParse, false)))+ "~"+ Parser.Parse2(TeacherController.toParse,false).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
 			    inProgressBar();
 				System.out.println("Animation in progress");
 				String ip = Inet4Address.getLocalHost().getHostAddress();
-				TCPClient.main("teacher", ip);
+                user = "teacher";
+                TCPClient.main(user, ip);
 				AnimationController.runAnim(Parser.Parse2(toParse,false));
 
 				//showStage();
@@ -143,7 +147,7 @@ public class TeacherController extends AnchorPane {
                 System.out.println("Not executed");
 			} catch (Exception e) {
 				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			// if the file is not already uploaded
 		} else
@@ -209,7 +213,7 @@ public class TeacherController extends AnchorPane {
 	private void classId() throws Exception {
 
 		String ip = Inet4Address.getLocalHost().getHostAddress();
-		TCPClient.main("teacher", ip);
+		TCPClient.main("teacher", ip, "");
 
 		alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("WELCOME");

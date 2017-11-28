@@ -148,7 +148,7 @@ public class AnimationController implements Initializable {
         }
 
 
-    public static void runAnim(Map<?, ?> map) {
+    public static char[][] runAnim(Map<?, ?> map) {
         mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6) * 2;
         int mapSize = (int) (map.keySet().size() * mapScale);
         grid = new Character[mapSize][mapSize];
@@ -223,6 +223,7 @@ public class AnimationController implements Initializable {
             }
             System.out.println();
         }
+        return grid;
     }
 
     // from 2D to an Isometric
@@ -240,8 +241,12 @@ public class AnimationController implements Initializable {
             e.printStackTrace();
         }
         System.out.println("Initializing anim 1st");
-
-        animate();
+        if (TeacherController.user == "teacher") {
+            animate(TeacherController.map);
+        }
+        else {
+            animate(StudentController.topars);
+        }
         // gc.drawImage(node.image, node.x * 32, node.y * 32);
     }
 
@@ -254,7 +259,34 @@ public class AnimationController implements Initializable {
 
     }
 
-    public void animate() {
+    public void animate(String map) {
+
+ArrayList<ArrayList<Character>> chararr = new ArrayList<ArrayList<Character>>();
+map = map.split(Pattern.quote("~"))[0];
+map = map.split(Pattern.quote("[["))[1];
+map = map.split(Pattern.quote("]]"))[0];
+//while (map.length() > 0){
+{
+String[] array1 = map.split(Pattern.quote("], ["));
+int i = 0;
+System.out.println(array1[i]);
+while (i != array1.length && array1[i].length() >= 0){
+chararr.add(new ArrayList<Character>());
+String[] strarr = array1[i].split(Pattern.quote(", "));
+for (String str : strarr){
+chararr.get(i).add(str.toCharArray()[0]);
+System.out.println(chararr.get(i) + " : ");
+
+}
+i++;
+}
+for (int j = 0; j < chararr.size(); j++)
+for (int k = 0; k < chararr.get(j).size(); k++)
+grid[j][k] = chararr.get(j).get(k);
+
+}
+
+
         System.out.println("Initializing anim 2nd");
         canvas.setWidth((nodes.size() * 32) * mapScale + 80);
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
@@ -346,9 +378,7 @@ public class AnimationController implements Initializable {
                 for (DjikstraNode djiNode : djikstraNodes) {
                     gc.drawImage(new Image("/Haus/DataStorage/img/NodeImg.png"), twoDToIso(new Point(djiNode.x * 16, djiNode.y * 16)).x, twoDToIso(new Point(djiNode.x * 16, djiNode.y * 16)).y);
                 }
-//
-//				for ()
-//				gc.
+
             }
         }
     }
