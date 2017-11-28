@@ -43,7 +43,7 @@ listen(Parent, Debug, ListenSocket) ->
   end.
 
 loop(Parent, Debug, State = #s{socket = Socket}) ->
-  ok = inet:setopts(Socket, [{active, once}]),
+  %ok = inet:setopts(Socket, [{active, once}]),
   receive
 %%      {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
 %%      Username = userNameHandler:assignUserName(Socket),
@@ -77,6 +77,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
          [ActualMessage,Type]=Mess,
           case Type of <<"SEND">> ->  % sender sends message
                 R1 = string:split(ActualMessage,"to ",all),
+            gen_tcp:send(Socket,"Success\n"),
             io:format("~p Splitted.~n", [R1]),
             [_,Part]=R1,
                 [To,_]=string:split(Part,",",all),
@@ -86,8 +87,10 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
               [{IP,_}]->
                 ToSend=transferMessage:store_message(ActualMessage),
                 [{IP,_}]=RecipTry,
+            io:format("Message: ~p~n", [ActualMessage]),
                 {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
                 % SocketSend
+            io:format("Socket: ~p~n", [SocketSend]),
                 ok = gen_tcp:send(SocketSend, [ActualMessage,"\n"])
             end;
             true->    % recipient sends confirmation (ID of message as actual message)

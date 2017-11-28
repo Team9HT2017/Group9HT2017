@@ -67,7 +67,7 @@ public class TCPClient {
             fromServ = inFromServer.readLine(); // Receive the parsed file
             System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf(":")+2),fromServ.length()));
             teacherUsername=fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
-            
+
             clientSocket.close();
             System.out.println("Socket closed!");
             
@@ -76,7 +76,7 @@ public class TCPClient {
             System.out.println(clientSocket);
             
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            // here we receive msg from server
+            // here we receive msg from serverl
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             
             //  sentence = inRequest.readLine(); // Get the request from the user to the server
@@ -87,7 +87,7 @@ public class TCPClient {
             String [] temp = fromServ.split("!*!");
             studentUsername=temp[1];
             fromServ=temp[0];
-            
+
             clientSocket.close();
             System.out.println("Socket closed!");
             
