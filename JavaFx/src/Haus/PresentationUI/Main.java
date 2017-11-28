@@ -1,5 +1,6 @@
 package Haus.PresentationUI;
 
+import Haus.NetworkHandlers.TCPListener;
 import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +17,16 @@ import javafx.scene.control.Alert.AlertType;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import javax.xml.transform.Result;
 
 /**
  * Class to start the application, sets its basic characteristics.
@@ -40,8 +49,22 @@ public class Main extends Application {
     public static Scene scene;
 
     public static void main(String[] args) {
+   
+    	ExecutorService concurrent = Executors.newCachedThreadPool();
 
-        launch(args);
+    			Future<Void> past = concurrent.submit(new Callable<Void>() {
+    			    public Void call() throws Exception {
+    			        TCPListener.listen();
+    			        return null;
+    			    }});
+    			   launch(args);
+    			try {
+					past.get();
+				} catch (Exception e) {
+					System.out.println("Concurrency failed");
+					e.printStackTrace();
+				} 
+     
 
 /*
         Map<?, ?> t1 = Parser.Parse2(TeacherController.toParse);

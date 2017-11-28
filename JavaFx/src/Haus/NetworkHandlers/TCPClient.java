@@ -41,12 +41,13 @@ public static String studentUsername="";
             ip  = Inet4Address.getLocalHost().getHostAddress();
             Socket clientSocket = new Socket(ip, 8080);
             System.out.println(clientSocket);
+            
 
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             // here we receive msg from server
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             Object [] users = Parser.Parse2(TeacherController.toParse,false).keySet().toArray();
-          String gateway = "";
+            String gateway = "";
             List <Object> ordered = new ArrayList <Object>();
             for (int i=0;i<users.length;i++){
             	if (!users[i].toString().contains("Gateway")){
@@ -69,8 +70,6 @@ public static String studentUsername="";
             teacherUsername=fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
 
 
-
-
             clientSocket.close();
             System.out.println("Socket closed!");
 
@@ -79,7 +78,7 @@ public static String studentUsername="";
             System.out.println(clientSocket);
 
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            // here we receive msg from server
+            // here we receive msg from serverl
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
           //  sentence = inRequest.readLine(); // Get the request from the user to the server
@@ -90,7 +89,6 @@ public static String studentUsername="";
             String [] temp = fromServ.split("!*!");
             studentUsername=temp[1];
             fromServ=temp[0];
-
             clientSocket.close();
             System.out.println("Socket closed!");
 
