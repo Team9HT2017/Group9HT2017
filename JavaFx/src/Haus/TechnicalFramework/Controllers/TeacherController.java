@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import java.io.*;
 import java.net.Inet4Address;
+import java.util.Arrays;
 import java.util.Scanner;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -66,6 +67,8 @@ public class TeacherController extends AnchorPane {
     public static Alert alert;
     
     public static String user;
+
+    public static String map;
 
 
 	/**
@@ -134,8 +137,8 @@ public class TeacherController extends AnchorPane {
 				System.out.println("Animation in progress");
 				String ip = Inet4Address.getLocalHost().getHostAddress();
                 user = "teacher";
-                TCPClient.main(user, ip);
-				AnimationController.runAnim(Parser.Parse2(toParse,false));
+                TCPClient.main(user, ip, map);
+				//AnimationController.runAnim(Parser.Parse2(toParse,false));
 
 				//showStage();
                 diagramPath.getItems().clear();

@@ -26,6 +26,8 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 
@@ -48,7 +50,7 @@ public class AnimationController implements Initializable {
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
-    public static Character[][] grid;
+    public static char[][] grid;
 
     static ArrayList<Road> roads = new ArrayList<Road>();
 
@@ -112,46 +114,46 @@ public class AnimationController implements Initializable {
         stage.setTitle("Settings");
         stage.setScene(new Scene(root));
         stage.show();
-    } 
+    }
 
-  public void logMessages ()  {
-         try {
-		ArrayList<ArrayList<Object>>  logs = Parser.ParseInorder(TeacherController.toParse);
-		System.out.println("Logs "+logs);
-		String transmission ;
-		ArrayList<Object>  inner  ;
+    public void logMessages ()  {
+        try {
+            ArrayList<ArrayList<Object>>  logs = Parser.ParseInorder(TeacherController.toParse);
+            System.out.println("Logs "+logs);
+            String transmission ;
+            ArrayList<Object>  inner  ;
 
-		for (int j = 0; j < logs.size() ; j++) {
-			inner = logs.get(j);
-			for (int i = 0; i < inner.size(); i++) {
-				transmission = String.format("%s%n", inner.get(i));
-				this.messageLog.appendText("" + transmission);
-			}
-		}
-         }catch (Exception E){
-        	 System.out.println("Before: "+StudentController.toMessageLog);
-        	 String [] arr1 = StudentController.toMessageLog.split("], ");
-        	 arr1[0]=arr1[0].substring(1, arr1[0].length());
-        	 arr1[arr1.length-1]=arr1[arr1.length-1].substring(0, arr1[arr1.length-1].length()-1);
-        	 System.out.println("After: "+arr1[0]+" || "+arr1[arr1.length-1]);
-        	 String inner;
-        	 String transmission;
-        	 for (int j = 0; j < arr1.length ; j++) {
-     			inner = arr1[j];
-     			String [] inn = inner.split(", ");
-     			for (int i = 0; i < inn.length; i++) {
-     				transmission = String.format("%s%n", inn[i]);
-     				this.messageLog.appendText("" + transmission);
-     			}
-     		}
-         }
+            for (int j = 0; j < logs.size() ; j++) {
+                inner = logs.get(j);
+                for (int i = 0; i < inner.size(); i++) {
+                    transmission = String.format("%s%n", inner.get(i));
+                    this.messageLog.appendText("" + transmission);
+                }
+            }
+        }catch (Exception E){
+            System.out.println("Before: "+StudentController.toMessageLog);
+            String [] arr1 = StudentController.toMessageLog.split("], ");
+            arr1[0]=arr1[0].substring(1, arr1[0].length());
+            arr1[arr1.length-1]=arr1[arr1.length-1].substring(0, arr1[arr1.length-1].length()-1);
+            System.out.println("After: "+arr1[0]+" || "+arr1[arr1.length-1]);
+            String inner;
+            String transmission;
+            for (int j = 0; j < arr1.length ; j++) {
+                inner = arr1[j];
+                String [] inn = inner.split(", ");
+                for (int i = 0; i < inn.length; i++) {
+                    transmission = String.format("%s%n", inn[i]);
+                    this.messageLog.appendText("" + transmission);
+                }
+            }
         }
+    }
 
 
     public static char[][] runAnim(Map<?, ?> map) {
         mapScale = 3 * Math.pow((double) map.keySet().size(), -0.6) * 2;
         int mapSize = (int) (map.keySet().size() * mapScale);
-        grid = new Character[mapSize][mapSize];
+        grid = new char[mapSize][mapSize];
         Random rand = new Random();
 
         System.out.println("Creating DrawableObjects");
@@ -167,12 +169,12 @@ public class AnimationController implements Initializable {
         // Build 2d grid map ('H'ouse)
         int m=0;
         for (DrawableObject node : nodes) {
-            	while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ // putting houses in random order, avoididing center of map (main road will be there)
+            while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ // putting houses in random order, avoididing center of map (main road will be there)
                 node.x = rand.nextInt((mapSize) - 2) + 1;}
-                while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){ //ensuring houses will be placed on even Y axis so that roads can be built between them
+            while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){ //ensuring houses will be placed on even Y axis so that roads can be built between them
                 node.y = rand.nextInt((mapSize) - 2) + 1;}
 
-           
+
             grid[node.x][node.y] = 'H'; // placing house on map
             houseLocs[m]=node.x+","+(node.y-1); // adding location near the house to array for road building
             m++;
@@ -184,32 +186,32 @@ public class AnimationController implements Initializable {
         // roads.add(road);
         int k = 0;
         for (Pair tile : road.segments[k]) { // building road in the middle of the map
-        	if (grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
-            grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';}
+            if (grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
+                grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';}
             k++;
         }
         Arrays.sort(houseLocs);
         for (String h:houseLocs){
-        	System.out.println("H="+h);
+            System.out.println("H="+h);
         }
         System.out.println(Arrays.toString(houseLocs));
         for (String h:houseLocs){ // building road from each house to the main road
-        	String [] divide = h.split(",");
-        	System.out.println("Divide ="+Arrays.toString(divide));
-        	int x1=Integer.parseInt(divide[0]);
-        	int y1=Integer.parseInt(divide[1]);
-        	if (x1<mapSize/2){
-        	      for (int u=x1;u<mapSize/2;u++){       	    	
-        	    	  grid[u][y1]='R';
-        	    	 
-        	      }}else {
-        	    	  for (int u=x1;u>mapSize/2;u--){       	    	
-            	    	  grid[u][y1]='R';
-            	    	
-            	      }
-        	      }
-                
-        	}
+            String [] divide = h.split(",");
+            System.out.println("Divide ="+Arrays.toString(divide));
+            int x1=Integer.parseInt(divide[0]);
+            int y1=Integer.parseInt(divide[1]);
+            if (x1<mapSize/2){
+                for (int u=x1;u<mapSize/2;u++){
+                    grid[u][y1]='R';
+
+                }}else {
+                for (int u=x1;u>mapSize/2;u--){
+                    grid[u][y1]='R';
+
+                }
+            }
+
+        }
       
           
 		/*
@@ -261,30 +263,30 @@ public class AnimationController implements Initializable {
 
     public void animate(String map) {
 
-ArrayList<ArrayList<Character>> chararr = new ArrayList<ArrayList<Character>>();
-map = map.split(Pattern.quote("~"))[0];
-map = map.split(Pattern.quote("[["))[1];
-map = map.split(Pattern.quote("]]"))[0];
-//while (map.length() > 0){
-{
-String[] array1 = map.split(Pattern.quote("], ["));
-int i = 0;
-System.out.println(array1[i]);
-while (i != array1.length && array1[i].length() >= 0){
-chararr.add(new ArrayList<Character>());
-String[] strarr = array1[i].split(Pattern.quote(", "));
-for (String str : strarr){
-chararr.get(i).add(str.toCharArray()[0]);
-System.out.println(chararr.get(i) + " : ");
+        ArrayList<ArrayList<Character>> chararr = new ArrayList<ArrayList<Character>>();
+        map = map.split(Pattern.quote("~"))[0];
+        map = map.split(Pattern.quote("[["))[1];
+        map = map.split(Pattern.quote("]]"))[0];
 
-}
-i++;
-}
-for (int j = 0; j < chararr.size(); j++)
-for (int k = 0; k < chararr.get(j).size(); k++)
-grid[j][k] = chararr.get(j).get(k);
+        {
+            String[] array1 = map.split(Pattern.quote("], ["));
+            int i = 0;
+            System.out.println(array1[i]);
+            while (i != array1.length && array1[i].length() >= 0){
+                chararr.add(new ArrayList<Character>());
+                String[] strarr = array1[i].split(Pattern.quote(", "));
+                for (String str : strarr){
+                    chararr.get(i).add(str.toCharArray()[0]);
+                    System.out.println(chararr.get(i) + " : ");
 
-}
+                }
+                i++;
+            }
+            for (int j = 0; j < chararr.size(); j++)
+                for (int k = 0; k < chararr.get(j).size(); k++)
+                    grid[j][k] = chararr.get(j).get(k);
+
+        }
 
 
         System.out.println("Initializing anim 2nd");

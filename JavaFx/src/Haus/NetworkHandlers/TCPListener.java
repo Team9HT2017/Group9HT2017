@@ -26,7 +26,7 @@ public class TCPListener extends Thread {
 	   clientSentence = inFromClient.readLine();
 	   System.out.println("Received: " + clientSentence);
 	   connectionSocket.close();
-	   AnimationController.testMsg(clientSentence);
+	   //AnimationController.testMsg(clientSentence);
 	   //outToClient.writeBytes(capitalizedSentence);
 	  }
 	 
