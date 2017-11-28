@@ -51,7 +51,6 @@ loopUserNames(List)-> % User names handling loop, which is connected to all clie
       io:format("~p List ~n",[NameList]),
       loopUserNames(NameList);
     {Pid,assign,Socket} ->
-
       Username=lists:last(List), %assigning user name to client. Taking (and deleting) user name from the list, making a pair of it and IP, and putting this pair to the list
       ToPut={Socket,Username},
       NewList=[ToPut|lists:delete(Username,List)], %
@@ -61,9 +60,7 @@ loopUserNames(List)-> % User names handling loop, which is connected to all clie
     {Pid,search,Name} ->
       io:format("~p Name: ~n",[Name]),
       L=[ {Socket,Name} || {Socket,Username} <- List,  Name=:=Username],
-      %case L of [] -> Pid ! not_found;
       Pid ! {found, L},
-      %end,
       loopUserNames(List);
     {Pid,get} ->
       Pid ! {self(),List},
