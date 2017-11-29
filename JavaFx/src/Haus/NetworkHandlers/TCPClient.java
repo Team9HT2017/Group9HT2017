@@ -17,12 +17,13 @@ import java.util.List;
  */
 
 public class TCPClient {
-public static  String fromServ="nope";
+public static  String fromServ = "nope";
 public static String globalIP;
 public static String teacherUsername="";
 public static String studentUsername="";
+
     @SuppressWarnings("rawtypes")
-	public static String main(String user, String ip) throws Exception {
+	public static String main(String user, String ip, String message) throws Exception {
 
         String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
@@ -31,9 +32,8 @@ public static String studentUsername="";
       
         globalIP=ip;
         
-
         if (user == "teacher") {
-        	 String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
+        	 //String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
         	 Reader inputData = new StringReader(message);
              BufferedReader inFromUser = new BufferedReader(inputData);
 
@@ -62,10 +62,7 @@ public static String studentUsername="";
             }
             if (!gateway.equals("")){
            ordered.add(gateway);}
-            
-            
-          
-          
+
           
             outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ').replaceAll("\\s+", "")+"!?!"+"TEACHER\n"); // send it to server
             request = inRequest.readLine(); // Ask to send the file

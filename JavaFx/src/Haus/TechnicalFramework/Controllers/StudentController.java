@@ -94,7 +94,7 @@ public class StudentController extends AnchorPane {
 		       
 		        try {
                     
-                    topars = (TCPClient.main("student", classID1.getText(), ""));
+                    topars = (TCPClient.main("student", classID1.getText(), "hi"));
 //                    String [] topars = (TCPClient.main("student", classID1.getText(), "").replaceAll( "','", "").replaceAll("'", "").split("~"));
 //
 //                    pars=topars[0];
