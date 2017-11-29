@@ -2,46 +2,50 @@ package Haus.NetworkHandlers;
 
 import Haus.TechnicalFramework.Controllers.TeacherController;
 import Haus.TechnicalFramework.DataHandler.Parser;
-
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 /**
  * This class handles the connection between the application and the server.
  *
  * @author Anthony Path and Laiz Figueroa
  * @version 1.0
  *
+ * @editor Leo Persson and Laiz Figueroa
+ * @version 1.1
+ * Modifications: Send to the server the city map instead of the parsed information.
+ *
+ *
  */
 
 public class TCPClient {
-public static  String fromServ="nope";
-public static String teacherUsername="";
-public static String studentUsername="";
+    
+    public static  String fromServ = "nope";
+    public static String teacherUsername = "";
+    public static String studentUsername = "";
+    
     @SuppressWarnings("rawtypes")
-	public static String main(String user, String ip) throws Exception {
-
+    public static String main(String user, String ip, String message) throws Exception {
+        
         String sentence; // string to hold messages
         String modifiedSentence; // string to receive messages
-       
-        String request = "request";
-      
-
         
-
+        String request = "request";
+        
         if (user == "teacher") {
-        	 String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
-        	 Reader inputData = new StringReader(message);
-             BufferedReader inFromUser = new BufferedReader(inputData);
-
-             Reader inputRequest = new StringReader(request);
-             BufferedReader inRequest = new BufferedReader(inputRequest);
+//            String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
+            Reader inputData = new StringReader(message);
+            BufferedReader inFromUser = new BufferedReader(inputData);
+            
+            Reader inputRequest = new StringReader(request);
+            BufferedReader inRequest = new BufferedReader(inputRequest);
             ip  = Inet4Address.getLocalHost().getHostAddress();
             Socket clientSocket = new Socket(ip, 8080);
             System.out.println(clientSocket);
-
+            
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             // here we receive msg from server
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -54,32 +58,28 @@ public static String studentUsername="";
             	}else{
             	gateway=users[i].toString().split("\\|")[0].replaceAll("\\s+", "");}
             }
-           ordered.add(gateway);
+            if (!gateway.equals("")){
+                ordered.add(gateway);}
             
-            
-          
-          
-          
             outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ').replaceAll("\\s+", "")+"!?!"+"TEACHER\n"); // send it to server
             request = inRequest.readLine(); // Ask to send the file
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
-            System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf("g")-1),fromServ.length())); 
-            teacherUsername=fromServ;
-
+            System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf(":")+2),fromServ.length()));
+            teacherUsername=fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
 
             clientSocket.close();
             System.out.println("Socket closed!");
-
+            
         } else {
             Socket clientSocket = new Socket(ip, 8080);
             System.out.println(clientSocket);
-
+            
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            // here we receive msg from server
+            // here we receive msg from serverl
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-          //  sentence = inRequest.readLine(); // Get the request from the user to the server
+            
+            //  sentence = inRequest.readLine(); // Get the request from the user to the server
             outToServer.writeUTF("GET" + '\n'); // Send the request
             fromServ = inFromServer.readLine(); // Receive the parsed file
             
@@ -90,8 +90,8 @@ public static String studentUsername="";
 
             clientSocket.close();
             System.out.println("Socket closed!");
-
+            
         }
-		return fromServ;
+        return fromServ;
     }
 }

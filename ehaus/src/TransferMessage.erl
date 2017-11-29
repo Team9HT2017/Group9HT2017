@@ -50,7 +50,7 @@ message_loop(Messages,ID)-> %message handling loop
     {Pid,find,Id} ->
       L=[Message||{Message,Ident}<-Messages,Ident=:=Id],
       case L of [] -> Pid ! nope;
-        true ->  {Mess,_}=L,
+        true ->  [Mess]=L,
           Pid ! {self(),Mess} end,
       message_loop(Messages,ID)
   end.

@@ -11,7 +11,7 @@
 -export([start/1]).
 -export([start_link/1, init/2]).
 -export([system_continue/3, system_terminate/4,
-  system_get_state/1, system_replace_state/2]).
+  system_get_state/1, system_replace_state/2,distribute/2]).
 
 -record(s, {socket = none :: none | gen_tcp:socket()}).
 
@@ -43,7 +43,7 @@ listen(Parent, Debug, ListenSocket) ->
   end.
 
 loop(Parent, Debug, State = #s{socket = Socket}) ->
-  ok = inet:setopts(Socket, [{active, once}]),
+  %ok = inet:setopts(Socket, [{active, once}]),
   receive
 %%      {tcp,Socket,<<"GETUSERNAME\n">>} -> % request from client to get user name
 %%      Username = userNameHandler:assignUserName(Socket),
@@ -76,20 +76,27 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
           Mess=string:split(Message,"!^!",all),
          [ActualMessage,Type]=Mess,
           case Type of <<"SEND">> ->  % sender sends message
-                R1 = string:split(ActualMessage,"to",all),
+                R1 = string:split(ActualMessage,"to ",all),
+            gen_tcp:send(Socket,"Success\n"),
             io:format("~p Splitted.~n", [R1]),
             [_,Part]=R1,
                 [To,_]=string:split(Part,",",all),
             io:format("~p Recipient: ~n", [To]),
                 RecipTry=userNameHandler:get_Username(To),
+            case RecipTry of []-> ok;
+              [{IP,_}]->
                 ToSend=transferMessage:store_message(ActualMessage),
                 [{IP,_}]=RecipTry,
+            io:format("Message: ~p~n", [ActualMessage]),
                 {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
                 % SocketSend
-                ok = gen_tcp:send(SocketSend, [ActualMessage,"\n"]);
+            io:format("Socket: ~p~n", [SocketSend]),
+                ok = gen_tcp:send(SocketSend, [ActualMessage,"\n"])
+            end;
             true->    % recipient sends confirmation (ID of message as actual message)
             Distributive = transferMessage:find_message(ActualMessage),
               Users = userNameHandler:get_list(),
+              % distribute(Users,Distributive),
           [IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
               end,
       loop(Parent, Debug, State)
@@ -103,6 +110,14 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
       ok = io:format("~p Unexpected message: ~tp", [self(), Unexpected]),
       loop(Parent, Debug, State)
   end.
+
+distribute([],Dist)-> ok ;
+distribute([L|T],Dist)->{IP,_}=L,
+  {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
+  gen_tcp:send(SocketSend,Dist),
+  distribute(T,Dist).
+
+
 
 system_continue(Parent, Debug, State) ->
   loop(Parent, Debug, State).
