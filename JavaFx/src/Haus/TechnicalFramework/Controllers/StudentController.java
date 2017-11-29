@@ -113,7 +113,7 @@ public class StudentController extends AnchorPane {
 //                    System.out.println(toSim.toString());
 //                        AnimationController.runAnim(toSim);
 			studentPane.getChildren().clear();
-			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/Splash.fxml")));
+			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
 			// showStage();
 			classID1.clear();
 			} catch (Exception e) {

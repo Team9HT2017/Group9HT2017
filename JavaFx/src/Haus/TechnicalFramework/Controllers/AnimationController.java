@@ -130,7 +130,8 @@ public class AnimationController implements Initializable {
                     this.messageLog.appendText("" + transmission);
                 }
             }
-        }catch (Exception E){
+        }catch (Exception e){
+            e.printStackTrace();
             System.out.println("Before: "+StudentController.toMessageLog);
             String [] arr1 = StudentController.toMessageLog.split("], ");
             arr1[0]=arr1[0].substring(1, arr1[0].length());
@@ -244,12 +245,20 @@ public class AnimationController implements Initializable {
         }
         System.out.println("Initializing anim 1st");
         if (TeacherController.user == "teacher") {
-            animate(TeacherController.map);
+
+            String map = TeacherController.map;
+            map = map.split(Pattern.quote("~"))[0];
+
+            animate(map);
         }
         else {
             String[] data = StudentController.topars;
-            animate(data[0]);
             createStudentObjects(data[1]);
+
+            //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
+            mapScale = 3 * Math.pow((double) nodes.size(), -0.6) * 2;
+            grid = new char[(int)(nodes.size() * mapScale)][(int)(nodes.size() * mapScale)];
+            animate(data[0]);
         }
         // gc.drawImage(node.image, node.x * 32, node.y * 32);
     }
@@ -266,7 +275,6 @@ public class AnimationController implements Initializable {
     public void animate(String map) {
 
         ArrayList<ArrayList<Character>> chararr = new ArrayList<ArrayList<Character>>();
-        map = map.split(Pattern.quote("~"))[0];
         map = map.split(Pattern.quote("[["))[1];
         map = map.split(Pattern.quote("]]"))[0];
 
@@ -296,7 +304,7 @@ public class AnimationController implements Initializable {
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
         gc = canvas.getGraphicsContext2D();
         gc.setFont(new Font("Consolas", 10));
-        DrawableObject node = nodes.get(0);
+        DrawableObject node;
         int housenum = 0;
         Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
 
@@ -393,14 +401,12 @@ public class AnimationController implements Initializable {
         //Split the string into subcomponents to separate variables
         String[] objArray = objString.split(Pattern.quote("}{"));
         objArray[0] = objArray[0].split(Pattern.quote("{"))[1];
-        objArray[objArray.length] = objArray[objArray.length].split(Pattern.quote("}"))[0];
+        objArray[objArray.length - 1] = objArray[objArray.length - 1].split(Pattern.quote("}"))[0];
 
 
-        int i = 0;
         for (String str : objArray){
-            String[] houseInfoArr = objArray[i].split(Pattern.quote(","));
+            String[] houseInfoArr = str.split(Pattern.quote(","));
             nodes.add(new DrawableObject(houseInfoArr[0], Integer.parseInt(houseInfoArr[1]), Integer.parseInt(houseInfoArr[2])));
-            i++;
         }
     }
 
