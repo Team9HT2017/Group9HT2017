@@ -221,7 +221,7 @@ public class TeacherController extends AnchorPane {
 		alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("WELCOME");
 		alert.setHeaderText(null);
-		alert.setContentText("Your class number is: " + ip);
+		alert.setContentText("Your classroom ID is: " + ip);
 		alert.initModality(Modality.NONE); // To enable the user to navigate to other windows
 		alert.setX(900);
 		alert.setY(20);
