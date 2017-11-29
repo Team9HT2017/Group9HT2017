@@ -12,7 +12,7 @@ public class TCPListener extends Thread {
 	 }*/
 	 public static void listen() throws IOException {
 		 
-	  String clientSentence;
+	  String serverSentence;
 	  String capitalizedSentence;
 	  ServerSocket welcomeSocket = new ServerSocket(6789);
 	 
@@ -23,11 +23,18 @@ public class TCPListener extends Thread {
 	   BufferedReader inFromClient =
 	    new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 	   DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-	   clientSentence = inFromClient.readLine();
-	   System.out.println("Received: " + clientSentence);
+	   serverSentence = inFromClient.readLine();
+	   System.out.println("Received: " + (serverSentence));
+	   String toSend=serverSentence.substring(0,serverSentence.indexOf(','));
+	   System.out.println("Sending: " + (toSend));
+	  // outToClient.writeUTF(toSend+"!^!CONFIRM!?!STUDENT" + '\n');
 	   connectionSocket.close();
-	   //AnimationController.testMsg(clientSentence);
-	   //outToClient.writeBytes(capitalizedSentence);
+	  // System.out.println("Sending confirmation ID: "+toSend);
+      try{Integer.parseInt(toSend);
+	   TCPClient.sendMessage(toSend,true);}
+	  catch (Exception e){
+		  //do nothing
+	  }
 	  }
 	 
 	}

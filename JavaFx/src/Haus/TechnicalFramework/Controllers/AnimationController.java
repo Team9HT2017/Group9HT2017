@@ -76,6 +76,9 @@ public class AnimationController implements Initializable {
     public Button leaveAnimation;
 
     @FXML
+    public Button sendMessage;
+
+    @FXML
     public Button settingsButton;
 
     @FXML
@@ -99,6 +102,21 @@ public class AnimationController implements Initializable {
         Main.getScene(root, stage1);
 
     }
+
+ /**
+     * Method to send a message. Disregard the method's name, for some reason
+     * it does not work with other names 
+     * @throws Exception
+     */
+ @FXML
+    private void openSettings2() throws IOException {
+    	try {
+    		TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    } 
+    
 
     /**
      * Method to give action to the Settings button. When the users press, it will
