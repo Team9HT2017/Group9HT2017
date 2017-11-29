@@ -1,5 +1,6 @@
 package Haus.TechnicalFramework.Controllers;
 
+import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DjikstraNode;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.AnimationObjects.Road;
@@ -76,6 +77,9 @@ public class AnimationController implements Initializable {
     public Button leaveAnimation;
 
     @FXML
+    public Button sendMessage;
+
+    @FXML
     Canvas canvas;
 
     @FXML
@@ -96,6 +100,20 @@ public class AnimationController implements Initializable {
         Main.getScene(root, stage1);
 
     }
+
+ /**
+     * Method to send a message. Disregard the method's name, for some reason
+     * it does not work with other names 
+     * @throws Exception
+     */
+ @FXML
+    private void openSettings2() throws IOException {
+    	try {
+    		TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    } 
 
     public void logMessages ()  {
         try {
@@ -295,7 +313,7 @@ public class AnimationController implements Initializable {
                                 twoDToIso(new Point(i * 16, j * 16)).y - 16);
 
 
-                        //For printing the names 
+                        //For printing the names above the houses
                             gc.setFont(new Font("Calibri", 10));
                             gc.setFontSmoothingType(FontSmoothingType.GRAY);
                             gc.strokeText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
