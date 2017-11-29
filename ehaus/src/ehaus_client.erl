@@ -83,21 +83,24 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
                 [To,_]=string:split(Part,",",all),
             io:format("~p Recipient: ~n", [To]),
                 RecipTry=userNameHandler:get_Username(To),
-            case RecipTry of []-> ok;
+            case RecipTry of []-> ok; % distribute(Users,Distributive)
               [{IP,_}]->
-                ToSend=transferMessage:store_message(ActualMessage),
+                MessID=transferMessage:store_message(ActualMessage),
                 [{IP,_}]=RecipTry,
             io:format("Message: ~p~n", [ActualMessage]),
                 {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
                 % SocketSend
-            io:format("Socket: ~p~n", [SocketSend]),
-                ok = gen_tcp:send(SocketSend, [ActualMessage,"\n"])
+            io:format("Message ID: ~p~n", [MessID]),
+                ok = gen_tcp:send(SocketSend, ([integer_to_binary(MessID),",",ActualMessage,"\n"]))
             end;
-            true->    % recipient sends confirmation (ID of message as actual message)
-            Distributive = transferMessage:find_message(ActualMessage),
+            <<"CONFIRM">>->    % recipient sends confirmation (ID of message as actual message)
+              ForSearch=binary_to_integer(ActualMessage),
+            Distributive = transferMessage:find_message(0),
+              io:format("Message:~p~n", [Distributive]),
               Users = userNameHandler:get_list(),
-              % distribute(Users,Distributive),
-          [IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
+              io:format("Users: ~p~n", [Users]),
+               distribute(Users,Distributive)
+          %[IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
               end,
       loop(Parent, Debug, State)
         end;
@@ -114,6 +117,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
 distribute([],Dist)-> ok ;
 distribute([L|T],Dist)->{IP,_}=L,
   {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
+  io:format("Distributing: ~p~n", [SocketSend]),
   gen_tcp:send(SocketSend,Dist),
   distribute(T,Dist).
 

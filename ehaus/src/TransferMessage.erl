@@ -15,23 +15,23 @@
 % a module responsible  for exchanging messages between clients
 
 start() ->
-  case whereis(transferMesaage) of
+  case whereis(transferMessage) of
     undefined ->
       Pid = spawn(fun () ->
         io:format("Message handler operational~n"),
         message_loop([],0)
                   end),
-      register(transferMesaage, Pid),
+      register(transferMessage, Pid),
       {ok, Pid};
     Pid -> {ok, Pid}
   end.
 
 store_message(Message)->  % function to send message to server
-  transferMesaage ! {self(),send,Message},
+  transferMessage ! {self(),send,Message},
   receive {_,M} -> M end.
 
 confirm_message()->        % function to send confirmation of reception to the server
-  transferMesaage ! {self(),received},
+  transferMessage ! {self(),received},
   receive {_,ok} ->ok end.
 
 find_message (ID) ->
@@ -45,13 +45,14 @@ message_loop(Messages,ID)-> %message handling loop
     {Pid,send,Message} ->
      Add={Message,ID},
       IDNew=ID+1,
-      Pid ! {self,Add},
+      Pid ! {self,ID},
       message_loop([Add|Messages],IDNew);
     {Pid,find,Id} ->
+      io:format("Searching...~p~n",[Id]),
       L=[Message||{Message,Ident}<-Messages,Ident=:=Id],
       case L of [] -> Pid ! nope;
-        true ->  [Mess]=L,
-          Pid ! {self(),Mess} end,
+        [X] -> % [Mess]=L,
+          Pid ! {self(),X} end,
       message_loop(Messages,ID)
   end.
 
