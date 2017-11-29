@@ -18,12 +18,12 @@
           <top>
               <HBox spacing="10.0" BorderPane.alignment="CENTER">
                   <children>
-                  <Label fx:id="username" disable="true" prefHeight="38.0" prefWidth="94.0" text="Username">
+                  <Label fx:id="username" disable="true" prefHeight="38.0" prefWidth="94.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
                      <HBox.margin>
                         <Insets bottom="10.0" left="20.0" top="20.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="17.0" />
+                        <Font name="System Bold" size="17.0" />
                      </font></Label>
                   </children>
               </HBox>
@@ -43,11 +43,11 @@
                <children>
                   <Canvas fx:id="mailboxAnimation" disable="true" height="166.0" width="200.0">
                      <VBox.margin>
-                        <Insets right="20.0" />
+                        <Insets />
                      </VBox.margin></Canvas>
-                  <TextArea fx:id="messageLog" editable="false" prefHeight="313.0" prefWidth="200.0" wrapText="true">
+                  <TextArea fx:id="messageLog" editable="false" focusTraversable="false" prefHeight="313.0" prefWidth="200.0" wrapText="true">
                      <VBox.margin>
-                        <Insets right="20.0" />
+                        <Insets />
                      </VBox.margin></TextArea>
                   <Button fx:id="sendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
                      <VBox.margin>
@@ -58,7 +58,7 @@
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="20.0" left="65.0" right="20.0" top="65.0" />
+                        <Insets left="50.0" top="58.0" />
                      </VBox.margin>
                     </Button>
                </children>
