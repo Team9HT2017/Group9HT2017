@@ -34,8 +34,7 @@ import javafx.scene.paint.Color;
 
 /**
  * This class will handle the animation page, where the user can see the diagram
- * animation, see the log created, do the settings adjustments, and leave the
- * animation.
+ * animation, see the log created, and leave the animation.
  *
  * @author Leo Persson and Rema Salman
  * @version 1.0
@@ -43,7 +42,9 @@ import javafx.scene.paint.Color;
  * @author Laiz Figueroa
  * @version 1.1 Modification: Changed the layout and disposition of elements;
  * Added the settings functionality;
- * Changed some of the configurations for printing the user's name above the houses.
+ * Changed some of the configurations for printing the user's name above the houses;
+ * Deleted the settings functionality.
+ *
  */
 public class AnimationController implements Initializable {
 
