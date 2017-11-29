@@ -85,11 +85,4 @@ public class DjikstraNode {
         g.printPath (destination.x + "," + destination.y);
     }
 
-
-//    @Override
-//    public boolean equals (Object o) {
-//        return (o instanceof DjikstraNode) && (x == ((DjikstraNode) o).x && y == ((DjikstraNode) o).y);
-//    }
-
-
 }
