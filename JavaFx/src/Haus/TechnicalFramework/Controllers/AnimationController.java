@@ -103,11 +103,11 @@ public class AnimationController implements Initializable {
 
  /**
      * Method to send a message. Disregard the method's name, for some reason
-     * it does not work with other names 
-     * @throws Exception
+     * it does not work with other names
+     * @throws IOException
      */
  @FXML
-    private void openSettings2() throws IOException {
+    private void sendMessage() throws IOException {
     	try {
     		TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
     	} catch (Exception e) {
