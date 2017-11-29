@@ -76,9 +76,6 @@ public class AnimationController implements Initializable {
     public Button leaveAnimation;
 
     @FXML
-    public Button settingsButton;
-
-    @FXML
     Canvas canvas;
 
     @FXML
@@ -98,22 +95,6 @@ public class AnimationController implements Initializable {
         root = FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml"));
         Main.getScene(root, stage1);
 
-    }
-
-    /**
-     * Method to give action to the Settings button. When the users press, it will
-     * open a new window with all the changes possible for the system.
-     *
-     * @throws IOException
-     */
-    @FXML
-    private void openSettings() throws IOException {
-
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/SettingsPage.fxml"));
-        Parent root = fxmlloader.load();
-        stage.setTitle("Settings");
-        stage.setScene(new Scene(root));
-        stage.show();
     }
 
     public void logMessages ()  {
@@ -313,8 +294,8 @@ public class AnimationController implements Initializable {
                         gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
                                 twoDToIso(new Point(i * 16, j * 16)).y - 16);
 
-                        //If the settings are selected to print the name of the users on the houses it goes inside this condition.
-                        if (SettingsController.names == 1) {
+
+                        //For printing the names 
                             gc.setFont(new Font("Calibri", 10));
                             gc.setFontSmoothingType(FontSmoothingType.GRAY);
                             gc.strokeText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
@@ -323,7 +304,7 @@ public class AnimationController implements Initializable {
                             gc.setLineWidth(4);
                             gc.fillText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                     Point(i * 16, j * 16)).y - 16);
-                        }
+
 
                         System.out.println(node.name);
                         break;
