@@ -86,6 +86,8 @@ public class AnimationController implements Initializable {
     @FXML
     private TextArea messageLog;
 
+    String userNames;
+
     /**
      * Method to give action to the Leave Animation button. When the users press, it
      * will leave the animation and go back to the first page.
@@ -245,6 +247,7 @@ public class AnimationController implements Initializable {
         System.out.println("Initializing anim 1st");
         if (TeacherController.user == "teacher") {
             animate(TeacherController.map);
+            TeacherController.map = userNames.split(Pattern.quote("~"))[1];
         }
         else {
             String[] data = StudentController.topars;
@@ -397,11 +400,9 @@ public class AnimationController implements Initializable {
         objArray[objArray.length] = objArray[objArray.length].split(Pattern.quote("}"))[0];
 
 
-        int i = 0;
         for (String str : objArray){
-            String[] houseInfoArr = objArray[i].split(Pattern.quote(","));
+            String[] houseInfoArr = str.split(Pattern.quote(","));
             nodes.add(new DrawableObject(houseInfoArr[0], Integer.parseInt(houseInfoArr[1]), Integer.parseInt(houseInfoArr[2])));
-            i++;
         }
     }
 
