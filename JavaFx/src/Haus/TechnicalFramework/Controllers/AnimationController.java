@@ -132,7 +132,8 @@ public class AnimationController implements Initializable {
                     this.messageLog.appendText("" + transmission);
                 }
             }
-        }catch (Exception E){
+        }catch (Exception e){
+            e.printStackTrace();
             System.out.println("Before: "+StudentController.toMessageLog);
             String [] arr1 = StudentController.toMessageLog.split("], ");
             arr1[0]=arr1[0].substring(1, arr1[0].length());
@@ -160,55 +161,61 @@ public class AnimationController implements Initializable {
 
         System.out.println("Creating DrawableObjects");
         for (Object obj : map.keySet()) {
-            nodes.add(new DrawableObject(obj, mapSize, mapSize));
+            if (TeacherController.user.equals("teacher")) {
+                nodes.add(new DrawableObject(obj, mapSize, mapSize));
+            }
         }
 
         // Build 2d grid map ('G'rass)
         for (int i = 0; i < mapSize; i++) {
             Arrays.fill(grid[i], 'G');
         }
-        String [] houseLocs = new String [nodes.size()]; // array for near-house locations
+        String[] houseLocs = new String[nodes.size()]; // array for near-house locations
         // Build 2d grid map ('H'ouse)
-        int m=0;
+        int m = 0;
         for (DrawableObject node : nodes) {
-            while ((node.x == mapSize/2 || node.x==mapSize/2+1) || grid[node.x][node.y]=='H'){ // putting houses in random order, avoididing center of map (main road will be there)
-                node.x = rand.nextInt((mapSize) - 2) + 1;}
-            while (node.y % 2 != 0|| grid[node.x][node.y]=='H'){ //ensuring houses will be placed on even Y axis so that roads can be built between them
-                node.y = rand.nextInt((mapSize) - 2) + 1;}
+            while ((node.x == mapSize / 2 || node.x == mapSize / 2 + 1) || grid[node.x][node.y] == 'H') { // putting houses in random order, avoididing center of map (main road will be there)
+                node.x = rand.nextInt((mapSize) - 2) + 1;
+            }
+            while (node.y % 2 != 0 || grid[node.x][node.y] == 'H') { //ensuring houses will be placed on even Y axis so that roads can be built between them
+                node.y = rand.nextInt((mapSize) - 2) + 1;
+            }
 
 
             grid[node.x][node.y] = 'H'; // placing house on map
-            houseLocs[m]=node.x+","+(node.y-1); // adding location near the house to array for road building
+            houseLocs[m] = node.x + "," + (node.y - 1); // adding location near the house to array for road building
             m++;
-            System.out.println("X= "+node.x);
-            System.out.println("Y= "+node.y);
+            System.out.println("X= " + node.x);
+            System.out.println("Y= " + node.y);
         }
 
-        Road road = new Road(mapSize/2,1,mapSize/2,mapSize-1); // building road in the middle of the map
+        Road road = new Road(mapSize / 2, 1, mapSize / 2, mapSize - 1); // building road in the middle of the map
         // roads.add(road);
         int k = 0;
         for (Pair tile : road.segments[k]) { // building road in the middle of the map
-            if (grid[(int) tile.getKey()][(int) tile.getValue()]!='H'){
-                grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';}
+            if (grid[(int) tile.getKey()][(int) tile.getValue()] != 'H') {
+                grid[(int) tile.getKey()][(int) tile.getValue()] = 'R';
+            }
             k++;
         }
         Arrays.sort(houseLocs);
-        for (String h:houseLocs){
-            System.out.println("H="+h);
+        for (String h : houseLocs) {
+            System.out.println("H=" + h);
         }
         System.out.println(Arrays.toString(houseLocs));
-        for (String h:houseLocs){ // building road from each house to the main road
-            String [] divide = h.split(",");
-            System.out.println("Divide ="+Arrays.toString(divide));
-            int x1=Integer.parseInt(divide[0]);
-            int y1=Integer.parseInt(divide[1]);
-            if (x1<mapSize/2){
-                for (int u=x1;u<mapSize/2;u++){
-                    grid[u][y1]='R';
+        for (String h : houseLocs) { // building road from each house to the main road
+            String[] divide = h.split(",");
+            System.out.println("Divide =" + Arrays.toString(divide));
+            int x1 = Integer.parseInt(divide[0]);
+            int y1 = Integer.parseInt(divide[1]);
+            if (x1 < mapSize / 2) {
+                for (int u = x1; u < mapSize / 2; u++) {
+                    grid[u][y1] = 'R';
 
-                }}else {
-                for (int u=x1;u>mapSize/2;u--){
-                    grid[u][y1]='R';
+                }
+            } else {
+                for (int u = x1; u > mapSize / 2; u--) {
+                    grid[u][y1] = 'R';
 
                 }
             }
@@ -246,13 +253,25 @@ public class AnimationController implements Initializable {
         }
         System.out.println("Initializing anim 1st");
         if (TeacherController.user == "teacher") {
-            animate(TeacherController.map);
-            TeacherController.map = userNames.split(Pattern.quote("~"))[1];
+
+            //animate(TeacherController.map);
+            //TeacherController.map = userNames.split(Pattern.quote("~"))[1];
+
+
+            String map = TeacherController.map;
+            String[] mapArr = map.split(Pattern.quote("~"));
+
+            animate(mapArr[0]);
+
         }
         else {
             String[] data = StudentController.topars;
-            animate(data[0]);
             createStudentObjects(data[1]);
+
+            //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
+            mapScale = 3 * Math.pow((double) nodes.size(), -0.6) * 2;
+            grid = new char[(int)(nodes.size() * mapScale)][(int)(nodes.size() * mapScale)];
+            animate(data[0]);
         }
         // gc.drawImage(node.image, node.x * 32, node.y * 32);
     }
@@ -269,7 +288,6 @@ public class AnimationController implements Initializable {
     public void animate(String map) {
 
         ArrayList<ArrayList<Character>> chararr = new ArrayList<ArrayList<Character>>();
-        map = map.split(Pattern.quote("~"))[0];
         map = map.split(Pattern.quote("[["))[1];
         map = map.split(Pattern.quote("]]"))[0];
 
@@ -302,7 +320,7 @@ public class AnimationController implements Initializable {
         gc.setFontSmoothingType(FontSmoothingType.GRAY);
         gc.setLineWidth(4);
         gc.setStroke(new Color(1, 1, 1, 1));
-        DrawableObject node = nodes.get(0);
+        DrawableObject node;
         int housenum = 0;
         Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
 
@@ -397,7 +415,7 @@ public class AnimationController implements Initializable {
         //Split the string into subcomponents to separate variables
         String[] objArray = objString.split(Pattern.quote("}{"));
         objArray[0] = objArray[0].split(Pattern.quote("{"))[1];
-        objArray[objArray.length] = objArray[objArray.length].split(Pattern.quote("}"))[0];
+        objArray[objArray.length - 1] = objArray[objArray.length - 1].split(Pattern.quote("}"))[0];
 
 
         for (String str : objArray){

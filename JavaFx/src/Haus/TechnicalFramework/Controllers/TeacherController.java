@@ -121,23 +121,23 @@ public class TeacherController extends AnchorPane {
         String mac= "./runserver.sh";
         String windows="./runwindows.sh";
 		if (uploaded) {
-		    if (OS.contains("mac"))
-                runScript(mac);
-
-            else if (OS.contains("wind")) {
-               runScript(windows);
-
-            }
+//		    if (OS.contains("mac"))
+//                runScript(mac);
+//
+//            else if (OS.contains("wind")) {
+//               runScript(windows);
+//
+//            }
 
 
 			try {
+                user = "teacher";
                 map = Arrays.deepToString(AnimationController.runAnim(Parser.Parse2(TeacherController.toParse, false))) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
 			    inProgressBar();
 				System.out.println("Animation in progress");
 				String ip = Inet4Address.getLocalHost().getHostAddress();
-                user = "teacher";
                 TCPClient.main(user, ip, map);
 				//AnimationController.runAnim(Parser.Parse2(toParse,false));
 

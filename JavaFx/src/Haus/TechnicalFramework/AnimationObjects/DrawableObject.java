@@ -1,5 +1,6 @@
 package Haus.TechnicalFramework.AnimationObjects;
 
+import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,8 +22,15 @@ public class DrawableObject {
 
 	public DrawableObject(Object obj, int x, int y) {
 		Random rand = new Random();
-		this.x = rand.nextInt(x - 2) + 1;
-		this.y = rand.nextInt(y - 2) + 1;
+		if (TeacherController.user == "teacher") {
+			this.x = rand.nextInt(x - 2) + 1;
+			this.y = rand.nextInt(y - 2) + 1;
+		}
+		else {
+			this.x = x;
+			this.y = y;
+			}
+
 		name = obj.toString();
 		image = new Image("/Haus/DataStorage/img/house.png");
 		connections = new ArrayList<DrawableObject>();
