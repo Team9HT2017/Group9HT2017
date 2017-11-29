@@ -55,8 +55,6 @@ public static String studentUsername="";
 
             	  ordered.add(users[i].toString().split("\\|")[0].replaceAll("\\s+", "")); //+ servers as indicator for Erlang to add "\n" in its place so that Java can read username later
 
-            	  ordered.add(users[i].toString().split("\\|")[0].replaceAll("\\s+", ""));
-
             	}else{
             	gateway=users[i].toString().split("\\|")[0].replaceAll("\\s+", "");}
             }
