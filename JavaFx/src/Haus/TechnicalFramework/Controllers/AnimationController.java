@@ -295,7 +295,10 @@ public class AnimationController implements Initializable {
         canvas.setWidth((nodes.size() * 32) * mapScale + 80);
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
         gc = canvas.getGraphicsContext2D();
-        gc.setFont(new Font("Consolas", 10));
+        gc.setFont(new Font("Calibri", 10));
+        gc.setFontSmoothingType(FontSmoothingType.GRAY);
+        gc.setLineWidth(4);
+        gc.setStroke(new Color(1, 1, 1, 1));
         DrawableObject node = nodes.get(0);
         int housenum = 0;
         Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
@@ -317,14 +320,12 @@ public class AnimationController implements Initializable {
 
 
                         //For printing the names above the houses
-                            gc.setFont(new Font("Calibri", 10));
-                            gc.setFontSmoothingType(FontSmoothingType.GRAY);
+
                             gc.strokeText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                     Point(i * 16, j * 16)).y - 16);
-                            gc.setStroke(new Color(1, 1, 1, 1));
-                            gc.setLineWidth(4);
                             gc.fillText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                     Point(i * 16, j * 16)).y - 16);
+
 
 
                         System.out.println(node.name);
