@@ -1,6 +1,7 @@
 package Haus.TechnicalFramework.Controllers;
 
 import Haus.NetworkHandlers.TCPClient;
+import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -130,7 +131,7 @@ public class TeacherController extends AnchorPane {
 
 
 			try {
-                map = Arrays.deepToString(AnimationController.runAnim(Parser.Parse2(TeacherController.toParse, false)))+ "~"+ Parser.Parse2(TeacherController.toParse,false).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
+                map = Arrays.deepToString(AnimationController.runAnim(Parser.Parse2(TeacherController.toParse, false))) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
 			    inProgressBar();
@@ -155,6 +156,13 @@ public class TeacherController extends AnchorPane {
 			// if the file is not already uploaded
 		} else
 			userController.dialog("FILE MISSING", "File not uploaded!");
+	}
+	private String getHouses() {
+		String houses = "";
+		for (DrawableObject node : AnimationController.nodes) {
+			houses = houses + "{" + node.name + "," + node.x + "," + node.y + "}";
+		}
+		return houses;
 	}
 
 	private void showStage() throws IOException {

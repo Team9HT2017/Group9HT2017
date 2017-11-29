@@ -37,7 +37,7 @@
                      <font>
                         <Font size="17.0" />
                      </font></Label>
-                      <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#openSettings" prefHeight="27.0" prefWidth="76.0" text="Settings">
+                      <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Settings">
                           <HBox.margin>
                               <Insets bottom="10.0" left="610.0" right="20.0" top="20.0" />
                           </HBox.margin>

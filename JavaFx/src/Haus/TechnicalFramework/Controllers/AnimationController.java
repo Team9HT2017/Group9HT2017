@@ -247,7 +247,9 @@ public class AnimationController implements Initializable {
             animate(TeacherController.map);
         }
         else {
-            animate(StudentController.topars);
+            String[] data = StudentController.topars;
+            animate(data[0]);
+            createStudentObjects(data[1]);
         }
         // gc.drawImage(node.image, node.x * 32, node.y * 32);
     }
@@ -382,6 +384,23 @@ public class AnimationController implements Initializable {
                 }
 
             }
+        }
+    }
+
+    //{u1,x,y}{u2,x,y}
+    public void createStudentObjects(String objString){
+
+        //Split the string into subcomponents to separate variables
+        String[] objArray = objString.split(Pattern.quote("}{"));
+        objArray[0] = objArray[0].split(Pattern.quote("{"))[1];
+        objArray[objArray.length] = objArray[objArray.length].split(Pattern.quote("}"))[0];
+
+
+        int i = 0;
+        for (String str : objArray){
+            String[] houseInfoArr = objArray[i].split(Pattern.quote(","));
+            nodes.add(new DrawableObject(houseInfoArr[0], Integer.parseInt(houseInfoArr[1]), Integer.parseInt(houseInfoArr[2])));
+            i++;
         }
     }
 

@@ -31,7 +31,7 @@ public static String studentUsername="";
         String request = "request";
       
         globalIP=ip;
-        
+
         if (user == "teacher") {
         	 //String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
         	 Reader inputData = new StringReader(message);

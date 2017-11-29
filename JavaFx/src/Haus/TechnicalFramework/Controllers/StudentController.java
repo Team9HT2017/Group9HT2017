@@ -59,7 +59,7 @@ public class StudentController extends AnchorPane {
 
 	UserController userController = new UserController();
     
-    public static String topars;
+    public static String[] topars;
 
 	/**
 	 * method to inform the student whether the teacher uploaded the file or not In
@@ -94,7 +94,7 @@ public class StudentController extends AnchorPane {
 		       
 		        try {
                     
-                    topars = (TCPClient.main("student", classID1.getText(), "hi"));
+                    topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
 //                    String [] topars = (TCPClient.main("student", classID1.getText(), "").replaceAll( "','", "").replaceAll("'", "").split("~"));
 //
 //                    pars=topars[0];
