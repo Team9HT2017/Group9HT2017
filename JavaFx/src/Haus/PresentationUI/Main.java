@@ -162,7 +162,7 @@ public class Main extends Application {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeYes) {
             stage.close();
-//            TeacherController.alert.close();
+          //  TeacherController.alert.close();
             // ... user chose Yes
         } else {
             // ... user chose No or closed the dialog

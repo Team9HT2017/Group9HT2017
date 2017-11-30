@@ -82,6 +82,11 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void selectDiagram() throws IOException {
+
+		// checking if the file is uploaded before animation starts
+		String OS = System.getProperty("os.name").toLowerCase();
+		String mac= "./runserver.sh";
+		String windows="./runwindows.sh";
 		try {
 			FileChooser json = new FileChooser();
 			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -99,6 +104,15 @@ public class TeacherController extends AnchorPane {
 				
 				userController.dialog("File missing","You have not chosen a file"+"\n" + "Please try again ...");
 			}
+
+			// if (OS.contains("mac")) {
+//                runScript(mac);
+//
+//           } else if (OS.contains("wind")) {
+//               runScript(windows);
+//
+//            }
+
 		} catch (Exception e) {
 			System.out.println(e);
 
@@ -116,18 +130,8 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void createAnimation() throws IOException {
-		// checking if the file is uploaded before animation starts
-        String OS = System.getProperty("os.name").toLowerCase();
-        String mac= "./runserver.sh";
-        String windows="./runwindows.sh";
+
 		if (uploaded) {
-//		    if (OS.contains("mac"))
-//                runScript(mac);
-//
-//            else if (OS.contains("wind")) {
-//               runScript(windows);
-//
-//            }
 
 
 			try {
@@ -261,7 +265,7 @@ public class TeacherController extends AnchorPane {
 	 * Method to run the Script responsible for running the server in a separated process.
 	**/
 
-	public void runScript(String server) {
+	public static void runScript(String server) {
 		// String scriptName = "/usr/bin/open -a Terminal
 		File file = new File(".");
 		for (String fileNames : file.list())

@@ -34,6 +34,7 @@ public class Graph {
 			if (this == this.previous)
 			{
 				System.out.printf("%s", this.name);
+				pathArrayList.add (this.name);
 			}
 			else if (this.previous == null)
 			{
@@ -43,6 +44,8 @@ public class Graph {
 			{
 				this.previous.printPath();
 				System.out.print(" -> "+this.name+"("+this.dist+")" );
+				pathArrayList.add (this.name);
+
 			}
 		}
 	 
@@ -119,7 +122,7 @@ public class Graph {
 	         }
 	      }
 	   }
-	 
+	 public static ArrayList<String> pathArrayList;
 	   /** Prints a path from the source to the specified vertex */
 	   public void printPath(String endName) {
 	      if (!graph.containsKey(endName)) {
