@@ -263,13 +263,13 @@ public class AnimationController implements Initializable {
 
             String map = TeacherController.map;
             String[] mapArr = map.split (Pattern.quote ("~"));
-            username.setText (mapArr[1]);
+            username.setText (TCPClient.teacherUsername);
             animate (mapArr[0]);
 
         } else {
             String[] data = StudentController.topars;
             createStudentObjects (data[1]);
-
+            username.setText (TCPClient.studentUsername);
             //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
             mapScale = 3 * Math.pow ((double) nodes.size (), -0.6) * 2;
             grid = new char[(int) (nodes.size () * mapScale)][(int) (nodes.size () * mapScale)];
@@ -519,7 +519,7 @@ public class AnimationController implements Initializable {
 //                this.source = source;
 //                this.distination = distination;
 //            }
-//        }
+        }
 
 
 }
