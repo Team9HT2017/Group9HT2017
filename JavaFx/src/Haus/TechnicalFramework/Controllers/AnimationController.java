@@ -57,7 +57,9 @@ public class AnimationController implements Initializable {
     static ArrayList<Road> roads = new ArrayList<Road> ();
 
     static double mapScale;
-
+	
+    private ArrayList<ArrayList<Object>> logs;
+	
     static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode> ();
 
     private Stage stage1;
@@ -113,18 +115,45 @@ public class AnimationController implements Initializable {
      *
      * @throws IOException
      */
-    @FXML
-    private void sendMessage () throws IOException {
-        try {
-            TCPClient.sendMessage (" [{ u2,  send, to g,  the following message [lol] } ]", false);
-        } catch (Exception e) {
-            e.printStackTrace ();
-        }
-    }
+   @FXML
+    private void sendMessage() throws IOException {
+	 String sending ="nothing";
+	 int control=0;
+	 System.out.println(logs);
+if (logs!=null){
+	String [] check = logs.toString().split("], ");
+	for (int i=0;i<check.length;i++){
+		//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
+		if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
+			System.out.println("Check== "+check[i]);
+			sending=check[i];
+			control++;
+		}
+	}}else {
+		String [] check = StudentController.toMessageLog.split("], ");
+		for (int i=0;i<check.length;i++){
+			//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
+			if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
+				System.out.println("Check== "+check[i]);
+				sending=check[i];
+				control++;
+			}}
+	}
+    	try {
+    		//TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
+    		TCPClient.sendMessage(sending.replaceAll("\\\\", ""),false);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    } 
+
+
+    
+    
 
     public void logMessages () {
         try {
-            ArrayList<ArrayList<Object>> logs = Parser.ParseInorder (TeacherController.toParse);
+            logs = Parser.ParseInorder (TeacherController.toParse);
             System.out.println ("Logs " + logs);
             String transmission;
             ArrayList<Object> inner;
