@@ -80,7 +80,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
             gen_tcp:send(Socket,"Success\n"),
             io:format("~p Splitted.~n", [R1]),
             [_,Part]=R1,
-                [To,_]=string:split(Part,",",all),
+                [To,_]=string:split(Part,","),
             io:format("~p Recipient: ~n", [To]),
                 RecipTry=userNameHandler:get_Username(To),
             case RecipTry of []-> ok; % distribute(Users,Distributive)
