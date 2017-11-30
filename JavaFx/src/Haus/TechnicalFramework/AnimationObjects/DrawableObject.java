@@ -29,7 +29,7 @@ public class DrawableObject {
 		else {
 			this.x = x;
 			this.y = y;
-			}
+		}
 
 		name = obj.toString();
 		image = new Image("/Haus/DataStorage/img/house.png");

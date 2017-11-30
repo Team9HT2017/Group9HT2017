@@ -90,6 +90,7 @@ public static String studentUsername="";
             System.out.println("FROM SERVER: " + fromServ);
             String [] temp = fromServ.split("!*!");
             studentUsername=temp[1];
+            System.out.println("Students username: " + studentUsername);
             fromServ=temp[0];
             clientSocket.close();
             System.out.println("Socket closed!");

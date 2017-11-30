@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -86,6 +87,9 @@ public class AnimationController implements Initializable {
     @FXML
     private TextArea messageLog;
 
+    @FXML
+    private Label username;
+
     String userNames;
 
     /**
@@ -134,7 +138,7 @@ public class AnimationController implements Initializable {
             }
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Before: "+StudentController.toMessageLog);
+            System.out.println("Before: "+StudentController.topars[2]);
             String [] arr1 = StudentController.toMessageLog.split("], ");
             arr1[0]=arr1[0].substring(1, arr1[0].length());
             arr1[arr1.length-1]=arr1[arr1.length-1].substring(0, arr1[arr1.length-1].length()-1);
@@ -254,13 +258,12 @@ public class AnimationController implements Initializable {
         System.out.println("Initializing anim 1st");
         if (TeacherController.user == "teacher") {
 
-            //animate(TeacherController.map);
             //TeacherController.map = userNames.split(Pattern.quote("~"))[1];
 
 
             String map = TeacherController.map;
             String[] mapArr = map.split(Pattern.quote("~"));
-
+            username.setText(mapArr[1]);
             animate(mapArr[0]);
 
         }
@@ -294,14 +297,11 @@ public class AnimationController implements Initializable {
         {
             String[] array1 = map.split(Pattern.quote("], ["));
             int i = 0;
-            System.out.println(array1[i]);
             while (i != array1.length && array1[i].length() >= 0){
                 chararr.add(new ArrayList<Character>());
                 String[] strarr = array1[i].split(Pattern.quote(", "));
                 for (String str : strarr){
                     chararr.get(i).add(str.toCharArray()[0]);
-                    System.out.println(chararr.get(i) + " : ");
-
                 }
                 i++;
             }
