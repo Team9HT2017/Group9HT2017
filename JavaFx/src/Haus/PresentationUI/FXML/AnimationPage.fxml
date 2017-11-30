@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 
-<AnchorPane id="animationPage" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.112"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.AnimationController">
+<AnchorPane id="animationPage" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.AnimationController">
     <children>
-        <BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                    minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0"
-                    stylesheets="@../CSS/ScrollPaneOverwrite.css">
+        <BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="@../CSS/ScrollPaneOverwrite.css">
             <top>
                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="username" disable="true" prefHeight="38.0" prefWidth="94.0" text="Username"
-                               textAlignment="CENTER" textFill="#b40d0d">
+                        <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="94.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
                             <HBox.margin>
-                                <Insets bottom="10.0" left="20.0" top="20.0"/>
+                                <Insets bottom="10.0" left="20.0" top="20.0" />
                             </HBox.margin>
                             <font>
-                                <Font name="System Bold" size="17.0"/>
+                                <Font name="System Bold" size="17.0" />
                             </font>
                         </Label>
                     </children>
@@ -30,10 +27,10 @@
             <center>
                 <ScrollPane id="animation" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <content>
-                        <Canvas id="#canvas" fx:id="canvas" disable="true" height="888.0" width="1776.0"/>
+                        <Canvas id="#canvas" fx:id="canvas" disable="true" height="888.0" width="1776.0" />
                     </content>
                     <BorderPane.margin>
-                        <Insets bottom="20.0" left="20.0"/>
+                        <Insets bottom="20.0" left="20.0" />
                     </BorderPane.margin>
                 </ScrollPane>
             </center>
@@ -42,32 +39,30 @@
                     <children>
                         <Canvas fx:id="mailboxAnimation" disable="true" height="166.0" width="200.0">
                             <VBox.margin>
-                                <Insets/>
+                                <Insets />
                             </VBox.margin>
                         </Canvas>
-                        <TextArea fx:id="messageLog" editable="false" focusTraversable="false" prefHeight="313.0"
-                                  prefWidth="200.0" wrapText="true">
+                        <TextArea fx:id="messageLog" editable="false" focusTraversable="false" prefHeight="313.0" prefWidth="200.0" wrapText="true">
                             <VBox.margin>
-                                <Insets/>
+                                <Insets />
                             </VBox.margin>
                         </TextArea>
                         <Button fx:id="sendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
                             <VBox.margin>
-                                <Insets top="10.0"/>
+                                <Insets top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#getScene1"
-                                text="Leave Animation">
+                        <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#getScene1" text="Leave Animation">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="50.0" top="58.0"/>
+                                <Insets top="58.0" />
                             </VBox.margin>
                         </Button>
                     </children>
                     <padding>
-                        <Insets left="10.0"/>
+                        <Insets left="10.0" />
                     </padding>
                 </VBox>
             </right>
