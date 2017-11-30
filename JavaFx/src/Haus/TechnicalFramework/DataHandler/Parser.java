@@ -138,7 +138,7 @@ public class Parser {
             JSONObject diagramElements = res.getJSONObject("diagram"); // pick array that contains high-level information about messages
 
             JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
-            System.out.println("check herrrrrrrrrrreeeeeee");
+            //System.out.println("check herrrrrrrrrrreeeeeee");
             System.out.println(diagramElements2.toString());
 
             JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
@@ -151,7 +151,7 @@ public class Parser {
 
                 }
             }
-            System.out.println("messagessssss");
+           // System.out.println("messagessssss");
             System.out.println(messages.toString());
             Map<Object, Object> User = new HashMap<>();
 
@@ -176,7 +176,7 @@ public class Parser {
                 //  {
                 //  if (entry.getKey().toString().equals("" + messages.getJSONObject(t).get("to") ) &&  entry.getValue().toString().equals("" +messages.getJSONObject(t).get("from")) ) {
                 if ( ( " "+User.get(messages.getJSONObject(t).get("to"))).equals( " "+messages.getJSONObject(t).get("from"))) {
-                    inner.add(" { Node " + messages.getJSONObject(t).get("from"));
+                    inner.add(" { " + messages.getJSONObject(t).get("from"));
                     inner.add(" Reply back ");
                     inner.add("to " + messages.getJSONObject(t).get("to"));
                     inner.add("the following message " + messages.getJSONObject(t).get("message") + " } ");

@@ -95,11 +95,16 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
             end;
             <<"CONFIRM">>->    % recipient sends confirmation (ID of message as actual message)
               ForSearch=binary_to_integer(ActualMessage),
-            Distributive = transferMessage:find_message(0),
+            Distributive = transferMessage:find_message(ForSearch),
               io:format("Message:~p~n", [Distributive]),
               Users = userNameHandler:get_list(),
+              {ok, Peer1} = inet:peername(Socket),
+              {NoSend,_}=Peer1,
+              io:format("NoSend: ~p~n", [NoSend]),
               io:format("Users: ~p~n", [Users]),
-               distribute(Users,Distributive)
+              Check=[{IP1,Us}||{IP1,Us}<-Users,IP1=/=NoSend],
+              io:format("Users2: ~p~n", [Check]),
+               distribute(Check,Distributive)
           %[IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
               end,
       loop(Parent, Debug, State)

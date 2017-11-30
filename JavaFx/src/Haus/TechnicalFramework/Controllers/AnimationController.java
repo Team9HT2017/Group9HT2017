@@ -56,10 +56,9 @@ public class AnimationController implements Initializable {
 
     static ArrayList<Road> roads = new ArrayList<Road> ();
 
+    private static ArrayList<ArrayList<Object>> logs;
     static double mapScale;
-	
-    private ArrayList<ArrayList<Object>> logs;
-	
+
     static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode> ();
 
     private Stage stage1;
@@ -115,7 +114,7 @@ public class AnimationController implements Initializable {
      *
      * @throws IOException
      */
-   @FXML
+     @FXML
     private void sendMessage() throws IOException {
 	 String sending ="nothing";
 	 int control=0;
@@ -123,6 +122,7 @@ public class AnimationController implements Initializable {
 if (logs!=null){
 	String [] check = logs.toString().split("], ");
 	for (int i=0;i<check.length;i++){
+		System.out.println(check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")));
 		//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
 		if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
 			System.out.println("Check== "+check[i]);
@@ -130,7 +130,7 @@ if (logs!=null){
 			control++;
 		}
 	}}else {
-		String [] check = StudentController.toMessageLog.split("], ");
+		String [] check = StudentController.topars[2].split("], ");
 		for (int i=0;i<check.length;i++){
 			//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
 			if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
@@ -150,10 +150,10 @@ if (logs!=null){
 
     
     
-
-    public void logMessages () {
+    
+    /*public void logMessages () {
         try {
-            logs = Parser.ParseInorder (TeacherController.toParse);
+             logs = Parser.ParseInorder (TeacherController.toParse);
             System.out.println ("Logs " + logs);
             String transmission;
             ArrayList<Object> inner;
@@ -166,7 +166,6 @@ if (logs!=null){
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace ();
             System.out.println ("Before: " + StudentController.topars[2]);
             String[] arr1 = StudentController.toMessageLog.split ("], ");
             arr1[0] = arr1[0].substring (1, arr1[0].length ());
@@ -183,10 +182,11 @@ if (logs!=null){
                 }
             }
         }
-    }
+    }*/
 
 
     public static char[][] runAnim (Map<?, ?> map) {
+    	 logs = Parser.ParseInorder (TeacherController.toParse);
         mapScale = 3 * Math.pow ((double) map.keySet ().size (), -0.6) * 2;
         int mapSize = (int) (map.keySet ().size () * mapScale);
         grid = new char[mapSize][mapSize];
@@ -280,7 +280,7 @@ if (logs!=null){
 
     public void initialize (URL location, ResourceBundle resources) {
         try {
-            logMessages ();
+          //  logMessages ();
         } catch (Exception e) {
             e.printStackTrace ();
         }
@@ -548,6 +548,36 @@ if (logs!=null){
 //                this.distination = distination;
 //            }
 //        }
+        /* @FXML
+    private void sendMessage() throws IOException {
+	 String sending ="nothing";
+	 int control=0;
+if (logs!=null){
+	String [] check = logs.toString().split("], ");
+	for (int i=0;i<check.length;i++){
+		//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
+		if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
+			System.out.println("Check== "+check[i]);
+			sending=check[i];
+			control++;
+		}
+	}}else {
+		String [] check = StudentController.toMessageLog.split("], ");
+		for (int i=0;i<check.length;i++){
+			//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
+			if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
+				System.out.println("Check== "+check[i]);
+				sending=check[i];
+				control++;
+			}}
+	}
+    	try {
+    		//TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
+    		TCPClient.sendMessage(sending.replaceAll("\\\\", ""),false);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    } */
 
     }
 }

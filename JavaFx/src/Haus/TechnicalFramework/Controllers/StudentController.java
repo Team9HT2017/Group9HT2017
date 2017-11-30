@@ -112,6 +112,7 @@ public class StudentController extends AnchorPane {
 //
 //                    System.out.println(toSim.toString());
 //                        AnimationController.runAnim(toSim);
+                    toMessageLog=topars[1];
 			studentPane.getChildren().clear();
 			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
 			// showStage();
