@@ -40,11 +40,6 @@ SOFTWARE.
 public class Parser {
 
     private static String str = null;
-    public static ArrayList<String> source = new ArrayList<> ();
-    public static ArrayList<String> distination = new ArrayList<> ();
-    public static Map<String,String> sourceNdistanation = new HashMap<String, String>();
-
-
 
     public static Map Parse2(String toParse,boolean send) {
         Map<Object, Object> result = new HashMap<Object, Object>();
@@ -163,15 +158,6 @@ public class Parser {
                 System.out.println(messages.getJSONObject(t).get("from"));
                 System.out.println(messages.getJSONObject(t).get("to"));
                 //System.out.println( User.entrySet().toArray());
-
-                // Converting the Json objects into string
-                JSONObject sourceJsonObject = messages.getJSONObject(t);
-                JSONObject distanatoinJsonObject = messages.getJSONObject(t);
-                // storing the users as source and distanation to be used in Dijkstra'a algorithm
-                sourceNdistanation.put(sourceJsonObject.getString("from"),distanatoinJsonObject.getString("to"));
-                source.add (sourceJsonObject.getString("from"));
-                distination.add (distanatoinJsonObject.getString("to"));
-
 
                 // for (Map.Entry<Object, Object> entry : User.entrySet())
                 //  {
