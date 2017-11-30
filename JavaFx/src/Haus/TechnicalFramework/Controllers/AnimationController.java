@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
@@ -88,6 +89,11 @@ public class AnimationController implements Initializable {
 
     String userNames;
 
+    @FXML
+    private Label username;
+
+    public static   ArrayList<ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse);
+
     /**
      * Method to give action to the Leave Animation button. When the users press, it
      * will leave the animation and go back to the first page.
@@ -113,10 +119,37 @@ public class AnimationController implements Initializable {
     private void sendMessage() throws IOException {
     	try {
     		TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
+
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
-    } 
+    }
+
+
+    // a method responsible for extracting the format of the key and value pairs that will be sent to the server
+    //pick messages of the current user from ParseInOrder array
+    public static Map  RequestMessage (String client){
+
+       // client =username.getText();
+        ArrayList<Object>  inner  ;
+        Map <String, String> toServer = new HashMap<>();
+        for (int j = 0; j < result.size(); j++) {
+            inner = result.get(j);
+
+            String index0=(String) inner.get(0);
+            String index2=(String) inner.get(2);
+            String index3= (String) inner.get(3);
+            if (client.equals(index0.substring(1))) {
+                String key = index0 + index2.substring(1);
+                toServer.put(key, index3.substring(24, index3.length() - 1));
+
+            }
+
+        }
+        return toServer;
+
+    }
+
 
     public void logMessages ()  {
         try {
