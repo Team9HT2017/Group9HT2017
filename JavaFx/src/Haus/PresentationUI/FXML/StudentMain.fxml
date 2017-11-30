@@ -37,7 +37,7 @@
                   <Insets bottom="120.0" left="75.0" />
                </GridPane.margin>
             </Button>
-            <TextField fx:id="classID1" alignment="CENTER" promptText="Enter Class Number" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="classID1" alignment="CENTER" promptText="Enter Classroom ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="35.0" />
                </font>
