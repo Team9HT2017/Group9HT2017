@@ -43,7 +43,7 @@ public class Parser {
     public static ArrayList<String> source = new ArrayList<> ();
     public static ArrayList<String> distination = new ArrayList<> ();
     public static Map<String,String> sourceNdistanation = new HashMap<String, String>();
-    
+
     public static Map Parse2(String toParse,boolean send) {
         Map<Object, Object> result = new HashMap<Object, Object>();
 

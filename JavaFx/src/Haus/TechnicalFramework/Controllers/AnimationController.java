@@ -342,7 +342,6 @@ public class AnimationController implements Initializable {
 //                        addToDjikstraNodes (i, j - 1, 'H', node.name);
 
 
-
                         //For printing the names above the houses
                         gc.strokeText (node.name, twoDToIso (new Point (i * 16, j * 16)).x, twoDToIso (new
                                 Point (i * 16, j * 16)).y - 16);
@@ -521,5 +520,5 @@ public class AnimationController implements Initializable {
 //            }
 //        }
 
-
+    }
 }
