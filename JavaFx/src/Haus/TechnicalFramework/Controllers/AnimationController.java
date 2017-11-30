@@ -101,7 +101,10 @@ public class AnimationController implements Initializable {
      */
     @FXML
     private void getScene1 () throws Exception {
-
+        String stop= "./stopServer.sh";
+        if (TeacherController.user == "teacher") {
+            TeacherController.runScript(stop);
+        }
         TeacherController.uploaded = false;
         stage1 = (Stage) leaveAnimation.getScene ().getWindow ();
         root = FXMLLoader.load (getClass ().getResource ("../../PresentationUI/FXML/UserSelection.fxml"));
@@ -150,7 +153,7 @@ public class AnimationController implements Initializable {
         return toServer;
 
     }
-    
+
 
     public void logMessages () {
         try {
