@@ -4,10 +4,9 @@ import Haus.NetworkHandlers.TCPClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Class to give the student a specific interface for his/her to connect to the
@@ -32,8 +31,6 @@ import java.util.Map;
 public class StudentController extends AnchorPane {
 
 
-    public static String toMessageLog;
-
     @FXML
     public Button animateButton;
 
@@ -53,42 +50,73 @@ public class StudentController extends AnchorPane {
     private Label IPServerStudent;
 
     UserController userController = new UserController();
-
     public static String[] topars;
+    public static String toMessageLog;
+
 
     /**
-     * method to inform the student whether the teacher uploaded the file or not In
+     * Method to input the classroom id (IP) by pressing Enter on the keyboard
+     */
+    @FXML
+    private void textAction() {
+        classID1.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    handleAnimation();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Method to input the classroom id (IP) by pressing the button
+     */
+    @FXML
+    private void buttonAction() {
+        animateButton.setOnAction(event -> {
+            try {
+                handleAnimation();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Method to inform the student whether the teacher uploaded the file or not In
      * other words whether a server to connect to is launched or not if it is the
      * case then the student should input the right ip address to connect to
      *
      * @throws IOException
      */
+    private void handleAnimation() throws IOException {
 
-    @FXML
-    private void HandleAnimation() throws IOException {
-
-        progressBarStudent.setVisible(true);
-        IPServerStudent.setVisible(true);
-        inProgressBar();
         System.out.println(classID1);
 
         if (classID1.getText() == null || classID1.getText().isEmpty()) {
             try {
                 userController.dialog("Missing Classroom ID",
-                        "Type the class identification, " + "\n" + "provided by the teacher");
+                        "Type the classroom ID provided by the teacher");
             } catch (Exception e) {
                 e.printStackTrace();
                 userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
             }
 
         } else {
-            // changing pane into the animation
             System.out.println("animation in progress");
 
+        // This thread makes the progress bar works, however it crashes the normal flow
+//      Thread t = new Thread(() -> {
             try {
+                progressBarStudent.setVisible(true);
+                IPServerStudent.setVisible(true);
+                inProgressBar();
                 //to request the information from the server
                 topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
                 toMessageLog = topars[1];
+                //to change to the animation page
                 studentPane.getChildren().clear();
                 studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
                 classID1.clear();
@@ -100,11 +128,13 @@ public class StudentController extends AnchorPane {
                 userController.dialog("Loading Error",
                         "Connection to the class got corrupted" + "\n" + "Please try again ...");
             }
+//       });
+//       t.start();
         }
     }
 
     /**
-     * Method for going back to the first page, in case no
+     * Method for going back to the first page
      *
      * @throws IOException
      */
@@ -124,16 +154,11 @@ public class StudentController extends AnchorPane {
      * given sleep time.
      */
     private void inProgressBar() {
+
         double p = progressBarStudent.getProgress();
         // Updating the progress in the bar
         for (double i = p; i <= 10; i++) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            progressBarStudent.setProgress(i + 0.1);
+            progressBarStudent.setProgress(i + 0.5);
         }
     }
 }
