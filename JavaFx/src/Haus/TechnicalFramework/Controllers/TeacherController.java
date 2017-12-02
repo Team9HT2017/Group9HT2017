@@ -95,7 +95,7 @@ public class TeacherController extends AnchorPane {
                 userController.dialog("File missing", "You have not chosen a file" + "\n" + "Please try again ...");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
 
         }
     }
@@ -111,11 +111,14 @@ public class TeacherController extends AnchorPane {
      */
     @FXML
     private void createAnimation() throws IOException {
-        // checking if the file is uploaded before animation starts
+
         String OS = System.getProperty("os.name").toLowerCase();
         String mac = "./runserver.sh";
         String windows = "./runwindows.sh";
+
+        // checking if the file is uploaded before animation starts
         if (uploaded) {
+            // detecting which operational system the user has to run the script for the server
 //		    if (OS.contains("mac"))
 //                runScript(mac);
 //
@@ -123,35 +126,38 @@ public class TeacherController extends AnchorPane {
 //               runScript(windows);
 //
 //            }
+//            Thread t = new Thread(() -> {
+                try {
+                    user = "teacher";
+                    map = Arrays.deepToString(AnimationController.generateMap(Parser.Parse2(TeacherController.toParse, false))) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
+                    progressBarTeacher.setVisible(true);
+                    IPServerTeacher.setVisible(true);
+                    inProgressBar();
+                    System.out.println("Animation in progress");
+                    String ip = Inet4Address.getLocalHost().getHostAddress();
+                    TCPClient.main(user, ip, map);
 
-            try {
-                user = "teacher";
-                map = Arrays.deepToString(AnimationController.generateMap(Parser.Parse2(TeacherController.toParse, false))) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
-                progressBarTeacher.setVisible(true);
-                IPServerTeacher.setVisible(true);
-                inProgressBar();
-                System.out.println("Animation in progress");
-                String ip = Inet4Address.getLocalHost().getHostAddress();
-                TCPClient.main(user, ip, map);
-                //AnimationController.runAnim(Parser.Parse2(toParse,false));
+                    diagramPath.getItems().clear();
 
-                //showStage();
-                diagramPath.getItems().clear();
+                    teacherPane.getChildren().clear();
+                    teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+                } catch (Exception e) {
 
-                // Showing the Splash(loading page)
-                teacherPane.getChildren().clear();
-                System.out.println(" this is executed");
-                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
-                System.out.println("Not executed");
-            } catch (Exception e) {
-                userController.dialog("ERROR HANDELING", "Animation got corrupted!");
-                e.printStackTrace();
-            }
-            // if the file is not already uploaded
+                    userController.dialog("ERROR HANDELING", "Animation got corrupted!");
+                    e.printStackTrace();
+                }
+                // if the file is not already uploaded display a message to the user
+//            });
+//            t.start();
+
         } else
             userController.dialog("FILE MISSING", "File not uploaded!");
     }
 
+    /**
+     * Method for set the houses with the username and its position on the grid
+     *
+     */
     private String getHouses() {
         String houses = "";
         for (DrawableObject node : AnimationController.nodes) {
@@ -172,12 +178,11 @@ public class TeacherController extends AnchorPane {
             userController.dialog("FILE UPLOADED", "You have already chosen a file to be animated");
         } else {
             try {
-                // backButton.disabledProperty();
                 teacherPane.getChildren().clear();
                 teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml")));
 
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
     }
@@ -212,12 +217,6 @@ public class TeacherController extends AnchorPane {
         double p = progressBarTeacher.getProgress();
         // Updating the progress in the bar
         for (double i = p; i <= 10; i++) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             progressBarTeacher.setProgress(i + 0.1);
         }
     }
@@ -258,7 +257,7 @@ public class TeacherController extends AnchorPane {
                 System.out.println(output.toString());
                 System.out.println("Nope, it doesnt...again.");
             } catch (InterruptedException v) {
-                System.out.println(v);
+                v.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
