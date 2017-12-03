@@ -75,13 +75,11 @@ public class StudentController extends AnchorPane {
      */
     @FXML
     private void buttonAction() {
-        animateButton.setOnAction(event -> {
             try {
                 handleAnimation();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
     }
 
     /**
