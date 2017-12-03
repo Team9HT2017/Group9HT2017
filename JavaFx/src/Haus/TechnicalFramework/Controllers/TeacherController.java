@@ -3,9 +3,10 @@ package Haus.TechnicalFramework.Controllers;
 import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import java.io.*;
 import java.net.Inet4Address;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -66,7 +69,6 @@ public class TeacherController extends AnchorPane {
     public static Alert alert;
     public static String user;
     public static String map;
-    private Stage stage = new Stage();
 
     /**
      * Method to give action to the Select Diagram button on the TeacherMain
@@ -79,13 +81,13 @@ public class TeacherController extends AnchorPane {
     private void selectDiagram() throws IOException {
         try {
             FileChooser json = new FileChooser();
-            json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
-            json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
-            File SelectedFile = json.showOpenDialog(null);
+            json.setTitle("Open Resource File");
+            json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text and Json Files", "*.json", "*.txt"));
+            File selectedFile = json.showOpenDialog(null);
 
-            if (SelectedFile != null) {
-                diagramPath.getItems().add(SelectedFile.getCanonicalFile());
-                toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
+            if (selectedFile != null) {
+                diagramPath.getItems().add(selectedFile.getCanonicalFile());
+                toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
                 uploaded = true;
                 classId();
 
@@ -126,7 +128,7 @@ public class TeacherController extends AnchorPane {
 //               runScript(windows);
 //
 //            }
-//            Thread t = new Thread(() -> {
+
                 try {
                     user = "teacher";
                     map = Arrays.deepToString(AnimationController.generateMap(Parser.Parse2(TeacherController.toParse, false))) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
@@ -139,17 +141,26 @@ public class TeacherController extends AnchorPane {
 
                     diagramPath.getItems().clear();
 
-                    teacherPane.getChildren().clear();
-                    teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                teacherPane.getChildren().clear();
+                                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+
+                            } catch (IOException ex) {
+                                Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
+
                 } catch (Exception e) {
 
                     userController.dialog("ERROR HANDELING", "Animation got corrupted!");
                     e.printStackTrace();
                 }
                 // if the file is not already uploaded display a message to the user
-//            });
-//            t.start();
-
         } else
             userController.dialog("FILE MISSING", "File not uploaded!");
     }
