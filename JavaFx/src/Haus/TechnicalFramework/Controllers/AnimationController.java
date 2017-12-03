@@ -112,7 +112,7 @@ public class AnimationController implements Initializable {
      */
     @FXML
     private void getScene1() throws Exception {
-
+        TeacherController.alert.close();
         TeacherController.uploaded = false;
         stage1 = (Stage) leaveAnimation.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml"));
