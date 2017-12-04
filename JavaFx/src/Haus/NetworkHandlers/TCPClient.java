@@ -7,7 +7,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 /**
  * This class handles the connection between the application and the server.
@@ -67,15 +66,10 @@ public static String studentUsername="";
             request = inRequest.readLine(); // Ask to send the file
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
-           
-            String [] artest = fromServ.substring(0, fromServ.length()-4).split(",");
-            List teacherN = new LinkedList <String>(Arrays.asList(artest));
-            System.out.println("Teacher usernames: " + teacherN.toString());
-            teacherN.remove(0);
-            System.out.println("Teacher usernames: " + teacherN.toString());
-            teacherUsername=artest[artest.length-1];//fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
-            System.out.println("Teacher username: " + teacherUsername);
-            fromServ=teacherN.toString();
+            System.out.println("Teacher username: " + fromServ.substring((fromServ.indexOf(":")+2),fromServ.length())); 
+            teacherUsername=fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
+
+
             clientSocket.close();
             System.out.println("Socket closed!");
 
