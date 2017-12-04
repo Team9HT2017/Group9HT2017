@@ -208,6 +208,7 @@ public class AnimationController implements Initializable {
         Random rand = new Random();
 
         System.out.println("Creating DrawableObjects");
+        nodes.clear();
         for (Object obj : map.keySet()) {
             if (TeacherController.user.equals("teacher")) {
                 nodes.add(new DrawableObject(obj, mapSize, mapSize));
