@@ -108,44 +108,44 @@ public class AnimationController implements Initializable {
 
     }
 
-    /**
-     * Method to send a message. Disregard the method's name, for some reason
-     * it does not work with other names
-     *
-     * @throws IOException
-     */
-     @FXML
-    private void sendMessage() throws IOException {
-	 String sending ="nothing";
-	 int control=0;
-	 System.out.println(logs);
+ /**
+ * Method to send a message. Disregard the method's name, for some reason
+ * it does not work with other names
+ *
+ * @throws IOException
+ */
+ @FXML
+private void sendMessage() throws IOException {
+ String sending ="nothing";
+ int control=0;
+ System.out.println(logs);
 if (logs!=null){
-	String [] check = logs.toString().split("], ");
+String [] check = logs.toString().split("], ");
+for (int i=0;i<check.length;i++){
+	System.out.println(check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")));
+	//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
+	if (check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+1,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
+		System.out.println("Check== "+check[i]);
+		sending=check[i];
+		control++;
+	}
+}}else {
+	String [] check = StudentController.topars[2].split("], ");
 	for (int i=0;i<check.length;i++){
-		System.out.println(check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")));
-		//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-		if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
+		System.out.println(check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+1,check[i].indexOf(",")));
+		if (check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+1,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
 			System.out.println("Check== "+check[i]);
 			sending=check[i];
 			control++;
-		}
-	}}else {
-		String [] check = StudentController.topars[2].split("], ");
-		for (int i=0;i<check.length;i++){
-			//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-			if (check[i].substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
-				System.out.println("Check== "+check[i]);
-				sending=check[i];
-				control++;
-			}}
+		}}
+}
+	try {
+		//TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
+		TCPClient.sendMessage(sending.replaceAll("\\\\", ""),false);
+	} catch (Exception e) {
+		e.printStackTrace();
 	}
-    	try {
-    		//TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
-    		TCPClient.sendMessage(sending.replaceAll("\\\\", ""),false);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    } 
+} 
 
 
     

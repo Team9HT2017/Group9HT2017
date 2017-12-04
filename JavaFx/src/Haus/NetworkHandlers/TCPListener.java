@@ -18,25 +18,30 @@ public class TCPListener extends Thread {
 	  ServerSocket welcomeSocket = new ServerSocket(6789);
 	 
 
-	  while (true) {
-	  
+	  while (true) {	  
 		  Socket connectionSocket = welcomeSocket.accept();
 	   BufferedReader inFromClient =
 	    new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 	   DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 	   serverSentence = inFromClient.readLine();
 	   System.out.println("Received: " + (serverSentence));
+	   String check = serverSentence.substring(serverSentence.length()-4,serverSentence.length());
+	   System.out.println("Ident: " + (check));
+	   if (!check.equals("!US!")){
 	   String toSend=serverSentence.substring(0,serverSentence.indexOf(','));
-	   System.out.println("Sender/receiver: " + serverSentence.substring(serverSentence.indexOf("{")+2, serverSentence.indexOf("send")-3));
-	  // outToClient.writeUTF(toSend+"!^!CONFIRM!?!STUDENT" + '\n');
+	   System.out.println("Here");
 	   connectionSocket.close();
-	   System.out.println(Arrays.toString(getSenderRecipient(serverSentence)));
-	  // System.out.println("Sending confirmation ID: "+toSend);
+	   System.out.println("Sending confirmation ID: "+toSend);
       try{Integer.parseInt(toSend);
 	   TCPClient.sendMessage(toSend,true);}
 	  catch (Exception e){
 		  //do nothing
+	  }} else {
+		  System.out.println("Teacher stuff: " + (serverSentence.substring(0,serverSentence.length()-5).split(",")));
+		//  TCPClient.teacherUsername=
 	  }
+	   
+	   
 	  }
 	 
 	}
