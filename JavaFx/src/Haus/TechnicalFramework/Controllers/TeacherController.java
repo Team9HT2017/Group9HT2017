@@ -240,12 +240,18 @@ public class TeacherController extends AnchorPane {
         // String scriptName = "/usr/bin/open -a Terminal
         File file = new File(".");
         for (String fileNames : file.list())
-            System.out.println(fileNames);
+            if (fileNames.startsWith("ehaus-0.1.0")) {
+                server="./runServerfolder.sh";
+                System.out.println(fileNames);
+
+            }
+
+        String finalServer = server;
         Thread one = new Thread(() -> {
 
             try {
 
-                ProcessBuilder pb = new ProcessBuilder(server, "arg1", "arg2");
+                ProcessBuilder pb = new ProcessBuilder(finalServer, "arg1", "arg2");
                 pb.inheritIO();
                 Process process = pb.start();
 
