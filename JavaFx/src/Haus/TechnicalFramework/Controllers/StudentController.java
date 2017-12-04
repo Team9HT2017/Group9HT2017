@@ -1,16 +1,5 @@
 package Haus.TechnicalFramework.Controllers;
 
-import Haus.NetworkHandlers.TCPClient;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Class to give the student a specific interface for his/her to connect to the
  * animation by inputting the class identification.
@@ -31,140 +20,153 @@ import java.util.logging.Logger;
  *
  */
 
+import javafx.fxml.FXML;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import Haus.NetworkHandlers.TCPClient;
+
 public class StudentController extends AnchorPane {
 
 
-    @FXML
-    public Button animateButton;
+    public static String toMessageLog;
 
-    @FXML
-    private TextField classID1;
+	@FXML
+	public Button animateButton;
 
-    @FXML
-    AnchorPane studentPane;
+	@FXML
+	private TextField classID1;
 
-    @FXML
-    public Button backButton;
+	@FXML
+	AnchorPane studentPane;
 
-    @FXML
-    private ProgressBar progressBarStudent;
+	@FXML
+	public Button backButton;
+
+	@FXML
+	private ProgressBar progressBarStudent;
 
     @FXML
     private Label IPServerStudent;
 
-    UserController userController = new UserController();
+	UserController userController = new UserController();
+    
     public static String[] topars;
-    public static String toMessageLog;
 
+	/**
+	 * method to inform the student whether the teacher uploaded the file or not In
+	 * other words whether a server to connect to is launched or not if it is the
+	 * case then the student should input the right ip address to connect to
+	 *
+	 * @throws IOException
+	 */
 
-    /**
-     * Method to input the classroom id (IP) by pressing Enter on the keyboard
-     */
-    @FXML
-    private void textAction() {
-        classID1.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    handleAnimation();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	@FXML
+	private void HandleAnimation() throws IOException {
 
-    /**
-     * Method to input the classroom id (IP) by pressing the button
-     */
-    @FXML
-    private void buttonAction() {
-            try {
-                handleAnimation();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
+        progressBarStudent.setVisible(true);
+        IPServerStudent.setVisible(true);
+	    inProgressBar();
+		System.out.println(classID1);
 
-    /**
-     * Method to inform the student whether the teacher uploaded the file or not In
-     * other words whether a server to connect to is launched or not if it is the
-     * case then the student should input the right ip address to connect to
-     *
-     * @throws IOException
-     */
-    private void handleAnimation() throws IOException {
+		if (classID1.getText() == null || classID1.getText().isEmpty()) {
+			try {
+				userController.dialog("Missing Class validation",
+						"Type the class identification, " + "\n" + "provided by the teacher");
+			} catch (Exception e) {
+				e.printStackTrace();
+				userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
+			}
 
-        System.out.println(classID1);
+		} else {
+			// changing pane into the Splash contains  
+				String pars = null;
+		    	Map <Object,Object> toSim = new HashMap <Object,Object>();
+		        System.out.println("animation in progress");
+		       
+		        try {
+                    
+                    topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
+//                    String [] topars = (TCPClient.main("student", classID1.getText(), "").replaceAll( "','", "").replaceAll("'", "").split("~"));
+//
+//                    pars=topars[0];
+//                    toMessageLog=topars[1];
+//                    pars = pars.substring(2, pars.length()-1);
+//
+//                    while (pars.length()>1){
+//
+//                    if (pars.lastIndexOf("&")!=-1 && pars.lastIndexOf("=")!=-1  && pars.lastIndexOf("?")!=-1 ){
+//                    String key = pars.substring(pars.lastIndexOf("&")+1,pars.lastIndexOf("="));
+//                    String val = pars.substring(pars.lastIndexOf("=")+1,pars.lastIndexOf("?")-1);
+//                    pars=pars.substring(0,pars.lastIndexOf("&"));
+//                    toSim.put(key,val);}
+//                    }
+//
+//                    System.out.println(toSim.toString());
+//                        AnimationController.runAnim(toSim);
+                    toMessageLog=topars[1];
+			studentPane.getChildren().clear();
+			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+			// showStage();
+			classID1.clear();
+			} catch (Exception e) {
+				System.out.println("No connection to the server");
+				e.printStackTrace();
+				// notification to the user in case of connection to server not completed
+				userController.dialog("Loading Error",
+						"Connection to the class got corrupted" + "\n" + "Please try again ...");
+			}
+		
+		}
+	}
 
-        if (classID1.getText() == null || classID1.getText().isEmpty()) {
-            try {
-                userController.dialog("Missing Classroom ID",
-                        "Type the classroom ID provided by the teacher");
-            } catch (Exception e) {
-                e.printStackTrace();
-                userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
-            }
+	/**
+	 * Method for going back to the first page, in case no
+	 *
+	 * @throws IOException
+	 */
+	@FXML
+	private void backButton() throws IOException {
+		try {
+			studentPane.getChildren().clear();
+			studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("UserSelection.fxml")));
+		} catch (Exception e) {
+			 e.printStackTrace();
+			userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
+		}
+	}
 
-        } else {
-            System.out.println("animation in progress");
-
-            try {
-                progressBarStudent.setVisible(true);
-                IPServerStudent.setVisible(true);
-                inProgressBar();
-                //to request the information from the server
-                topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
-                toMessageLog = topars[1];
-                //to change to the animation page
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        try {
-                            studentPane.getChildren().clear();
-                            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
-
-                        } catch (IOException ex) {
-                            Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                });
-                classID1.clear();
-            } catch (Exception e) {
-                System.out.println("No connection to the server");
-                e.printStackTrace();
-                // notification to the user in case of connection to server not completed
-                userController.dialog("Loading Error",
-                        "Connection to the class got corrupted" + "\n" + "Please try again ...");
-            }
-        }
-    }
-
-    /**
-     * Method for going back to the first page
-     *
-     * @throws IOException
-     */
-    @FXML
-    private void backButton() throws IOException {
-        try {
-            studentPane.getChildren().clear();
-            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml")));
-        } catch (Exception e) {
-            e.printStackTrace();
-            userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
-        }
-    }
+	private void showStage() throws IOException {
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml"));
+		Parent root = fxmlloader.load();
+		Stage stage = new Stage();
+		stage.setTitle("Loading Animation ...");
+		stage.setScene(new Scene(root));
+		stage.show();
+	}
 
     /**
      * This method for updating the progress bar contains gradually according the
      * given sleep time.
      */
     private void inProgressBar() {
-
         double p = progressBarStudent.getProgress();
         // Updating the progress in the bar
         for (double i = p; i <= 10; i++) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             progressBarStudent.setProgress(i + 0.1);
         }
     }
