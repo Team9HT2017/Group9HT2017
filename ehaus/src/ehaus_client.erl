@@ -68,8 +68,10 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
         userNameHandler:putUserNames(Usernames), % send user name list to storage
         {ok, Peer} = inet:peername(Socket),
         {IP,_}=Peer,
-        Username = userNameHandler:assignUserName(IP),
-        ok = gen_tcp:send(Socket, ["Your username: ", Username]),
+        Username = userNameHandler:assignTeacher(IP),
+        io:format("Teacher: ~tp~n",[Socket]),
+        P = gen_tcp:send(Socket,[list_to_binary(Username),"\n"]),
+        io:format("Sending: ~tp~n",[P]),
         loop(Parent, Debug, State);
         <<"STUDENT\n">>-> % student wants to send message
       ok = io:format("~p received: ~tp~n", [self(), Message]), % "test!^!SEND!?!STUDENT\n"
@@ -95,11 +97,17 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
             end;
             <<"CONFIRM">>->    % recipient sends confirmation (ID of message as actual message)
               ForSearch=binary_to_integer(ActualMessage),
-            Distributive = transferMessage:find_message(0),
+            Distributive = transferMessage:find_message(ForSearch),
               io:format("Message:~p~n", [Distributive]),
               Users = userNameHandler:get_list(),
+              {ok, Peer1} = inet:peername(Socket),
+              {NoSend,_}=Peer1,
+              io:format("NoSend: ~p~n", [NoSend]),
               io:format("Users: ~p~n", [Users]),
-               distribute(Users,Distributive)
+              Check=[IP1||{IP1,Us}<-Users,IP1=/=NoSend],
+              NoDups = lists:usort(Check),
+              io:format("Users2: ~p~n", [Check]),
+               distribute(NoDups,Distributive)
           %[IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
               end,
       loop(Parent, Debug, State)
@@ -115,10 +123,10 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
   end.
 
 distribute([],Dist)-> ok ;
-distribute([L|T],Dist)->{IP,_}=L,
+distribute([L|T],Dist)->IP=L,
   {ok,SocketSend}=gen_tcp:connect(IP,6789,[]),
-  io:format("Distributing: ~p~n", [SocketSend]),
-  gen_tcp:send(SocketSend,Dist),
+  io:format("Distributing: ~p~n", [IP]),
+  gen_tcp:send(SocketSend,[Dist,"\n"]),
   distribute(T,Dist).
 
 
