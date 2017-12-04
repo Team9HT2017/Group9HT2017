@@ -124,7 +124,7 @@ String [] check = logs.toString().split("], ");
 for (int i=0;i<check.length;i++){
 	System.out.println(check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{ ")+2,check[i].indexOf(",")));
 	//if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-	if (check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+1,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
+	if (check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+2,check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control<1){
 		System.out.println("Check== "+check[i]);
 		sending=check[i];
 		control++;
@@ -132,8 +132,8 @@ for (int i=0;i<check.length;i++){
 }}else {
 	String [] check = StudentController.topars[2].split("], ");
 	for (int i=0;i<check.length;i++){
-		System.out.println(check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+1,check[i].indexOf(",")));
-		if (check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+1,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
+		System.out.println(check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+2,check[i].indexOf(",")));
+		if (check[i].trim().replaceAll("\u00A0", "").substring(check[i].indexOf("{")+2,check[i].indexOf(",")).equals(TCPClient.studentUsername) && control<1){
 			System.out.println("Check== "+check[i]);
 			sending=check[i];
 			control++;
