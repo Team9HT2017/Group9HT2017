@@ -29,7 +29,7 @@
             <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="animateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#HandleAnimation" text="See Classroom Animation" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="animateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#buttonAction" text="See Classroom Animation" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="17.0" />
                </font>
@@ -37,7 +37,7 @@
                   <Insets bottom="120.0" left="75.0" />
                </GridPane.margin>
             </Button>
-            <TextField fx:id="classID1" alignment="CENTER" promptText="Enter Classroom ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="classID1" alignment="CENTER" onKeyPressed="#textAction" promptText="Enter Classroom ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="35.0" />
                </font>
@@ -62,7 +62,7 @@
               </ImageView>
            </graphic>
             </Button>
-            <Label fx:id="IPServerStudent" prefHeight="26.0" prefWidth="101.0" text="Animating ..." textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label fx:id="IPServerStudent" focusTraversable="false" prefHeight="26.0" prefWidth="101.0" text="Animating ..." textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="17.0" />
                </font>
@@ -70,7 +70,7 @@
                   <Insets bottom="20.0" left="130.0" right="50.0" />
                </GridPane.margin>
             </Label>
-            <ProgressBar fx:id="progressBarStudent" prefHeight="19.0" prefWidth="305.0" progress="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <ProgressBar fx:id="progressBarStudent" focusTraversable="false" prefHeight="19.0" prefWidth="305.0" progress="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="30.0" />
                </GridPane.margin>
