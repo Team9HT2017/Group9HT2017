@@ -118,6 +118,76 @@ public class AnimationController implements Initializable {
     }
 
     /**
+     * Method to extract the last exchange between a specific sender and receiver .
+     *param ArrayList of objects
+     */
+    private  ArrayList<Object> priorityMessaging (String message ) {
+
+        ArrayList<ArrayList<Object>> input = Parser.ParseInorder(TeacherController.toParse);
+        ArrayList<Object> inner  ;
+        ArrayList<Object> messages =new ArrayList<>();
+        ArrayList<Object> one= new  ArrayList<>(1) ;
+
+        one.add(message);
+        int position=input.indexOf(one);
+        int pos=0;
+        for (int i =0 ; i< input.size() ; i ++) {
+            inner = input.get(i);
+
+            for (int j = 0; j < inner.size(); j++) {
+                String[] split = message.split(",");
+
+                if ((inner.get(j).toString().substring(inner.indexOf("{ ") + 2, inner.indexOf(",")).equals(split[0].substring(split[0].indexOf("{")) + 1) &&
+                        inner.get(j).toString().substring(inner.toString().indexOf(",", 8) + 2, inner.indexOf(",")).equals(split[2].substring(split[2].indexOf("to")) + 1)) && message.equals(split[3].substring(24))) {
+                    pos = input.indexOf(inner);
+
+                }
+                if (pos < position) {
+
+                    messages= inner;
+                }
+
+
+            }
+        }
+        return messages;
+
+    }
+
+    /**
+     * Method to check whether the message exchanged between sender and receiver is a reply or not .
+     *param Sender , Receiver
+     */
+    public static boolean checkOrder (String sender, String receiver ){
+        ArrayList<ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse);
+
+        int pos1=0;
+        int pos2=0;
+        ArrayList<Object> inner  ;
+        for (int j = 0; j < result.size(); j++) {
+            inner = result.get(j);
+
+            String index0 = (String) inner.get(0);
+            String index1 = (String) inner.get(1);
+            String index2 = (String) inner.get(2);
+            String index3 = (String) inner.get(3);
+            if (sender.equals(index0.substring(1)) && receiver.equals(index2.substring(2,index2.length()))) {
+                pos1 = inner.indexOf(j);
+            }
+            if (receiver.equals(index0.substring(1)) && sender.equals(index2.substring(2,index2.length()))) {
+                pos2 = inner.indexOf(j);
+            }
+        }
+        if (pos2>=pos1) {
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
      * Method to send a message. Disregard the method's name, for some reason
      * it does not work with other names
      *
