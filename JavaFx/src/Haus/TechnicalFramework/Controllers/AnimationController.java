@@ -1,6 +1,7 @@
 package Haus.TechnicalFramework.Controllers;
 
 import Haus.NetworkHandlers.TCPClient;
+import Haus.NetworkHandlers.TCPListener;
 import Haus.TechnicalFramework.AnimationObjects.DjikstraNode;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.AnimationObjects.Graph;
@@ -354,8 +355,8 @@ public class AnimationController implements Initializable {
                         gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
                                 twoDToIso(new Point(i * 16, j * 16)).y - 16);
 
-                        // adding this node to the dijkstraNodes
-//                        addToDjikstraNodes (i, j - 1, 'H', node.name);
+                    // adding this node to the dijkstraNodes
+                       addToDjikstraNodes (i, j - 1, 'H', node.name);
 
 
                         //For printing the names above the houses
@@ -372,47 +373,47 @@ public class AnimationController implements Initializable {
                             gc.drawImage(roadCross, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                           addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R') {
                             gc.drawImage(roadTminY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R') {
                             gc.drawImage(roadTplsY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadTminX, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadTplsX, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadCurveSouth, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadCurveWest, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadCurveNorth, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadCurveEast, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-//                            addToDjikstraNodes (i, j, 'R', null);
+                            addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
                             gc.drawImage(roadYY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
@@ -439,18 +440,17 @@ public class AnimationController implements Initializable {
                 }
             }
         }
-//        // ......... Dijkstra section ...........
-//        ArrayList<SourceDestinationPair> pairSequence = fillSDPairs ();
-//        for (DjikstraNode djiNode : djikstraNodes) {
-//            djiNode.addNiegbours (djikstraNodes);
-//        }
-//
-//
-//        DjikstraNode.shortestPathAlgorithm (pairSequence.get (0).source, pairSequence.get (0).distination, djikstraNodes);
-//        for (int i = 0; i < Graph.pathArrayList.size (); i++) {
-//            PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
-//            gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
-//        }
+        // ......... Dijkstra section ...........
+        //ArrayList<SourceDestinationPair> pairSequence = fillSDPairs ();
+        for (DjikstraNode djiNode : djikstraNodes) {
+            djiNode.addNiegbours (djikstraNodes);
+        }
+        
+        DjikstraNode.shortestPathAlgorithm (fillSDPairs ().getKey (), fillSDPairs ().getValue (), djikstraNodes);
+        for (int i = 0; i < Graph.pathArrayList.size (); i++) {
+            PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
+            gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
+        }
 
     }
 
@@ -458,87 +458,86 @@ public class AnimationController implements Initializable {
     public void createStudentObjects(String objString) {
 
         //Split the string into subcomponents to separate variables
-        String[] objArray = objString.split(Pattern.quote("}{"));
-        objArray[0] = objArray[0].split(Pattern.quote("{"))[1];
-        objArray[objArray.length - 1] = objArray[objArray.length - 1].split(Pattern.quote("}"))[0];
+        String[] objArray = objString.split (Pattern.quote ("}{"));
+        objArray[0] = objArray[0].split (Pattern.quote ("{"))[1];
+        objArray[objArray.length - 1] = objArray[objArray.length - 1].split (Pattern.quote ("}"))[0];
 
 
         for (String str : objArray) {
-            String[] houseInfoArr = str.split(Pattern.quote(","));
-            nodes.add(new DrawableObject(houseInfoArr[0], Integer.parseInt(houseInfoArr[1]), Integer.parseInt(houseInfoArr[2])));
+            String[] houseInfoArr = str.split (Pattern.quote (","));
+            nodes.add (new DrawableObject (houseInfoArr[0], Integer.parseInt (houseInfoArr[1]), Integer.parseInt (houseInfoArr[2])));
+        }
+    }
+
+
+        private class PathPoint {
+            public int x, y;
+
+            public PathPoint (int x, int y) {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
+        private PathPoint pathPointDrawableObject (String pathPoint){
+            String[] cooardinates = pathPoint.split (",");
+            return new PathPoint (Integer.parseInt (cooardinates[0]), Integer.parseInt (cooardinates[1]));
+
         }
 
 
-//        private class PathPoint {
-//            public int x, y;
-//
-//            public PathPoint (int x, int y) {
-//                this.x = x;
-//                this.y = y;
-//            }
-//        }
-//
-//        private PathPoint pathPointDrawableObject (String pathPoint){
-//            String[] cooardinates = pathPoint.split (",");
-//            return new PathPoint (Integer.parseInt (cooardinates[0]), Integer.parseInt (cooardinates[1]));
-//
-//        }
-//
-//
-//        /**
-//         * Method to animate the dijkstra algorithm
-//         */
-//        private void drawMsgs () {
-//        }
-//
-//        /**
-//         * Method to add the roads injections to be dijkstraNodes.
-//         *
-//         * @param i: represetns the dijkstra's x coordinate of the house/ injection (road).
-//         * @param j  :
-//         *           represetns the dijkstra's y coordinate of the house/injection (road).
-//         */
-//        private static void addToDjikstraNodes ( int i, int j, char type, String name){
-//            DjikstraNode dn = new DjikstraNode (i, j, type, name);
-//            if (!djikstraNodes.contains (dn))
-//                djikstraNodes.add (dn);
-//        }
-//
-//
-//        private ArrayList<SourceDestinationPair> fillSDPairs () {
-//            ArrayList<SourceDestinationPair> pairs = new ArrayList<SourceDestinationPair> ();
-//            for (int i = 0; i < Parser.source.size (); i++) {
-//                pairs.add (new SourceDestinationPair (findNodebyName (Parser.source.get (i)), findNodebyName (Parser.distination.get (i))));
-//            }
-//            return pairs;
-//        }
-//
-//
-//        private DjikstraNode findNodebyName (String name){
-//            for (int i = 0; i < djikstraNodes.size (); i++) {
-//                if (djikstraNodes.get (i).name == null)
-//                    continue;
-//                if (djikstraNodes.get (i).name.contains (name + "|")) {
-//                    // System.out.println ("  [#] found " + name + "=" + djikstraNodes.get (i).name + "  at " + djikstraNodes.get (i).x + "," + djikstraNodes.get (i).y);
-//                    return djikstraNodes.get (i);
-//                }
-//            }
-//            System.out.println ("Should not reach this point");
-//            return null;
-//        }
-//
-//        private class SourceDestinationPair {
-//            public DjikstraNode source;
-//            public DjikstraNode distination;
-//
-//            public SourceDestinationPair (DjikstraNode source, DjikstraNode distination) {
-//
-//                this.source = source;
-//                this.distination = distination;
-//            }
-//        }
+        /**
+         * Method to animate the dijkstra algorithm
+         */
+        private void drawMsgs () {
+        }
 
-    }
+        /**
+         * Method to add the roads injections to be dijkstraNodes.
+         *
+         * @param i: represetns the dijkstra's x coordinate of the house/ injection (road).
+         * @param j  :
+         *           represetns the dijkstra's y coordinate of the house/injection (road).
+         */
+        private static void addToDjikstraNodes ( int i, int j, char type, String name){
+            DjikstraNode dn = new DjikstraNode (i, j, type, name);
+            if (!djikstraNodes.contains (dn))
+                djikstraNodes.add (dn);
+        }
+
+
+        private Pair<DjikstraNode, DjikstraNode> fillSDPairs () {
+            Pair<DjikstraNode, DjikstraNode> pair = new Pair<DjikstraNode, DjikstraNode> (findNodebyName (TCPListener.srcDest[0]), findNodebyName (TCPListener.srcDest[1]));
+            return  pair;
+                //pairs.add (new Pair<DjikstraNode, DjikstraNode> (findNodebyName (TCPListener.srcDest[0]), findNodebyName (TCPListener.srcDest[1])));
+        }
+
+
+        private DjikstraNode findNodebyName (String name){
+            for (int i = 0; i < djikstraNodes.size (); i++) {
+                if (djikstraNodes.get (i).name == null)
+                    continue;
+                if (djikstraNodes.get (i).name.contains (name + "|")) {
+                    // System.out.println ("  [#] found " + name + "=" + djikstraNodes.get (i).name + "  at " + djikstraNodes.get (i).x + "," + djikstraNodes.get (i).y);
+                    return djikstraNodes.get (i);
+                }
+            }
+            System.out.println ("Should not reach this point");
+            return null;
+        }
+
+        private class SourceDestinationPair {
+            public DjikstraNode source;
+            public DjikstraNode distination;
+
+            public SourceDestinationPair (DjikstraNode source, DjikstraNode distination) {
+
+                this.source = source;
+                this.distination = distination;
+            }
+        }
+
+
 
     //Function for initialising the animation on the canvas required for both the teacher and the student
     public void initAnim(String map) {
