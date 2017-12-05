@@ -112,5 +112,15 @@ public static String studentUsername="";
          clientSocket.close();
 
     }
+    public static void searchMeassage(ArrayList<? extends Object>  message ) throws  IOException{
+        Socket clientSocket = new Socket(globalIP, 8080);
+        System.out.println(clientSocket);
+
+        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        String sendToServer =message.toString();
+        outToServer.writeUTF(sendToServer+ "!?!SEARCH" + '\n' );
+        clientSocket.close();
+
+    }
    
 }
