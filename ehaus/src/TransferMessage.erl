@@ -38,6 +38,10 @@ find_message (ID) ->
   transferMessage ! {self(),find,ID},
   receive {_,M}->M ;
     nope -> not_found end.
+%search_message (Message) ->
+% transferMessage ! {self(),find,Message},
+%receive {_,X}->X ;
+% nope -> not_found end.
 
 
 message_loop(Messages,ID)-> %message handling loop
@@ -53,6 +57,13 @@ message_loop(Messages,ID)-> %message handling loop
       case L of [] -> Pid ! nope;
         [X] -> % [Mess]=L,
           Pid ! {self(),X} end,
+      %message_loop(Messages,ID);
+
+      %  {Pid,find,Message} ->
+      %   L=[Mess||{Mess,Ident}<-Messages,Mess=:=Message],
+      %  case L of [] -> Pid ! nope;
+      %   [X] -> % [Mess]=L,
+      %    Pid ! {self(),X},
       message_loop(Messages,ID)
   end.
 
