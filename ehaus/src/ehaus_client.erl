@@ -109,7 +109,16 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
               io:format("Users2: ~p~n", [Check]),
                distribute(NoDups,Distributive)
           %[IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
-              end,
+            % end;
+            %    <<"SEARCH">> ->
+            %     Mess = transferMessage:search_message(Message),
+            %    case  Mess of  [] ->
+            %     gen_tcp:send(Socket,"Allowsending\n");
+            %    [{Message}] ->
+            %     gen_tcp:send(Socket,"Denyoperation\n"),
+            %  loop(Parent, Debug, State)
+
+          end,
       loop(Parent, Debug, State)
         end;
     {tcp_closed, Socket} ->
