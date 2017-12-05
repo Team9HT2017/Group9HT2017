@@ -8,6 +8,7 @@ import Haus.TechnicalFramework.AnimationObjects.Graph;
 import Haus.TechnicalFramework.AnimationObjects.Road;
 import Haus.PresentationUI.Main;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,6 +47,8 @@ import javafx.scene.paint.Color;
 public class AnimationController implements Initializable {
 
     GraphicsContext gc;
+
+    public static boolean doAnimate = false;
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
@@ -100,6 +103,13 @@ public class AnimationController implements Initializable {
     //Aesthetic images
     Image tree = new Image("/Haus/DataStorage/img/Isotile_tree.png");
     Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
+
+    AnimationTimer frameTimer = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            redraw();
+        }
+    };
 
     /**
      * Method to give action to the Leave Animation button. When the users press, it
@@ -193,6 +203,8 @@ public class AnimationController implements Initializable {
      *
      * @throws IOException
      */
+
+    int x = 0, y = 20;
     @FXML
     private void sendMessage() throws IOException {
         String sending = "nothing";
@@ -227,8 +239,7 @@ public class AnimationController implements Initializable {
         }
     }
 
-
-    public void logMessages() {
+    public void logMessages(String msgs) {
         try {
             logs = Parser.ParseInorder(TeacherController.toParse);
             System.out.println("Logs " + logs);
@@ -364,12 +375,6 @@ public class AnimationController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Initializing AnimationPage");
 
-        try {
-            logMessages();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         //Case for when the current user is a teacher
         if (TeacherController.user == "teacher") {
 
@@ -379,9 +384,14 @@ public class AnimationController implements Initializable {
             String map = TeacherController.map;
             String[] mapArr = map.split(Pattern.quote("~"));
             username.setText(TCPClient.teacherUsername);
+            try {
+                logMessages(mapArr[2]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             initAnim(mapArr[0]);
-            redraw();
-
+            frameTimer.start();
+            //redraw();
         }
         //case for when the current user is not a teacher (e.g. student) sets variables not set because of lack of runanim
         else {
@@ -391,8 +401,10 @@ public class AnimationController implements Initializable {
             //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
             mapScale = 3 * Math.pow((double) nodes.size(), -0.6) * 2;
             grid = new char[(int) (nodes.size() * mapScale)][(int) (nodes.size() * mapScale)];
+            logMessages(data[2]);
             initAnim(data[0]);
-            redraw();
+            frameTimer.start();
+            //redraw();
         }
     }
 
@@ -402,7 +414,7 @@ public class AnimationController implements Initializable {
      */
     public void redraw() {
 
-        System.out.println("Redrawing Canvas, FPS: " + framesPerSecond);
+        //System.out.println("Redrawing Canvas, FPS: " + framesPerSecond);
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         DrawableObject node;
@@ -511,18 +523,34 @@ public class AnimationController implements Initializable {
                 }
             }
         }
+        if(doAnimate) {
+            //todo: assign the x and y coordinates into the arraypath
+            //todo: make buble go between 2 points traveling path (iso -> 2D)
+            gc.drawImage(new Image("/Haus/DataStorage/img/bubble.png"), x, y);
+        }
+        x ++;
+        /*
+        if (run)
+        {
+            runDjikstra();
+        }
+        run = false;
+        */
+    }
+
+    private void runDjikstra(){
         // ......... Dijkstra section ...........
         //ArrayList<SourceDestinationPair> pairSequence = fillSDPairs ();
         for (DjikstraNode djiNode : djikstraNodes) {
             djiNode.addNiegbours (djikstraNodes);
         }
-        
-        DjikstraNode.shortestPathAlgorithm (fillSDPairs ().getKey (), fillSDPairs ().getValue (), djikstraNodes);
+
+        Pair<DjikstraNode, DjikstraNode> nodePair = fillSDPairs();
+        DjikstraNode.shortestPathAlgorithm (nodePair.getKey(), nodePair.getValue(), djikstraNodes);
         for (int i = 0; i < Graph.pathArrayList.size (); i++) {
             PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
             gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
         }
-
     }
 
     //Function for creating objects required for drawing in case they are not available (ex. student)
@@ -553,14 +581,6 @@ public class AnimationController implements Initializable {
         private PathPoint pathPointDrawableObject (String pathPoint){
             String[] cooardinates = pathPoint.split (",");
             return new PathPoint (Integer.parseInt (cooardinates[0]), Integer.parseInt (cooardinates[1]));
-
-        }
-
-
-        /**
-         * Method to animate the dijkstra algorithm
-         */
-        private void drawMsgs () {
         }
 
         /**
@@ -586,9 +606,9 @@ public class AnimationController implements Initializable {
 
         private DjikstraNode findNodebyName (String name){
             for (int i = 0; i < djikstraNodes.size (); i++) {
-                if (djikstraNodes.get (i).name == null)
-                    continue;
-                if (djikstraNodes.get (i).name.contains (name + "|")) {
+                //if (djikstraNodes.get (i).name == null)
+                //    continue;
+                if (djikstraNodes.get (i).name != null && djikstraNodes.get (i).name.contains (name + "|")) {
                     // System.out.println ("  [#] found " + name + "=" + djikstraNodes.get (i).name + "  at " + djikstraNodes.get (i).x + "," + djikstraNodes.get (i).y);
                     return djikstraNodes.get (i);
                 }
@@ -596,19 +616,6 @@ public class AnimationController implements Initializable {
             System.out.println ("Should not reach this point");
             return null;
         }
-
-        private class SourceDestinationPair {
-            public DjikstraNode source;
-            public DjikstraNode distination;
-
-            public SourceDestinationPair (DjikstraNode source, DjikstraNode distination) {
-
-                this.source = source;
-                this.distination = distination;
-            }
-        }
-
-
 
     //Function for initialising the animation on the canvas required for both the teacher and the student
     public void initAnim(String map) {

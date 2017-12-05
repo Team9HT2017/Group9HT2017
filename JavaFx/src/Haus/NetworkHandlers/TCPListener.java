@@ -10,7 +10,7 @@ import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 
 public class TCPListener extends Thread {
-    public static String[] srcDest;
+    public static String[] srcDest = new String[]{"u1", "u2"};
 
 
     /*public static void main(String args[]) throws Exception {
@@ -45,15 +45,12 @@ public class TCPListener extends Thread {
                 } catch (Exception e) {
                     //do nothing
                 }
+                AnimationController.doAnimate = true;
             } else {
                 System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 5).split (",")));
                 //  TCPClient.teacherUsername=
             }
-
-
         }
-
-
     }
 
     public static String[] getSenderRecipient (String message) {
