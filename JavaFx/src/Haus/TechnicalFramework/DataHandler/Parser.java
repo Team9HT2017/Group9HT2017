@@ -121,6 +121,60 @@ public class Parser {
                     System.out.println("name "+nm +" type "+tp);
                     subres.add(tp+" : "+nm);
                 }
+        }  else if (type.equals("class_diagram")) {
+
+            JSONArray arr11 = res.getJSONArray("classes");
+            JSONObject arr12 = res.getJSONObject("meta");
+            
+            JSONArray arr13 = res.getJSONArray("relationships");
+            String result2 = ("{'meta' : " + arr12.toString() + " " + ", 'type' : " + "? " + type + " ?,"
+                    + "" + " 'classes' : " + arr11.toString() + " " + "'relationships' : " + arr13.toString());
+            System.out.println(result2);
+            System.out.println("classes experiment "+arr11.getJSONObject(0));
+            System.out.println("relationships experiment "+arr13.getJSONObject(0));
+         
+            for(int i=0;i<arr13.length();i++){
+            	List <String> subres = new ArrayList <String>();
+            	List <String> tores = new ArrayList <String>();
+            	JSONObject d1 = arr13.getJSONObject(i);
+            	Object supclass = d1.get("superclass");
+            	Object subclass = d1.get("subclass");
+            	for (int j=0;j<arr11.length();j++){
+            		JSONObject d2 = arr11.getJSONObject(j);
+            		Object name = d2.get("name");
+            		JSONArray inner = d2.getJSONArray("fields");
+            		for (int p=0;p<inner.length();p++){
+            			JSONObject n1 = inner.getJSONObject(p);
+            			Object nm = n1.get("name");
+            			Object tp = n1.get("type"); // Gateway=superclass:"Device",fields{subres}
+            			System.out.println("name "+nm +" type "+tp);
+            			subres.add(tp+" : "+nm);
+            		}
+            		
+            		if (name.equals(supclass)){
+            		tores.add(subres.toString());
+            		}
+            		else if (name.equals(subclass)){
+                		tores.add(subres.toString());
+                		}
+            	}
+            	result.put(subclass, "\nSuperclass:" +supclass+"\nVariables:"+tores.toString());
+            }
+            System.out.println(result.toString());
+            return result; //change later
+        } else if (type.equals("deployment_diagram")) { 
+            JSONObject arr12 = res.getJSONObject("meta");
+            JSONArray arr13 = res.getJSONArray("mapping");
+            for (int l=0;l<arr13.length();l++){
+            	JSONObject extract = arr13.getJSONObject(l);
+            	Object process = extract.get("process");
+            	Object device = extract.get("device");
+            	result.put(process, "\nDevice: "+device);
+            }
+            
+          
+            
+            System.out.println(result);
 
                 if (name.equals(supclass)){
                     tores.add(subres.toString());
