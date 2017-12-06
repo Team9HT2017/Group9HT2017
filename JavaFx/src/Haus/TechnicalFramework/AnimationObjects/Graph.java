@@ -1,4 +1,7 @@
 package Haus.TechnicalFramework.AnimationObjects;
+import javafx.util.Pair;
+
+import java.awt.*;
 import java.io.*;
 import java.util.*;
  //source https://rosettacode.org/wiki/Dijkstra%27s_algorithm#Java
@@ -19,14 +22,15 @@ public class Graph {
 	 
 	   /** One vertex of the graph, complete with mappings to neighbouring vertices */
 	  public static class Vertex implements Comparable<Vertex>{
-		public final String name;
+		public final Point name;
 		public double dist = Integer.MAX_VALUE; // MAX_VALUE assumed to be infinity
 		public Vertex previous = null;
 		public final Map<Vertex, Double> neighbours = new HashMap<>();
 	 
 		public Vertex(String name)
 		{
-			this.name = name;
+			String[] coordinate = name.split(",");
+			this.name = new Point(Integer.parseInt(coordinate[0]), Integer.parseInt(coordinate[1]));
 		}
 	 
 		private void printPath()
@@ -42,18 +46,20 @@ public class Graph {
 			}
 			else
 			{
-				this.previous.printPath();
 				System.out.print(" -> "+this.name+"("+this.dist+")" );
 				pathArrayList.add (this.name);
+				this.previous.printPath();
 			}
 		}
-	 
+
 		public int compareTo(Vertex other)
-		{
+		{/*
 			if (dist == other.dist)
 				return name.compareTo(other.name);
 	 
 			return Double.compare(dist, other.dist);
+			*/
+			return 0;
 		}
 	 
 		@Override public String toString()
@@ -121,6 +127,7 @@ public class Graph {
 	         }
 	      }
 	   }
+
 	 public static ArrayList<String> pathArrayList= new ArrayList<>(); // adding the path array
 	   /** Prints a path from the source to the specified vertex */
 	   public void printPath(String endName) {

@@ -104,7 +104,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
               {NoSend, _} = Peer1,
               io:format("NoSend: ~p~n", [NoSend]),
               io:format("Users: ~p~n", [Users]),
-              Check = [IP1 || {IP1, Us} <- Users, IP1 =/= NoSend],
+              Check=[IP1||{IP1,Us}<-Users],%IP1=/=NoSend],
               NoDups = lists:usort(Check),
               io:format("Users2: ~p~n", [Check]),
               distribute(NoDups, Distributive)

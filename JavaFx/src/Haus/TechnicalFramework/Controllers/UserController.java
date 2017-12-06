@@ -78,7 +78,7 @@ public class UserController {
      * @param msg   string represents the message of the error or a notification for
      *              the user
      */
-    public void dialog(String title, String msg) {
+    public static void dialog(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(null);

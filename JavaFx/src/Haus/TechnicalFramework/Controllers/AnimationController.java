@@ -8,6 +8,8 @@ import Haus.TechnicalFramework.AnimationObjects.Graph;
 import Haus.TechnicalFramework.AnimationObjects.Road;
 import Haus.PresentationUI.Main;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +20,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.text.FontSmoothingType;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -31,6 +35,7 @@ import java.util.regex.Pattern;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * This class will handle the animation page, where the user can see the diagram
@@ -46,6 +51,12 @@ import javafx.scene.paint.Color;
 public class AnimationController implements Initializable {
 
     GraphicsContext gc;
+
+    public static boolean doAnimate = true;
+    public static boolean runFirstFrame = true;
+    int housecontrol=0;
+    
+    private ArrayList <Pair<Rectangle,DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
@@ -76,7 +87,7 @@ public class AnimationController implements Initializable {
     Canvas canvas;
 
     @FXML
-    private TextArea messageLog;
+    public static TextArea messageLog;
 
     @FXML
     private Label username;
@@ -100,6 +111,15 @@ public class AnimationController implements Initializable {
     //Aesthetic images
     Image tree = new Image("/Haus/DataStorage/img/Isotile_tree.png");
     Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
+
+    public static int x = 0, y = 0;
+
+    AnimationTimer frameTimer = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            redraw();
+        }
+    };
 
     /**
      * Method to give action to the Leave Animation button. When the users press, it
@@ -194,20 +214,25 @@ public class AnimationController implements Initializable {
      *
      * @throws IOException
      */
+
     @FXML
     private void sendMessage() throws IOException {
         String sending = "nothing";
         int control = 0;
         System.out.println(logs);
-        if (logs != null) {
+      if (logs != null) {
             String[] check = logs.toString().split("], ");
             for (int i = 0; i < check.length; i++) {
                 //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control < 1) {
+            	String [] mess = TCPClient.teacherUsername.trim().split(",");
+            	for (int b=0;b<mess.length;b++){
+            		//System.out.println("Username="+mess[b]+"88");
+            		//System.out.println(check[i].trim().substring(check[i].indexOf("{ ") + 2, check[i].indexOf(","))+"99");
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b]) && control < 1) {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     control++;
-                }
+                }}
             }
         } else {
             String[] check = StudentController.toMessageLog.split("], ");
@@ -228,8 +253,7 @@ public class AnimationController implements Initializable {
         }
     }
 
-
-    public void logMessages() {
+    public void logMessages(String msgs) {
         try {
             logs = Parser.ParseInorder(TeacherController.toParse);
             System.out.println("Logs " + logs);
@@ -240,7 +264,7 @@ public class AnimationController implements Initializable {
                 inner = logs.get(j);
                 for (int i = 0; i < inner.size(); i++) {
                     transmission = String.format("%s%n", inner.get(i));
-                    this.messageLog.appendText("" + transmission);
+                   // this.messageLog.appendText("" + transmission);
                 }
             }
         } catch (Exception e) {
@@ -361,15 +385,35 @@ public class AnimationController implements Initializable {
         tempPt.y = (point.x + point.y) / 2 + (int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale));
         return (tempPt);
     }
+/*
+    public Point isoToTwoD(Point point) {
+        Point tempPt = new Point(0, 0);
+        tempPt.x = point.x + (2*point.y) - ((int) canvas.getWidth() / 2 - 16);
+        tempPt.y = (point.x - point.y) * 2 - ((int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale)));
+        return (tempPt);
+    }
+    */
+
+    /*
+    public Point isoToTwoD(Point point) {
+        Point tempPt = new Point(0, 0);
+        tempPt.x = ((2 * point.y + point.x) / 2) - ((int) canvas.getWidth() / 2 - 16);
+        tempPt.y = ((2 * point.y - point.x) / 2) - ((int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale)));
+        return (tempPt);
+    }
+    */
+
+    /*
+    function isoTo2D(pt:Point):Point{
+        var tempPt:Point = new Point(0, 0);
+        tempPt.x = (2 * pt.y + pt.x) / 2;
+        tempPt.y = (2 * pt.y - pt.x) / 2;
+        return(tempPt);
+    }
+     */
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Initializing AnimationPage");
-
-        try {
-            logMessages();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         //Case for when the current user is a teacher
         if (TeacherController.user == "teacher") {
@@ -380,9 +424,14 @@ public class AnimationController implements Initializable {
             String map = TeacherController.map;
             String[] mapArr = map.split(Pattern.quote("~"));
             username.setText(TCPClient.teacherUsername);
+            try {
+                logMessages(mapArr[2]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             initAnim(mapArr[0]);
-            redraw();
-
+            frameTimer.start();
+            //redraw();
         }
         //case for when the current user is not a teacher (e.g. student) sets variables not set because of lack of runanim
         else {
@@ -392,8 +441,10 @@ public class AnimationController implements Initializable {
             //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
             mapScale = 3 * Math.pow((double) nodes.size(), -0.6) * 2;
             grid = new char[(int) (nodes.size() * mapScale)][(int) (nodes.size() * mapScale)];
+            logMessages(data[2]);
             initAnim(data[0]);
-            redraw();
+            frameTimer.start();
+            //redraw();
         }
     }
 
@@ -403,7 +454,7 @@ public class AnimationController implements Initializable {
      */
     public void redraw() {
 
-        System.out.println("Redrawing Canvas, FPS: " + framesPerSecond);
+        //System.out.println("Redrawing Canvas, FPS: " + framesPerSecond);
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         DrawableObject node;
@@ -429,12 +480,23 @@ public class AnimationController implements Initializable {
 
                     // adding this node to the dijkstraNodes
                        addToDjikstraNodes (i, j - 1, 'H', node.name);
-
-
+                      if (housecontrol<nodes.size()){
+                       int x1=twoDToIso (new Point (i * 16, j * 16)).x ;
+                       int y1 = twoDToIso (new Point (i * 16, j * 16)).y;
+                       int [] arrh = new int [2];
+                       arrh[0]=x1;
+                       arrh[1]=y1;
+                       System.out.println("check");
+                 Rectangle n1= new Rectangle(x1,y1,node.image.getHeight(),node.image.getHeight());
+                 Pair <Rectangle,DrawableObject> p = new Pair <Rectangle,DrawableObject> (n1,node);
+                System.out.println(n1.toString());
+                houseinfo.add(p);
+                housecontrol++;
+                      }
                         //For printing the names above the houses
-                        gc.strokeText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
+                        gc.strokeText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                 Point(i * 16, j * 16)).y - 16);
-                        gc.fillText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
+                        gc.fillText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                 Point(i * 16, j * 16)).y - 16);
                         break;
 
@@ -512,18 +574,65 @@ public class AnimationController implements Initializable {
                 }
             }
         }
+        //Point p = twoDToIso(new Point(1,7));
+        //System.out.println(p);
+        //Point p1 = isoToTwoD(p);
+        //System.out.println(p1);
+        //System.out.println(isoToTwoD(twoDToIso(new Point(1,7))));
+        if(doAnimate) {
+            int dX = 0, dY = 0;
+
+            //todo: assign the x and y coordinates into the arraypath
+            //todo: make buble go between 2 points traveling path (iso -> 2D)
+            int i = 1;
+
+            if(runFirstFrame){
+                runDjikstra();
+                x = Graph.pathArrayList.get(0).x;
+                y = Graph.pathArrayList.get(0).y;
+            }
+            runFirstFrame = false;
+            System.out.println(Graph.pathArrayList);
+            //if()
+            Point path = Graph.pathArrayList.get(i);
+            if(x > path.x && x < path.x + 32 && y > path.y && y < path.y + 16){
+
+
+                int diffX = path.x - Graph.pathArrayList.get(i-1).x;
+                int diffY = path.y - Graph.pathArrayList.get(i-1).y;
+
+                dX = diffX / diffY;
+                dY = diffY / diffY;
+
+                i++;
+            }
+            x += dX;
+            y += dY;
+
+            gc.drawImage(new Image("/Haus/DataStorage/img/bubble.png"), x, y);
+        }
+        /*
+        if (run)
+        {
+            runDjikstra();
+        }
+        run = false;
+        */
+    }
+
+    public void runDjikstra(){
         // ......... Dijkstra section ...........
         //ArrayList<SourceDestinationPair> pairSequence = fillSDPairs ();
         for (DjikstraNode djiNode : djikstraNodes) {
             djiNode.addNiegbours (djikstraNodes);
         }
-        
-        DjikstraNode.shortestPathAlgorithm (fillSDPairs ().getKey (), fillSDPairs ().getValue (), djikstraNodes);
+
+        Pair<DjikstraNode, DjikstraNode> nodePair = fillSDPairs();
+        DjikstraNode.shortestPathAlgorithm (nodePair.getKey(), nodePair.getValue(), djikstraNodes);
         for (int i = 0; i < Graph.pathArrayList.size (); i++) {
             PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
-            gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
+            //gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
         }
-
     }
 
     //Function for creating objects required for drawing in case they are not available (ex. student)
@@ -551,17 +660,9 @@ public class AnimationController implements Initializable {
             }
         }
 
-        private PathPoint pathPointDrawableObject (String pathPoint){
-            String[] cooardinates = pathPoint.split (",");
-            return new PathPoint (Integer.parseInt (cooardinates[0]), Integer.parseInt (cooardinates[1]));
-
-        }
-
-
-        /**
-         * Method to animate the dijkstra algorithm
-         */
-        private void drawMsgs () {
+        private PathPoint pathPointDrawableObject (Point pathPoint){
+            //String[] cooardinates = pathPoint.split (",");
+            return new PathPoint (pathPoint.x, pathPoint.y);
         }
 
         /**
@@ -587,9 +688,9 @@ public class AnimationController implements Initializable {
 
         private DjikstraNode findNodebyName (String name){
             for (int i = 0; i < djikstraNodes.size (); i++) {
-                if (djikstraNodes.get (i).name == null)
-                    continue;
-                if (djikstraNodes.get (i).name.contains (name + "|")) {
+                //if (djikstraNodes.get (i).name == null)
+                //    continue;
+                if (djikstraNodes.get (i).name != null && djikstraNodes.get (i).name.contains (name + "|")) {
                     // System.out.println ("  [#] found " + name + "=" + djikstraNodes.get (i).name + "  at " + djikstraNodes.get (i).x + "," + djikstraNodes.get (i).y);
                     return djikstraNodes.get (i);
                 }
@@ -598,25 +699,29 @@ public class AnimationController implements Initializable {
             return null;
         }
 
-        private class SourceDestinationPair {
-            public DjikstraNode source;
-            public DjikstraNode distination;
-
-            public SourceDestinationPair (DjikstraNode source, DjikstraNode distination) {
-
-                this.source = source;
-                this.distination = distination;
-            }
-        }
-
-
-
     //Function for initialising the animation on the canvas required for both the teacher and the student
     public void initAnim(String map) {
 
         //Set necessary canvas and GraphicsContext properties
         canvas.setWidth((nodes.size() * 32) * mapScale + 80);
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
+        canvas.setOnMouseClicked(//MouseEvent.MOUSE_CLICKED  ActionEvent.ACTION_PERFORMED
+    	        new EventHandler<MouseEvent>() {
+    	            @Override
+    	            public void handle(MouseEvent t) {            
+    	                 for (int m=0;m<houseinfo.size();m++){
+    	                	
+    	                	// System.out.println(Arrays.toString(houseinfo.toArray()));
+    	                	 if (houseinfo.get(m).getKey().contains(t.getX(),t.getY())){
+    	                		
+    	                		 UserController.dialog("House info",houseinfo.get(m).getValue().name);
+    	                	 }
+    	                
+    	                 }
+    	            }
+    	        });
+        canvas.setFocusTraversable(false);
+    	
         gc = canvas.getGraphicsContext2D();
         gc.setFont(new Font("Calibri", 10));
         gc.setFontSmoothingType(FontSmoothingType.GRAY);
