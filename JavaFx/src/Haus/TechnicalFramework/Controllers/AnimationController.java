@@ -219,15 +219,19 @@ public class AnimationController implements Initializable {
         String sending = "nothing";
         int control = 0;
         System.out.println(logs);
-        if (logs != null) {
+      if (logs != null) {
             String[] check = logs.toString().split("], ");
             for (int i = 0; i < check.length; i++) {
                 //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control < 1) {
+            	String [] mess = TCPClient.teacherUsername.trim().split(",");
+            	for (int b=0;b<mess.length;b++){
+            		//System.out.println("Username="+mess[b]+"88");
+            		//System.out.println(check[i].trim().substring(check[i].indexOf("{ ") + 2, check[i].indexOf(","))+"99");
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b]) && control < 1) {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     control++;
-                }
+                }}
             }
         } else {
             String[] check = StudentController.toMessageLog.split("], ");
