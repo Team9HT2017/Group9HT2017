@@ -10,7 +10,7 @@ import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 
 public class TCPListener extends Thread {
-
+	public static int allowMessage=0;
     public static String[] srcDest = new String[]{"u1", "u2"};
 
 
@@ -40,20 +40,24 @@ public class TCPListener extends Thread {
                 System.out.println ("Here");
                 connectionSocket.close ();
                 System.out.println ("Sending confirmation ID: " + toSend);
+                String [] messIDmess = serverSentence.split("\\?");
+               
+                System.out.println("Allow: "+allowMessage);
+                serverSentence=messIDmess[0];
                 srcDest = getSenderRecipient (serverSentence);
                 try {
                     Integer.parseInt (toSend);
                     TCPClient.sendMessage (toSend, true);
                 } catch (Exception e) {
-                    //do nothing
+                	 allowMessage++;
                 }
                 //AnimationController.x = srcDest[0];
                 //AnimationController.y = srcDest[1];
                 AnimationController.doAnimate = true;
                 //AnimationController.runDjikstra();
             } else {
-                System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 5).split (",")));
-                //  TCPClient.teacherUsername=
+                System.out.println ("Teacher usernames change: " + (Arrays.toString(serverSentence.substring (0, serverSentence.length () - 4).split (","))));
+                TCPClient.teacherUsername=Arrays.toString(serverSentence.substring (0, serverSentence.length () - 4).split (","));
             }
         }
     }

@@ -217,13 +217,13 @@ public class Parser {
                     inner.add(" { " + messages.getJSONObject(t).get("from"));
                     inner.add(" Reply back ");
                     inner.add("to " + messages.getJSONObject(t).get("to"));
-                    inner.add("the following message " + messages.getJSONObject(t).get("message") + " } ");
+                    inner.add("the following message " + messages.getJSONObject(t).get("message") + " } "+"?"+t);
                 } else {
 
                     inner.add("{ " + messages.getJSONObject(t).get("from"));
                     inner.add(" " + messages.getJSONObject(t).get("node"));
                     inner.add("to " + messages.getJSONObject(t).get("to"));
-                    inner.add(" the following message " + messages.getJSONObject(t).get("message") + " } ");
+                    inner.add(" the following message " + messages.getJSONObject(t).get("message") + " } "+"?"+t);
 
                     // System.out.println("should be equal" + entry.getKey().toString() + messages.getJSONObject(t).get("to"));
                     // System.out.println("should be equal" + entry.getValue().toString() + messages.getJSONObject(t).get("from"));
