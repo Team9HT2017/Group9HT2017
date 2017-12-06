@@ -12,21 +12,16 @@ import java.util.Map;
 /**
  * @Author Anthony;
  * Made with usage of JSON.org library
-
 Copyright (c) 2002 JSON.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 The Software shall be used for Good, not Evil.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -88,7 +83,7 @@ public class Parser {
 
                 // System.out.println(relationships.toString()); //for testing
                 if (!send){
-                result.put(names.get(i) + "|" + classes.get(i), relationships); //actual process of filling of the map
+                    result.put(names.get(i) + "|" + classes.get(i), relationships); //actual process of filling of the map
                 }else{ result.put("&"+names.get(i) + "|" + classes.get(i), relationships+"?");}
             }
 
@@ -97,28 +92,120 @@ public class Parser {
             System.out.println(result2.toString());
 
             return result;
-        } else if (type.equals("class_diagram")) { //we don't need this for now
+        } else if (type.equals("class_diagram")) {
+
+        JSONArray arr11 = res.getJSONArray("classes");
+        JSONObject arr12 = res.getJSONObject("meta");
+
+        JSONArray arr13 = res.getJSONArray("relationships");
+        String result2 = ("{'meta' : " + arr12.toString() + " " + ", 'type' : " + "? " + type + " ?,"
+                + "" + " 'classes' : " + arr11.toString() + " " + "'relationships' : " + arr13.toString());
+        System.out.println(result2);
+        System.out.println("classes experiment "+arr11.getJSONObject(0));
+        System.out.println("relationships experiment "+arr13.getJSONObject(0));
+
+        for(int i=0;i<arr13.length();i++){
+            List <String> subres = new ArrayList <String>();
+            List <String> tores = new ArrayList <String>();
+            JSONObject d1 = arr13.getJSONObject(i);
+            Object supclass = d1.get("superclass");
+            Object subclass = d1.get("subclass");
+            for (int j=0;j<arr11.length();j++){
+                JSONObject d2 = arr11.getJSONObject(j);
+                Object name = d2.get("name");
+                JSONArray inner = d2.getJSONArray("fields");
+                for (int p=0;p<inner.length();p++){
+                    JSONObject n1 = inner.getJSONObject(p);
+                    Object nm = n1.get("name");
+                    Object tp = n1.get("type"); // Gateway=superclass:"Device",fields{subres}
+                    System.out.println("name "+nm +" type "+tp);
+                    subres.add(tp+" : "+nm);
+                }
+        }  else if (type.equals("class_diagram")) {
 
             JSONArray arr11 = res.getJSONArray("classes");
             JSONObject arr12 = res.getJSONObject("meta");
+            
             JSONArray arr13 = res.getJSONArray("relationships");
             String result2 = ("{'meta' : " + arr12.toString() + " " + ", 'type' : " + "? " + type + " ?,"
                     + "" + " 'classes' : " + arr11.toString() + " " + "'relationships' : " + arr13.toString());
-            System.out.println(result);
-
-            return null; //change later
-        } else if (type.equals("deployment_diagram")) { //we don't need this for now
+            System.out.println(result2);
+            System.out.println("classes experiment "+arr11.getJSONObject(0));
+            System.out.println("relationships experiment "+arr13.getJSONObject(0));
+         
+            for(int i=0;i<arr13.length();i++){
+            	List <String> subres = new ArrayList <String>();
+            	List <String> tores = new ArrayList <String>();
+            	JSONObject d1 = arr13.getJSONObject(i);
+            	Object supclass = d1.get("superclass");
+            	Object subclass = d1.get("subclass");
+            	for (int j=0;j<arr11.length();j++){
+            		JSONObject d2 = arr11.getJSONObject(j);
+            		Object name = d2.get("name");
+            		JSONArray inner = d2.getJSONArray("fields");
+            		for (int p=0;p<inner.length();p++){
+            			JSONObject n1 = inner.getJSONObject(p);
+            			Object nm = n1.get("name");
+            			Object tp = n1.get("type"); // Gateway=superclass:"Device",fields{subres}
+            			System.out.println("name "+nm +" type "+tp);
+            			subres.add(tp+" : "+nm);
+            		}
+            		
+            		if (name.equals(supclass)){
+            		tores.add(subres.toString());
+            		}
+            		else if (name.equals(subclass)){
+                		tores.add(subres.toString());
+                		}
+            	}
+            	result.put(subclass, "\nSuperclass:" +supclass+"\nVariables:"+tores.toString());
+            }
+            System.out.println(result.toString());
+            return result; //change later
+        } else if (type.equals("deployment_diagram")) { 
             JSONObject arr12 = res.getJSONObject("meta");
             JSONArray arr13 = res.getJSONArray("mapping");
-            String result2 = ("{'meta' : " + arr12.toString() + " " + ", 'type' : " + "? " + type + " ?,"
-                    + " " + "'mapping' : " + arr13.toString());
+            for (int l=0;l<arr13.length();l++){
+            	JSONObject extract = arr13.getJSONObject(l);
+            	Object process = extract.get("process");
+            	Object device = extract.get("device");
+            	result.put(process, "\nDevice: "+device);
+            }
+            
+          
+            
             System.out.println(result);
 
-            return null;  //change later
+                if (name.equals(supclass)){
+                    tores.add(subres.toString());
+                }
+                else if (name.equals(subclass)){
+                    tores.add(subres.toString());
+                }
+            }
+            result.put(subclass, "\nSuperclass:" +supclass+"\nVariables:"+tores.toString());
         }
+        System.out.println(result.toString());
+        return result; //change later
+    } else if (type.equals("deployment_diagram")) {
+        JSONObject arr12 = res.getJSONObject("meta");
+        JSONArray arr13 = res.getJSONArray("mapping");
+        for (int l=0;l<arr13.length();l++){
+            JSONObject extract = arr13.getJSONObject(l);
+            Object process = extract.get("process");
+            Object device = extract.get("device");
+            result.put(process, "\nDevice: "+device);
+        }
+
+
+
+        System.out.println(result);
+
+        return result;  //change later
+    }
         return null;
 
-    }
+}
 
     /**
      * @Author Fahd;
@@ -151,7 +238,7 @@ public class Parser {
 
                 }
             }
-           // System.out.println("messagessssss");
+            // System.out.println("messagessssss");
             System.out.println(messages.toString());
             Map<Object, Object> User = new HashMap<>();
 
@@ -228,10 +315,10 @@ public class Parser {
         return false;
     }
 
-    public static Map<ArrayList<Object>, Integer>  priorityMessaging (String Parse) {
+    public static Map<ArrayList<Object>, Integer> priority1node(String Parse) {
 
-        ArrayList<Object> priority ;
-        Map<ArrayList<Object>,Integer > oneNodeMap = new HashMap<>();
+        ArrayList<Object> priority;
+        Map<ArrayList<Object>, Integer> oneNodeMap = new HashMap<>();
         int orderNumber;
         str = Parse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
 
@@ -244,20 +331,34 @@ public class Parser {
 
             JSONArray content1 = diagram.getJSONArray("content"); // "digging" into nested JSON that contains messages
             System.out.println(content1.toString());
+            Map<Object, Object> student = new HashMap<>();
 
 
             for (int i = 0; i < content1.length(); i++) {
                 JSONArray nestedContent = content1.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
 
-                for (int j = 0; j < nestedContent.length(); j++ ) {
-                    priority=new  ArrayList<>(0);
-                    priority.add(nestedContent.getJSONObject(j).get("from"));
-                    priority.add(nestedContent.getJSONObject(j).get("node"));
-                    priority.add(nestedContent.getJSONObject(j).get("to"));
-                    priority.add(nestedContent.getJSONObject(j).get("message"));
-                    orderNumber=j;
-                    oneNodeMap.put(priority,orderNumber);
+                for (int j = 0; j < nestedContent.length(); j++) {
 
+                    student.put(nestedContent.getJSONObject(j).get("from"), nestedContent.getJSONObject(j).get("to"));
+
+                    if ((" " + student.get(nestedContent.getJSONObject(j).get("to"))).equals(" " + nestedContent.getJSONObject(j).get("from"))) {
+                        priority = new ArrayList<>(0);
+                        priority.add(" { " + nestedContent.getJSONObject(j).get("from"));
+                        priority.add(" Reply back ");
+                        priority.add("to " + nestedContent.getJSONObject(j).get("to"));
+                        priority.add("the following message " + nestedContent.getJSONObject(j).get("message") + " } ");
+                        orderNumber = j;
+                        oneNodeMap.put(priority, orderNumber);
+
+                    } else {
+                        priority = new ArrayList<>(0);
+                        priority.add("{ " + nestedContent.getJSONObject(j).get("from"));
+                        priority.add(" " + nestedContent.getJSONObject(j).get("node"));
+                        priority.add("to " + nestedContent.getJSONObject(j).get("to"));
+                        priority.add("the following message " + nestedContent.getJSONObject(j).get("message") + " } ");
+                        orderNumber = j;
+                        oneNodeMap.put(priority, orderNumber);
+                    }
                 }
 
 
@@ -267,5 +368,6 @@ public class Parser {
 
         return oneNodeMap;
     }
+
 
 }
