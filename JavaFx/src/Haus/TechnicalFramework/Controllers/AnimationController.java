@@ -48,7 +48,8 @@ public class AnimationController implements Initializable {
 
     GraphicsContext gc;
 
-    public static boolean doAnimate = false;
+    public static boolean doAnimate = true;
+    public static boolean runFirstFrame = true;
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
@@ -103,6 +104,8 @@ public class AnimationController implements Initializable {
     //Aesthetic images
     Image tree = new Image("/Haus/DataStorage/img/Isotile_tree.png");
     Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
+
+    public static int x = 0, y = 0;
 
     AnimationTimer frameTimer = new AnimationTimer() {
         @Override
@@ -204,7 +207,6 @@ public class AnimationController implements Initializable {
      * @throws IOException
      */
 
-    int x = 0, y = 20;
     @FXML
     private void sendMessage() throws IOException {
         String sending = "nothing";
@@ -371,6 +373,32 @@ public class AnimationController implements Initializable {
         tempPt.y = (point.x + point.y) / 2 + (int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale));
         return (tempPt);
     }
+/*
+    public Point isoToTwoD(Point point) {
+        Point tempPt = new Point(0, 0);
+        tempPt.x = point.x + (2*point.y) - ((int) canvas.getWidth() / 2 - 16);
+        tempPt.y = (point.x - point.y) * 2 - ((int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale)));
+        return (tempPt);
+    }
+    */
+
+    /*
+    public Point isoToTwoD(Point point) {
+        Point tempPt = new Point(0, 0);
+        tempPt.x = ((2 * point.y + point.x) / 2) - ((int) canvas.getWidth() / 2 - 16);
+        tempPt.y = ((2 * point.y - point.x) / 2) - ((int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale)));
+        return (tempPt);
+    }
+    */
+
+    /*
+    function isoTo2D(pt:Point):Point{
+        var tempPt:Point = new Point(0, 0);
+        tempPt.x = (2 * pt.y + pt.x) / 2;
+        tempPt.y = (2 * pt.y - pt.x) / 2;
+        return(tempPt);
+    }
+     */
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Initializing AnimationPage");
@@ -523,12 +551,43 @@ public class AnimationController implements Initializable {
                 }
             }
         }
+        //Point p = twoDToIso(new Point(1,7));
+        //System.out.println(p);
+        //Point p1 = isoToTwoD(p);
+        //System.out.println(p1);
+        //System.out.println(isoToTwoD(twoDToIso(new Point(1,7))));
         if(doAnimate) {
+            int dX = 0, dY = 0;
+
             //todo: assign the x and y coordinates into the arraypath
             //todo: make buble go between 2 points traveling path (iso -> 2D)
+            int i = 1;
+
+            if(runFirstFrame){
+                runDjikstra();
+                x = Graph.pathArrayList.get(0).x;
+                y = Graph.pathArrayList.get(0).y;
+            }
+            runFirstFrame = false;
+            System.out.println(Graph.pathArrayList);
+            //if()
+            Point path = Graph.pathArrayList.get(i);
+            if(x > path.x && x < path.x + 32 && y > path.y && y < path.y + 16){
+
+
+                int diffX = path.x - Graph.pathArrayList.get(i-1).x;
+                int diffY = path.y - Graph.pathArrayList.get(i-1).y;
+
+                dX = diffX / diffY;
+                dY = diffY / diffY;
+
+                i++;
+            }
+            x += dX;
+            y += dY;
+
             gc.drawImage(new Image("/Haus/DataStorage/img/bubble.png"), x, y);
         }
-        x ++;
         /*
         if (run)
         {
@@ -538,7 +597,7 @@ public class AnimationController implements Initializable {
         */
     }
 
-    private void runDjikstra(){
+    public void runDjikstra(){
         // ......... Dijkstra section ...........
         //ArrayList<SourceDestinationPair> pairSequence = fillSDPairs ();
         for (DjikstraNode djiNode : djikstraNodes) {
@@ -549,7 +608,7 @@ public class AnimationController implements Initializable {
         DjikstraNode.shortestPathAlgorithm (nodePair.getKey(), nodePair.getValue(), djikstraNodes);
         for (int i = 0; i < Graph.pathArrayList.size (); i++) {
             PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
-            gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
+            //gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
         }
     }
 
@@ -578,9 +637,9 @@ public class AnimationController implements Initializable {
             }
         }
 
-        private PathPoint pathPointDrawableObject (String pathPoint){
-            String[] cooardinates = pathPoint.split (",");
-            return new PathPoint (Integer.parseInt (cooardinates[0]), Integer.parseInt (cooardinates[1]));
+        private PathPoint pathPointDrawableObject (Point pathPoint){
+            //String[] cooardinates = pathPoint.split (",");
+            return new PathPoint (pathPoint.x, pathPoint.y);
         }
 
         /**
