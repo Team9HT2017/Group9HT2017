@@ -97,7 +97,7 @@ public class Parser {
             System.out.println(result2.toString());
 
             return result;
-        } } else if (type.equals("class_diagram")) { 
+        }  else if (type.equals("class_diagram")) { 
 
             JSONArray arr11 = res.getJSONArray("classes");
             JSONObject arr12 = res.getJSONObject("meta");

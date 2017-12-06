@@ -147,7 +147,7 @@ public class TeacherController extends AnchorPane {
 
 			try {
                 user = "teacher";
-                map = Arrays.deepToString(AnimationController.runAnim(sequenceDiag)) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
+                map = Arrays.deepToString(AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
 			    inProgressBar();
