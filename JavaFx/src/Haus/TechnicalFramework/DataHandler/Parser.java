@@ -134,7 +134,7 @@ public class Parser {
                 		tores.add(subres.toString());
                 		}
             	}
-            	result.put(subclass, "\nSuperclass:" +supclass+"\nVariables:"+tores.toString());
+            	result.put(subclass, " Superclass:" +supclass+" Variables:"+tores.toString()); //\n
             }
             System.out.println(result.toString());
             return result; //change later
@@ -145,7 +145,7 @@ public class Parser {
             	JSONObject extract = arr13.getJSONObject(l);
             	Object process = extract.get("process");
             	Object device = extract.get("device");
-            	result.put(process, "\nDevice: "+device);
+            	result.put(process, " Device: "+device);
             }
             
           

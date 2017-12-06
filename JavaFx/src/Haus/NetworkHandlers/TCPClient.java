@@ -93,7 +93,7 @@ public static String studentUsername="";
             
             System.out.println("FROM SERVER: " + fromServ);
             String [] temp = fromServ.split("!*!");
-            System.out.println(Arrays.toString(temp));
+            System.out.println("Temp "+Arrays.toString(temp));
             studentUsername=temp[2];
             System.out.println("Students username: " + studentUsername);
             fromServ=temp[0];

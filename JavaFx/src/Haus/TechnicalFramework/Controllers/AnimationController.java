@@ -281,7 +281,7 @@ public class AnimationController implements Initializable {
                 String[] inn = inner.split(", ");
                 for (int i = 0; i < inn.length; i++) {
                     transmission = String.format("%s%n", inn[i]);
-                    this.messageLog.appendText("" + transmission);
+                   // this.messageLog.appendText("" + transmission);
                 }
             }
         }
@@ -586,7 +586,7 @@ public class AnimationController implements Initializable {
             //todo: make buble go between 2 points traveling path (iso -> 2D)
             int i = 1;
 
-            if(runFirstFrame){
+      /*      if(runFirstFrame){
                 runDjikstra();
                 x = Graph.pathArrayList.get(0).x;
                 y = Graph.pathArrayList.get(0).y;
@@ -594,7 +594,7 @@ public class AnimationController implements Initializable {
             runFirstFrame = false;
             System.out.println(Graph.pathArrayList);
             //if()
-            Point path = Graph.pathArrayList.get(i);
+          //  Point path = Graph.pathArrayList.get(i);
             if(x > path.x && x < path.x + 32 && y > path.y && y < path.y + 16){
 
 
@@ -608,7 +608,7 @@ public class AnimationController implements Initializable {
             }
             x += dX;
             y += dY;
-
+*/
             gc.drawImage(new Image("/Haus/DataStorage/img/bubble.png"), x, y);
         }
         /*
@@ -630,7 +630,7 @@ public class AnimationController implements Initializable {
         Pair<DjikstraNode, DjikstraNode> nodePair = fillSDPairs();
         DjikstraNode.shortestPathAlgorithm (nodePair.getKey(), nodePair.getValue(), djikstraNodes);
         for (int i = 0; i < Graph.pathArrayList.size (); i++) {
-            PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
+           // PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
             //gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
         }
     }
@@ -646,7 +646,8 @@ public class AnimationController implements Initializable {
 
         for (String str : objArray) {
             String[] houseInfoArr = str.split (Pattern.quote (","));
-            nodes.add (new DrawableObject (houseInfoArr[0], Integer.parseInt (houseInfoArr[1]), Integer.parseInt (houseInfoArr[2])));
+            System.out.println(Arrays.toString(houseInfoArr));
+            nodes.add (new DrawableObject (houseInfoArr[0].replaceAll(";", ","), Integer.parseInt (houseInfoArr[1]), Integer.parseInt (houseInfoArr[2])));
         }
     }
 

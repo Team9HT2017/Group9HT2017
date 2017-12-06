@@ -188,7 +188,7 @@ public class TeacherController extends AnchorPane {
 					node.name=node.name+deploymentDiag.get((deploymentDiag).keySet().toArray()[e]);
 				}
 			}
-			houses = houses + "{" + node.name.replaceAll("\\!", "") + "," + node.x + "," + node.y + "}";
+			houses = houses + "{" + node.name.replaceAll(",", ";") + "," + node.x + "," + node.y + "}";
 		}
 		return houses;
 	}
