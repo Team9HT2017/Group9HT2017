@@ -198,11 +198,74 @@ public class Parser {
         }
 
 
-
    /*public static void main(String [] args){
 	   Parse2();
    }*/
 
         return ordering;
     }
+    public static boolean checkNodesNumber (String Parse) {
+
+        str = Parse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
+
+        JSONObject result = new JSONObject(str); //create JSON object from input
+        Object type = result.get("type");
+
+        if (type.equals("sequence_diagram")) {
+
+            JSONObject diagram = result.getJSONObject("diagram"); // pick array that contains high-level information about messages
+
+            JSONArray content1 = diagram.getJSONArray("content"); // "digging" into nested JSON that contains messages
+            System.out.println(content1.toString());
+
+            if (content1.length()> 0) {
+
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    public static Map<ArrayList<Object>, Integer>  priorityMessaging (String Parse) {
+
+        ArrayList<Object> priority ;
+        Map<ArrayList<Object>,Integer > oneNodeMap = new HashMap<>();
+        int orderNumber;
+        str = Parse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
+
+        JSONObject result = new JSONObject(str); //create JSON object from input
+        Object type = result.get("type");
+
+        if (type.equals("sequence_diagram")) {
+
+            JSONObject diagram = result.getJSONObject("diagram"); // pick array that contains high-level information about messages
+
+            JSONArray content1 = diagram.getJSONArray("content"); // "digging" into nested JSON that contains messages
+            System.out.println(content1.toString());
+
+
+            for (int i = 0; i < content1.length(); i++) {
+                JSONArray nestedContent = content1.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+
+                for (int j = 0; j < nestedContent.length(); j++ ) {
+                    priority=new  ArrayList<>(0);
+                    priority.add(nestedContent.getJSONObject(j).get("from"));
+                    priority.add(nestedContent.getJSONObject(j).get("node"));
+                    priority.add(nestedContent.getJSONObject(j).get("to"));
+                    priority.add(nestedContent.getJSONObject(j).get("message"));
+                    orderNumber=j;
+                    oneNodeMap.put(priority,orderNumber);
+
+                }
+
+
+            }
+
+        }
+
+        return oneNodeMap;
+    }
+
 }
