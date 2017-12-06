@@ -119,7 +119,7 @@ public class AnimationController implements Initializable {
 
     /**
      * Method to extract the last exchange between a specific sender and receiver .
-     *param ArrayList of objects
+     * @param message
      */
     private  ArrayList<Object> priorityMessaging (String message ) {
 
@@ -156,7 +156,8 @@ public class AnimationController implements Initializable {
 
     /**
      * Method to check whether the message exchanged between sender and receiver is a reply or not .
-     *param Sender , Receiver
+     * @param sender
+     * @param receiver
      */
     public static boolean checkOrder (String sender, String receiver ){
         ArrayList<ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse);

@@ -10,13 +10,14 @@ import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 
 public class TCPListener extends Thread {
-    public static String[] srcDest;
+    public static String[] srcDest = new String[] {"u1", "u2"};
 
 
     /*public static void main(String args[]) throws Exception {
         listen();
     }*/
     public static void listen () throws IOException {
+
 
         String serverSentence;
         String capitalizedSentence;

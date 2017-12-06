@@ -121,7 +121,7 @@ public class Graph {
 	         }
 	      }
 	   }
-	 public static ArrayList<String> pathArrayList; // adding the path array 
+	 public static ArrayList<String> pathArrayList= new ArrayList<>(); // adding the path array
 	   /** Prints a path from the source to the specified vertex */
 	   public void printPath(String endName) {
 	      if (!graph.containsKey(endName)) {
