@@ -9,6 +9,7 @@ import Haus.TechnicalFramework.AnimationObjects.Road;
 import Haus.PresentationUI.Main;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.text.FontSmoothingType;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -32,6 +35,7 @@ import java.util.regex.Pattern;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * This class will handle the animation page, where the user can see the diagram
@@ -50,6 +54,9 @@ public class AnimationController implements Initializable {
 
     public static boolean doAnimate = true;
     public static boolean runFirstFrame = true;
+    int housecontrol=0;
+    
+    private ArrayList <Pair<Rectangle,DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
@@ -80,7 +87,7 @@ public class AnimationController implements Initializable {
     Canvas canvas;
 
     @FXML
-    private TextArea messageLog;
+    public static TextArea messageLog;
 
     @FXML
     private Label username;
@@ -252,7 +259,7 @@ public class AnimationController implements Initializable {
                 inner = logs.get(j);
                 for (int i = 0; i < inner.size(); i++) {
                     transmission = String.format("%s%n", inner.get(i));
-                    this.messageLog.appendText("" + transmission);
+                   // this.messageLog.appendText("" + transmission);
                 }
             }
         } catch (Exception e) {
@@ -468,12 +475,23 @@ public class AnimationController implements Initializable {
 
                     // adding this node to the dijkstraNodes
                        addToDjikstraNodes (i, j - 1, 'H', node.name);
-
-
+                      if (housecontrol<nodes.size()){
+                       int x1=twoDToIso (new Point (i * 16, j * 16)).x ;
+                       int y1 = twoDToIso (new Point (i * 16, j * 16)).y;
+                       int [] arrh = new int [2];
+                       arrh[0]=x1;
+                       arrh[1]=y1;
+                       System.out.println("check");
+                 Rectangle n1= new Rectangle(x1,y1,node.image.getHeight(),node.image.getHeight());
+                 Pair <Rectangle,DrawableObject> p = new Pair <Rectangle,DrawableObject> (n1,node);
+                System.out.println(n1.toString());
+                houseinfo.add(p);
+                housecontrol++;
+                      }
                         //For printing the names above the houses
-                        gc.strokeText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
+                        gc.strokeText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                 Point(i * 16, j * 16)).y - 16);
-                        gc.fillText(node.name, twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
+                        gc.fillText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                 Point(i * 16, j * 16)).y - 16);
                         break;
 
@@ -682,6 +700,23 @@ public class AnimationController implements Initializable {
         //Set necessary canvas and GraphicsContext properties
         canvas.setWidth((nodes.size() * 32) * mapScale + 80);
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
+        canvas.setOnMouseClicked(//MouseEvent.MOUSE_CLICKED  ActionEvent.ACTION_PERFORMED
+    	        new EventHandler<MouseEvent>() {
+    	            @Override
+    	            public void handle(MouseEvent t) {            
+    	                 for (int m=0;m<houseinfo.size();m++){
+    	                	
+    	                	// System.out.println(Arrays.toString(houseinfo.toArray()));
+    	                	 if (houseinfo.get(m).getKey().contains(t.getX(),t.getY())){
+    	                		
+    	                		 UserController.dialog("House info",houseinfo.get(m).getValue().name);
+    	                	 }
+    	                
+    	                 }
+    	            }
+    	        });
+        canvas.setFocusTraversable(false);
+    	
         gc = canvas.getGraphicsContext2D();
         gc.setFont(new Font("Calibri", 10));
         gc.setFontSmoothingType(FontSmoothingType.GRAY);

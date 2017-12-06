@@ -79,6 +79,19 @@ public class TeacherController extends AnchorPane {
      */
     @FXML
     private void selectDiagram() throws IOException {
+        String OS = System.getProperty("os.name").toLowerCase();
+        String mac = "./runserver.sh";
+        String windows = "./runwindows.sh";
+
+        // detecting which operational system the user has to run the script for the server
+//		    if (OS.contains("mac"))
+//                runScript(mac);
+//
+//            else  (OS.contains("wind")) {
+//               runScript(windows);
+//
+//            }
+
         try {
             FileChooser json = new FileChooser();
             json.setTitle("Open Resource File");
@@ -114,20 +127,10 @@ public class TeacherController extends AnchorPane {
     @FXML
     private void createAnimation() throws IOException {
 
-        String OS = System.getProperty("os.name").toLowerCase();
-        String mac = "./runserver.sh";
-        String windows = "./runwindows.sh";
 
         // checking if the file is uploaded before animation starts
         if (uploaded) {
-            // detecting which operational system the user has to run the script for the server
-//		    if (OS.contains("mac"))
-//                runScript(mac);
-//
-//            else if (OS.contains("wind")) {
-//               runScript(windows);
-//
-//            }
+
 
                 try {
                     user = "teacher";
