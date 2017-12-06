@@ -68,12 +68,13 @@ public static String studentUsername="";
             System.out.println("Request file" + request);
             fromServ = inFromServer.readLine(); // Receive the parsed file
            
+            
             String [] artest = fromServ.substring(0, fromServ.length()-4).split(",");
             List teacherN = new LinkedList <String>(Arrays.asList(artest));
             System.out.println("Teacher usernames: " + teacherN.toString());
             teacherN.remove(0);
             System.out.println("Teacher usernames: " + teacherN.toString());
-            teacherUsername=teacherN.toString();//fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
+            teacherUsername=Arrays.toString(teacherN.toArray()).replaceAll("\\[", "").replaceAll("\\]", "");//fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
             System.out.println("Teacher username: " + teacherUsername);
             fromServ=teacherN.toString();
             clientSocket.close();
