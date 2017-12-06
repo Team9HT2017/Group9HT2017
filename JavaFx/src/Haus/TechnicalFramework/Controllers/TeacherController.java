@@ -152,7 +152,7 @@ public class TeacherController extends AnchorPane {
                                 teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
 
                             } catch (IOException ex) {
-                                Logger.getLogger(SplashController.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     });
