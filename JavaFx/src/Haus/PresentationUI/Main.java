@@ -80,10 +80,10 @@ public class Main extends Application {
         // To get the application user's screen size and pass it to the set the
         // application size
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight());
+        scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight() * 0.94);
         primaryStage.setTitle("Haus Diagram Simulator");
         primaryStage.setX(0);
-        primaryStage.setY(10);
+        primaryStage.setY(0);
         primaryStage.setScene(scene);
         primaryStage.show();
 
