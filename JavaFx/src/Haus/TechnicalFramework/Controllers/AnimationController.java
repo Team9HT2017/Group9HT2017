@@ -276,7 +276,7 @@ public class AnimationController implements Initializable {
                 String[] inn = inner.split(", ");
                 for (int i = 0; i < inn.length; i++) {
                     transmission = String.format("%s%n", inn[i]);
-                    this.messageLog.appendText("" + transmission);
+                    messageLog.appendText("" + transmission);
                 }
             }
         }
@@ -436,7 +436,7 @@ public class AnimationController implements Initializable {
             //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
             mapScale = 3 * Math.pow((double) nodes.size(), -0.6) * 2;
             grid = new char[(int) (nodes.size() * mapScale)][(int) (nodes.size() * mapScale)];
-            logMessages(data[2]);
+            //logMessages(data[2]);
             initAnim(data[0]);
             frameTimer.start();
             //redraw();
@@ -577,29 +577,39 @@ public class AnimationController implements Initializable {
         if(doAnimate) {
             int dX = 0, dY = 0;
 
-            //todo: assign the x and y coordinates into the arraypath
-            //todo: make buble go between 2 points traveling path (iso -> 2D)
+            //todo: put the start point to be in the start, not the end.
             int i = 1;
 
+
+
+            Point pDest;
+            Point pStart;
             if(runFirstFrame){
+                runFirstFrame = false;
                 runDjikstra();
-                x = Graph.pathArrayList.get(0).x;
-                y = Graph.pathArrayList.get(0).y;
+                pStart = twoDToIso(new Point(Graph.pathArrayList.get(i - 1).x * 16, Graph.pathArrayList.get(i - 1).y * 16));
+                pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
+                x = pStart.x;
+                y = pStart.y;
+                int diffX = pDest.x - pStart.x;
+                int diffY = pDest.y - pStart.y;
+
+                dX = diffX / diffY;
+                dY = diffY / diffY;
             }
-            runFirstFrame = false;
             System.out.println(Graph.pathArrayList);
             //if()
-            Point path = Graph.pathArrayList.get(i);
-            if(x > path.x && x < path.x + 32 && y > path.y && y < path.y + 16){
-
-
-                int diffX = path.x - Graph.pathArrayList.get(i-1).x;
-                int diffY = path.y - Graph.pathArrayList.get(i-1).y;
+            pStart = twoDToIso(new Point(Graph.pathArrayList.get(i - 1).x * 16, Graph.pathArrayList.get(i - 1).y * 16));
+            pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
+            if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
+                int diffX = pDest.x - pStart.x;
+                int diffY = pDest.y - pStart.y;
 
                 dX = diffX / diffY;
                 dY = diffY / diffY;
 
                 i++;
+                if (i >= Graph.pathArrayList.size()) doAnimate = false;
             }
             x += dX;
             y += dY;

@@ -53,13 +53,11 @@ public class Graph {
 		}
 
 		public int compareTo(Vertex other)
-		{/*
+		{
 			if (dist == other.dist)
-				return name.compareTo(other.name);
+				return (name.x + "," + name.y).compareTo(other.name.x + "," + other.name.y);
 	 
 			return Double.compare(dist, other.dist);
-			*/
-			return 0;
 		}
 	 
 		@Override public String toString()
@@ -71,7 +69,7 @@ public class Graph {
 	   /** Builds a graph from a set of edges */
 	   public Graph(Edge[] edges) {
 	      graph = new HashMap<>(edges.length);
-	 
+
 	      //one pass to find all vertices
 	      for (Edge e : edges) {
 	    	 
