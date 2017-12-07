@@ -56,7 +56,7 @@ message_loop(Messages,ID,Check)-> %message handling loop
   receive
     {Pid,reset} ->
       Pid ! {self(), ok},
-message_loop(Messages,ID,0);
+      message_loop([],0,0);
     {Pid,confirm,Message}->
       [_,Num] = string:split(Message,"?"),
       %[C,_]=string:split(Num,"]"),

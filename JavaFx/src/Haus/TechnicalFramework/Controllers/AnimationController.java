@@ -498,9 +498,9 @@ public class AnimationController implements Initializable {
                        arrh[0]=x1;
                        arrh[1]=y1;
                        System.out.println("check");
-                 Rectangle n1= new Rectangle(x1,y1,node.image.getHeight(),node.image.getHeight());
+                 Rectangle n1= new Rectangle(x1,y1-16,node.image.getHeight(),node.image.getHeight());
                  Pair <Rectangle,DrawableObject> p = new Pair <Rectangle,DrawableObject> (n1,node);
-                System.out.println(n1.toString());
+               // System.out.println(n1.toString());
                 houseinfo.add(p);
                 housecontrol++;
                       }
@@ -613,7 +613,7 @@ public class AnimationController implements Initializable {
                 dX = diffX / diffY;
                 dY = diffY / diffY;
             }
-            System.out.println(Graph.pathArrayList);
+           // System.out.println(Graph.pathArrayList);
             //if()
             pStart = twoDToIso(new Point(Graph.pathArrayList.get(i - 1).x * 16, Graph.pathArrayList.get(i - 1).y * 16));
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
