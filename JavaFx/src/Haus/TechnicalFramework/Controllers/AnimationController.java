@@ -118,6 +118,11 @@ public class AnimationController implements Initializable {
         @Override
         public void handle(long now) {
             redraw();
+            if (TCPClient.teacherUsername!=""){
+            username.setText(TCPClient.teacherUsername);}
+            else {
+            	username.setText(TCPClient.studentUsername);
+            }
         }
     };
 

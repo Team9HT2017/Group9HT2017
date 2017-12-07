@@ -50,8 +50,8 @@ public class TCPListener extends Thread {
                 AnimationController.doAnimate = true;
                 //AnimationController.runDjikstra();
             } else {
-                System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 5).split (",")));
-                  TCPClient.teacherUsername=Arrays.toString(serverSentence.substring (0, serverSentence.length () - 4).split (","));
+                System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 4).split (",")));
+                TCPClient.teacherUsername=Arrays.toString(serverSentence.substring (0, serverSentence.length () - 4).replaceFirst(",", "").trim().split (","));
             }
         }
     }
