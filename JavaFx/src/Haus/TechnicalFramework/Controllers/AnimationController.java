@@ -76,6 +76,7 @@ public class AnimationController implements Initializable {
 
     private Stage stage = new Stage();
 
+    private String messageLogCheck="";
 
     @FXML
     public Button leaveAnimation;
@@ -87,7 +88,7 @@ public class AnimationController implements Initializable {
     Canvas canvas;
 
     @FXML
-    public static TextArea messageLog;
+    private TextArea messageLog;
 
     @FXML
     private Label username;
@@ -122,6 +123,11 @@ public class AnimationController implements Initializable {
             username.setText(TCPClient.teacherUsername);}
             else {
             	username.setText(TCPClient.studentUsername);
+            }
+            if (TCPListener.messageReceiveLog!=messageLogCheck){
+            	messageLog.clear();
+            messageLog.appendText(TCPListener.messageReceiveLog);
+            messageLogCheck=TCPListener.messageReceiveLog;
             }
         }
     };
@@ -231,11 +237,12 @@ public class AnimationController implements Initializable {
             for (int i = 0; i < check.length; i++) {
                 //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
             	String [] mess = TCPClient.teacherUsername.trim().split(",");
-            
+            	System.out.println(Arrays.toString(mess));
+                System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
             	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
             	for (int b=0;b<mess.length;b++){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\]", "").trim()) && control < 1){
-                   // && TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) {
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1
+                    && TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     control++;
@@ -247,8 +254,8 @@ public class AnimationController implements Initializable {
             String[] check = StudentController.topars[2].split("], ");         
             for (int i = 0; i < check.length; i++) {
               
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1)
-                		//&& TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])))
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1
+                		&& TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])))
                 		 {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
