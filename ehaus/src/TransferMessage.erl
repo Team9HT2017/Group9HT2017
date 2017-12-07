@@ -11,7 +11,7 @@
 -author("fahddebbiche").
 
 %% API
--export([start/0,store_message/1,confirm_message/1,find_message/1]).
+-export([start/0,store_message/1,confirm_message/1,find_message/1,resetCounter/0]).
 
 % a module responsible  for exchanging messages between clients
 
@@ -26,6 +26,11 @@ start() ->
       {ok, Pid};
     Pid -> {ok, Pid}
   end.
+
+
+resetCounter()->
+  transferMessage ! {self(),reset},
+  receive {_,ok}-> ok end.
 
 store_message(Message)->  % function to send message to server
   transferMessage ! {self(),send,Message},
@@ -49,6 +54,9 @@ find_message (ID) ->
 
 message_loop(Messages,ID,Check)-> %message handling loop
   receive
+    {Pid,reset} ->
+      Pid ! {self(), ok},
+message_loop(Messages,ID,0);
     {Pid,confirm,Message}->
       [_,Num] = string:split(Message,"?"),
       %[C,_]=string:split(Num,"]"),

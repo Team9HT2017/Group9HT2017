@@ -64,6 +64,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
       case Ident of <<"TEACHER\n">> -> % teacher wants to put user names and map
         Content = string:split(Message, "!^!", all),
         [Map, Usernames] = Content,
+        transferMessage:resetCounter(),
         mapStorage:send(Map), % send map to storage
         userNameHandler:putUserNames(Usernames), % send user name list to storage
         {ok, Peer} = inet:peername(Socket),
