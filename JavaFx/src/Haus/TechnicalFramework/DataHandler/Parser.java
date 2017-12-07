@@ -94,27 +94,65 @@ public class Parser {
 
             String result2 = ("{'meta' : " + meta.toString() + " " + ", 'type' : " + "? " + type + " ?," //highlighting type with question marks for easier identification //for testing
                     + "" + " 'processes' : " + arr1.toString() + " " + "'diagram' : " + diagramElements.toString()); //parsing (to string)
-            System.out.println(result2.toString());
+            System.out.println("sequence " +result2.toString());
 
             return result;
-        } else if (type.equals("class_diagram")) { //we don't need this for now
+        }  else if (type.equals("class_diagram")) { 
 
             JSONArray arr11 = res.getJSONArray("classes");
             JSONObject arr12 = res.getJSONObject("meta");
+            
             JSONArray arr13 = res.getJSONArray("relationships");
             String result2 = ("{'meta' : " + arr12.toString() + " " + ", 'type' : " + "? " + type + " ?,"
                     + "" + " 'classes' : " + arr11.toString() + " " + "'relationships' : " + arr13.toString());
-            System.out.println(result);
-
-            return null; //change later
-        } else if (type.equals("deployment_diagram")) { //we don't need this for now
+            System.out.println(result2);
+            System.out.println("classes experiment "+arr11.getJSONObject(0));
+            System.out.println("relationships experiment "+arr13.getJSONObject(0));
+         
+            for(int i=0;i<arr13.length();i++){
+            	List <String> subres = new ArrayList <String>();
+            	List <String> tores = new ArrayList <String>();
+            	JSONObject d1 = arr13.getJSONObject(i);
+            	Object supclass = d1.get("superclass");
+            	Object subclass = d1.get("subclass");
+            	for (int j=0;j<arr11.length();j++){
+            		JSONObject d2 = arr11.getJSONObject(j);
+            		Object name = d2.get("name");
+            		JSONArray inner = d2.getJSONArray("fields");
+            		for (int p=0;p<inner.length();p++){
+            			JSONObject n1 = inner.getJSONObject(p);
+            			Object nm = n1.get("name");
+            			Object tp = n1.get("type"); // Gateway=superclass:"Device",fields{subres}
+            			System.out.println("name "+nm +" type "+tp);
+            			subres.add(tp+" : "+nm);
+            		}
+            		
+            		if (name.equals(supclass)){
+            		tores.add(subres.toString());
+            		}
+            		else if (name.equals(subclass)){
+                		tores.add(subres.toString());
+                		}
+            	}
+            	result.put(subclass, " Superclass:" +supclass+" Variables:"+tores.toString()); //\n
+            }
+            System.out.println(result.toString());
+            return result; //change later
+        } else if (type.equals("deployment_diagram")) { 
             JSONObject arr12 = res.getJSONObject("meta");
             JSONArray arr13 = res.getJSONArray("mapping");
-            String result2 = ("{'meta' : " + arr12.toString() + " " + ", 'type' : " + "? " + type + " ?,"
-                    + " " + "'mapping' : " + arr13.toString());
+            for (int l=0;l<arr13.length();l++){
+            	JSONObject extract = arr13.getJSONObject(l);
+            	Object process = extract.get("process");
+            	Object device = extract.get("device");
+            	result.put(process, " Device: "+device);
+            }
+            
+          
+            
             System.out.println(result);
 
-            return null;  //change later
+            return result;  //change later
         }
         return null;
 
@@ -179,13 +217,13 @@ public class Parser {
                     inner.add(" { " + messages.getJSONObject(t).get("from"));
                     inner.add(" Reply back ");
                     inner.add("to " + messages.getJSONObject(t).get("to"));
-                    inner.add("the following message " + messages.getJSONObject(t).get("message") + " } ");
+                    inner.add("the following message " + messages.getJSONObject(t).get("message") + " } "+"?"+t);
                 } else {
 
                     inner.add("{ " + messages.getJSONObject(t).get("from"));
                     inner.add(" " + messages.getJSONObject(t).get("node"));
                     inner.add("to " + messages.getJSONObject(t).get("to"));
-                    inner.add(" the following message " + messages.getJSONObject(t).get("message") + " } ");
+                    inner.add(" the following message " + messages.getJSONObject(t).get("message") + " } "+"?"+t);
 
                     // System.out.println("should be equal" + entry.getKey().toString() + messages.getJSONObject(t).get("to"));
                     // System.out.println("should be equal" + entry.getValue().toString() + messages.getJSONObject(t).get("from"));
@@ -228,10 +266,10 @@ public class Parser {
         return false;
     }
 
-    public static Map<ArrayList<Object>, Integer>  priorityMessaging (String Parse) {
+    public static Map<ArrayList<Object>, Integer> priority1node(String Parse) {
 
-        ArrayList<Object> priority ;
-        Map<ArrayList<Object>,Integer > oneNodeMap = new HashMap<>();
+        ArrayList<Object> priority;
+        Map<ArrayList<Object>, Integer> oneNodeMap = new HashMap<>();
         int orderNumber;
         str = Parse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
 
@@ -244,20 +282,34 @@ public class Parser {
 
             JSONArray content1 = diagram.getJSONArray("content"); // "digging" into nested JSON that contains messages
             System.out.println(content1.toString());
+            Map<Object, Object> student = new HashMap<>();
 
 
             for (int i = 0; i < content1.length(); i++) {
                 JSONArray nestedContent = content1.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
 
-                for (int j = 0; j < nestedContent.length(); j++ ) {
-                    priority=new  ArrayList<>(0);
-                    priority.add(nestedContent.getJSONObject(j).get("from"));
-                    priority.add(nestedContent.getJSONObject(j).get("node"));
-                    priority.add(nestedContent.getJSONObject(j).get("to"));
-                    priority.add(nestedContent.getJSONObject(j).get("message"));
-                    orderNumber=j;
-                    oneNodeMap.put(priority,orderNumber);
+                for (int j = 0; j < nestedContent.length(); j++) {
 
+                    student.put(nestedContent.getJSONObject(j).get("from"), nestedContent.getJSONObject(j).get("to"));
+
+                    if ((" " + student.get(nestedContent.getJSONObject(j).get("to"))).equals(" " + nestedContent.getJSONObject(j).get("from"))) {
+                        priority = new ArrayList<>(0);
+                        priority.add(" { " + nestedContent.getJSONObject(j).get("from"));
+                        priority.add(" Reply back ");
+                        priority.add("to " + nestedContent.getJSONObject(j).get("to"));
+                        priority.add("the following message " + nestedContent.getJSONObject(j).get("message") + " } ");
+                        orderNumber = j;
+                        oneNodeMap.put(priority, orderNumber);
+
+                    } else {
+                        priority = new ArrayList<>(0);
+                        priority.add("{ " + nestedContent.getJSONObject(j).get("from"));
+                        priority.add(" " + nestedContent.getJSONObject(j).get("node"));
+                        priority.add("to " + nestedContent.getJSONObject(j).get("to"));
+                        priority.add("the following message " + nestedContent.getJSONObject(j).get("message") + " } ");
+                        orderNumber = j;
+                        oneNodeMap.put(priority, orderNumber);
+                    }
                 }
 
 
@@ -267,5 +319,4 @@ public class Parser {
 
         return oneNodeMap;
     }
-
 }

@@ -65,9 +65,9 @@ public static String studentUsername="";
           
             outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ').replaceAll("\\s+", "")+"!?!"+"TEACHER\n"); // send it to server
             request = inRequest.readLine(); // Ask to send the file
-            System.out.println("Request file" + request);
+            
             fromServ = inFromServer.readLine(); // Receive the parsed file
-           
+            System.out.println("From server=" + fromServ);
             String [] artest = fromServ.substring(0, fromServ.length()-4).split(",");
             List teacherN = new LinkedList <String>(Arrays.asList(artest));
             System.out.println("Teacher usernames: " + teacherN.toString());

@@ -123,6 +123,11 @@ public class AnimationController implements Initializable {
         @Override
         public void handle(long now) {
             redraw();
+            if (TCPClient.teacherUsername!=""){
+            username.setText(TCPClient.teacherUsername);}
+            else {
+            	username.setText(TCPClient.studentUsername);
+            }
         }
     };
 
@@ -219,35 +224,51 @@ public class AnimationController implements Initializable {
      * @throws IOException
      */
 
+
     @FXML
     private void sendMessage() throws IOException {
         String sending = "nothing";
         int control = 0;
         System.out.println(logs);
-        if (logs != null) {
+
+      if (logs != null && logs.isEmpty()!=true) {
             String[] check = logs.toString().split("], ");
             for (int i = 0; i < check.length; i++) {
                 //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control < 1) {
+            	String [] mess = TCPClient.teacherUsername.trim().split(",");
+            
+            	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
+            	for (int b=0;b<mess.length;b++){
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\]", "").trim()) && control < 1){
+                   // && TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     control++;
-                }
+                    logs.remove(i); //delete this message after sending
+                    System.out.println("New logs "+logs);
+                }}
             }
         } else {
-            String[] check = StudentController.toMessageLog.split("], ");
+            String[] check = StudentController.topars[2].split("], ");         
             for (int i = 0; i < check.length; i++) {
-                //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).equals(TCPClient.studentUsername) && control < 1) {
+              
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1)
+                		//&& TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])))
+                		 {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
+                    //StudentController.topars[2].replaceAll(check[i].substring(0, check[i].length()-2), ""); //delete this message after sending
                     control++;
                 }
             }
         }
         try {
             //TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
-            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);
+        	if (!sending.equals("nothing")){
+            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}
+        	else{
+        		System.out.println("Error");
+        	}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -487,9 +508,9 @@ public class AnimationController implements Initializable {
                        arrh[0]=x1;
                        arrh[1]=y1;
                        System.out.println("check");
-                 Rectangle n1= new Rectangle(x1,y1,node.image.getHeight(),node.image.getHeight());
+                 Rectangle n1= new Rectangle(x1,y1-16,node.image.getHeight(),node.image.getHeight());
                  Pair <Rectangle,DrawableObject> p = new Pair <Rectangle,DrawableObject> (n1,node);
-                System.out.println(n1.toString());
+               // System.out.println(n1.toString());
                 houseinfo.add(p);
                 housecontrol++;
                       }
@@ -599,7 +620,7 @@ public class AnimationController implements Initializable {
                 dX = diffX / Math.abs(diffY);
                 dY = diffY / Math.abs(diffY);
             }
-            System.out.println(Graph.pathArrayList);
+           // System.out.println(Graph.pathArrayList);
             //if()
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
             //if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 2){
