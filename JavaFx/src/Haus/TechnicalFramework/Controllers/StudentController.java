@@ -114,7 +114,7 @@ public class StudentController extends AnchorPane {
                 inProgressBar();
                 //to request the information from the server
                 topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
-                toMessageLog = topars[1];
+                //toMessageLog = topars[1];
                 //to change to the animation page
                 Platform.runLater(new Runnable() {
                     @Override

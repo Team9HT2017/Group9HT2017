@@ -54,6 +54,9 @@ public class AnimationController implements Initializable {
 
     public static boolean doAnimate = true;
     public static boolean runFirstFrame = true;
+    int dX, dY;
+    int i = 1;
+
     int housecontrol=0;
     
     private ArrayList <Pair<Rectangle,DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
@@ -575,40 +578,39 @@ public class AnimationController implements Initializable {
         //System.out.println(p1);
         //System.out.println(isoToTwoD(twoDToIso(new Point(1,7))));
         if(doAnimate) {
-            int dX = 0, dY = 0;
 
             //todo: put the start point to be in the start, not the end.
-            int i = 1;
-
-
 
             Point pDest;
             Point pStart;
             if(runFirstFrame){
                 runFirstFrame = false;
                 runDjikstra();
-                pStart = twoDToIso(new Point(Graph.pathArrayList.get(i - 1).x * 16, Graph.pathArrayList.get(i - 1).y * 16));
+                i = Graph.pathArrayList.size() - 2;
+                pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
                 pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
                 x = pStart.x;
                 y = pStart.y;
                 int diffX = pDest.x - pStart.x;
                 int diffY = pDest.y - pStart.y;
 
-                dX = diffX / diffY;
-                dY = diffY / diffY;
+                dX = diffX / Math.abs(diffY);
+                dY = diffY / Math.abs(diffY);
             }
             System.out.println(Graph.pathArrayList);
             //if()
-            pStart = twoDToIso(new Point(Graph.pathArrayList.get(i - 1).x * 16, Graph.pathArrayList.get(i - 1).y * 16));
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
             if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
+                i--;
+
+                pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
+                pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
                 int diffX = pDest.x - pStart.x;
                 int diffY = pDest.y - pStart.y;
 
-                dX = diffX / diffY;
-                dY = diffY / diffY;
+                dX = diffX / Math.abs(diffY);
+                dY = diffY / Math.abs(diffY);
 
-                i++;
                 if (i >= Graph.pathArrayList.size()) doAnimate = false;
             }
             x += dX;
@@ -616,6 +618,7 @@ public class AnimationController implements Initializable {
 
             gc.drawImage(new Image("/Haus/DataStorage/img/bubble.png"), x, y);
         }
+        
         /*
         if (run)
         {
