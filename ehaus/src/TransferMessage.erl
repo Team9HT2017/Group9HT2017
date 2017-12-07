@@ -1,5 +1,6 @@
 %%%-------------------------------------------------------------------
-%%% @author fahddebbiche
+%%% @author fahddebbiche 
+%%% @author Anthony Path
 %%% @copyright (C) 2017, <COMPANY>
 %%% @doc
 %%%
@@ -10,7 +11,7 @@
 -author("fahddebbiche").
 
 %% API
--export([start/0,store_message/1,confirm_message/0,find_message/1]).
+-export([start/0,store_message/1,confirm_message/1,find_message/1]).
 
 % a module responsible  for exchanging messages between clients
 
@@ -19,7 +20,7 @@ start() ->
     undefined ->
       Pid = spawn(fun () ->
         io:format("Message handler operational~n"),
-        message_loop([],0)
+        message_loop([],0,0)
                   end),
       register(transferMessage, Pid),
       {ok, Pid};
@@ -30,9 +31,11 @@ store_message(Message)->  % function to send message to server
   transferMessage ! {self(),send,Message},
   receive {_,M} -> M end.
 
-confirm_message()->        % function to send confirmation of reception to the server
-  transferMessage ! {self(),received},
-  receive {_,ok} ->ok end.
+confirm_message(Message)->        % function to send confirmation of reception to the server
+  transferMessage ! {self(),confirm,Message},
+  receive {_,ok} ->ok;
+    {_,nope}->nope
+  end.
 
 find_message (ID) ->
   transferMessage ! {self(),find,ID},
@@ -44,13 +47,25 @@ find_message (ID) ->
 % nope -> not_found end.
 
 
-message_loop(Messages,ID)-> %message handling loop
+message_loop(Messages,ID,Check)-> %message handling loop
   receive
+    {Pid,confirm,Message}->
+      [_,Num] = string:split(Message,"?"),
+      %[C,_]=string:split(Num,"]"),
+      {K,_}=string:to_integer(Num),
+      io:format("Integer...~p~n",[K]),
+      if (K=:=Check) ->  io:format("Ok...~p~n",[K]),
+        Pid ! {self(),ok},
+        message_loop(Messages,ID,Check+1);
+        (K=/=Check) ->  io:format("Stupid...~p~n",[K]),
+          Pid ! {self(),nope},
+          message_loop(Messages,ID,Check)
+        end;
     {Pid,send,Message} ->
      Add={Message,ID},
       IDNew=ID+1,
       Pid ! {self,ID},
-      message_loop([Add|Messages],IDNew);
+      message_loop([Add|Messages],IDNew,Check);
     {Pid,find,Id} ->
       io:format("Searching...~p~n",[Id]),
       L=[Message||{Message,Ident}<-Messages,Ident=:=Id],
@@ -64,7 +79,7 @@ message_loop(Messages,ID)-> %message handling loop
       %  case L of [] -> Pid ! nope;
       %   [X] -> % [Mess]=L,
       %    Pid ! {self(),X},
-      message_loop(Messages,ID)
+      message_loop(Messages,ID,Check)
   end.
 
 %%client() ->
