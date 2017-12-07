@@ -3,6 +3,8 @@ package Haus.TechnicalFramework.Controllers;
 import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class will handle the teacher's interface, where he/she can
@@ -64,7 +68,6 @@ public class TeacherController extends AnchorPane {
 	private Label IPServerTeacher;
 
 	public static String toParse;
-	private Stage stage = new Stage();
 	public static boolean uploaded = false;
     UserController userController = new UserController();
     public static Alert alert;
@@ -105,11 +108,11 @@ public class TeacherController extends AnchorPane {
 			FileChooser json = new FileChooser();
 			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
 			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
-			File SelectedFile = json.showOpenDialog(null);
+			File selectedFile = json.showOpenDialog(null);
 			
-			if (SelectedFile != null) {
-				diagramPath.getItems().add(SelectedFile.getCanonicalFile());
-				toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
+			if (selectedFile != null) {
+				diagramPath.getItems().add(selectedFile.getCanonicalFile());
+				toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
 				if (toParse.contains("sequence_diagram")){					
 				sequenceDiag=Parser.Parse2(TeacherController.toParse, false);
 				classId();}
@@ -150,12 +153,11 @@ public class TeacherController extends AnchorPane {
                 IPServerTeacher.setVisible(true);
                 inProgressBar();
                 System.out.println("Animation in progress");
-                    String ip = Inet4Address.getLocalHost().getHostAddress();
-                    TCPClient.main(user, ip, map);
-
-                    diagramPath.getItems().clear();
-
-                    Platform.runLater(new Runnable() {
+                String ip = Inet4Address.getLocalHost().getHostAddress();
+                TCPClient.main(user, ip, map);
+                diagramPath.getItems().clear();
+			
+                Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
 
