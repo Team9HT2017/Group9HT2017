@@ -52,8 +52,8 @@ public class AnimationController implements Initializable {
 
     GraphicsContext gc;
 
-    public static boolean doAnimate = true;
-    public static boolean runFirstFrame = true;
+    public static boolean doAnimate = false;
+    public static boolean runFirstFrame = false;
     int dX, dY;
     int i = 1;
 
@@ -114,6 +114,8 @@ public class AnimationController implements Initializable {
     //Aesthetic images
     Image tree = new Image("/Haus/DataStorage/img/Isotile_tree.png");
     Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
+    //Bubble image
+    Image bubble = new Image("/Haus/DataStorage/img/bubble.png");
 
     public static int x = 0, y = 0;
 
@@ -589,8 +591,8 @@ public class AnimationController implements Initializable {
                 i = Graph.pathArrayList.size() - 2;
                 pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
                 pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
-                x = pStart.x;
-                y = pStart.y;
+                x = pStart.x + 16;
+                y = pStart.y + 8;
                 int diffX = pDest.x - pStart.x;
                 int diffY = pDest.y - pStart.y;
 
@@ -600,7 +602,8 @@ public class AnimationController implements Initializable {
             System.out.println(Graph.pathArrayList);
             //if()
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
-            if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
+            //if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 2){
+            if(x == pDest.x + 16 && y == pDest.y + 8){
                 i--;
 
                 pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
@@ -616,9 +619,9 @@ public class AnimationController implements Initializable {
             x += dX;
             y += dY;
 
-            gc.drawImage(new Image("/Haus/DataStorage/img/bubble.png"), x, y);
+            gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
         }
-        
+
         /*
         if (run)
         {

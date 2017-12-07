@@ -10,7 +10,7 @@ import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 
 public class TCPListener extends Thread {
-    public static String[] srcDest = new String[]{"u1", "u2"};
+    public static String[] srcDest;
 
 
     /*public static void main(String args[]) throws Exception {
@@ -48,6 +48,7 @@ public class TCPListener extends Thread {
                 //AnimationController.x = srcDest[0];
                 //AnimationController.y = srcDest[1];
                 AnimationController.doAnimate = true;
+                AnimationController.runFirstFrame = true;
                 //AnimationController.runDjikstra();
             } else {
                 System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 5).split (",")));
