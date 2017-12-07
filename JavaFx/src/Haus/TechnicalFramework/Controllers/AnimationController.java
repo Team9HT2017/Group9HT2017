@@ -54,6 +54,7 @@ public class AnimationController implements Initializable {
 
     public static boolean doAnimate = false;
     public static boolean runFirstFrame = false;
+    public static boolean firstMapDraw = true;
     int dX, dY;
     int i = 1;
 
@@ -156,6 +157,7 @@ public class AnimationController implements Initializable {
         ArrayList<ArrayList<Object>> input = Parser.ParseInorder(TeacherController.toParse);
         ArrayList<Object> inner  ;
         ArrayList<Object> messages =new ArrayList<>();
+
         ArrayList<Object> one= new  ArrayList<>(1) ;
 
         one.add(message);
@@ -406,32 +408,6 @@ public class AnimationController implements Initializable {
         tempPt.y = (point.x + point.y) / 2 + (int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale));
         return (tempPt);
     }
-/*
-    public Point isoToTwoD(Point point) {
-        Point tempPt = new Point(0, 0);
-        tempPt.x = point.x + (2*point.y) - ((int) canvas.getWidth() / 2 - 16);
-        tempPt.y = (point.x - point.y) * 2 - ((int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale)));
-        return (tempPt);
-    }
-    */
-
-    /*
-    public Point isoToTwoD(Point point) {
-        Point tempPt = new Point(0, 0);
-        tempPt.x = ((2 * point.y + point.x) / 2) - ((int) canvas.getWidth() / 2 - 16);
-        tempPt.y = ((2 * point.y - point.x) / 2) - ((int) ((canvas.getHeight() / 2) - nodes.size() * (8 * mapScale)));
-        return (tempPt);
-    }
-    */
-
-    /*
-    function isoTo2D(pt:Point):Point{
-        var tempPt:Point = new Point(0, 0);
-        tempPt.x = (2 * pt.y + pt.x) / 2;
-        tempPt.y = (2 * pt.y - pt.x) / 2;
-        return(tempPt);
-    }
-     */
 
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Initializing AnimationPage");
@@ -470,8 +446,7 @@ public class AnimationController implements Initializable {
     }
 
     /**
-     * Method to redraw the canvas. This should be called 30-60 times per second via AnimationTimer in order to keep a
-     * smooth animation
+     * Method to redraw the canvas. Called every
      */
     public void redraw() {
 
@@ -500,19 +475,19 @@ public class AnimationController implements Initializable {
                                 twoDToIso(new Point(i * 16, j * 16)).y - 16);
 
                     // adding this node to the dijkstraNodes
-                       addToDjikstraNodes (i, j - 1, 'H', node.name);
-                      if (housecontrol<nodes.size()){
-                       int x1=twoDToIso (new Point (i * 16, j * 16)).x ;
-                       int y1 = twoDToIso (new Point (i * 16, j * 16)).y;
-                       int [] arrh = new int [2];
-                       arrh[0]=x1;
-                       arrh[1]=y1;
-                       System.out.println("check");
-                 Rectangle n1= new Rectangle(x1,y1-16,node.image.getHeight(),node.image.getHeight());
-                 Pair <Rectangle,DrawableObject> p = new Pair <Rectangle,DrawableObject> (n1,node);
-               // System.out.println(n1.toString());
-                houseinfo.add(p);
-                housecontrol++;
+                        if (firstMapDraw) addToDjikstraNodes (i, j - 1, 'H', node.name);
+                       if (housecontrol<nodes.size()){
+                           int x1 = twoDToIso(new Point(i * 16, j * 16)).x;
+                           int y1 = twoDToIso(new Point(i * 16, j * 16)).y;
+                           int[] arrh = new int[2];
+                           arrh[0] = x1;
+                           arrh[1] = y1;
+                           System.out.println("check");
+                           Rectangle n1 = new Rectangle(x1, y1 - 16, node.image.getHeight(), node.image.getHeight());
+                           Pair<Rectangle, DrawableObject> p = new Pair<Rectangle, DrawableObject>(n1, node);
+                           // System.out.println(n1.toString());
+                           houseinfo.add(p);
+                           housecontrol++;
                       }
                         //For printing the names above the houses
                         gc.strokeText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
@@ -528,47 +503,47 @@ public class AnimationController implements Initializable {
                             gc.drawImage(roadCross, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                           addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R') {
                             gc.drawImage(roadTminY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R') {
                             gc.drawImage(roadTplsY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadTminX, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadTplsX, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadCurveSouth, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadCurveWest, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadCurveNorth, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadCurveEast, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
                             gc.drawImage(roadYY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
@@ -595,12 +570,14 @@ public class AnimationController implements Initializable {
                 }
             }
         }
+
+        firstMapDraw = false;
         //Point p = twoDToIso(new Point(1,7));
         //System.out.println(p);
         //Point p1 = isoToTwoD(p);
         //System.out.println(p1);
         //System.out.println(isoToTwoD(twoDToIso(new Point(1,7))));
-        if(doAnimate) {
+        if(doAnimate && i != -1) {
 
             //todo: put the start point to be in the start, not the end.
 
@@ -624,7 +601,7 @@ public class AnimationController implements Initializable {
             //if()
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
             //if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 2){
-            if(x == pDest.x + 16 && y == pDest.y + 8){
+            if(x == pDest.x + 16 && y == pDest.y + 8 && i != 0){
                 i--;
 
                 pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
@@ -635,7 +612,9 @@ public class AnimationController implements Initializable {
                 dX = diffX / Math.abs(diffY);
                 dY = diffY / Math.abs(diffY);
 
-                if (i >= Graph.pathArrayList.size()) doAnimate = false;
+                if (i <= 0){
+                    doAnimate = false;
+                }
             }
             x += dX;
             y += dY;
