@@ -214,35 +214,51 @@ public class AnimationController implements Initializable {
      * @throws IOException
      */
 
+
     @FXML
     private void sendMessage() throws IOException {
         String sending = "nothing";
         int control = 0;
         System.out.println(logs);
-        if (logs != null) {
+
+      if (logs != null && logs.isEmpty()!=true) {
             String[] check = logs.toString().split("], ");
             for (int i = 0; i < check.length; i++) {
                 //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).equals(TCPClient.teacherUsername) && control < 1) {
+            	String [] mess = TCPClient.teacherUsername.trim().split(",");
+            
+            	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
+            	for (int b=0;b<mess.length;b++){
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\]", "").trim()) && control < 1){
+                   // && TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     control++;
-                }
+                    logs.remove(i); //delete this message after sending
+                    System.out.println("New logs "+logs);
+                }}
             }
         } else {
-            String[] check = StudentController.toMessageLog.split("], ");
+            String[] check = StudentController.topars[2].split("], ");         
             for (int i = 0; i < check.length; i++) {
-                //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).equals(TCPClient.studentUsername) && control < 1) {
+              
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1)
+                		//&& TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])))
+                		 {
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
+                    //StudentController.topars[2].replaceAll(check[i].substring(0, check[i].length()-2), ""); //delete this message after sending
                     control++;
                 }
             }
         }
         try {
             //TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
-            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);
+        	if (!sending.equals("nothing")){
+            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}
+        	else{
+        		System.out.println("Error");
+        	}
         } catch (Exception e) {
             e.printStackTrace();
         }
