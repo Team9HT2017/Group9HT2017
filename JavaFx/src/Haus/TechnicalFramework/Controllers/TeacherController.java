@@ -69,18 +69,18 @@ public class TeacherController extends AnchorPane {
 
 	public static String toParse;
 	public static boolean uploaded = false;
-    UserController userController = new UserController();
-    public static Alert alert;
+    	UserController userController = new UserController();
+    	public static Alert alert;
     
-    public static String user;
+    	public static String user;
     
-    private Map classDiag = new HashMap<>();
+    	private Map classDiag = new HashMap<>();
     
-    private  Map deploymentDiag = new HashMap<>();
+    	private  Map deploymentDiag = new HashMap<>();
     
-    private Map sequenceDiag = new HashMap<>();
+    	private Map sequenceDiag = new HashMap<>();
     
-    public static String map;
+    	public static String map;
 
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
@@ -176,10 +176,8 @@ public class TeacherController extends AnchorPane {
                     userController.dialog("ERROR HANDELING", "Animation got corrupted!");
                     e.printStackTrace();
                 }
-                // if the file is not already uploaded display a message to the user
-        } else
-            userController.dialog("FILE MISSING", "File not uploaded!");
 	}
+      
 	private String getHouses() {
 		String houses = "";
 		for (DrawableObject node : AnimationController.nodes) {
