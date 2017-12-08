@@ -85,8 +85,6 @@ public class TeacherController extends AnchorPane {
     	private Map sequenceDiag = new HashMap<>();
     
     	public static String map;
-	
-	public static List<Pair <String, Image>> deviceImages;
 
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
@@ -211,32 +209,30 @@ public class TeacherController extends AnchorPane {
 		Image building;
 		
 		if (!deploymentDiag.isEmpty()) {
-		Set<String> set = new HashSet<>();
+			Set<String> set = new HashSet<>();
 
-		for(int i = 0; i < AnimationController.nodes.size(); i++){
-			set.add(AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
-		}
-		deviceImages = new ArrayList<Pair<String , Image>> (set.size());
-		
-		int counter = 0;
-		while(counter < set.size()){
-
-			if (counter == 0){
-				building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
-
+			for (int i = 0; i < AnimationController.nodes.size(); i++) {
+				set.add(AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
 			}
-			else if (counter == 1){
-				building = new Image("/Haus/DataStorage/img/school.png");
-			}
-			else {
-				building = new Image("/Haus/DataStorage/img/house.png");
-			}
+			AnimationController.deviceImages = new ArrayList<Pair<String, Image>>(set.size());
 
-			deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
-			counter++;
-		}
-		for (DrawableObject node: AnimationController.nodes){
-			node.checkDevice();
+			int counter = 0;
+			while (counter < set.size()) {
+
+				if (counter == 0) {
+					building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
+				} else if (counter == 1) {
+					building = new Image("/Haus/DataStorage/img/school.png");
+				} else {
+					building = new Image("/Haus/DataStorage/img/house.png");
+				}
+
+				AnimationController.deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
+				counter++;
+			}
+			for (DrawableObject node : AnimationController.nodes) {
+				node.checkDevice();
+			}
 		}
 		else {
 			for (DrawableObject node : AnimationController.nodes) {

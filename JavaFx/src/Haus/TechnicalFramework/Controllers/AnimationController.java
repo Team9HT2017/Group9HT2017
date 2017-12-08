@@ -8,6 +8,7 @@ import Haus.TechnicalFramework.AnimationObjects.Graph;
 import Haus.TechnicalFramework.AnimationObjects.Road;
 import Haus.PresentationUI.Main;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javafx.scene.control.TextArea;
@@ -120,6 +122,8 @@ public class AnimationController implements Initializable {
     Image bubble = new Image("/Haus/DataStorage/img/bubble.png");
 
     public static int x = 0, y = 0;
+
+    public static List<Pair <String, Image>> deviceImages;
 
     AnimationTimer frameTimer = new AnimationTimer() {
         @Override
@@ -479,7 +483,7 @@ public class AnimationController implements Initializable {
                         node = nodes.get(housenum);
                         housenum++;
                         gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
-                                twoDToIso(new Point(i * 16, j * 16)).y - 16);
+                                twoDToIso(new Point(i * 16, j * 16)).y - 38);
 
                     // adding this node to the dijkstraNodes
                         if (firstMapDraw) addToDjikstraNodes (i, j - 1, 'H', node.name);
@@ -666,6 +670,41 @@ public class AnimationController implements Initializable {
             String[] houseInfoArr = str.split (Pattern.quote (","));
             nodes.add (new DrawableObject (houseInfoArr[0], Integer.parseInt (houseInfoArr[1]), Integer.parseInt (houseInfoArr[2])));
         }
+
+        Image building;
+
+        if (nodes.get(0).name.contains("Device: ")) {
+            Set<String> set = new HashSet<>();
+
+            for (int i = 0; i < AnimationController.nodes.size(); i++) {
+                set.add(AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
+            }
+            deviceImages = new ArrayList<Pair<String, Image>>(set.size());
+
+            int counter = 0;
+            while (counter < set.size()) {
+
+                if (counter == 0) {
+                    building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
+                } else if (counter == 1) {
+                    building = new Image("/Haus/DataStorage/img/school.png");
+                } else {
+                    building = new Image("/Haus/DataStorage/img/house.png");
+                }
+
+                deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
+                counter++;
+            }
+            for (DrawableObject node : AnimationController.nodes) {
+                node.checkDevice();
+            }
+        }
+        else {
+            for (DrawableObject node : AnimationController.nodes) {
+                node.image = new Image("/Haus/DataStorage/img/house.png");
+            }
+        }
+
     }
 
 

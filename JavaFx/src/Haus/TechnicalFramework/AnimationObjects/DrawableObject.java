@@ -1,5 +1,6 @@
 package Haus.TechnicalFramework.AnimationObjects;
 
+import Haus.TechnicalFramework.Controllers.AnimationController;
 import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
@@ -34,7 +35,7 @@ public class DrawableObject {
 	public void checkDevice (){
 
 		String device = name.split(Pattern.quote("Device: "))[1];
-		for(Pair<String, Image> deviceImage : TeacherController.deviceImages){
+		for(Pair<String, Image> deviceImage : AnimationController.deviceImages){
 			if (deviceImage.getKey().compareTo(device) == 0){
 				image = deviceImage.getValue();
 			}
