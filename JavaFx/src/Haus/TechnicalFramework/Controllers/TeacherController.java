@@ -7,10 +7,13 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import java.io.*;
 import java.net.Inet4Address;
+import java.util.*;
+import java.util.regex.Pattern;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.Pair;
 
 /**
  * This class will handle the teacher's interface, where he/she can
