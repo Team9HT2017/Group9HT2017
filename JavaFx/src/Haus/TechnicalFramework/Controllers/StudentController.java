@@ -1,6 +1,7 @@
 package Haus.TechnicalFramework.Controllers;
 
 import Haus.NetworkHandlers.TCPClient;
+import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -114,7 +118,21 @@ public class StudentController extends AnchorPane {
                 inProgressBar();
                 //to request the information from the server
                 topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
+                System.out.println("Topars= "+Arrays.toString(topars));
                 toMessageLog = topars[1];
+                String flows = topars[3];
+                String [] tomap = flows.replaceAll("\\{", "").replaceAll("\\}", "").split(",");
+                System.out.println("flow= "+Arrays.toString(tomap));
+                
+                Map<Integer,Integer> flow1 = new HashMap<Integer,Integer>();
+                for (int i=0;i<tomap.length;i++){
+                	String [] elem = tomap[i].split("=");
+                	int one = Integer.parseInt(elem[0].trim());
+                	int two = Integer.parseInt(elem[1].trim());
+                	flow1.put(one, two);
+                }
+                System.out.println("flow1= "+flow1.toString());
+                Parser.flows=flow1;
                 //to change to the animation page
                 Platform.runLater(new Runnable() {
                     @Override

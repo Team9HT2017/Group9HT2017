@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 /**
  * This class handles the connection between the application and the server.
  *
@@ -91,9 +92,9 @@ public static String studentUsername="";
             fromServ = inFromServer.readLine(); // Receive the initial info from server
             
             System.out.println("FROM SERVER: " + fromServ);
-            String [] temp = fromServ.split("!*!"); // split initial message from server to student username and other info (map, messages etc).
+            String [] temp = fromServ.split(Pattern.quote("*")); // split initial message from server to student username and other info (map, messages etc).
             System.out.println(Arrays.toString(temp));
-            studentUsername=temp[2];
+            studentUsername=temp[1];
             System.out.println("Students username: " + studentUsername);
             fromServ=temp[0];
             clientSocket.close();

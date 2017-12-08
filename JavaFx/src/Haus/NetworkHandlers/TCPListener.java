@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import Haus.TechnicalFramework.Controllers.AnimationController;
+import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.util.Pair;
 
 public class TCPListener extends Thread {
@@ -27,7 +28,9 @@ public class TCPListener extends Thread {
 
 
         while (true) {
+        
             Socket connectionSocket = welcomeSocket.accept ();
+
             BufferedReader inFromClient =
                     new BufferedReader (new InputStreamReader (connectionSocket.getInputStream ()));
             DataOutputStream outToClient = new DataOutputStream (connectionSocket.getOutputStream ());
@@ -46,17 +49,20 @@ public class TCPListener extends Thread {
                     Integer.parseInt (toSend); // try to send confirmation to server, if its message with ID
                     TCPClient.sendMessage (toSend, true);
                 } catch (Exception e) {
-               	 allowMessage++; //update priority counter to allow sending more messages
-               	 System.out.println("counter " + allowMessage);
-                    messageReceiveLog=messageReceiveLog+serverSentence+"\n"; // display message in log if its message without ID
+                	String [] elem = serverSentence.split("=")[1].split("@");
+                	int one = Integer.parseInt(elem[0].trim());
+                	int two = Integer.parseInt(elem[1].trim())+1;
+               	 Parser.flows.replace(one, two);//update priority counter to allow sending more messages
+                    if (!messageReceiveLog.contains(serverSentence.substring(0,serverSentence.lastIndexOf("}")))){ // no duplicates
+                    messageReceiveLog=messageReceiveLog+serverSentence.substring(0,serverSentence.lastIndexOf("}"))+"\n"; // display message in log if its message without ID
                     // animation method probably has to be here 
-                }
+                }}
                 //AnimationController.x = srcDest[0];
                 //AnimationController.y = srcDest[1];
-                AnimationController.doAnimate = true;
+              //  AnimationController.doAnimate = true;
                 //AnimationController.runDjikstra();
             } else {
-                System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 4).split (",")));
+                System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 4).split (","))); // no duplicates
                 TCPClient.teacherUsername=Arrays.toString(serverSentence.substring (0, serverSentence.length () - 4).replaceFirst(",", "").trim().split (",")); // update teacher username list
             }
         }
@@ -69,7 +75,7 @@ public class TCPListener extends Thread {
   */
     public static String[] getSenderRecipient (String message) {
         String sender = message.substring (message.indexOf ("{") + 2, message.indexOf ("send") - 3);
-        String recipient = message.substring (message.indexOf ("to") + 3, message.indexOf ("the") - 3);
+        String recipient = message.substring (message.indexOf ("to") + 3, message.indexOf ("the") - 2);
         System.out.println ("Sender:" + sender + "  Recipient:" + recipient);
         String[] res = {sender, recipient};
         return res;

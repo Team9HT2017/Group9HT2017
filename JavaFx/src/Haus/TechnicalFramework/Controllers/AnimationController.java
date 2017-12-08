@@ -229,18 +229,19 @@ public class AnimationController implements Initializable {
     private void sendMessage() throws IOException {
         String sending = "nothing";
         int control = 0;
-        System.out.println(logs);
+     //   System.out.println(Arrays.toString(logs.toString().split("\\|,")));
 
       if (logs != null && logs.isEmpty()!=true) { // if user is teacher
-            String[] check = logs.toString().split("], "); // get array of messages
+            String[] check = logs.toString().split("\\|,"); // get array of messages
             for (int i = 0; i < check.length; i++) { // loop through array of messages
             	String [] mess = TCPClient.teacherUsername.trim().split(","); // get list of teacher username(s)
+            	System.out.println((check[0].split("=")[1].split("@")[0]));
             	System.out.println(Arrays.toString(mess));
-                System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
+              //  System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
             	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
             	for (int b=0;b<mess.length;b++){ // loop through teacher username(s) to find highest priority message
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
-                    && TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) { //priority counter that allows to send messages only in correct order
+                    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
                     System.out.println("Check== " + check[i]); // print message that is being sent
                     sending = check[i];
                     control++;
@@ -253,8 +254,8 @@ public class AnimationController implements Initializable {
             for (int i = 0; i < check.length; i++) { // loop through array of messages
               
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
-                		&& TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) //priority counter that allows to send messages only in correct order
-                		 {
+                	    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                		 
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     //StudentController.topars[2].replaceAll(check[i].substring(0, check[i].length()-2), ""); //delete this message after sending
@@ -276,7 +277,7 @@ public class AnimationController implements Initializable {
 
     public void logMessages(String msgs) {
         try {
-            logs = Parser.ParseInorder(TeacherController.toParse); // message list
+            logs = Parser.parParsing(TeacherController.toParse); // message list
             System.out.println("Logs " + logs);
             String transmission;
             ArrayList<Object> inner;
@@ -291,7 +292,7 @@ public class AnimationController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Before: " + StudentController.topars[2]); // student message list
-            String[] arr1 = StudentController.toMessageLog.split("], ");
+            String[] arr1 = StudentController.toMessageLog.split("\\| ");
             arr1[0] = arr1[0].substring(1, arr1[0].length());
             arr1[arr1.length - 1] = arr1[arr1.length - 1].substring(0, arr1[arr1.length - 1].length() - 1);
             System.out.println("After: " + arr1[0] + " || " + arr1[arr1.length - 1]);
