@@ -2,8 +2,10 @@ package Haus.TechnicalFramework.AnimationObjects;
 
 import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.scene.image.Image;
+import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * This class handles ...
