@@ -10,8 +10,9 @@ import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 
 public class TCPListener extends Thread {
+	public static int allowMessage =0;
     public static String[] srcDest;
-
+    public static String messageReceiveLog="";
 
     /*public static void main(String args[]) throws Exception {
         listen();
@@ -43,7 +44,9 @@ public class TCPListener extends Thread {
                     Integer.parseInt (toSend);
                     TCPClient.sendMessage (toSend, true);
                 } catch (Exception e) {
-                    //do nothing
+               	 allowMessage++;
+               	 System.out.println("counter " + allowMessage);
+                    messageReceiveLog=messageReceiveLog+serverSentence+"\n";
                 }
                 //AnimationController.x = srcDest[0];
                 //AnimationController.y = srcDest[1];

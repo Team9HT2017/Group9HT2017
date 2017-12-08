@@ -3,6 +3,8 @@ package Haus.TechnicalFramework.Controllers;
 import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class will handle the teacher's interface, where he/she can
@@ -64,21 +68,19 @@ public class TeacherController extends AnchorPane {
 	private Label IPServerTeacher;
 
 	public static String toParse;
-	private Stage stage = new Stage();
 	public static boolean uploaded = false;
-    UserController userController = new UserController();
-    public static Alert alert;
+    	UserController userController = new UserController();
+    	public static Alert alert;
     
-    public static String user;
+    	public static String user;
     
-    private Map classDiag = new HashMap<>();
+    	private Map classDiag = new HashMap<>();
     
-    private  Map deploymentDiag = new HashMap<>();
+    	private  Map deploymentDiag = new HashMap<>();
     
-    private Map sequenceDiag = new HashMap<>();
+    	private Map sequenceDiag = new HashMap<>();
     
-    public static String map;
-
+    	public static String map;
 
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
@@ -90,15 +92,27 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void selectDiagram() throws IOException {
+		
+	// checking if the file is uploaded before animation starts
+		String OS = System.getProperty("os.name").toLowerCase();
+		String mac= "./runserver.sh";
+		String windows="./runwindows.sh";
+		
+		if (OS.contains("mac")){
+               		runScript(mac);
+		}
+           	else if (OS.contains("wind")) {
+              		runScript(windows);
+           	}
 		try {
 			FileChooser json = new FileChooser();
 			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
 			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
-			File SelectedFile = json.showOpenDialog(null);
+			File selectedFile = json.showOpenDialog(null);
 			
-			if (SelectedFile != null) {
-				diagramPath.getItems().add(SelectedFile.getCanonicalFile());
-				toParse = new Scanner(SelectedFile).useDelimiter("\\Z").next();
+			if (selectedFile != null) {
+				diagramPath.getItems().add(selectedFile.getCanonicalFile());
+				toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
 				if (toParse.contains("sequence_diagram")){					
 				sequenceDiag=Parser.Parse2(TeacherController.toParse, false);
 				classId();}
@@ -131,47 +145,39 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void createAnimation() throws IOException {
-		// checking if the file is uploaded before animation starts
-        String OS = System.getProperty("os.name").toLowerCase();
-        String mac= "./runserver.sh";
-        String windows="./runwindows.sh";
-		if (uploaded) {
-//		    if (OS.contains("mac"))
-//                runScript(mac);
-//
-//            else if (OS.contains("wind")) {
-//               runScript(windows);
-//
-//            }
 
-
-			try {
+		try {
                 user = "teacher";
                 map = Arrays.deepToString(AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
-			    inProgressBar();
-				System.out.println("Animation in progress");
-				String ip = Inet4Address.getLocalHost().getHostAddress();
+                inProgressBar();
+                System.out.println("Animation in progress");
+                String ip = Inet4Address.getLocalHost().getHostAddress();
                 TCPClient.main(user, ip, map);
-				//AnimationController.runAnim(Parser.Parse2(toParse,false));
-
-				//showStage();
                 diagramPath.getItems().clear();
-            	
-				// Showing the Splash(loading page)
-				teacherPane.getChildren().clear();
-                System.out.println(" this is executed");
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
-                System.out.println("Not executed");
-			} catch (Exception e) {
-				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
-				e.printStackTrace();
-			}
-			// if the file is not already uploaded
-		} else
-			userController.dialog("FILE MISSING", "File not uploaded!");
+			
+                Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                teacherPane.getChildren().clear();
+                                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+
+                            } catch (IOException ex) {
+                                Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+
+                    userController.dialog("ERROR HANDELING", "Animation got corrupted!");
+                    e.printStackTrace();
+                }
 	}
+      
 	private String getHouses() {
 		String houses = "";
 		for (DrawableObject node : AnimationController.nodes) {
@@ -191,18 +197,6 @@ public class TeacherController extends AnchorPane {
 			houses = houses + "{" + node.name.replaceAll(",", ";") + "," + node.x + "," + node.y + "}";
 		}
 		return houses;
-	}
-
-	private void showStage() throws IOException {
-
-
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/Splash.fxml"));
-
-		Parent root = fxmlloader.load();
-		stage.setTitle("Loading Animation ...");
-		stage.setScene(new Scene(root));
-		stage.show();
-
 	}
 
 	/**
@@ -228,22 +222,6 @@ public class TeacherController extends AnchorPane {
 		}
 	}
 
-	/**
-	 * Method to load a pop up dialog to warn the user about loading problems.
-	 *
-	 * @param title
-	 *            string represents the dialog title
-	 * @param msg
-	 *            string represents the message of the error or a notification for
-	 *            the user
-	 */
-	private void dialog(String title, String msg) {
-		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(msg);
-		alert.showAndWait();
-	}
     /**
      * Method to load a pop up dialog to provide the class number (IP) to the teacher.
      *
@@ -262,9 +240,7 @@ public class TeacherController extends AnchorPane {
 		alert.setX(900);
 		alert.setY(20);
 		alert.setResizable(false);
-        alert.show();
-
-
+        	alert.show();
 	}
 
     /**
@@ -275,12 +251,6 @@ public class TeacherController extends AnchorPane {
         double p = progressBarTeacher.getProgress();
         // Updating the progress in the bar
         for (double i = p; i <= 10; i++) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             progressBarTeacher.setProgress(i + 0.1);
         }
     }

@@ -77,9 +77,12 @@ message_loop(Messages,ID,Check)-> %message handling loop
     {Pid,find,Id} ->
       io:format("Searching...~p~n",[Id]),
       L=[Message||{Message,Ident}<-Messages,Ident=:=Id],
-      case L of [] -> Pid ! nope;
+      case L of [] -> Pid ! nope,
+        message_loop(Messages,ID,Check);
         [X] -> % [Mess]=L,
-          Pid ! {self(),X} end,
+          Pid ! {self(),X},
+          message_loop(lists:delete(X,Messages),ID,Check)
+      end
       %message_loop(Messages,ID);
 
       %  {Pid,find,Message} ->
@@ -87,7 +90,7 @@ message_loop(Messages,ID,Check)-> %message handling loop
       %  case L of [] -> Pid ! nope;
       %   [X] -> % [Mess]=L,
       %    Pid ! {self(),X},
-      message_loop(Messages,ID,Check)
+
   end.
 
 %%client() ->

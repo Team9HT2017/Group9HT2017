@@ -78,7 +78,7 @@
             </ImageView>
             <ProgressBar fx:id="progressBarTeacher" prefHeight="19.0" prefWidth="305.0" progress="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
-                  <Insets left="15.0" />
+                  <Insets bottom="30.0" left="15.0" />
                </GridPane.margin>
             </ProgressBar>
             <Label fx:id="IPServerTeacher" text="Setting up the class ..." textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -86,7 +86,7 @@
                   <Font size="17.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="20.0" left="78.0" right="50.0" />
+                  <Insets bottom="50.0" left="78.0" right="50.0" />
                </GridPane.margin>
             </Label>
          </children>

@@ -97,7 +97,10 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
                 {ok, SocketSend} = gen_tcp:connect(IP, 6789, []),
                 % SocketSend
                 io:format("Message ID: ~p~n", [MessID]),
-                ok = gen_tcp:send(SocketSend, ([integer_to_binary(MessID), ",", ActualMessage, "\n"]))
+                ok = gen_tcp:send(SocketSend, ([integer_to_binary(MessID), ",", ActualMessage, "\n"]));
+              L-> K=[IP||{IP,_}<-L],
+                MessID = transferMessage:store_message(ActualMessage),
+                distribute(K,([integer_to_binary(MessID), ",", ActualMessage, "\n"]))
             end
             end;
             <<"CONFIRM">> ->    % recipient sends confirmation (ID of message as actual message)
