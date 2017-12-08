@@ -97,7 +97,7 @@ public class Parser {
             System.out.println("sequence " +result2.toString());
 
             return result;
-        }  else if (type.equals("class_diagram")) { 
+        }  else if (type.equals("class_diagram")) { // parsing class diagram
 
             JSONArray arr11 = res.getJSONArray("classes");
             JSONObject arr12 = res.getJSONObject("meta");
@@ -137,8 +137,8 @@ public class Parser {
             	result.put(subclass, " Superclass:" +supclass+" Variables:"+tores.toString()); //\n
             }
             System.out.println(result.toString());
-            return result; //change later
-        } else if (type.equals("deployment_diagram")) { 
+            return result; 
+        } else if (type.equals("deployment_diagram")) { // parsing deployment diagram
             JSONObject arr12 = res.getJSONObject("meta");
             JSONArray arr13 = res.getJSONArray("mapping");
             for (int l=0;l<arr13.length();l++){
@@ -152,7 +152,7 @@ public class Parser {
             
             System.out.println(result);
 
-            return result;  //change later
+            return result;  
         }
         return null;
 
@@ -213,12 +213,13 @@ public class Parser {
                 // for (Map.Entry<Object, Object> entry : User.entrySet())
                 //  {
                 //  if (entry.getKey().toString().equals("" + messages.getJSONObject(t).get("to") ) &&  entry.getValue().toString().equals("" +messages.getJSONObject(t).get("from")) ) {
-                if ( ( " "+User.get(messages.getJSONObject(t).get("to"))).equals( " "+messages.getJSONObject(t).get("from"))) {
+                
+              /*  if ( ( " "+User.get(messages.getJSONObject(t).get("to"))).equals( " "+messages.getJSONObject(t).get("from"))) {
                     inner.add(" { " + messages.getJSONObject(t).get("from"));
                     inner.add(" Reply back ");
                     inner.add("to " + messages.getJSONObject(t).get("to"));
                     inner.add("the following message " + messages.getJSONObject(t).get("message") + " } "+"?"+t);
-                } else {
+                } else*/ {
 
                     inner.add("{ " + messages.getJSONObject(t).get("from"));
                     inner.add(" " + messages.getJSONObject(t).get("node"));

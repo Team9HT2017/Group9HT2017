@@ -89,8 +89,8 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
             [To, _] = string:split(Part, ","),
             io:format("~p Recipient: ~n", [To]),
             RecipTry = userNameHandler:get_Username(To),
-            case RecipTry of [] -> ok; % distribute(Users,Distributive)
-              [{IP, _}] ->
+            case RecipTry of [] -> ok; % no IP for this username
+              [{IP, _}] -> % single recipient found
                 MessID = transferMessage:store_message(ActualMessage),
                 [{IP, _}] = RecipTry,
                 io:format("Message: ~p~n", [ActualMessage]),
@@ -98,7 +98,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
                 % SocketSend
                 io:format("Message ID: ~p~n", [MessID]),
                 ok = gen_tcp:send(SocketSend, ([integer_to_binary(MessID), ",", ActualMessage, "\n"]));
-              L-> K=[IP||{IP,_}<-L],
+              L-> K=[IP||{IP,_}<-L], % if many students have the same username
                 MessID = transferMessage:store_message(ActualMessage),
                 distribute(K,([integer_to_binary(MessID), ",", ActualMessage, "\n"]))
             end
@@ -109,13 +109,13 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
               io:format("Message:~p~n", [Distributive]),
               Users = userNameHandler:get_list(),
               {ok, Peer1} = inet:peername(Socket),
-              {NoSend, _} = Peer1,
+              {NoSend, _} = Peer1, % to not send message twice to recipient (currently disabled)
               io:format("NoSend: ~p~n", [NoSend]),
               io:format("Users: ~p~n", [Users]),
               Check=[IP1||{IP1,Us}<-Users],%IP1=/=NoSend],
-              NoDups = lists:usort(Check),
+              NoDups = lists:usort(Check), % remove duplicate IDs from list
               io:format("Users2: ~p~n", [Check]),
-              distribute(NoDups, Distributive)
+              distribute(NoDups, Distributive) % send message to all users
             %[IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
             % end;
             %    <<"SEARCH">> ->
