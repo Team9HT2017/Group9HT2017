@@ -18,17 +18,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="animationPage" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.AnimationController">
+<AnchorPane id="animationPage" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.AnimationController">
     <children>
         <BorderPane id="Border" fx:id="Border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="@../CSS/ScrollPaneOverwrite.css">
             <top>
                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="150.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
-                            <HBox.margin>
-                                <Insets bottom="10.0" left="20.0" top="20.0" />
-                            </HBox.margin>
-                            <font>
+                           <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="871.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
+                                <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="20.0" />
+                                </HBox.margin>
+                                <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
