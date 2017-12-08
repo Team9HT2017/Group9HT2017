@@ -85,6 +85,8 @@ public class TeacherController extends AnchorPane {
     	private Map sequenceDiag = new HashMap<>();
     
     	public static String map;
+	
+	public static List<Pair <String, Image>> deviceImages;
 
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
