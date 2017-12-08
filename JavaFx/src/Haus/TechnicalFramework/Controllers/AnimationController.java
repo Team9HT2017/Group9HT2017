@@ -619,8 +619,8 @@ public class AnimationController implements Initializable {
             x += dX;
             y += dY;
 
-            gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
         }
+        gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
 
         /*
         if (run)
