@@ -177,7 +177,11 @@ public class TeacherController extends AnchorPane {
                     e.printStackTrace();
                 }
 	}
-      
+      /**
+	 * This method is get the class and deployment diagram for each house and for draw different houses,
+	 * based on that information.
+	 *
+	 */
 	private String getHouses() {
 		String houses = "";
 		for (DrawableObject node : AnimationController.nodes) {
@@ -196,6 +200,38 @@ public class TeacherController extends AnchorPane {
 			}
 			houses = houses + "{" + node.name.replaceAll(",", ";") + "," + node.x + "," + node.y + "}";
 		}
+		
+		// Code to set the houses to be different based on the deployment diagram
+		Set<String> set = new HashSet<>();
+
+		for(int i = 0; i < AnimationController.nodes.size(); i++){
+			set.add(AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
+		}
+		deviceImages = new ArrayList<Pair<String , Image>> (set.size());
+		
+		int counter = 0;
+		while(counter < set.size()){
+
+			Image building;
+
+			if (counter == 0){
+				building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
+
+			}
+			else if (counter == 1){
+				building = new Image("/Haus/DataStorage/img/school.png");
+			}
+			else if {
+				building = new Image("/Haus/DataStorage/img/house.png");
+			}
+
+			deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
+			counter++;
+		}
+		for (DrawableObject node: AnimationController.nodes)
+			node.checkDevice();
+		return houses;
+	}
 		return houses;
 	}
 
