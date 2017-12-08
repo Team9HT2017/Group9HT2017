@@ -149,17 +149,17 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void createAnimation() throws IOException {
-
-		try {
-                user = "teacher";
-                map = Arrays.deepToString(AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
-                progressBarTeacher.setVisible(true);
-                IPServerTeacher.setVisible(true);
-                inProgressBar();
-                System.out.println("Animation in progress");
-                String ip = Inet4Address.getLocalHost().getHostAddress();
-                TCPClient.main(user, ip, map);
-                diagramPath.getItems().clear();
+		if (uploaded){
+			try {
+                		user = "teacher";
+                		map = Arrays.deepToString(AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
+                		progressBarTeacher.setVisible(true);
+                		IPServerTeacher.setVisible(true);
+                		inProgressBar();
+                		System.out.println("Animation in progress");
+                		String ip = Inet4Address.getLocalHost().getHostAddress();
+                		TCPClient.main(user, ip, map);
+                		diagramPath.getItems().clear();
 			
                 Platform.runLater(new Runnable() {
                         @Override
@@ -180,6 +180,9 @@ public class TeacherController extends AnchorPane {
                     userController.dialog("ERROR HANDELING", "Animation got corrupted!");
                     e.printStackTrace();
                 }
+			// if the file is not already uploaded
+		} else
+			userController.dialog("FILE MISSING", "File not uploaded!");
 	}
       /**
 	 * This method is get the class and deployment diagram for each house and for draw different houses,
@@ -233,6 +236,7 @@ public class TeacherController extends AnchorPane {
 			for (DrawableObject node : AnimationController.nodes) {
 				node.checkDevice();
 			}
+		}
 		}
 		else {
 			for (DrawableObject node : AnimationController.nodes) {

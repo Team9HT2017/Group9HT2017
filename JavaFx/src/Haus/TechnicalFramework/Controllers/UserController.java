@@ -81,6 +81,7 @@ public class UserController {
     public static void dialog(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
+        alert.setResizable(false);
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
