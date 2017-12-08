@@ -208,6 +208,9 @@ public class TeacherController extends AnchorPane {
 		}
 		
 		// Code to set the houses to be different based on the deployment diagram
+		Image building;
+		
+		if (!deploymentDiag.isEmpty()) {
 		Set<String> set = new HashSet<>();
 
 		for(int i = 0; i < AnimationController.nodes.size(); i++){
@@ -217,8 +220,6 @@ public class TeacherController extends AnchorPane {
 		
 		int counter = 0;
 		while(counter < set.size()){
-
-			Image building;
 
 			if (counter == 0){
 				building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
@@ -234,8 +235,14 @@ public class TeacherController extends AnchorPane {
 			deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
 			counter++;
 		}
-		for (DrawableObject node: AnimationController.nodes)
+		for (DrawableObject node: AnimationController.nodes){
 			node.checkDevice();
+		}
+		else {
+			for (DrawableObject node : AnimationController.nodes) {
+				node.image = new Image("/Haus/DataStorage/img/house.png");
+			}
+		}
 		return houses;
 	}
 
