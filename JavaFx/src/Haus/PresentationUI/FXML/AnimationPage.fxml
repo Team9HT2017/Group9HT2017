@@ -63,7 +63,7 @@
                                 <Font size="16.0" />
                             </font>
                             <VBox.margin>
-                                <Insets top="165.0" />
+                                <Insets bottom="50.0" top="165.0" />
                             </VBox.margin>
                         </Button>
                     </children>
