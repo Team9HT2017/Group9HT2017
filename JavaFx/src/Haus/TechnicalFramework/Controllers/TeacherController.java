@@ -227,7 +227,7 @@ public class TeacherController extends AnchorPane {
 			else if (counter == 1){
 				building = new Image("/Haus/DataStorage/img/school.png");
 			}
-			else if {
+			else {
 				building = new Image("/Haus/DataStorage/img/house.png");
 			}
 
@@ -236,8 +236,6 @@ public class TeacherController extends AnchorPane {
 		}
 		for (DrawableObject node: AnimationController.nodes)
 			node.checkDevice();
-		return houses;
-	}
 		return houses;
 	}
 
