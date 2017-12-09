@@ -58,7 +58,7 @@
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#getScene1" text="Leave Animation">
+                        <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#leaveAnimation" text="Leave Animation">
                             <font>
                                 <Font size="16.0" />
                             </font>

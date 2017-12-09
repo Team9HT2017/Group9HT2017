@@ -1,214 +1,214 @@
 {
-		"meta"	:	{
-		"format"	:	"DIT029	format",
-		"version"	:	"1.0",
-		"extensions"	:	[]
-		},
-		"type"	:	"deployment_diagram",
-		"mapping"	:	[
-				{
-						"process"	:	"g",
-						"device"	:	"server"
-			},
-
-				{
-						"process"	:	"u1",
-						"device"	:	"smartphone"
-				},
-				{
-						"process"	:	"u2",
-						"device"	:	"desktop_computer1
-				},
-				{
-						"process"	:	"u3",
-						"device"	:	"desktop_computer1"
-				},{
-						"process"	:	"u4”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u5”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u6”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u7”,
-						"device"	:	"smartphone"
-				},
-{
-						"process"	:	"u8”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u9”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u10”,
-						"device"	:	"server"
-				},
-{
-						"process"	:	"u11”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u12”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u13",
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u14”,
-						"device"	:	"smartphone"
-				},
-{
-						"process"	:	"u15”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u16”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u17”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u18”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u19”,
-						"device"	:	"server"
-				},
-{
-						"process"	:	"u20”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u21”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u22”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u23",
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u24”,
-						"device"	:	"server"
-				},
-{
-						"process"	:	"u25”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u26”,
-						"device"	:	"smartphone"
-				},
-{
-						"process"	:	"u27”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u28”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u29”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u30”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u31”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u32”,
-						"device"	:	"smartphone"
-				},
-{
-						"process"	:	"u33”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u34”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u35”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u36”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u37”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u38”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u39”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u40”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u41”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u42”,
-						"device"	:	"server"
-				},
-{
-						"process"	:	"u43",
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u44”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u45”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u46”,
-						"device"	:	"server"
-				},
-{
-						"process"	:	"u47”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u48”,
-						"device"	:	"desktop_computer1"
-				},
-{
-						"process"	:	"u49”,
-						"device"	:	"smartphone"
-				},
-{
-						"process"	:	"u50”,
-						"device"	:	"desktop_computer1"
-				}
-		]
+  "meta": {
+    "format": "DIT029	format",
+    "version": "1.0",
+    "extensions": []
+  },
+  "type": "deployment_diagram",
+  "mapping": [
+    {
+      "process": "g",
+      "device": "server"
+    },
+    {
+      "process": "u1",
+      "device": "smartphone"
+    },
+    {
+      "process": "u2",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u3",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u4",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u5",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u6",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u7",
+      "device": "smartphone"
+    },
+    {
+      "process": "u8",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u9",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u10",
+      "device": "server"
+    },
+    {
+      "process": "u11",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u12",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u13",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u14",
+      "device": "smartphone"
+    },
+    {
+      "process": "u15",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u16",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u17",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u18",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u19",
+      "device": "server"
+    },
+    {
+      "process": "u20",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u21",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u22",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u23",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u24",
+      "device": "server"
+    },
+    {
+      "process": "u25",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u26",
+      "device": "smartphone"
+    },
+    {
+      "process": "u27",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u28",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u29",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u30",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u31",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u32",
+      "device": "smartphone"
+    },
+    {
+      "process": "u33",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u34",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u35",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u36",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u37",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u38",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u39",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u40",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u41",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u42",
+      "device": "server"
+    },
+    {
+      "process": "u43",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u44",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u45",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u46",
+      "device": "server"
+    },
+    {
+      "process": "u47",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u48",
+      "device": "desktop_computer1"
+    },
+    {
+      "process": "u49",
+      "device": "smartphone"
+    },
+    {
+      "process": "u50",
+      "device": "desktop_computer1"
+    }
+  ]
 }

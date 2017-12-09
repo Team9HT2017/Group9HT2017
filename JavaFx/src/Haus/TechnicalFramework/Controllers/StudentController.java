@@ -83,11 +83,11 @@ public class StudentController extends AnchorPane {
      */
     @FXML
     private void buttonAction() {
-            try {
-                handleAnimation();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            handleAnimation();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -119,21 +119,21 @@ public class StudentController extends AnchorPane {
                 inProgressBar();
                 //to request the information from the server
                 topars = (TCPClient.main("student", classID1.getText(), "hi")).split(Pattern.quote("~"));
-                System.out.println("Topars= "+Arrays.toString(topars));
+                System.out.println("Topars= " + Arrays.toString(topars));
                 toMessageLog = topars[1];
                 String flows = topars[3];
-                String [] tomap = flows.replaceAll("\\{", "").replaceAll("\\}", "").split(",");
-                System.out.println("flow= "+Arrays.toString(tomap));
-                
-                Map<Integer,Integer> flow1 = new HashMap<Integer,Integer>();
-                for (int i=0;i<tomap.length;i++){
-                	String [] elem = tomap[i].split("=");
-                	int one = Integer.parseInt(elem[0].trim());
-                	int two = Integer.parseInt(elem[1].trim());
-                	flow1.put(one, two);
+                String[] tomap = flows.replaceAll("\\{", "").replaceAll("\\}", "").split(",");
+                System.out.println("flow= " + Arrays.toString(tomap));
+
+                Map<Integer, Integer> flow1 = new HashMap<Integer, Integer>();
+                for (int i = 0; i < tomap.length; i++) {
+                    String[] elem = tomap[i].split("=");
+                    int one = Integer.parseInt(elem[0].trim());
+                    int two = Integer.parseInt(elem[1].trim());
+                    flow1.put(one, two);
                 }
-                System.out.println("flow1= "+flow1.toString());
-                Parser.flows=flow1;
+                System.out.println("flow1= " + flow1.toString());
+                Parser.flows = flow1;
 
                 //to change to the animation page
                 Platform.runLater(new Runnable() {
