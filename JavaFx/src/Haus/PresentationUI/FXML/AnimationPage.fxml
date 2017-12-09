@@ -18,21 +18,12 @@
             <top>
                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-<<<<<<< HEAD
                            <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="871.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
                                 <HBox.margin>
                                     <Insets bottom="10.0" left="20.0" top="20.0" />
                                 </HBox.margin>
                                 <font>
                                 <Font name="System Bold" size="20.0" />
-=======
-                        <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="150.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
-                            <HBox.margin>
-                                <Insets bottom="10.0" left="20.0" top="20.0" />
-                            </HBox.margin>
-                            <font>
-                                <Font name="System Bold" size="17.0" />
->>>>>>> origin/Anthony's-branch
                             </font>
                         </Label>
                     </children>
@@ -71,11 +62,7 @@
                                 <Font size="14.0" />
                             </font>
                             <VBox.margin>
-<<<<<<< HEAD
                                 <Insets bottom="50.0" top="165.0" />
-=======
-                                <Insets top="58.0" />
->>>>>>> origin/Anthony's-branch
                             </VBox.margin>
                         </Button>
                     </children>
