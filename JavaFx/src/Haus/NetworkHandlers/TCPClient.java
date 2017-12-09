@@ -94,9 +94,9 @@ public static String studentUsername="";
             System.out.println("FROM SERVER: " + fromServ);
             String [] temp = fromServ.split(Pattern.quote("*")); // split initial message from server to student username and other info (map, messages etc).
             System.out.println(Arrays.toString(temp));
-            studentUsername=temp[2];
+            studentUsername=temp[1];
             System.out.println("Students username: " + studentUsername);
-            fromServ=temp[1];
+            fromServ=temp[0];
             clientSocket.close();
             System.out.println("Socket closed!");
 

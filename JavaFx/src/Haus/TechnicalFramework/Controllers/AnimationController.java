@@ -516,47 +516,47 @@ public class AnimationController implements Initializable {
                             gc.drawImage(roadCross, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j - 1] == 'R') {
                             gc.drawImage(roadTminY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i + 1][j] == 'R' && grid[i - 1][j] == 'R' && grid[i][j + 1] == 'R') {
                             gc.drawImage(roadTplsY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadTminX, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadTplsX, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadCurveSouth, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadCurveWest, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j - 1] == 'R' && grid[i - 1][j] == 'R') {
                             gc.drawImage(roadCurveNorth, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j - 1] == 'R' && grid[i + 1][j] == 'R') {
                             gc.drawImage(roadCurveEast, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
                             // adding this node to the dijkstraNodes
-                            if (firstMapDraw) addToDjikstraNodes (i, j, 'R', null);
+                            if (firstMapDraw) addToDjikstraNodes(i, j, 'R', null);
                         } else if (grid[i][j + 1] == 'R' || grid[i][j - 1] == 'R') {
                             gc.drawImage(roadYY, twoDToIso(new Point(i * 16, j * 16)).x,
                                     twoDToIso(new Point(i * 16, j * 16)).y);
@@ -585,36 +585,40 @@ public class AnimationController implements Initializable {
         }
 
         firstMapDraw = false;
-        //Point p = twoDToIso(new Point(1,7));
-        //System.out.println(p);
-        //Point p1 = isoToTwoD(p);
-        //System.out.println(p1);
-        //System.out.println(isoToTwoD(twoDToIso(new Point(1,7))));
-        if(doAnimate && i != -1) {
+
+        Point pDest;
+        Point pStart;
+        if (runFirstFrame) {
+            runFirstFrame = false;
+            runDjikstra();
+            i = Graph.pathArrayList.size() - 2;
+            pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
+            pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
+            x = pStart.x + 16;
+            y = pStart.y + 8;
+            int diffX = pDest.x - pStart.x;
+            int diffY = pDest.y - pStart.y;
+
+            dX = diffX / Math.abs(diffY);
+            dY = diffY / Math.abs(diffY);
+        }
+        if (i <= -1) {
+            doAnimate = false;
+            Graph.pathArrayList.clear();
+        }
+        if (doAnimate && i != -1) {
 
             //todo: put the start point to be in the start, not the end.
 
-            Point pDest;
-            Point pStart;
-            if(runFirstFrame){
-                runFirstFrame = false;
-                runDjikstra();
-                i = Graph.pathArrayList.size() - 2;
-                pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
-                pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
-                x = pStart.x + 16;
-                y = pStart.y + 8;
-                int diffX = pDest.x - pStart.x;
-                int diffY = pDest.y - pStart.y;
 
-                dX = diffX / Math.abs(diffY);
-                dY = diffY / Math.abs(diffY);
-            }
-           // System.out.println(Graph.pathArrayList);
+
+            // System.out.println(Graph.pathArrayList);
             //if()
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
-            //if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 2){
-            if(x == pDest.x + 16 && y == pDest.y + 8 && i != 0){
+            if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
+            //if (x == pDest.x + 16 && y == pDest.y + 8 && i != 0) {
+                x = pDest.x + 16;
+                y = pDest.y + 8;
                 i--;
 
                 pStart = twoDToIso(new Point(Graph.pathArrayList.get(i + 1).x * 16, Graph.pathArrayList.get(i + 1).y * 16));
@@ -625,23 +629,12 @@ public class AnimationController implements Initializable {
                 dX = diffX / Math.abs(diffY);
                 dY = diffY / Math.abs(diffY);
 
-                if (i <= 0){
-                    doAnimate = false;
-                }
             }
             x += dX;
             y += dY;
 
+            gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
         }
-        gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
-
-        /*
-        if (run)
-        {
-            runDjikstra();
-        }
-        run = false;
-        */
     }
 
     public void runDjikstra(){
