@@ -108,12 +108,18 @@ public class TeacherController extends AnchorPane {
            	else if (OS.contains("wind")) {
               		runScript(windows);
            	}
-		try {
-			FileChooser json = new FileChooser();
-			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
-			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
-			File selectedFile = json.showOpenDialog(null);
+		
+	// Section for: File chooser implementation
+	FileChooser json = new FileChooser();
+	json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+	json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
 			
+	// creating an array for all selecting multiple files
+        List<File> files = json.showOpenMultipleDialog (null);
+        if (files != null) {
+		try{
+		// looping through the list for invoking the diagram's file
+                for (File selectedFile : files) {
 			if (selectedFile != null) {
 				diagramPath.getItems().add(selectedFile.getCanonicalFile());
 				toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
@@ -121,20 +127,20 @@ public class TeacherController extends AnchorPane {
 				sequenceDiag=Parser.Parse2(TeacherController.toParse, false);
 				classId();}
 				else if (toParse.contains("class_diagram")){
-					classDiag=Parser.Parse2(TeacherController.toParse, false);
+				classDiag=Parser.Parse2(TeacherController.toParse, false);
 				}else{
 					deploymentDiag=Parser.Parse2(TeacherController.toParse, false);
 				}
 				uploaded = true;
-
 			} else {
-				System.out.println("File is not valid");
-				
-				userController.dialog("File missing","You have not chosen a file"+"\n" + "Please try again ...");
+			System.out.println("File is not valid");
+			userController.dialog("File missing","You have not chosen a file"+"\n" + "Please try again ...");
 			}
+		}
 		} catch (Exception e) {
-			System.out.println(e);
-
+		System.out.println ("File not chosen");
+		System.out.println(e);
+			}
 		}
 	}
 
