@@ -153,7 +153,7 @@ public class StudentController extends AnchorPane {
                 e.printStackTrace();
                 // notification to the user in case of connection to server not completed
                 userController.dialog("Loading Error",
-                        "Connection to the class got corrupted" + "\n" + "Please try again ...");
+                        "Connection to the classroom got corrupted" + "\n" + "Please try again ...");
             }
         }
     }

@@ -289,7 +289,7 @@ public class TeacherController extends AnchorPane {
 	 * Method to run the Script responsible for running the server in a separated process.
 	**/
 
-	public void runScript(String server) {
+	public static void runScript(String server) {
 		// String scriptName = "/usr/bin/open -a Terminal
 		File file = new File(".");
 		for (String fileNames : file.list())

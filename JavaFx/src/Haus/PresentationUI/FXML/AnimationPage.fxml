@@ -24,6 +24,12 @@
                             </HBox.margin>
                             <font>
                                 <Font name="System Bold" size="17.0" />
+                           <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="871.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
+                                <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="20.0" />
+                                </HBox.margin>
+                                <font>
+                                <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
                     </children>
