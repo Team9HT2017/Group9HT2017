@@ -14,6 +14,9 @@ public class TCPListener extends Thread {
 	public static int allowMessage =0; //priority counter
     public static String[] srcDest;
     public static String messageReceiveLog=""; // for displaying message log in main window
+	public static int allowMessage =0;
+    public static String[] srcDest;
+    public static String messageReceiveLog="";
 
     /**
      * Method for listening to the server to get incoming messages
@@ -59,7 +62,12 @@ public class TCPListener extends Thread {
                 }}
                 //AnimationController.x = srcDest[0];
                 //AnimationController.y = srcDest[1];
+
               //  AnimationController.doAnimate = true;
+
+                AnimationController.doAnimate = true;
+                AnimationController.runFirstFrame = true;
+
                 //AnimationController.runDjikstra();
             } else {
                 System.out.println ("Teacher stuff: " + (serverSentence.substring (0, serverSentence.length () - 4).split (","))); // no duplicates

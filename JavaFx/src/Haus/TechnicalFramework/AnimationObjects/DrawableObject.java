@@ -1,15 +1,23 @@
 package Haus.TechnicalFramework.AnimationObjects;
 
+import Haus.TechnicalFramework.Controllers.AnimationController;
 import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.scene.image.Image;
+import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * This class handles ...
  *
- * @author
+ * @author Leo Persson
  * @version 1.0
+ * 
+ * @editor Laiz Figueroa and Leo Persson 
+ * @version 1.1 Modifications: Added a method for check the 
+ * devices based on the deployment diagram.
+ * 	
  *
  */
 
@@ -19,7 +27,25 @@ public class DrawableObject {
 	public Image image;
 	public int x, y;
 	public int[] nodeDistances;
+	
+	/**
+     * Method for checking the device on the deployment diagram 
+     *
+     */
+	public void checkDevice (){
 
+		String device = name.split(Pattern.quote("Device: "))[1];
+		for(Pair<String, Image> deviceImage : AnimationController.deviceImages){
+			if (deviceImage.getKey().compareTo(device) == 0){
+				image = deviceImage.getValue();
+			}
+		}
+	}
+	/**
+     * Constructor to select a random position to a house and 
+     * sets the name of it.
+     *
+     */	
 	public DrawableObject(Object obj, int x, int y) {
 		Random rand = new Random();
 		if (TeacherController.user == "teacher") {
@@ -32,35 +58,5 @@ public class DrawableObject {
 		}
 
 		name = obj.toString();
-		image = new Image("/Haus/DataStorage/img/house.png");
-		connections = new ArrayList<DrawableObject>();
-	}
-
-	// math equation to calculate the distance between 2 nodes
-	public double distance(DrawableObject drawableObject) {
-		double res = 0;
-		res = Math.sqrt(Math.pow(this.x - drawableObject.x, 2) + Math.pow(this.y - drawableObject.y, 2));
-		return res;
-	}
-
-	public boolean isConnected = false;
-	ArrayList<DrawableObject> connections; // an array for saving the connections
-
-	// method for adding the connection to the list
-	public void addConnection(DrawableObject d) {
-		isConnected = true;
-		connections.add(d);
-	}
-
-	// To check if the object is connected to the node in the argument or not
-	public boolean isConnectedTo(DrawableObject d) {
-		if (connections.size() == 0)
-			return false;
-		for (int i = 0; i < connections.size(); i++) {
-			if (connections.get(i).name.equals(d.name)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

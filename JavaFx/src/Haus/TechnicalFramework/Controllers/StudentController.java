@@ -118,6 +118,7 @@ public class StudentController extends AnchorPane {
                 inProgressBar();
                 //to request the information from the server
                 topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
+
                 System.out.println("Topars= "+Arrays.toString(topars));
                 toMessageLog = topars[1];
                 String flows = topars[3];
@@ -133,6 +134,9 @@ public class StudentController extends AnchorPane {
                 }
                 System.out.println("flow1= "+flow1.toString());
                 Parser.flows=flow1;
+
+                //toMessageLog = topars[1];
+
                 //to change to the animation page
                 Platform.runLater(new Runnable() {
                     @Override

@@ -5,10 +5,13 @@ import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import java.io.*;
 import java.net.Inet4Address;
+import java.util.*;
+import java.util.regex.Pattern;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +21,12 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.util.Pair;
+
 
 /**
  * This class will handle the teacher's interface, where he/she can
@@ -90,6 +99,7 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void selectDiagram() throws IOException {
+
 		try {
 			FileChooser json = new FileChooser();
 			json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -105,18 +115,53 @@ public class TeacherController extends AnchorPane {
 				else if (toParse.contains("class_diagram")){ // add class diagram (UPLOAD OPTIONAL)
 					classDiag=Parser.Parse2(TeacherController.toParse, false);
 				}else{ // add deployment diagram (UPLOAD OPTIONAL)
+
+		
+	// checking if the file is uploaded before animation starts
+		String OS = System.getProperty("os.name").toLowerCase();
+		String mac= "./runserver.sh";
+		String windows="./runwindows.sh";
+		
+		if (OS.contains("mac")){
+               		runScript(mac);
+		}
+           	else if (OS.contains("wind")) {
+              		runScript(windows);
+           	}
+		
+	// Section for: File chooser implementation
+	FileChooser json = new FileChooser();
+	json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+	json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text files", "*.txt"));
+			
+	// creating an array for all selecting multiple files
+        List<File> files = json.showOpenMultipleDialog (null);
+        if (files != null) {
+		try{
+		// looping through the list for invoking the diagram's file
+                for (File selectedFile : files) {
+			if (selectedFile != null) {
+				diagramPath.getItems().add(selectedFile.getCanonicalFile());
+				toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
+				if (toParse.contains("sequence_diagram")){					
+				sequenceDiag=Parser.Parse2(TeacherController.toParse, false);
+				classId();}
+				else if (toParse.contains("class_diagram")){
+				classDiag=Parser.Parse2(TeacherController.toParse, false);
+				}else{
+
 					deploymentDiag=Parser.Parse2(TeacherController.toParse, false);
 				}
 				uploaded = true;
-
 			} else {
-				System.out.println("File is not valid");
-				
-				userController.dialog("File missing","You have not chosen a file"+"\n" + "Please try again ...");
+			System.out.println("File is not valid");
+			userController.dialog("File missing","You have not chosen a file"+"\n" + "Please try again ...");
 			}
+		}
 		} catch (Exception e) {
-			System.out.println(e);
-
+		System.out.println ("File not chosen");
+		System.out.println(e);
+			}
 		}
 	}
 
@@ -131,6 +176,7 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void createAnimation() throws IOException {
+
 		// checking if the file is uploaded before animation starts
         String OS = System.getProperty("os.name").toLowerCase();
         String mac= "./runserver.sh";
@@ -168,10 +214,50 @@ public class TeacherController extends AnchorPane {
 				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
 				e.printStackTrace();
 			}
+
+		if (uploaded){
+			try {
+                		user = "teacher";
+                		map = Arrays.deepToString(AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.ParseInorder(TeacherController.toParse).toString();
+                		progressBarTeacher.setVisible(true);
+                		IPServerTeacher.setVisible(true);
+                		inProgressBar();
+                		System.out.println("Animation in progress");
+                		String ip = Inet4Address.getLocalHost().getHostAddress();
+                		TCPClient.main(user, ip, map);
+                		diagramPath.getItems().clear();
+			
+                Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                teacherPane.getChildren().clear();
+                                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+
+                            } catch (IOException ex) {
+                                Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+
+                    userController.dialog("ERROR HANDELING", "Animation got corrupted!");
+                    e.printStackTrace();
+                }
+
 			// if the file is not already uploaded
 		} else
 			userController.dialog("FILE MISSING", "File not uploaded!");
 	}
+
+      /**
+	 * This method is get the class and deployment diagram for each house and for draw different houses,
+	 * based on that information.
+	 *
+	 */
+
 	private String getHouses() {
 		String houses = "";
 		for (DrawableObject node : AnimationController.nodes) { 
@@ -189,6 +275,41 @@ public class TeacherController extends AnchorPane {
 				}
 			}
 			houses = houses + "{" + node.name.replaceAll(",", ";") + "," + node.x + "," + node.y + "}";
+		}
+		
+		// Code to set the houses to be different based on the deployment diagram
+		Image building;
+		
+		if (!deploymentDiag.isEmpty()) {
+			Set<String> set = new HashSet<>();
+
+			for (int i = 0; i < AnimationController.nodes.size(); i++) {
+				set.add(AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
+			}
+			AnimationController.deviceImages = new ArrayList<Pair<String, Image>>(set.size());
+
+			int counter = 0;
+			while (counter < set.size()) {
+
+				if (counter == 0) {
+					building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
+				} else if (counter == 1) {
+					building = new Image("/Haus/DataStorage/img/school.png");
+				} else {
+					building = new Image("/Haus/DataStorage/img/house.png");
+				}
+
+				AnimationController.deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
+				counter++;
+			}
+			for (DrawableObject node : AnimationController.nodes) {
+				node.checkDevice();
+			}
+		}
+		else {
+			for (DrawableObject node : AnimationController.nodes) {
+				node.image = new Image("/Haus/DataStorage/img/house.png");
+			}
 		}
 		return houses;
 	}

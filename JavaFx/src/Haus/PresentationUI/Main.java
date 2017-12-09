@@ -82,6 +82,7 @@ public class Main extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight());
         primaryStage.setTitle("Haus Diagram Simulator");
+        primaryStage.setResizable(false);
         primaryStage.setX(0);
         primaryStage.setY(10);
         primaryStage.setScene(scene);

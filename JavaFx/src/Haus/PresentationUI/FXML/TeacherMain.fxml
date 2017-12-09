@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.TeacherController">
    <children>
@@ -29,9 +16,9 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="270.0" minHeight="10.0" prefHeight="270.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="150.0" minHeight="0.0" prefHeight="25.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="217.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="150.0" minHeight="0.0" prefHeight="96.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="172.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -41,19 +28,19 @@
                   <Font size="17.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="95.0" top="27.0" />
+                  <Insets bottom="20.0" left="95.0" />
                </GridPane.margin>
             </Button>
-            <ListView fx:id="diagramPath" disable="true" prefHeight="25.0" prefWidth="400.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <ListView fx:id="diagramPath" focusTraversable="false" prefHeight="96.0" prefWidth="400.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets left="250.0" right="250.0" />
+                  <Insets left="215.0" right="215.0" />
                </GridPane.margin></ListView>
             <Button fx:id="animateDiagramButton" mnemonicParsing="false" onAction="#createAnimation" text="Animate Diagram" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="17.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="130.0" left="87.0" />
+                  <Insets bottom="70.0" left="87.0" top="20.0" />
                </GridPane.margin>
             </Button>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="30.0" prefWidth="40.0">
@@ -81,7 +68,7 @@
                   <Insets left="15.0" />
                </GridPane.margin>
             </ProgressBar>
-            <Label fx:id="IPServerTeacher" text="Setting up the class ..." textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Label fx:id="IPServerTeacher" text="Setting up the classroom ..." textAlignment="CENTER" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="17.0" />
                </font>
