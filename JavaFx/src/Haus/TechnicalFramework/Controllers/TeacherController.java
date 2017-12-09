@@ -70,6 +70,8 @@ public class TeacherController extends AnchorPane {
 	private Label IPServerTeacher;
 
 	public static String toParse;
+	public static String toParseC;
+	public static String toParseD;
 	private Stage stage = new Stage();
 	public static boolean uploaded = false;
     UserController userController = new UserController();
@@ -123,14 +125,17 @@ public class TeacherController extends AnchorPane {
                 for (File selectedFile : files) {
 			if (selectedFile != null) {
 				diagramPath.getItems().add(selectedFile.getCanonicalFile());
-				toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
-				if (toParse.contains("sequence_diagram")){ // add sequence diagram (UPLOAD OBLIGATORY)
-				sequenceDiag=Parser.Parse2(TeacherController.toParse, false);
-				classId();}
-				else if (toParse.contains("class_diagram")){ // add class diagram (UPLOAD OPTIONAL)
-				classDiag=Parser.Parse2(TeacherController.toParse, false);
-				}else{ // add deployment diagram (UPLOAD OPTIONAL)
-					deploymentDiag=Parser.Parse2(TeacherController.toParse, false);
+				String identifier = new Scanner(selectedFile).useDelimiter("\\Z").next();
+				if (identifier.contains("sequence_diagram")) {
+					toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
+					sequenceDiag = Parser.Parse2(TeacherController.toParse, false);
+					classId();
+				} else if (identifier.contains("class_diagram")) {
+					toParseC = new Scanner(selectedFile).useDelimiter("\\Z").next();
+					classDiag = Parser.Parse2(TeacherController.toParseC, false);
+				} else {
+					toParseD = new Scanner(selectedFile).useDelimiter("\\Z").next();
+					deploymentDiag = Parser.Parse2(TeacherController.toParseD, false);
 				}
 				uploaded = true;
 			} else {
