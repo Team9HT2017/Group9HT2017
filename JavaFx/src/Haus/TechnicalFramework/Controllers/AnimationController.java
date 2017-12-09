@@ -483,7 +483,7 @@ public class AnimationController implements Initializable {
                         node = nodes.get(housenum);
                         housenum++;
                         gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
-                                twoDToIso(new Point(i * 16, j * 16)).y - 38);
+                                twoDToIso(new Point(i * 16, j * 16)).y - node.image.getHeight() + 26);
 
                     // adding this node to the dijkstraNodes
                         if (firstMapDraw) addToDjikstraNodes (i, j - 1, 'H', node.name);

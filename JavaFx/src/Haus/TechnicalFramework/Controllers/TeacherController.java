@@ -243,7 +243,6 @@ public class TeacherController extends AnchorPane {
 				node.checkDevice();
 			}
 		}
-		}
 		else {
 			for (DrawableObject node : AnimationController.nodes) {
 				node.image = new Image("/Haus/DataStorage/img/house.png");
