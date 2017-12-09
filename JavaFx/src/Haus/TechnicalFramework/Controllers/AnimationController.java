@@ -283,7 +283,7 @@ public class AnimationController implements Initializable {
         	if (!sending.equals("nothing")){ // if no message is available to send, nothing is sent to server
             TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}// sending message if it was found
         	else{
-        		System.out.println("Error");
+        		System.out.println("Error sending message. Message is: \"nothing\"");
         	}
         } catch (Exception e) {
             e.printStackTrace();
