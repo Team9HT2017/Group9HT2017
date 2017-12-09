@@ -40,15 +40,15 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        ExecutorService concurrent = Executors.newCachedThreadPool();
+        ExecutorService concurrent = Executors.newCachedThreadPool(); // Executor to concurrently run the main flow of app AND listen to server
 
-        Future<Void> past = concurrent.submit(new Callable<Void>() {
+        Future<Void> past = concurrent.submit(new Callable<Void>() { // Listen to server in one thread
             public Void call() throws Exception {
                 TCPListener.listen();
                 return null;
             }
         });
-        launch(args);
+        launch(args); // Run the main app in another
         try {
             past.get();
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+       
         Parent Root = FXMLLoader.load(getClass().getResource("../PresentationUI/FXML/UserSelection.fxml"));
         getScene(Root, primaryStage);
     }
@@ -80,11 +80,11 @@ public class Main extends Application {
         // To get the application user's screen size and pass it to the set the
         // application size
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight() * 0.93);
+        scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight());
         primaryStage.setTitle("Haus Diagram Simulator");
         primaryStage.setResizable(false);
         primaryStage.setX(0);
-        primaryStage.setY(0);
+        primaryStage.setY(10);
         primaryStage.setScene(scene);
         primaryStage.show();
 
