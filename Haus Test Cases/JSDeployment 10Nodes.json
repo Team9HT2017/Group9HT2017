@@ -1,11 +1,11 @@
 {
-    "meta"	:	{
-            "format"	:	"DIT029	format",
-            "version"	:	"1.0",
-            "extensions"	:	[]
+    "meta": {
+      "format": "DIT029	format",
+      "version": "1.0",
+      "extensions": []
     },
-    "type"	:	"sequence_diagram",
-    "processes"	:	[
+    "type": "deployment_diagram",
+    "mapping": [
       {
           "process"	:	"Fahd",
           "device"	:	"Servidor"

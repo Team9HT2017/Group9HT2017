@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
- cd ..
- bin/ehaus stop
+cd ..
+bin/ehaus stop
