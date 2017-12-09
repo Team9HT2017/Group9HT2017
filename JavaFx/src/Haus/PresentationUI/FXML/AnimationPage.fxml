@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -24,12 +18,21 @@
             <top>
                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
+<<<<<<< HEAD
                            <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="871.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
                                 <HBox.margin>
                                     <Insets bottom="10.0" left="20.0" top="20.0" />
                                 </HBox.margin>
                                 <font>
                                 <Font name="System Bold" size="20.0" />
+=======
+                        <Label fx:id="username" focusTraversable="false" prefHeight="38.0" prefWidth="150.0" text="Username" textAlignment="CENTER" textFill="#b40d0d">
+                            <HBox.margin>
+                                <Insets bottom="10.0" left="20.0" top="20.0" />
+                            </HBox.margin>
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+>>>>>>> origin/Anthony's-branch
                             </font>
                         </Label>
                     </children>
@@ -41,14 +44,19 @@
                         <Canvas id="#canvas" fx:id="canvas" disable="false" height="888.0" width="1776.0" />
                     </content>
                     <BorderPane.margin>
-                        <Insets bottom="50.0" left="20.0" />
+                        <Insets bottom="20.0" left="20.0" />
                     </BorderPane.margin>
                 </ScrollPane>
             </center>
             <right>
-                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="225.0" BorderPane.alignment="CENTER">
+                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                     <children>
-                        <TextArea fx:id="messageLog" editable="false" focusTraversable="false" prefHeight="381.0" prefWidth="215.0" wrapText="true">
+                        <Canvas fx:id="mailboxAnimation" disable="true" height="166.0" width="200.0">
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </Canvas>
+                        <TextArea fx:id="messageLog" editable="false" focusTraversable="false" prefHeight="313.0" prefWidth="200.0" wrapText="true">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
@@ -60,10 +68,14 @@
                         </Button>
                         <Button fx:id="leaveAnimation" mnemonicParsing="false" onAction="#getScene1" text="Leave Animation">
                             <font>
-                                <Font size="16.0" />
+                                <Font size="14.0" />
                             </font>
                             <VBox.margin>
+<<<<<<< HEAD
                                 <Insets bottom="50.0" top="165.0" />
+=======
+                                <Insets top="58.0" />
+>>>>>>> origin/Anthony's-branch
                             </VBox.margin>
                         </Button>
                     </children>

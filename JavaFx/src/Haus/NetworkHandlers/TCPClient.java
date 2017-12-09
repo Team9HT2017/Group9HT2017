@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 /**
  * This class handles the connection between the application and the server.
  *
@@ -66,14 +67,14 @@ public static String studentUsername="";
             outToServer.writeUTF(message+"!^!"+ordered.toString().replace('[', ' ').replace(']', ' ').replaceAll("\\s+", "")+"!?!"+"TEACHER\n"); // send it to server
             request = inRequest.readLine(); // Ask to send the file
             
-            fromServ = inFromServer.readLine(); // Receive the parsed file
+            fromServ = inFromServer.readLine(); // receive teacher usernames
             System.out.println("From server=" + fromServ);
             String [] artest = fromServ.substring(0, fromServ.length()-4).split(",");
             List teacherN = new LinkedList <String>(Arrays.asList(artest));
             System.out.println("Teacher usernames: " + teacherN.toString());
             teacherN.remove(0);
             System.out.println("Teacher usernames: " + teacherN.toString());
-            teacherUsername=teacherN.toString();//fromServ.substring((fromServ.indexOf(":")+2),fromServ.length());
+            teacherUsername=teacherN.toString(); // teacher usernames
             System.out.println("Teacher username: " + teacherUsername);
             fromServ=teacherN.toString();
             clientSocket.close();
@@ -86,14 +87,14 @@ public static String studentUsername="";
             // here we receive msg from serverl
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-          //  sentence = inRequest.readLine(); // Get the request from the user to the server
+      
             outToServer.writeUTF("GET" + '\n'); // Send the request
-            fromServ = inFromServer.readLine(); // Receive the parsed file
+            fromServ = inFromServer.readLine(); // Receive the initial info from server
             
             System.out.println("FROM SERVER: " + fromServ);
-            String [] temp = fromServ.split("!*!");
+            String [] temp = fromServ.split(Pattern.quote("*")); // split initial message from server to student username and other info (map, messages etc).
             System.out.println(Arrays.toString(temp));
-            studentUsername=temp[2];
+            studentUsername=temp[1];
             System.out.println("Students username: " + studentUsername);
             fromServ=temp[0];
             clientSocket.close();
@@ -103,7 +104,15 @@ public static String studentUsername="";
 		return fromServ;
     }
     
-    
+    /**
+     * Method to send diagram messages to server
+     * sending can be either message itself, or confirmation
+     * (sent by recipient when getting the message)
+     * @param message
+     * @param confirm
+     * @throws UnknownHostException
+     * @throws IOException
+     */
     public static void sendMessage(String message,boolean confirm) throws UnknownHostException, IOException{
     	 Socket clientSocket = new Socket(globalIP, 8080);
          System.out.println(clientSocket);

@@ -4,10 +4,14 @@ package Haus.TechnicalFramework.DataHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * @Author Anthony;
@@ -43,7 +47,25 @@ public class Parser {
     public static ArrayList<String> source = new ArrayList<> ();
     public static ArrayList<String> distination = new ArrayList<> ();
     public static Map<String,String> sourceNdistanation = new HashMap<String, String>();
-
+    public static Map<Integer,Integer> flows = new HashMap<Integer,Integer>();
+    static int flowNumber=0;
+    
+    public static void main (String [] args){
+    	File file = new File ("C:\\\\Users\\\\Lone ranger\\\\Desktop\\\\testJS.json");
+    	String toParse = "";
+		try {
+			toParse = new Scanner(file).useDelimiter("\\Z").next();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("In order= "+Arrays.toString(ParseInorder(toParse).toArray()));
+    	System.out.println("New= "+Arrays.toString(parParsing(toParse).toArray()));
+    	System.out.println("Flows= "+flows.toString());
+    }
+    
+    
+    
     public static Map Parse2(String toParse,boolean send) {
         Map<Object, Object> result = new HashMap<Object, Object>();
 
@@ -97,7 +119,7 @@ public class Parser {
             System.out.println("sequence " +result2.toString());
 
             return result;
-        }  else if (type.equals("class_diagram")) { 
+        }  else if (type.equals("class_diagram")) { // parsing class diagram
 
             JSONArray arr11 = res.getJSONArray("classes");
             JSONObject arr12 = res.getJSONObject("meta");
@@ -137,8 +159,8 @@ public class Parser {
             	result.put(subclass, " Superclass:" +supclass+" Variables:"+tores.toString()); //\n
             }
             System.out.println(result.toString());
-            return result; //change later
-        } else if (type.equals("deployment_diagram")) { 
+            return result; 
+        } else if (type.equals("deployment_diagram")) { // parsing deployment diagram
             JSONObject arr12 = res.getJSONObject("meta");
             JSONArray arr13 = res.getJSONArray("mapping");
             for (int l=0;l<arr13.length();l++){
@@ -152,7 +174,7 @@ public class Parser {
             
             System.out.println(result);
 
-            return result;  //change later
+            return result;  
         }
         return null;
 
@@ -177,7 +199,7 @@ public class Parser {
 
             JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
             //System.out.println("check herrrrrrrrrrreeeeeee");
-            System.out.println(diagramElements2.toString());
+           // System.out.println(diagramElements2.toString());
 
             JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
 
@@ -190,15 +212,15 @@ public class Parser {
                 }
             }
            // System.out.println("messagessssss");
-            System.out.println(messages.toString());
+          //  System.out.println(messages.toString());
             Map<Object, Object> User = new HashMap<>();
 
             for (int t = 0; t < messages.length(); t++) {        // finally creating array of messages
                 ArrayList<Object> inner = new ArrayList<>();
 
                 User.put(messages.getJSONObject(t).get("from"), messages.getJSONObject(t).get("to"));
-                System.out.println(messages.getJSONObject(t).get("from"));
-                System.out.println(messages.getJSONObject(t).get("to"));
+               // System.out.println(messages.getJSONObject(t).get("from"));
+               // System.out.println(messages.getJSONObject(t).get("to"));
                 //System.out.println( User.entrySet().toArray());
 
                 // Converting the Json objects into string
@@ -213,12 +235,13 @@ public class Parser {
                 // for (Map.Entry<Object, Object> entry : User.entrySet())
                 //  {
                 //  if (entry.getKey().toString().equals("" + messages.getJSONObject(t).get("to") ) &&  entry.getValue().toString().equals("" +messages.getJSONObject(t).get("from")) ) {
-                if ( ( " "+User.get(messages.getJSONObject(t).get("to"))).equals( " "+messages.getJSONObject(t).get("from"))) {
+                
+              /*  if ( ( " "+User.get(messages.getJSONObject(t).get("to"))).equals( " "+messages.getJSONObject(t).get("from"))) {
                     inner.add(" { " + messages.getJSONObject(t).get("from"));
                     inner.add(" Reply back ");
                     inner.add("to " + messages.getJSONObject(t).get("to"));
                     inner.add("the following message " + messages.getJSONObject(t).get("message") + " } "+"?"+t);
-                } else {
+                } else*/ {
 
                     inner.add("{ " + messages.getJSONObject(t).get("from"));
                     inner.add(" " + messages.getJSONObject(t).get("node"));
@@ -319,4 +342,93 @@ public class Parser {
 
         return oneNodeMap;
     }
+    
+    
+    
+    public static ArrayList<ArrayList<Object>> parParsing(String Parse) {
+
+        ArrayList<ArrayList<Object>> par = new ArrayList<>();
+        ArrayList<Object> contents = new ArrayList<>();
+        str = Parse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
+        JSONObject res = new JSONObject(str); //create JSON object from input
+        Object type = res.get("type");
+
+        if (type.equals("sequence_diagram")) {
+
+            JSONObject diagramElements = res.getJSONObject("diagram"); // pick array that contains high-level information about messages
+            for (int d=0;d<diagramElements.length();d++){
+            	
+            	if (!diagramElements.get("node").toString().equals("par")) {
+            		
+
+                    JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
+                  //  System.out.println(diagramElements2.toString());
+                   // System.out.println("1= "+diagramElements2.get(0));
+                  //  System.out.println("2= "+diagramElements2.get(1));
+                    Map<Object, Object> checkReply = new HashMap<>();
+
+                    //JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+
+                    for (int i = 0; i < diagramElements2.length(); i++) {
+                    	if (!flows.containsKey(i)){
+                        	flows.put(i, 0);}
+                    	  // System.out.println("L= "+diagramElements.get("node"));
+                        JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+                       // contents = new ArrayList<>();
+                        for (int j = 0; j < temp.length(); j++) {
+                        	
+                                 {
+
+                                contents.add(" { " + temp.getJSONObject(j).get("from"));
+                                contents.add(" "+ temp.getJSONObject(j).get("node"));
+                                contents.add("to " + temp.getJSONObject(j).get("to"));
+                                contents.add("the following message " + temp.getJSONObject(j).get("message") + " } "+"="+i+"@"+j+"|");
+                            }
+                        }
+                        if (!par.contains(contents)){
+                        par.add(contents);flowNumber++;}
+                        
+                    }
+                
+            
+            		
+            		
+            	}
+            	else if (diagramElements.get("node").toString().equals("par")) {
+
+                JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
+              //  System.out.println(diagramElements2.toString());
+               // System.out.println("1= "+diagramElements2.get(0));
+              //  System.out.println("2= "+diagramElements2.get(1));
+                Map<Object, Object> checkReply = new HashMap<>();
+
+                //JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+
+                for (int i = 0; i < diagramElements2.length(); i++) {
+                	if (!flows.containsKey(i)){
+                	flows.put(i, 0);}
+                	  // System.out.println("L= "+diagramElements.get("node"));
+                    JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+                    flowNumber++;
+                 //   contents = new ArrayList<>();
+                    for (int j = 0; j < temp.length(); j++) {
+                             {
+
+                            contents.add(" { " + temp.getJSONObject(j).get("from"));
+                            contents.add(" "+ temp.getJSONObject(j).get("node"));
+                            contents.add("to " + temp.getJSONObject(j).get("to"));
+                            contents.add("the following message " + temp.getJSONObject(j).get("message") + " } "+"="+i+"@"+j+"|");
+                        }
+                    }
+                    if (!par.contains(contents)){
+                    par.add(contents);}
+                }
+            }
+        }
+    }
+        return par;
+        
+    }
+    
+    
 }

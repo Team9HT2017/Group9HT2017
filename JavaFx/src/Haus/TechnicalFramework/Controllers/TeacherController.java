@@ -4,7 +4,6 @@ import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.application.Platform;
-import javafx.scene.Parent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -72,19 +71,21 @@ public class TeacherController extends AnchorPane {
 	private Label IPServerTeacher;
 
 	public static String toParse;
+	private Stage stage = new Stage();
 	public static boolean uploaded = false;
-    	UserController userController = new UserController();
-    	public static Alert alert;
+    UserController userController = new UserController();
+    public static Alert alert;
     
-    	public static String user;
+    public static String user;
     
-    	private Map classDiag = new HashMap<>();
+    private Map classDiag = new HashMap<>();
     
-    	private  Map deploymentDiag = new HashMap<>();
+    private  Map deploymentDiag = new HashMap<>();
     
-    	private Map sequenceDiag = new HashMap<>();
+    private Map sequenceDiag = new HashMap<>();
     
-    	public static String map;
+    public static String map;
+
 
 	/**
 	 * Method to give action to the Select Diagram button on the TeacherMain
@@ -96,7 +97,6 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void selectDiagram() throws IOException {
-		
 	// checking if the file is uploaded before animation starts
 		String OS = System.getProperty("os.name").toLowerCase();
 		String mac= "./runserver.sh";
@@ -190,6 +190,7 @@ public class TeacherController extends AnchorPane {
 		} else
 			userController.dialog("FILE MISSING", "File not uploaded!");
 	}
+
       /**
 	 * This method is get the class and deployment diagram for each house and for draw different houses,
 	 * based on that information.
@@ -197,14 +198,14 @@ public class TeacherController extends AnchorPane {
 	 */
 	private String getHouses() {
 		String houses = "";
-		for (DrawableObject node : AnimationController.nodes) {
-			for (int e=0;e<classDiag.keySet().size();e++){
+		for (DrawableObject node : AnimationController.nodes) { 
+			for (int e=0;e<classDiag.keySet().size();e++){ // add information from class diagram to each house
 				//System.out.println("Node="+node.name+"  Check="+(classDiag).keySet().toArray()[e].toString());
 				if (node.name.split("\\|")[1].equals((classDiag).keySet().toArray()[e].toString())){
 					node.name=node.name+classDiag.get((classDiag).keySet().toArray()[e]);
 				}
 			}
-			for (int e=0;e<deploymentDiag.keySet().size();e++){
+			for (int e=0;e<deploymentDiag.keySet().size();e++){ // add information from deployment diagram to each house
 				System.out.println("here "+(deploymentDiag).keySet().toArray()[e].toString());
 				//System.out.println("Node="+node.name+"  Check="+(classDiag).keySet().toArray()[e].toString());
 				if (node.name.split("\\|")[0].equals((deploymentDiag).keySet().toArray()[e].toString())){
@@ -251,6 +252,18 @@ public class TeacherController extends AnchorPane {
 		return houses;
 	}
 
+	private void showStage() throws IOException {
+
+
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/Splash.fxml"));
+
+		Parent root = fxmlloader.load();
+		stage.setTitle("Loading Animation ...");
+		stage.setScene(new Scene(root));
+		stage.show();
+
+	}
+
 	/**
 	 * Method for going back to the first page, in case no file has been uploaded
 	 * 
@@ -274,6 +287,22 @@ public class TeacherController extends AnchorPane {
 		}
 	}
 
+	/**
+	 * Method to load a pop up dialog to warn the user about loading problems.
+	 *
+	 * @param title
+	 *            string represents the dialog title
+	 * @param msg
+	 *            string represents the message of the error or a notification for
+	 *            the user
+	 */
+	private void dialog(String title, String msg) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
+	}
     /**
      * Method to load a pop up dialog to provide the class number (IP) to the teacher.
      *
@@ -292,7 +321,9 @@ public class TeacherController extends AnchorPane {
 		alert.setX(900);
 		alert.setY(20);
 		alert.setResizable(false);
-        	alert.show();
+        alert.show();
+
+
 	}
 
     /**
@@ -303,6 +334,12 @@ public class TeacherController extends AnchorPane {
         double p = progressBarTeacher.getProgress();
         // Updating the progress in the bar
         for (double i = p; i <= 10; i++) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             progressBarTeacher.setProgress(i + 0.1);
         }
     }

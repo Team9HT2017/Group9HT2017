@@ -234,8 +234,7 @@ public class AnimationController implements Initializable {
     }
 
     /**
-     * Method to send a message. Disregard the method's name, for some reason
-     * it does not work with other names
+     * Method to send a message when send button is clicked.
      *
      * @throws IOException
      */
@@ -245,33 +244,33 @@ public class AnimationController implements Initializable {
     private void sendMessage() throws IOException {
         String sending = "nothing";
         int control = 0;
-        System.out.println(logs);
+     //   System.out.println(Arrays.toString(logs.toString().split("\\|,")));
 
-      if (logs != null && logs.isEmpty()!=true) {
-            String[] check = logs.toString().split("], ");
-            for (int i = 0; i < check.length; i++) {
-                //if (check[i].split("to ")[1].split(",")[0].equals("g") && control<1){
-            	String [] mess = TCPClient.teacherUsername.trim().split(",");
+      if (logs != null && logs.isEmpty()!=true) { // if user is teacher
+            String[] check = logs.toString().split("\\|,"); // get array of messages
+            for (int i = 0; i < check.length; i++) { // loop through array of messages
+            	String [] mess = TCPClient.teacherUsername.trim().split(","); // get list of teacher username(s)
+            	System.out.println((check[0].split("=")[1].split("@")[0]));
             	System.out.println(Arrays.toString(mess));
-                System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
+              //  System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
             	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
-            	for (int b=0;b<mess.length;b++){
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1
-                    && TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0]))) {
-                    System.out.println("Check== " + check[i]);
+            	for (int b=0;b<mess.length;b++){ // loop through teacher username(s) to find highest priority message
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
+                    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                    System.out.println("Check== " + check[i]); // print message that is being sent
                     sending = check[i];
                     control++;
-                    logs.remove(i); //delete this message after sending
+                   // logs.remove(i); //delete this message after sending
                     System.out.println("New logs "+logs);
                 }}
             }
         } else {
-            String[] check = StudentController.topars[2].split("], ");         
-            for (int i = 0; i < check.length; i++) {
+            String[] check = StudentController.topars[2].split("\\|, ");  //get array of messages       
+            for (int i = 0; i < check.length; i++) { // loop through array of messages
               
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1
-                		&& TCPListener.allowMessage==Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])))
-                		 {
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
+                	    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                		 
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     //StudentController.topars[2].replaceAll(check[i].substring(0, check[i].length()-2), ""); //delete this message after sending
@@ -281,8 +280,8 @@ public class AnimationController implements Initializable {
         }
         try {
             //TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
-        	if (!sending.equals("nothing")){
-            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}
+        	if (!sending.equals("nothing")){ // if no message is available to send, nothing is sent to server
+            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}// sending message if it was found
         	else{
         		System.out.println("Error");
         	}
@@ -293,7 +292,7 @@ public class AnimationController implements Initializable {
 
     public void logMessages(String msgs) {
         try {
-            logs = Parser.ParseInorder(TeacherController.toParse);
+            logs = Parser.parParsing(TeacherController.toParse); // message list
             System.out.println("Logs " + logs);
             String transmission;
             ArrayList<Object> inner;
@@ -307,8 +306,8 @@ public class AnimationController implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Before: " + StudentController.topars[2]);
-            String[] arr1 = StudentController.toMessageLog.split("], ");
+            System.out.println("Before: " + StudentController.topars[2]); // student message list
+            String[] arr1 = StudentController.toMessageLog.split("\\| ");
             arr1[0] = arr1[0].substring(1, arr1[0].length());
             arr1[arr1.length - 1] = arr1[arr1.length - 1].substring(0, arr1[arr1.length - 1].length() - 1);
             System.out.println("After: " + arr1[0] + " || " + arr1[arr1.length - 1]);
@@ -489,21 +488,19 @@ public class AnimationController implements Initializable {
                         gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
                                 twoDToIso(new Point(i * 16, j * 16)).y - node.image.getHeight() + 26);
 
-                    // adding this node to the dijkstraNodes
-                        if (firstMapDraw) addToDjikstraNodes (i, j - 1, 'H', node.name);
-                       if (housecontrol<nodes.size()){
-                           int x1 = twoDToIso(new Point(i * 16, j * 16)).x;
-                           int y1 = twoDToIso(new Point(i * 16, j * 16)).y;
-                           int[] arrh = new int[2];
-                           arrh[0] = x1;
-                           arrh[1] = y1;
-                           System.out.println("check");
-                           Rectangle n1 = new Rectangle(x1, y1 - 16, node.image.getHeight(), node.image.getHeight());
-                           Pair<Rectangle, DrawableObject> p = new Pair<Rectangle, DrawableObject>(n1, node);
-                           // System.out.println(n1.toString());
-                           houseinfo.add(p);
-                           housecontrol++;
-                      }
+                        // adding this node to the dijkstraNodes
+                        if (firstMapDraw) addToDjikstraNodes(i, j - 1, 'H', node.name);
+                        if (housecontrol < nodes.size()) { // add invisible rectangle to each house for message animation and additional information pop-up
+                            int x1 = twoDToIso(new Point(i * 16, j * 16)).x;
+                            int y1 = twoDToIso(new Point(i * 16, j * 16)).y;
+                            int[] arrh = new int[2];
+                            arrh[0] = x1;
+                            arrh[1] = y1;
+                            Rectangle n1 = new Rectangle(x1, y1 - 16, node.image.getHeight(), node.image.getHeight());
+                            Pair<Rectangle, DrawableObject> p = new Pair<Rectangle, DrawableObject>(n1, node);
+                            houseinfo.add(p);
+                            housecontrol++;
+                        }
                         //For printing the names above the houses
                         gc.strokeText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                 Point(i * 16, j * 16)).y - 16);
@@ -766,7 +763,7 @@ public class AnimationController implements Initializable {
         //Set necessary canvas and GraphicsContext properties
         canvas.setWidth((nodes.size() * 32) * mapScale + 80);
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
-        canvas.setOnMouseClicked(//MouseEvent.MOUSE_CLICKED  ActionEvent.ACTION_PERFORMED
+        canvas.setOnMouseClicked( // add mouse listener to call extended information pop-up when house is clicked
     	        new EventHandler<MouseEvent>() {
     	            @Override
     	            public void handle(MouseEvent t) {            

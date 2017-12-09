@@ -54,10 +54,10 @@ find_message (ID) ->
 
 message_loop(Messages,ID,Check)-> %message handling loop
   receive
-    {Pid,reset} ->
+    {Pid,reset} -> % reset message loop, when new map is uploaded
       Pid ! {self(), ok},
       message_loop([],0,0);
-    {Pid,confirm,Message}->
+    {Pid,confirm,Message}-> % message confirmation case
       [_,Num] = string:split(Message,"?"),
       %[C,_]=string:split(Num,"]"),
       {K,_}=string:to_integer(Num),
