@@ -98,7 +98,6 @@ public class TeacherController extends AnchorPane {
 	 */
 	@FXML
 	private void selectDiagram() throws IOException {
-
 	// checking if the file is uploaded before animation starts
 		String OS = System.getProperty("os.name").toLowerCase();
 		String mac= "./runserver.sh";
@@ -202,6 +201,7 @@ public class TeacherController extends AnchorPane {
 		} else
 			userController.dialog("FILE MISSING", "File not uploaded!");
 	}
+
       /**
 	 * This method is get the class and deployment diagram for each house and for draw different houses,
 	 * based on that information.

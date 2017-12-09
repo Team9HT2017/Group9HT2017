@@ -283,13 +283,14 @@ public class AnimationController implements Initializable {
         	if (!sending.equals("nothing")){ // if no message is available to send, nothing is sent to server
             TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}// sending message if it was found
         	else{
-        		System.out.println("Error");
+        		System.out.println("Error sending message. Message is: \"nothing\"");
         	}
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //Messagelog function
     public void logMessages(String msgs) {
         try {
             logs = Parser.parParsing(TeacherController.toParse); // message list
@@ -488,21 +489,19 @@ public class AnimationController implements Initializable {
                         gc.drawImage(node.image, twoDToIso(new Point(i * 16, j * 16)).x,
                                 twoDToIso(new Point(i * 16, j * 16)).y - node.image.getHeight() + 26);
 
-                    // adding this node to the dijkstraNodes
-                        if (firstMapDraw) addToDjikstraNodes (i, j - 1, 'H', node.name);
-                       if (housecontrol<nodes.size()){
-                           int x1 = twoDToIso(new Point(i * 16, j * 16)).x;
-                           int y1 = twoDToIso(new Point(i * 16, j * 16)).y;
-                           int[] arrh = new int[2];
-                           arrh[0] = x1;
-                           arrh[1] = y1;
-                           System.out.println("check");
-                           Rectangle n1 = new Rectangle(x1, y1 - 16, node.image.getHeight(), node.image.getHeight());
-                           Pair<Rectangle, DrawableObject> p = new Pair<Rectangle, DrawableObject>(n1, node);
-                           // System.out.println(n1.toString());
-                           houseinfo.add(p);
-                           housecontrol++;
-                      }
+                        // adding this node to the dijkstraNodes
+                        if (firstMapDraw) addToDjikstraNodes(i, j - 1, 'H', node.name);
+                        if (housecontrol < nodes.size()) { // add invisible rectangle to each house for message animation and additional information pop-up
+                            int x1 = twoDToIso(new Point(i * 16, j * 16)).x;
+                            int y1 = twoDToIso(new Point(i * 16, j * 16)).y;
+                            int[] arrh = new int[2];
+                            arrh[0] = x1;
+                            arrh[1] = y1;
+                            Rectangle n1 = new Rectangle(x1, y1 - 16, node.image.getHeight(), node.image.getHeight());
+                            Pair<Rectangle, DrawableObject> p = new Pair<Rectangle, DrawableObject>(n1, node);
+                            houseinfo.add(p);
+                            housecontrol++;
+                        }
                         //For printing the names above the houses
                         gc.strokeText(node.name.split("\\|")[0], twoDToIso(new Point(i * 16, j * 16)).x, twoDToIso(new
                                 Point(i * 16, j * 16)).y - 16);

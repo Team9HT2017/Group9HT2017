@@ -12,10 +12,9 @@ import javafx.util.Pair;
 
 public class TCPListener extends Thread {
 
-	public static int allowMessage =0; //priority counter
+    public static int allowMessage = 0; //priority counter
     public static String[] srcDest;
-    public static String messageReceiveLog=""; // for displaying message log in main window
-
+    public static String messageReceiveLog = ""; // for displaying message log in main window
     /**
      * Method for listening to the server to get incoming messages
      * and (for teacher only) username updates
@@ -25,19 +24,18 @@ public class TCPListener extends Thread {
 
         String serverSentence;
         String capitalizedSentence;
-        ServerSocket welcomeSocket = new ServerSocket (6789);
+        ServerSocket welcomeSocket = new ServerSocket(6789);
 
 
         while (true) {
-        
+
             Socket connectionSocket = welcomeSocket.accept ();
             System.out.println ("Received: " + (connectionSocket.toString()));
             BufferedReader inFromClient =
-                    new BufferedReader (new InputStreamReader (connectionSocket.getInputStream ()));
-            DataOutputStream outToClient = new DataOutputStream (connectionSocket.getOutputStream ());
-            serverSentence = inFromClient.readLine ();
-            System.out.println ("Received: " + (serverSentence));
-
+                    new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+            DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+            serverSentence = inFromClient.readLine();
+            System.out.println("Received: " + (serverSentence));
             String check = serverSentence.substring (serverSentence.length () - 4, serverSentence.length ()); // check if its teacher username update
             System.out.println ("Ident: " + (check)); 
             if (!check.equals ("!US!")) { //if incoming transmission is not teacher username update

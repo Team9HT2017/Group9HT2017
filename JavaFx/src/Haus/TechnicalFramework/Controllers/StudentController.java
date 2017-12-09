@@ -133,6 +133,7 @@ public class StudentController extends AnchorPane {
                 }
                 System.out.println("flow1= "+flow1.toString());
                 Parser.flows=flow1;
+
                 //to change to the animation page
                 Platform.runLater(new Runnable() {
                     @Override
