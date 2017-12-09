@@ -46,9 +46,9 @@ import javafx.scene.shape.Rectangle;
  * @author Leo Persson and Rema Salman
  * @author Laiz Figueroa
  * @version 1.1 Modification: Changed the layout and disposition of elements;
- * Added the settings functionality;
- * Changed some of the configurations for printing the user's name above the houses;
- * Deleted the settings functionality.
+ *          Added the settings functionality;
+ *          Changed some of the configurations for printing the user's name above the houses;
+ *          Deleted the settings functionality.
  */
 public class AnimationController implements Initializable {
 
@@ -61,7 +61,7 @@ public class AnimationController implements Initializable {
     int i = 1;
 
     int housecontrol=0;
-    
+
     private ArrayList <Pair<Rectangle,DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
@@ -149,8 +149,8 @@ public class AnimationController implements Initializable {
      * @throws Exception
      */
     @FXML
-    private void getScene1() throws Exception {
-        String Stopserver="./stopserver.sh";
+    private void leaveAnimation() throws Exception {
+        String stopServer = "./stopserver.sh";
         TeacherController.alert.close();
         TeacherController.uploaded = false;
         stage1 = (Stage) leaveAnimation.getScene().getWindow();
@@ -158,7 +158,7 @@ public class AnimationController implements Initializable {
         Main.getScene(root, stage1);
 
         if (TCPClient.studentUsername.isEmpty()) {
-            TeacherController.runScript(Stopserver);
+            TeacherController.runScript(stopServer);
         }
     }
 
@@ -267,10 +267,10 @@ public class AnimationController implements Initializable {
         } else {
             String[] check = StudentController.topars[2].split("\\|, ");  //get array of messages       
             for (int i = 0; i < check.length; i++) { // loop through array of messages
-              
+
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
                 	    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
-                		 
+
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
                     //StudentController.topars[2].replaceAll(check[i].substring(0, check[i].length()-2), ""); //delete this message after sending
@@ -767,20 +767,20 @@ public class AnimationController implements Initializable {
         canvas.setOnMouseClicked( // add mouse listener to call extended information pop-up when house is clicked
     	        new EventHandler<MouseEvent>() {
     	            @Override
-    	            public void handle(MouseEvent t) {            
+    	            public void handle(MouseEvent t) {
     	                 for (int m=0;m<houseinfo.size();m++){
-    	                	
+
     	                	// System.out.println(Arrays.toString(houseinfo.toArray()));
     	                	 if (houseinfo.get(m).getKey().contains(t.getX(),t.getY())){
-    	                		
+
     	                		 UserController.dialog("House info",houseinfo.get(m).getValue().name);
     	                	 }
-    	                
+
     	                 }
     	            }
     	        });
         canvas.setFocusTraversable(false);
-    	
+
         gc = canvas.getGraphicsContext2D();
         gc.setFont(new Font("Calibri", 10));
         gc.setFontSmoothingType(FontSmoothingType.GRAY);

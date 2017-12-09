@@ -103,14 +103,14 @@ public class TeacherController extends AnchorPane {
 		String OS = System.getProperty("os.name").toLowerCase();
 		String mac= "./runserver.sh";
 		String windows="./runwindows.sh";
-		/*
+
 		if (OS.contains("mac")){
                		runScript(mac);
 		}
            	else if (OS.contains("wind")) {
               		runScript(windows);
            	}
-           	*/
+
 		
 	// Section for: File chooser implementation
 	FileChooser json = new FileChooser();
