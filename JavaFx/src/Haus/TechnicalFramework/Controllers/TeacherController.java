@@ -3,6 +3,7 @@ package Haus.TechnicalFramework.Controllers;
 import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.DataHandler.Parser;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -165,14 +166,6 @@ public class TeacherController extends AnchorPane {
         String mac= "./runserver.sh";
         String windows="./runwindows.sh";
 		if (uploaded) {
-//		    if (OS.contains("mac"))
-//                runScript(mac);
-//
-//            else if (OS.contains("wind")) {
-//               runScript(windows);
-//
-//            }
-
 
 			try {
                 user = "teacher";
@@ -187,13 +180,23 @@ public class TeacherController extends AnchorPane {
 
 				//showStage();
                 diagramPath.getItems().clear();
-            	
-				// Showing the Splash(loading page)
-				teacherPane.getChildren().clear();
-                System.out.println(" this is executed");
-				teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
-                System.out.println("Not executed");
+
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+
+						try {
+							teacherPane.getChildren().clear();
+							teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+
+						} catch (IOException ex) {
+							Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
+						}
+					}
+				});
+
 			} catch (Exception e) {
+
 				userController.dialog("ERROR HANDELING", "Animation got corrupted!");
 				e.printStackTrace();
 			}
@@ -263,17 +266,6 @@ public class TeacherController extends AnchorPane {
 		return houses;
 	}
 
-	private void showStage() throws IOException {
-
-
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("../../PresentationUI/FXML/Splash.fxml"));
-
-		Parent root = fxmlloader.load();
-		stage.setTitle("Loading Animation ...");
-		stage.setScene(new Scene(root));
-		stage.show();
-
-	}
 
 	/**
 	 * Method for going back to the first page, in case no file has been uploaded
@@ -345,12 +337,6 @@ public class TeacherController extends AnchorPane {
         double p = progressBarTeacher.getProgress();
         // Updating the progress in the bar
         for (double i = p; i <= 10; i++) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             progressBarTeacher.setProgress(i + 0.1);
         }
     }
