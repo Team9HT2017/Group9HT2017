@@ -1,0 +1,263 @@
+{
+		"meta"	:	{
+				"format"	:	"DIT029	format",
+				"version"	:	"1.0",
+				"extensions"	:	[]
+		},
+		"type"	:	"sequence_diagram",
+		"processes"	:	[
+				{
+						"class"	:	"Gateway",
+						"name"	:	"g"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u1"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u2"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u3"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u4"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u5"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u6"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u7"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u8"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u9"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u10"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u11"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u12"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u13"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u14"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u15"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u16"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u17"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u18"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u19"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u20"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u21"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u22"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u23"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u24"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u25"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u26"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u27"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u28"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u29"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u30"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u31"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u32"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u33"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u34"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u35"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u36"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u37"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u38"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u39"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u40"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u41"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u42"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u43"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u44"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u45"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u46"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u47"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u48"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u49"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"u50"
+				}
+		],
+		"diagram"	:	{
+				"node"	:	"par",
+				"content"	:	[
+						{
+						"node"	:	"seq",
+						"content"	:	[
+								{
+	"node"	:	"send",
+										"from"	:	"u1",
+										"to"	:	"g",
+										"message"	:	["fwd",	"u2",	"msg1"]
+							 },
+								{
+										"node"	:	"send",
+										"from"	:	"u3",
+										"to"	:	"g",
+										"message"	:	["fwd",	"u1",	"msg2"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"g",
+										"to"	:	"u2",
+										"message"	:	["fwd", "u2",	"msg1"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"g",
+										"to"	:	"u1",
+										"message"	:	["fwd",	"u1",	"msg2"]
+								}]
+						},
+						{
+						"node"	:	"seq",
+						"content"	:	[
+								{
+										"node"	:	"send",
+										"from"	:	"u3",
+										"to"	:	"g",
+										"message"	:	["status"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"g",
+										"to"	:	"u3",
+										"message"	:	["ok"]
+								}]
+						}
+						]
+				}
+}
