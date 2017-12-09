@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "format": "DIT029	format",
+    "version": "1.0",
+    "extensions": []
+  },
+  "type": "sequence_diagram",
+  "processes": [
+    {
+      "class": "User",
+      "name": "u1"
+    },
+    {
+      "class": "User",
+      "name": "u2"
+    }
+  ],
+  "diagram": {
+    "node": "par",
+    "content": [
+      {
+        "node": "seq",
+        "content": [
+          {
+            "node": "send",
+            "from": "u1",
+            "to": "u2",
+            "message": [
+              "fwd",
+              "u2",
+              "msg1"
+            ]
+          },
+          {
+            "node": "send",
+            "from": "u2",
+            "to": "u1",
+            "message": [
+              "fwd",
+              "u20",
+              "msg2"
+            ]
+          },
+          {
+            "node": "send",
+            "from": "u1",
+            "to": "u2",
+            "message": [
+              "fwd",
+              "u2",
+              "msg3"
+            ]
+          },
+          {
+            "node": "send",
+            "from": "u1",
+            "to": "u2",
+            "message": [
+              "fwd",
+              "u2",
+              "msg4"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

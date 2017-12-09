@@ -1,0 +1,99 @@
+{
+		"meta"	:	{
+				"format"	:	"DIT029	format",
+				"version"	:	"1.0",
+				"extensions"	:	[]
+		},
+		"type"	:	"sequence_diagram",
+		"processes"	:	[
+				{
+						"class"	:	"User",
+						"name"	:	"Fahd"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"Laiz"
+				},
+				{
+						"class"	:	"User",
+						"name"	:	"Leo"
+				},
+			{
+					"class"	:	"User",
+					"name"	:	"Anthony"
+			},
+			{
+					"class"	:	"User",
+					"name"	:	"Rema"
+			},
+			{
+					"class"	:	"User",
+					"name"	:	"Michel"
+			},
+			{
+				"class"	:	"User",
+				"name"	:	"Michal"
+		},
+		{
+				"class"	:	"User",
+				"name"	:	"Aras"
+		},
+		{
+				"class"	:	"User",
+				"name"	:	"Andreas"
+		},
+		{
+				"class"	:	"User",
+				"name"	:	"Ericsson"
+		}
+		],
+		"diagram"	:	{
+				"node"	:	"par",
+				"content"	:	[
+						{
+						"node"	:	"seq",
+						"content"	:	[
+								{
+	"node"	:	"send",
+										"from"	:	"Leo",
+										"to"	:	"Laiz",
+										"message"	:	["fwd",	"u2",	"msg1"]
+							 },
+								{
+										"node"	:	"send",
+										"from"	:	"Rema",
+										"to"	:	"Michal",
+										"message"	:	["fwd",	"u1",	"msg2"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Michel",
+										"to"	:	"Fahd",
+										"message"	:	["fwd", "u2",	"msg1"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Ericsson",
+										"to"	:	"Anthony",
+										"message"	:	["fwd",	"u1",	"msg2"]
+								}]
+						},
+						{
+						"node"	:	"seq",
+						"content"	:	[
+								{
+										"node"	:	"send",
+										"from"	:	"Laiz",
+										"to"	:	"Rema",
+										"message"	:	["status"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Rema",
+										"to"	:	"Fahd",
+										"message"	:	["ok"]
+								}]
+						}
+						]
+				}
+}

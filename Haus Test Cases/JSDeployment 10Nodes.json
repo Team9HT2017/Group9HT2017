@@ -1,0 +1,53 @@
+{
+    "meta"	:	{
+            "format"	:	"DIT029	format",
+            "version"	:	"1.0",
+            "extensions"	:	[]
+    },
+    "type"	:	"sequence_diagram",
+    "processes"	:	[
+      {
+          "process"	:	"Fahd",
+          "device"	:	"Servidor"
+    },
+
+      {
+          "process"	:	"Laiz",
+          "device"	:	"Computer"
+      },
+      {
+          "process"	:	"Leo",
+          "device"	:	"Computer"
+      },
+      {
+          "process"	:	"Anthony",
+          "device"	:	"Computer"
+      },
+      {
+        "process"	:	"Rema",
+        "device"	:	"Computer"
+    },
+
+    {
+        "process"	:	"Michel",
+        "device"	:	"Servidor"
+    },
+    {
+        "process"	:	"Michal",
+        "device"	:	"Servidor"
+    },
+    {
+        "process"	:	"Aras",
+        "device"	:	"Mobile"
+    },
+    {
+        "process"	:	"Andreas",
+        "device"	:	"Mobile"
+    }, 
+    {
+        "process"	:	"Ericsson",
+        "device"	:	"Mobile"
+    }
+
+  ]
+}
