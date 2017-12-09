@@ -250,7 +250,7 @@ public class AnimationController implements Initializable {
                 }}
             }
         } else {
-            String[] check = StudentController.topars[2].split("], ");  //get array of messages       
+            String[] check = StudentController.topars[2].split("\\|, ");  //get array of messages       
             for (int i = 0; i < check.length; i++) { // loop through array of messages
               
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time

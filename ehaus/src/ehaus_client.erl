@@ -55,7 +55,7 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
       {IP, _} = Peer,
       Username = userNameHandler:assignUserName(IP),
       io:format("~p Map: ~n", [M]),
-      ok = gen_tcp:send(Socket, [M, <<"!*!">>, Username, "\n"]), % this is how we concatenate binary string, just put like a list
+      ok = gen_tcp:send(Socket, [M, <<"*">>, Username, "\n"]), % this is how we concatenate binary string, just put like a list
       ok = gen_tcp:shutdown(Socket, read_write),
       exit(normal);
     {tcp, Socket, InitialMessage} -> % all message requests
@@ -80,17 +80,15 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
           [ActualMessage, Type] = Mess,
           case Type of <<"SEND">> ->  % sender sends message
             R1 = string:split(ActualMessage, "to ", all),
-            Con=transferMessage:confirm_message(ActualMessage),
-            if Con =/= ok ->  loop(Parent, Debug, State);
-              Con=:=ok->
+            %Con=transferMessage:confirm_message(ActualMessage),
             gen_tcp:send(Socket, "Success\n"),
             io:format("~p Splitted.~n", [R1]),
             [_, Part] = R1,
             [To, _] = string:split(Part, ","),
             io:format("~p Recipient: ~n", [To]),
             RecipTry = userNameHandler:get_Username(To),
-            case RecipTry of [] -> ok; % no IP for this username
-              [{IP, _}] -> % single recipient found
+            case RecipTry of [] -> ok; % distribute(Users,Distributive)
+              [{IP, _}] ->
                 MessID = transferMessage:store_message(ActualMessage),
                 [{IP, _}] = RecipTry,
                 io:format("Message: ~p~n", [ActualMessage]),
@@ -98,10 +96,11 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
                 % SocketSend
                 io:format("Message ID: ~p~n", [MessID]),
                 ok = gen_tcp:send(SocketSend, ([integer_to_binary(MessID), ",", ActualMessage, "\n"]));
-              L-> K=[IP||{IP,_}<-L], % if many students have the same username
+              L-> K=[IP||{IP,_}<-L], % more users than nodes
+                Y=lists:usort(K),
                 MessID = transferMessage:store_message(ActualMessage),
-                distribute(K,([integer_to_binary(MessID), ",", ActualMessage, "\n"]))
-            end
+                distribute(Y,([integer_to_binary(MessID), ",", ActualMessage]))
+
             end;
             <<"CONFIRM">> ->    % recipient sends confirmation (ID of message as actual message)
               ForSearch = binary_to_integer(ActualMessage),
@@ -109,13 +108,13 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
               io:format("Message:~p~n", [Distributive]),
               Users = userNameHandler:get_list(),
               {ok, Peer1} = inet:peername(Socket),
-              {NoSend, _} = Peer1, % to not send message twice to recipient (currently disabled)
+              {NoSend, _} = Peer1,
               io:format("NoSend: ~p~n", [NoSend]),
               io:format("Users: ~p~n", [Users]),
               Check=[IP1||{IP1,Us}<-Users],%IP1=/=NoSend],
-              NoDups = lists:usort(Check), % remove duplicate IDs from list
+              NoDups = lists:usort(Check),
               io:format("Users2: ~p~n", [Check]),
-              distribute(NoDups, Distributive) % send message to all users
+              distribute(NoDups, Distributive)
             %[IP1||{IP1,_}<-Users,{ok,SocketSend}=gen_tcp:connect(IP1,6789,[]),gen_tcp:send(SocketSend,Distributive)]
             % end;
             %    <<"SEARCH">> ->
@@ -140,10 +139,12 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
   end.
 
 distribute([], Dist) -> ok;
-distribute([L | T], Dist) -> IP = L,
+distribute([L | T], Dist) -> IP = L,  % sending message to multiple users
   {ok, SocketSend} = gen_tcp:connect(IP, 6789, []),
   io:format("Distributing: ~p~n", [IP]),
-  gen_tcp:send(SocketSend, [Dist, "\n"]),
+  io:format("Socket: ~p~n", [SocketSend]),
+  K=gen_tcp:send(SocketSend, [Dist,"\n"]),
+  io:format("Result: ~p~n", [K]),
   distribute(T, Dist).
 
 

@@ -30,7 +30,7 @@ public class TCPListener extends Thread {
         while (true) {
         
             Socket connectionSocket = welcomeSocket.accept ();
-
+            System.out.println ("Received: " + (connectionSocket.toString()));
             BufferedReader inFromClient =
                     new BufferedReader (new InputStreamReader (connectionSocket.getInputStream ()));
             DataOutputStream outToClient = new DataOutputStream (connectionSocket.getOutputStream ());
