@@ -290,6 +290,7 @@ public class AnimationController implements Initializable {
         }
     }
 
+    //Messagelog function
     public void logMessages(String msgs) {
         try {
             logs = Parser.parParsing(TeacherController.toParse); // message list
