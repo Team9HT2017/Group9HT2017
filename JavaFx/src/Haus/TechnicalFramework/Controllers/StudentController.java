@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  * Class to give the student a specific interface for his/her to connect to the
@@ -117,7 +118,7 @@ public class StudentController extends AnchorPane {
                 IPServerStudent.setVisible(true);
                 inProgressBar();
                 //to request the information from the server
-                topars = (TCPClient.main("student", classID1.getText(), "hi")).split("~");
+                topars = (TCPClient.main("student", classID1.getText(), "hi")).split(Pattern.quote("~"));
                 System.out.println("Topars= "+Arrays.toString(topars));
                 toMessageLog = topars[1];
                 String flows = topars[3];
