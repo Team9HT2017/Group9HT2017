@@ -5,11 +5,6 @@
     -fx-background: #B0E2FF;
 }
 
-@font-face {
-    font-family: Century Gothic;
-    src: url('CenturyGothicRegular.ttf');
-}
-
 #animationPage {
     -fx-background-color: #111111;
 }
