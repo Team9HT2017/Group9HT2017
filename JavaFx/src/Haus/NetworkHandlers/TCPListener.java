@@ -14,9 +14,6 @@ public class TCPListener extends Thread {
 	public static int allowMessage =0; //priority counter
     public static String[] srcDest;
     public static String messageReceiveLog=""; // for displaying message log in main window
-	public static int allowMessage =0;
-    public static String[] srcDest;
-    public static String messageReceiveLog="";
 
     /**
      * Method for listening to the server to get incoming messages
