@@ -288,6 +288,7 @@ public class AnimationController implements Initializable {
             TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}// sending message if it was found
         	else{
         		System.out.println("Error sending message. Message is: \"nothing\"");
+                UserController.dialog ("Error sending message","You have no messages to send");
         	}
         } catch (Exception e) {
             e.printStackTrace();
