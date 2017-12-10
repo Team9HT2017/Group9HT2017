@@ -105,10 +105,10 @@ public class StudentController extends AnchorPane {
         if (classID1.getText() == null || classID1.getText().isEmpty()) {
             try {
                 userController.dialog("Missing Classroom ID",
-                        "Type the classroom ID provided by the teacher");
+                        "Type the classroom ID provided by the teacher", Alert.AlertType.WARNING);
             } catch (Exception e) {
                 e.printStackTrace();
-                userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
+                userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);
             }
 
         } else {
@@ -157,7 +157,7 @@ public class StudentController extends AnchorPane {
                 e.printStackTrace();
                 // notification to the user in case of connection to server not completed
                 userController.dialog("Loading Error",
-                        "Connection to the classroom got corrupted" + "\n" + "Please try again ...");
+                        "Connection to the classroom got corrupted" + "\n" + "Please try again ...", Alert.AlertType.ERROR);
             }
         }
     }
@@ -174,7 +174,7 @@ public class StudentController extends AnchorPane {
             studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml")));
         } catch (Exception e) {
             e.printStackTrace();
-            userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
+            userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);
         }
     }
 

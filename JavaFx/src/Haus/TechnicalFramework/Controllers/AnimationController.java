@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -125,19 +126,24 @@ public class AnimationController implements Initializable {
 
     public static List<Pair <String, Image>> deviceImages;
 
+    long lastUpdate = 0;
+
     AnimationTimer frameTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
-            redraw();
-            if (TCPClient.teacherUsername!=""){
-            username.setText(TCPClient.teacherUsername);}
-            else {
-            	username.setText(TCPClient.studentUsername);
-            }
-            if (TCPListener.messageReceiveLog!=messageLogCheck){
-            	messageLog.clear();
-            messageLog.appendText(TCPListener.messageReceiveLog);
-            messageLogCheck=TCPListener.messageReceiveLog;
+            if (now - lastUpdate >= 40_000_000) {
+                redraw();
+                if (TCPClient.teacherUsername != "") {
+                    username.setText(TCPClient.teacherUsername);
+                } else {
+                    username.setText(TCPClient.studentUsername);
+                }
+                if (TCPListener.messageReceiveLog != messageLogCheck) {
+                    messageLog.clear();
+                    messageLog.appendText(TCPListener.messageReceiveLog);
+                    messageLogCheck = TCPListener.messageReceiveLog;
+                }
+                lastUpdate = now ;
             }
         }
     };
@@ -160,6 +166,8 @@ public class AnimationController implements Initializable {
             }
         }
 
+        messageLog.setText("");
+        TCPListener.messageReceiveLog = "";
         stage1 = (Stage) leaveAnimation.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml"));
         Main.getScene(root, stage1);
@@ -290,7 +298,9 @@ public class AnimationController implements Initializable {
             }
             else{
         		System.out.println("Error sending message. Message is: \"nothing\"");
-                UserController.dialog ("Error sending message","You have no messages to send");
+
+                UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
+
         	}
         } catch (Exception e) {
             e.printStackTrace();
@@ -350,9 +360,9 @@ public class AnimationController implements Initializable {
         System.out.println("Creating DrawableObjects");
         nodes.clear();
         for (Object obj : map.keySet()) {
-            if (TeacherController.user.equals("teacher")) {
+            //if (TeacherController.user.equals("teacher")) {
                 nodes.add(new DrawableObject(obj, mapSize, mapSize));
-            }
+            //}
         }
 
         // Build 2d grid map ('G'rass): Fills up the entire grid with 'G' and then overwrites 'G' with 'H' and 'R' etc.
@@ -450,6 +460,7 @@ public class AnimationController implements Initializable {
             }
             initAnim(mapArr[0]);
             frameTimer.start();
+
             //redraw();
         }
         //case for when the current user is not a teacher (e.g. student) sets variables not set because of lack of runanim
@@ -596,6 +607,7 @@ public class AnimationController implements Initializable {
         Point pDest;
         Point pStart;
         if (runFirstFrame) {
+            sendMessage.setDisable(true);
             runFirstFrame = false;
             runDjikstra();
             i = Graph.pathArrayList.size() - 2;
@@ -636,6 +648,7 @@ public class AnimationController implements Initializable {
         if (i <= -1) {
             doAnimate = false;
             Graph.pathArrayList.clear();
+            sendMessage.setDisable(false);
         }
     }
 
@@ -768,7 +781,7 @@ public class AnimationController implements Initializable {
     	                	// System.out.println(Arrays.toString(houseinfo.toArray()));
     	                	 if (houseinfo.get(m).getKey().contains(t.getX(),t.getY())){
 
-    	                		 UserController.dialog("House info",houseinfo.get(m).getValue().name);
+    	                		 UserController.dialog("House info", houseinfo.get(m).getValue().name, Alert.AlertType.INFORMATION);
     	                	 }
 
     	                 }
