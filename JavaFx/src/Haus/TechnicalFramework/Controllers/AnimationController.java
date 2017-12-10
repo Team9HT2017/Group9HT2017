@@ -104,6 +104,8 @@ public class AnimationController implements Initializable {
 
     int framesPerSecond;
 
+    Boolean isConnected = true; // using for the leaving button
+
     //Load images:
     Image roadCross = new Image("/Haus/DataStorage/img/Isotile_roadCross.png");
     Image roadTminY = new Image("/Haus/DataStorage/img/Isotile_roadT-Y.png");
@@ -157,23 +159,24 @@ public class AnimationController implements Initializable {
     @FXML
     private void leaveAnimation() throws Exception {
         String stopServer;
+
         if (TeacherController.user == "teacher") {
             stopServer = "./stopserver.sh";
-            TeacherController.alert.close();
+            TeacherController.alert.close ();
             TeacherController.uploaded = false;
-            if (TCPClient.studentUsername.isEmpty()) {
-                TeacherController.runScript(stopServer);
+            isConnected = false;
+            if (TCPClient.studentUsername.isEmpty ()) {
+                TeacherController.runScript (stopServer);
             }
         }
+            messageLog.setText ("");
+            TCPListener.messageReceiveLog = "";
+            stage1 = (Stage) leaveAnimation.getScene ().getWindow ();
+            root = FXMLLoader.load (getClass ().getResource ("../../PresentationUI/FXML/UserSelection.fxml"));
+            Main.getScene (root, stage1);
 
-        messageLog.setText("");
-        TCPListener.messageReceiveLog = "";
-        stage1 = (Stage) leaveAnimation.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml"));
-        Main.getScene(root, stage1);
 
     }
-
     /**
      * Method to extract the last exchange between a specific sender and receiver .
      *param ArrayList of objects
@@ -461,6 +464,7 @@ public class AnimationController implements Initializable {
             initAnim(mapArr[0]);
             frameTimer.start();
 
+
             //redraw();
         }
         //case for when the current user is not a teacher (e.g. student) sets variables not set because of lack of runanim
@@ -475,6 +479,13 @@ public class AnimationController implements Initializable {
             initAnim(data[0]);
             frameTimer.start();
             //redraw();
+            if (!isConnected) {
+                try {
+                    leaveAnimation ();
+                } catch (Exception e) {
+                    e.printStackTrace ();
+                }
+            }
         }
     }
 
