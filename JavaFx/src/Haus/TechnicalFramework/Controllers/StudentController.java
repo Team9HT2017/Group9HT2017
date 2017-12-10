@@ -60,6 +60,7 @@ public class StudentController extends AnchorPane {
     UserController userController = new UserController();
     public static String[] topars;
     public static String toMessageLog;
+    public static String user;
 
 
     /**
@@ -117,8 +118,9 @@ public class StudentController extends AnchorPane {
                 progressBarStudent.setVisible(true);
                 IPServerStudent.setVisible(true);
                 inProgressBar();
+                user = "student";
                 //to request the information from the server
-                topars = (TCPClient.main("student", classID1.getText(), "hi")).split(Pattern.quote("~"));
+                topars = (TCPClient.main(user, classID1.getText(), "hi")).split(Pattern.quote("~"));
                 System.out.println("Topars= " + Arrays.toString(topars));
                 toMessageLog = topars[1];
                 String flows = topars[3];

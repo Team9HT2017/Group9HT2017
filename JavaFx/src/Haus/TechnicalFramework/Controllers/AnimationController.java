@@ -150,16 +150,20 @@ public class AnimationController implements Initializable {
      */
     @FXML
     private void leaveAnimation() throws Exception {
-        String stopServer = "./stopserver.sh";
-        TeacherController.alert.close();
-        TeacherController.uploaded = false;
+        String stopServer;
+        if (TeacherController.user == "teacher") {
+            stopServer = "./stopserver.sh";
+            TeacherController.alert.close();
+            TeacherController.uploaded = false;
+            if (TCPClient.studentUsername.isEmpty()) {
+                TeacherController.runScript(stopServer);
+            }
+        }
+
         stage1 = (Stage) leaveAnimation.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml"));
         Main.getScene(root, stage1);
 
-        if (TCPClient.studentUsername.isEmpty()) {
-            TeacherController.runScript(stopServer);
-        }
     }
 
     /**
@@ -602,21 +606,12 @@ public class AnimationController implements Initializable {
             dX = diffX / Math.abs(diffY);
             dY = diffY / Math.abs(diffY);
         }
-        if (i <= -1) {
-            doAnimate = false;
-            Graph.pathArrayList.clear();
-        }
+
         if (doAnimate && i != -1) {
 
-            //todo: put the start point to be in the start, not the end.
-
-
-
-            // System.out.println(Graph.pathArrayList);
-            //if()
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
-            if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
-            //if (x == pDest.x + 16 && y == pDest.y + 8 && i != 0) {
+           // if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
+            if (x == pDest.x + 16 && y == pDest.y + 8) {
                 x = pDest.x + 16;
                 y = pDest.y + 8;
                 i--;
@@ -634,6 +629,10 @@ public class AnimationController implements Initializable {
             y += dY;
 
             gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
+        }
+        if (i <= -1) {
+            doAnimate = false;
+            Graph.pathArrayList.clear();
         }
     }
 
