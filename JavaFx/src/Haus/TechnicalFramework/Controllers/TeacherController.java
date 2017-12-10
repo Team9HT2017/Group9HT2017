@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+
 import java.io.*;
 import java.net.Inet4Address;
 import java.util.*;
@@ -17,13 +18,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.util.Pair;
 
 /**
@@ -70,24 +72,17 @@ public class TeacherController extends AnchorPane {
     @FXML
     private Label IPServerTeacher;
 
+    UserController userController = new UserController();
     public static String toParse;
     public static String toParseC;
     public static String toParseD;
-    private Stage stage = new Stage();
     public static boolean uploaded = false;
-    UserController userController = new UserController();
     public static Alert alert;
-
     public static String user;
-
-    private Map classDiag = new HashMap<>();
-
-    private Map deploymentDiag = new HashMap<>();
-
-    private Map sequenceDiag = new HashMap<>();
-
     public static String map;
-
+    private Map classDiag = new HashMap<>();
+    private Map deploymentDiag = new HashMap<>();
+    private Map sequenceDiag = new HashMap<>();
 
     /**
      * Method to give action to the Select Diagram button on the TeacherMain
@@ -109,7 +104,6 @@ public class TeacherController extends AnchorPane {
             runScript(windows);
         }
 
-
         // Section for: File chooser implementation
         FileChooser json = new FileChooser();
         json.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
@@ -124,23 +118,28 @@ public class TeacherController extends AnchorPane {
                     if (selectedFile != null) {
                         diagramPath.getItems().add(selectedFile.getCanonicalFile());
                         String identifier = new Scanner(selectedFile).useDelimiter("\\Z").next();
+
                         if (identifier.contains("sequence_diagram")) {
                             toParse = new Scanner(selectedFile).useDelimiter("\\Z").next();
                             sequenceDiag = Parser.Parse2(TeacherController.toParse, false);
                             classId();
+
                         } else if (identifier.contains("class_diagram")) {
                             toParseC = new Scanner(selectedFile).useDelimiter("\\Z").next();
                             classDiag = Parser.Parse2(TeacherController.toParseC, false);
+
                         } else {
                             toParseD = new Scanner(selectedFile).useDelimiter("\\Z").next();
                             deploymentDiag = Parser.Parse2(TeacherController.toParseD, false);
                         }
                         uploaded = true;
+
                     } else {
                         System.out.println("File is not valid");
                         userController.dialog("File missing", "You have not chosen a file" + "\n" + "Please try again ...", Alert.AlertType.WARNING);
                     }
                 }
+
             } catch (Exception e) {
                 System.out.println("File not chosen");
                 e.printStackTrace();
@@ -159,10 +158,7 @@ public class TeacherController extends AnchorPane {
      */
     @FXML
     private void createAnimation() throws IOException {
-        // checking if the file is uploaded before animation starts
-        String OS = System.getProperty("os.name").toLowerCase();
-        String mac = "./runserver.sh";
-        String windows = "./runwindows.sh";
+
         if (uploaded) {
 
             try {
@@ -174,9 +170,7 @@ public class TeacherController extends AnchorPane {
                 System.out.println("Animation in progress");
                 String ip = Inet4Address.getLocalHost().getHostAddress();
                 TCPClient.main(user, ip, map);
-                //AnimationController.runAnim(Parser.Parse2(toParse,false));
 
-                //showStage();
                 diagramPath.getItems().clear();
 
                 Platform.runLater(new Runnable() {
@@ -211,14 +205,14 @@ public class TeacherController extends AnchorPane {
         String houses = "";
         for (DrawableObject node : AnimationController.nodes) {
             for (int e = 0; e < classDiag.keySet().size(); e++) { // add information from class diagram to each house
-                //System.out.println("Node="+node.name+"  Check="+(classDiag).keySet().toArray()[e].toString());
+
                 if (node.name.split("\\|")[1].equals((classDiag).keySet().toArray()[e].toString())) {
                     node.name = node.name + classDiag.get((classDiag).keySet().toArray()[e]);
                 }
             }
             for (int e = 0; e < deploymentDiag.keySet().size(); e++) { // add information from deployment diagram to each house
                 System.out.println("here " + (deploymentDiag).keySet().toArray()[e].toString());
-                //System.out.println("Node="+node.name+"  Check="+(classDiag).keySet().toArray()[e].toString());
+
                 if (node.name.split("\\|")[0].equals((deploymentDiag).keySet().toArray()[e].toString())) {
                     node.name = node.name + deploymentDiag.get((deploymentDiag).keySet().toArray()[e]);
                 }
@@ -286,21 +280,6 @@ public class TeacherController extends AnchorPane {
     }
 
     /**
-     * Method to load a pop up dialog to warn the user about loading problems.
-     *
-     * @param title string represents the dialog title
-     * @param msg   string represents the message of the error or a notification for
-     *              the user
-     */
-    private void dialog(String title, String msg) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
-    }
-
-    /**
      * Method to load a pop up dialog to provide the class number (IP) to the teacher.
      *
      * @throws Exception
@@ -319,8 +298,6 @@ public class TeacherController extends AnchorPane {
         alert.setY(20);
         alert.setResizable(false);
         alert.show();
-
-
     }
 
     /**
@@ -340,7 +317,7 @@ public class TeacherController extends AnchorPane {
      **/
 
     public static void runScript(String server) {
-        // String scriptName = "/usr/bin/open -a Terminal
+
         File file = new File(".");
         for (String fileNames : file.list())
             System.out.println(fileNames);
@@ -352,8 +329,6 @@ public class TeacherController extends AnchorPane {
                 pb.inheritIO();
                 Process process = pb.start();
 
-                // InputStream input = process.getInputStream();
-                // System.out.println(input);
                 int exitValue = process.waitFor();
 
                 if (exitValue != 0) {
@@ -375,10 +350,8 @@ public class TeacherController extends AnchorPane {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         });
 
         one.start();
-
     }
 }

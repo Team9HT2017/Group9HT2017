@@ -1,43 +1,63 @@
 package Haus.TechnicalFramework.AnimationObjects;
 
 import java.util.ArrayList;
-import java.io.*;
-import java.util.*;
+
+/**
+ * Class dijkstra nodes creation and implements the dijkstra shortest path algorithm.
+ *  Source code used from: https://rosettacode.org/wiki/Dijkstra%27s_algorithm#Java
+ *
+ * @author Leo Persson
+ * @version 1.0
+ * Creation: - adding variables declarations.
+ *           - class's constructor.
+ *
+ * @author Rema Salman
+ * @version 1.1
+ * Modification: - adding parameters to the class's constructor.
+ *               -  adding the class's methods.
+ */
 
 public class DjikstraNode {
     public int x, y;
-    public double[] nodeDistances;
-    public DrawableObject affiliatedHouse;
-    public static ArrayList<DjikstraNode> dijkstraNodes;
-    public ArrayList<DjikstraNode> neigbours; // an array for saving the connections between the Dijkstra nodes
-
     public char type;
     public String name;
 
+    public double[] nodeDistances;
+    public ArrayList<DjikstraNode> neigbours; // an array for saving the connections between the Dijkstra nodes
+
+    /**
+     * Class constructor
+     */
     public DjikstraNode (int x, int y, char type, String name) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.type = type;
-        //System.out.println("this dijNode is" + this.x + "," + this.y + affiliatedHouse.name);
         neigbours = new ArrayList<DjikstraNode> ();
     }
-
 
     /**
      * Method depending on math to calculate the distance between 2 Dijkstra nodes
      *
-     * @param dijkstraNodeFrom: the dijkstra node that the mail will from.
-     * @param dijkstraNodeTo    the dijkstra node the mail will be traveling to.
+     * @param dijkstraNodeFrom
+     * @param dijkstraNodeTo
+     * @return
      */
-    public double distance (DjikstraNode dijkstraNodeFrom, DjikstraNode dijkstraNodeTo) {
+    public double distance(DjikstraNode dijkstraNodeFrom, DjikstraNode dijkstraNodeTo) {
+        // dijkstraNodeFrom: the dijkstra node that the mail will from.
+        // dijkstraNodeTo: the dijkstra node the mail will be traveling to.
         double res = 0;
         res = Math.sqrt (Math.pow (dijkstraNodeFrom.x - dijkstraNodeTo.x, 2)
                 + Math.pow (dijkstraNodeFrom.y - dijkstraNodeTo.y, 2));
-        return res;
+        return res; // returning the distance between the source and destination
     }
 
-    public void addNiegbours (ArrayList<DjikstraNode> tree) {
+    /**
+     * Method adds niegbours into the specific node of the djikstra nodes tree
+     *
+     * @param tree
+     */
+    public void addNiegbours(ArrayList<DjikstraNode> tree) {
         for (DjikstraNode dn : tree) {
             if (dn.x == x && dn.y == y)
                 continue;
@@ -58,26 +78,23 @@ public class DjikstraNode {
         }
     }
 
-
+    /**
+     * Method implements the shortest path algorithm from the argument passed source and argument passed destination.
+     * The method uses the Graph.java where each dijkstra node is added as an edge in the Graph
+     *
+     * @param source
+     * @param destination
+     * @param nodes
+     */
     //source https://rosettacode.org/wiki/Dijkstra%27s_algorithm#Java
-    public static void shortestPathAlgorithm (DjikstraNode source, DjikstraNode destination, ArrayList<DjikstraNode> nodes) {
+    public static void shortestPathAlgorithm(DjikstraNode source, DjikstraNode destination, ArrayList<DjikstraNode> nodes) {
         ArrayList<Graph.Edge> edges = new ArrayList<Graph.Edge> ();
         for (DjikstraNode dji : nodes)
             for (int i = 0; i < dji.neigbours.size (); i++) {
                 edges.add (new Graph.Edge (dji.x + "," + dji.y, dji.neigbours.get (i).x + "," + dji.neigbours.get (i).y, dji.nodeDistances[i]));
-               // System.out.println (dji.x + "," + dji.y + "-->" + dji.neigbours.get (i).x + "," + dji.neigbours.get (i).y + "  d=" + dji.nodeDistances[i]);
             }
-
         Graph g = new Graph (edges.toArray (new Graph.Edge[edges.size ()]));
         g.dijkstra (source.x + "," + source.y);
         g.printPath (destination.x + "," + destination.y);
     }
-
-
-//    @Override
-//    public boolean equals (Object o) {
-//        return (o instanceof DjikstraNode) && (x == ((DjikstraNode) o).x && y == ((DjikstraNode) o).y);
-//    }
-
-
 }
