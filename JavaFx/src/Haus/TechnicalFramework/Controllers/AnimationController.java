@@ -126,19 +126,24 @@ public class AnimationController implements Initializable {
 
     public static List<Pair <String, Image>> deviceImages;
 
+    long lastUpdate = 0;
+
     AnimationTimer frameTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
-            redraw();
-            if (TCPClient.teacherUsername!=""){
-            username.setText(TCPClient.teacherUsername);}
-            else {
-            	username.setText(TCPClient.studentUsername);
-            }
-            if (TCPListener.messageReceiveLog!=messageLogCheck){
-            	messageLog.clear();
-            messageLog.appendText(TCPListener.messageReceiveLog);
-            messageLogCheck=TCPListener.messageReceiveLog;
+            if (now - lastUpdate >= 28_000_000) {
+                redraw();
+                if (TCPClient.teacherUsername != "") {
+                    username.setText(TCPClient.teacherUsername);
+                } else {
+                    username.setText(TCPClient.studentUsername);
+                }
+                if (TCPListener.messageReceiveLog != messageLogCheck) {
+                    messageLog.clear();
+                    messageLog.appendText(TCPListener.messageReceiveLog);
+                    messageLogCheck = TCPListener.messageReceiveLog;
+                }
+                lastUpdate = now ;
             }
             frameTimer.stop();
         }
@@ -162,6 +167,8 @@ public class AnimationController implements Initializable {
             }
         }
 
+        messageLog.setText("");
+        TCPListener.messageReceiveLog = "";
         stage1 = (Stage) leaveAnimation.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml"));
         Main.getScene(root, stage1);
@@ -597,6 +604,7 @@ public class AnimationController implements Initializable {
         Point pDest;
         Point pStart;
         if (runFirstFrame) {
+            sendMessage.setDisable(true);
             runFirstFrame = false;
             runDjikstra();
             i = Graph.pathArrayList.size() - 2;
@@ -637,6 +645,7 @@ public class AnimationController implements Initializable {
         if (i <= -1) {
             doAnimate = false;
             Graph.pathArrayList.clear();
+            sendMessage.setDisable(false);
         }
     }
 
