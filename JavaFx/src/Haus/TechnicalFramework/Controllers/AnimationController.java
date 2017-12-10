@@ -104,7 +104,6 @@ public class AnimationController implements Initializable {
 
     int framesPerSecond;
 
-    Boolean isConnected = true; // using for the leaving button
 
     //Load images:
     Image roadCross = new Image("/Haus/DataStorage/img/Isotile_roadCross.png");
@@ -164,7 +163,6 @@ public class AnimationController implements Initializable {
             stopServer = "./stopserver.sh";
             TeacherController.alert.close ();
             TeacherController.uploaded = false;
-            isConnected = false;
             if (TCPClient.studentUsername.isEmpty ()) {
                 TeacherController.runScript (stopServer);
             }
@@ -479,13 +477,7 @@ public class AnimationController implements Initializable {
             initAnim(data[0]);
             frameTimer.start();
             //redraw();
-            if (!isConnected) {
-                try {
-                    leaveAnimation ();
-                } catch (Exception e) {
-                    e.printStackTrace ();
-                }
-            }
+
         }
     }
 
