@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -65,7 +66,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-       
+
         Parent Root = FXMLLoader.load(getClass().getResource("../PresentationUI/FXML/UserSelection.fxml"));
         getScene(Root, primaryStage);
     }
