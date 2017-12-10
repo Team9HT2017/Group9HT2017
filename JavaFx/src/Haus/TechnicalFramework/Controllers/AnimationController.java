@@ -131,7 +131,7 @@ public class AnimationController implements Initializable {
     AnimationTimer frameTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
-            if (now - lastUpdate >= 28_000_000) {
+            if (now - lastUpdate >= 40_000_000) {
                 redraw();
                 if (TCPClient.teacherUsername != "") {
                     username.setText(TCPClient.teacherUsername);
@@ -145,7 +145,6 @@ public class AnimationController implements Initializable {
                 }
                 lastUpdate = now ;
             }
-            frameTimer.stop();
         }
     };
 
