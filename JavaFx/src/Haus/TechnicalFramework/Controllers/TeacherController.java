@@ -138,7 +138,7 @@ public class TeacherController extends AnchorPane {
                         uploaded = true;
                     } else {
                         System.out.println("File is not valid");
-                        userController.dialog("File missing", "You have not chosen a file" + "\n" + "Please try again ...");
+                        userController.dialog("File missing", "You have not chosen a file" + "\n" + "Please try again ...", Alert.AlertType.WARNING);
                     }
                 }
             } catch (Exception e) {
@@ -195,12 +195,12 @@ public class TeacherController extends AnchorPane {
 
             } catch (Exception e) {
 
-                userController.dialog("ERROR HANDELING", "Animation got corrupted!");
+                userController.dialog("ERROR HANDELING", "Animation got corrupted!", Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
             // if the file is not already uploaded
         } else
-            userController.dialog("FILE MISSING", "File not uploaded!");
+            userController.dialog("FILE MISSING", "File not uploaded!", Alert.AlertType.WARNING);
     }
 
     /**
@@ -273,7 +273,7 @@ public class TeacherController extends AnchorPane {
         if (uploaded) {
             backButton.disableProperty();
             backButton.disabledProperty();
-            userController.dialog("FILE UPLOADED", "You have already chosen a file to be animated");
+            userController.dialog("FILE UPLOADED", "You have already chosen a file to be animated", Alert.AlertType.WARNING);
         } else {
             try {
                 teacherPane.getChildren().clear();

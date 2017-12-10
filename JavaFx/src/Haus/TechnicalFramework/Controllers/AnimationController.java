@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -139,6 +140,7 @@ public class AnimationController implements Initializable {
             messageLog.appendText(TCPListener.messageReceiveLog);
             messageLogCheck=TCPListener.messageReceiveLog;
             }
+            frameTimer.stop();
         }
     };
 
@@ -288,7 +290,7 @@ public class AnimationController implements Initializable {
             TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}// sending message if it was found
         	else{
         		System.out.println("Error sending message. Message is: \"nothing\"");
-                UserController.dialog ("Error sending message","You have no messages to send");
+                UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
         	}
         } catch (Exception e) {
             e.printStackTrace();
@@ -448,6 +450,7 @@ public class AnimationController implements Initializable {
             }
             initAnim(mapArr[0]);
             frameTimer.start();
+
             //redraw();
         }
         //case for when the current user is not a teacher (e.g. student) sets variables not set because of lack of runanim
@@ -766,7 +769,7 @@ public class AnimationController implements Initializable {
     	                	// System.out.println(Arrays.toString(houseinfo.toArray()));
     	                	 if (houseinfo.get(m).getKey().contains(t.getX(),t.getY())){
 
-    	                		 UserController.dialog("House info",houseinfo.get(m).getValue().name);
+    	                		 UserController.dialog("House info", houseinfo.get(m).getValue().name, Alert.AlertType.INFORMATION);
     	                	 }
 
     	                 }

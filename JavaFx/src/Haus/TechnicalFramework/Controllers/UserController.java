@@ -33,6 +33,8 @@ public class UserController {
     @FXML
     private AnchorPane first;
 
+    public static Alert alert;
+
     /**
      * Method to give action to the Create class button, which change the
      * UserSelection anchorPane into the teacher's anchorPane, after clearing the
@@ -47,7 +49,7 @@ public class UserController {
             first.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/TeacherMain.fxml")));
 
         } catch (IOException e) {
-            dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
+            dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -66,7 +68,7 @@ public class UserController {
             first.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/StudentMain.fxml")));
 
         } catch (IOException e) {
-            dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...");
+            dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -78,8 +80,8 @@ public class UserController {
      * @param msg   string represents the message of the error or a notification for
      *              the user
      */
-    public static void dialog(String title, String msg) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    public static void dialog(String title, String msg, Alert.AlertType type) {
+        alert = new Alert(type);
         alert.setTitle(title);
         alert.setResizable(false);
         alert.setHeaderText(null);
