@@ -284,10 +284,13 @@ public class AnimationController implements Initializable {
         }
         try {
             //TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
-        	if (!sending.equals("nothing")){ // if no message is available to send, nothing is sent to server
-            TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);}// sending message if it was found
-        	else{
+        	if (!sending.equals("nothing")) { // if no message is available to send, nothing is sent to server
+                TCPClient.sendMessage (sending.replaceAll ("\\\\", ""), false);// sending message if it was found
+               // UserController.dialog ("Error sending message", "You have no messages to send");
+            }
+            else{
         		System.out.println("Error sending message. Message is: \"nothing\"");
+                UserController.dialog ("Error sending message","You have no messages to send");
         	}
         } catch (Exception e) {
             e.printStackTrace();
