@@ -5,6 +5,7 @@ import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -82,6 +83,7 @@ public class Main extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight() * 0.94);
         primaryStage.setTitle("Haus Diagram Simulator");
+        primaryStage.getIcons().add(new Image("/Haus/DataStorage/img/HAUSIcon.png"));
         primaryStage.setResizable(false);
         primaryStage.setX(0);
         primaryStage.setY(0);
