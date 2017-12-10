@@ -9,9 +9,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * @Author Anthony;
@@ -43,15 +45,17 @@ SOFTWARE.
 
 public class Parser {
 
+	static ArrayList<ArrayList<Object>> par2 = new ArrayList<>();
     private static String str = null;
     public static ArrayList<String> source = new ArrayList<> ();
     public static ArrayList<String> distination = new ArrayList<> ();
     public static Map<String,String> sourceNdistanation = new HashMap<String, String>();
     public static Map<Integer,Integer> flows = new HashMap<Integer,Integer>();
     static int flowNumber=0;
+    static int check=0;
     
-    public static void main (String [] args){
-    	File file = new File ("C:\\\\Users\\\\Lone ranger\\\\Desktop\\\\testJS.json");
+    public static void main (String [] args){ //main method for testing
+    	File file = new File ("C:\\\\Users\\\\Lone ranger\\\\Desktop\\\\testJS1satan.json");
     	String toParse = "";
 		try {
 			toParse = new Scanner(file).useDelimiter("\\Z").next();
@@ -59,9 +63,16 @@ public class Parser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("In order= "+Arrays.toString(ParseInorder(toParse).toArray()));
-    	System.out.println("New= "+Arrays.toString(parParsing(toParse).toArray()));
+		try{
+		System.out.println("In order= "+Arrays.toString(parParsing(toParse).toArray()));}
+		catch (Exception E){
+			System.out.println("Nope");
+		}
+    	System.out.println("New= "+Arrays.toString(parParsingNested(toParse).toArray()));
+    	ArrayList<ArrayList<Object>> np= new ArrayList<ArrayList<Object>> (new LinkedHashSet<>(parParsingNested(toParse)));
+    
     	System.out.println("Flows= "+flows.toString());
+    	System.out.println("No dups="+np);
     }
     
     
@@ -429,6 +440,187 @@ public class Parser {
         return par;
         
     }
+    
+    
+    
+    
+    
+    public static ArrayList<ArrayList<Object>> parParsingNested(String Parse) {
+
+        ArrayList<ArrayList<Object>> par = new ArrayList<>();
+        ArrayList<Object> contents = new ArrayList<>();
+        str = Parse.replaceAll("\\s+", " "); //remove all long spaces (more than 1) to prevent parser from crashing
+        JSONObject res = new JSONObject(str); //create JSON object from input
+        Object type = res.get("type");
+
+        if (type.equals("sequence_diagram")) {
+
+            JSONObject diagramElements = res.getJSONObject("diagram"); // pick array that contains high-level information about messages
+            for (int d=0;d<diagramElements.length();d++){
+            	check=d;
+            	if (!diagramElements.get("node").toString().equals("par")) {
+            		
+
+                    JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
+                  //  System.out.println(diagramElements2.toString());
+                   // System.out.println("1= "+diagramElements2.get(0));
+                  //  System.out.println("2= "+diagramElements2.get(1));
+                    Map<Object, Object> checkReply = new HashMap<>();
+
+                    //JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+                    try{
+                    for (int i = 0; i < diagramElements2.length(); i++) {
+                    	//dissect(diagramElements2,d);
+                    //	System.out.println(Arrays.toString(par2.toArray()));
+                    	if (!flows.containsKey(d)){//indexes are buggy
+                        	flows.put(d, 0);}
+                    	  // System.out.println("L= "+diagramElements.get("node"));
+                        JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+                       // contents = new ArrayList<>();
+                        for (int j = 0; j < temp.length(); j++) {
+                        	
+                                 {
+
+                                contents.add(" { " + temp.getJSONObject(j).get("from"));
+                                contents.add(" "+ temp.getJSONObject(j).get("node"));
+                                contents.add("to " + temp.getJSONObject(j).get("to"));
+                                contents.add("the following message " + temp.getJSONObject(j).get("message") + " } "+"="+(d)+"@"+j+"|");//indexes are buggy
+                            }
+                        }
+                        if (!par2.contains(contents.toString())){
+                        	
+                        par2.add(contents);flowNumber++;}
+                        
+                    }
+            	} catch (Exception e){
+            		dissect(diagramElements2,d);
+            	}
+            	}
+            	else if (diagramElements.get("node").toString().equals("par")) {
+
+                JSONArray diagramElements2 = diagramElements.getJSONArray("content"); // "digging" into nested JSON that contains messages
+              //  System.out.println(diagramElements2.toString());
+               // System.out.println("1= "+diagramElements2.get(0));
+              //  System.out.println("2= "+diagramElements2.get(1));
+                Map<Object, Object> checkReply = new HashMap<>();
+
+                //JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+          try {
+                for (int i = 0; i < diagramElements2.length(); i++) {
+                	if (!flows.containsKey(i+d)){//indexes are buggy
+                	flows.put(i+d, 0);}
+                	  // System.out.println("L= "+diagramElements.get("node"));
+                    JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+                    flowNumber++;
+                 //   contents = new ArrayList<>();
+                    for (int j = 0; j < temp.length(); j++) {
+                             {
+
+                            contents.add(" { " + temp.getJSONObject(j).get("from"));
+                            contents.add(" "+ temp.getJSONObject(j).get("node"));
+                            contents.add("to " + temp.getJSONObject(j).get("to"));
+                            contents.add("the following message " + temp.getJSONObject(j).get("message") + " } "+"="+(i+d)+"@"+j+"|");//indexes are buggy
+                        }
+                    }
+                    if (!par2.contains(contents)){
+                    par2.add(contents);}
+                }
+      }catch (Exception e){
+    	  dissect(diagramElements2,d);
+       }
+                
+                
+            }
+        }
+    }
+        return par2;
+        
+    }
+  
+    public static void dissect (JSONArray diagramElements, int h){
+    	 ArrayList<Object> contents = new ArrayList<>();
+    	for (int d=0;d<diagramElements.length();d++){
+    		//check=d;
+    	//	System.out.println("D="+diagramElements.getJSONObject(d).get("node"));
+    	if (!diagramElements.getJSONObject(d).get("node").toString().equals("par")) {
+    		
+
+         //   JSONArray diagramElements2 = diagramElements.getJSONObject(d).getJSONArray("content"); // "digging" into nested JSON that contains messages
+          //  System.out.println(diagramElements2.toString());
+           // System.out.println("1= "+diagramElements2.get(0));
+          //  System.out.println("2= "+diagramElements2.get(1));
+            Map<Object, Object> checkReply = new HashMap<>();
+
+            //JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+
+      //      for (int i = 0; i < diagramElements2.length(); i++) {
+            	//if (!flows.containsKey(i)){ //indexes are buggy
+                //	flows.put(i, 0);}
+            	  // System.out.println("L= "+diagramElements.get("node"));
+                JSONArray temp = diagramElements.getJSONObject(d).getJSONArray("content"); // "digging" into nested JSON that contains messages
+               // contents = new ArrayList<>();
+                for (int j = 0; j < temp.length(); j++) {
+                	if (!flows.containsKey(h)){
+                    	flows.put(h, 0);}
+                         {
+
+                        contents.add(" { " + temp.getJSONObject(j).get("from"));
+                        contents.add(" "+ temp.getJSONObject(j).get("node"));
+                        contents.add("to " + temp.getJSONObject(j).get("to"));
+                        contents.add("the following message " + temp.getJSONObject(j).get("message") + " } "+"="+(h)+"@"+j+"|");//indexes are buggy
+                    }
+                }
+                if (!par2.contains(contents)){
+                par2.add(contents);flowNumber++;}
+                
+            }
+        
+    
+    		
+    		
+    	
+    	else if (diagramElements.getJSONObject(d).get("node").toString().equals("par")) {
+
+        JSONArray diagramElements2 = diagramElements.getJSONObject(d).getJSONArray("content"); // "digging" into nested JSON that contains messages
+      //  System.out.println(diagramElements2.toString());
+       // System.out.println("1= "+diagramElements2.get(0));
+      //  System.out.println("2= "+diagramElements2.get(1));
+        Map<Object, Object> checkReply = new HashMap<>();
+
+        //JSONArray messages = new JSONArray();  // "digging" into nested JSON that contains messages
+
+        for (int i = 0; i < diagramElements2.length(); i++) {
+        	if (!flows.containsKey(i+h)){//indexes are buggy
+        	flows.put(i+h, 0);}
+        	  // System.out.println("L= "+diagramElements.get("node"));
+            JSONArray temp = diagramElements2.getJSONObject(i).getJSONArray("content"); // "digging" into nested JSON that contains messages
+            flowNumber++;
+         //   contents = new ArrayList<>();
+            for (int j = 0; j < temp.length(); j++) {
+                     {
+
+                    contents.add(" { " + temp.getJSONObject(j).get("from"));
+                    contents.add(" "+ temp.getJSONObject(j).get("node"));
+                    contents.add("to " + temp.getJSONObject(j).get("to"));
+                    contents.add("the following message " + temp.getJSONObject(j).get("message") + " } "+"="+(i+h)+"@"+j+"|");//indexes are buggy
+                }
+            }
+            if (!par2.contains(contents)){
+            par2.add(contents);}
+        }
+    }}
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 }
