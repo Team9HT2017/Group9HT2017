@@ -1,5 +1,10 @@
-# Group9HT2017
-Git repo for the HT 2017 project about distributed systems
-For Mac Users: Instructions on how to interact with the application.
-The user of the application must have rebar3 installed on his desktop in order to launch the server, as well as the repository of the project. After That the user must open the terminal and type 
-cd Desktop/Group9HT2017/JavaFX/src  and then chmod +x runserver.sh so you can give the file the execute permission.Subsequently you can launch the application and upload your file with the provided formats and visualize the animation.
+# Group9HT2017 - HAUS (House-animated UML Simlulator)
+Welcome to the Git repository for the HT 2017 project about distributed systems!
+
+First launch instructions:
+1. Select the latest release from https://github.com/Team9HT2017/Group9HT2017/releases
+2. Extract the downloaded folder and run HAUS.jar
+
+NOTE: Microsoft Windows and Linux are not natively supported by the application to run the server software, thus the teacher side of the application is only compatible with macOS and OS X.
+
+
