@@ -602,10 +602,6 @@ public class AnimationController implements Initializable {
             dX = diffX / Math.abs(diffY);
             dY = diffY / Math.abs(diffY);
         }
-        if (i <= -1) {
-            doAnimate = false;
-            Graph.pathArrayList.clear();
-        }
         if (doAnimate && i != -1) {
 
             //todo: put the start point to be in the start, not the end.
@@ -616,7 +612,7 @@ public class AnimationController implements Initializable {
             //if()
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
             if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
-            //if (x == pDest.x + 16 && y == pDest.y + 8 && i != 0) {
+            //if (x == pDest.x + 16 && y == pDest.y + 8) {
                 x = pDest.x + 16;
                 y = pDest.y + 8;
                 i--;
@@ -634,6 +630,10 @@ public class AnimationController implements Initializable {
             y += dY;
 
             gc.drawImage(bubble, x - bubble.getWidth() / 2, y - bubble.getHeight());
+        }
+        if (i <= -1) {
+            doAnimate = false;
+            Graph.pathArrayList.clear();
         }
     }
 
