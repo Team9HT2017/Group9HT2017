@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Haus.TechnicalFramework.Controllers.TeacherController">
+<AnchorPane fx:id="teacherPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Controllers.TeacherController">
     <children>
         <GridPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;">
             <columnConstraints>
@@ -50,7 +50,7 @@
                     <graphic>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image preserveRatio="false" smooth="false" url="/Haus/DataStorage/img/backButton.png" />
+                                <Image preserveRatio="false" smooth="false" url="@../../MVC/Content/img/backButton.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -60,7 +60,7 @@
                         <Insets left="170.0" right="30.0" top="100.0" />
                     </GridPane.margin>
                     <image>
-                        <Image url="@../../DataStorage/img/Teacher.png" />
+                        <Image url="@../../MVC/Content/img/Teacher.png" />
                     </image>
                 </ImageView>
                 <ProgressBar fx:id="progressBarTeacher" prefHeight="19.0" prefWidth="305.0" progress="0.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
