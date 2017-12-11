@@ -114,7 +114,7 @@ public class AnimationController implements Initializable {
     Image roadCurveNorth = new Image("MVC/Content/img/Isotile_roadv.png");
     Image roadCurveEast = new Image("MVC/Content/img/Isotile_road{.png");
     Image roadYY = new Image("MVC/Content/img/Isotile_roadY.png");
-    Image roadXX = new Image("MVC/Content/img/img/Isotile_road.png");
+    Image roadXX = new Image("MVC/Content/img/Isotile_road.png");
     //Aesthetic images
     Image tree = new Image("MVC/Content/img/Isotile_tree.png");
     Image grass = new Image("MVC/Content/img/Isotile_grass.png");

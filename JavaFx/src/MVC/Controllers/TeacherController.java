@@ -2,6 +2,8 @@ package MVC.Controllers;
 
 import MVC.Models.NetworkHandlers.TCPClient;
 import MVC.Models.AnimationObject.DrawableObject;
+import MVC.Controllers.AnimationController;
+import MVC.Controllers.UserController;
 import MVC.Models.Parser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,6 +23,7 @@ import java.util.Scanner;
 
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -178,7 +181,7 @@ public class TeacherController extends AnchorPane {
 
                         try {
                             teacherPane.getChildren().clear();
-                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("MVC/Views/AnimationPage.fxml")));
+                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Controllers/AnimationPage.fxml")));
 
                         } catch (IOException ex) {
                             Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -270,7 +273,7 @@ public class TeacherController extends AnchorPane {
         } else {
             try {
                 teacherPane.getChildren().clear();
-                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("MVC/Views/UserSelection.fxml")));
+                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml")));
 
             } catch (Exception e) {
                 e.printStackTrace();
