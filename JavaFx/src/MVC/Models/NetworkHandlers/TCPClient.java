@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
  *
  * @author Anthony Path and Laiz Figueroa
  * @version 1.0
- *
  */
 
 public class TCPClient {
