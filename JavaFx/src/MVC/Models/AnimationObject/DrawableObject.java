@@ -1,7 +1,5 @@
-package MVC.TechnicalFramework.AnimationObjects;
+package MVC.Models.AnimationObject;
 
-import Haus.TechnicalFramework.Controllers.AnimationController;
-import Haus.TechnicalFramework.Controllers.TeacherController;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 

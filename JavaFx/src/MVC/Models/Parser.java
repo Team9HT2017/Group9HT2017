@@ -1,4 +1,4 @@
-package MVC.TechnicalFramework.DataHandler;
+package MVC.Models;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

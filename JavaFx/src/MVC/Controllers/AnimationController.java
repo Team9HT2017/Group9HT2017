@@ -1,17 +1,8 @@
 package MVC.Controllers;
 
-import Haus.NetworkHandlers.TCPClient;
-import Haus.NetworkHandlers.TCPListener;
-import Haus.TechnicalFramework.AnimationObjects.DjikstraNode;
-import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
-import Haus.TechnicalFramework.AnimationObjects.Graph;
-import Haus.TechnicalFramework.AnimationObjects.Road;
-import Haus.PresentationUI.Main;
-import Haus.TechnicalFramework.Controllers.StudentController;
-import Haus.TechnicalFramework.Controllers.TeacherController;
-import Haus.TechnicalFramework.Controllers.UserController;
-import Haus.TechnicalFramework.DataHandler.Parser;
-import javafx.animation.Animation;
+import MVC.Models.AnimationObject.DrawableObject;
+import MVC.Models.AnimationObject.Road;
+import MVC.Models.NetworkHandlers.TCPClient;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.PickResult;
 import javafx.scene.text.FontSmoothingType;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -66,7 +56,7 @@ public class AnimationController implements Initializable {
 
     int housecontrol=0;
 
-    private ArrayList <Pair<Rectangle,DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
+    private ArrayList <Pair<Rectangle, DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
 
     public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
 
@@ -162,12 +152,12 @@ public class AnimationController implements Initializable {
     private void leaveAnimation() throws Exception {
         String stopServer;
 
-        if (Haus.TechnicalFramework.Controllers.TeacherController.user == "teacher") {
+        if (TeacherController.user == "teacher") {
             stopServer = "./stopserver.sh";
-            Haus.TechnicalFramework.Controllers.TeacherController.alert.close ();
-            Haus.TechnicalFramework.Controllers.TeacherController.uploaded = false;
+            TeacherController.alert.close ();
+            TeacherController.uploaded = false;
             if (TCPClient.studentUsername.isEmpty ()) {
-                Haus.TechnicalFramework.Controllers.TeacherController.runScript (stopServer);
+                TeacherController.runScript (stopServer);
             }
         }
             messageLog.setText ("");
@@ -184,7 +174,7 @@ public class AnimationController implements Initializable {
      */
     private  ArrayList<Object> priorityMessaging (String message ) {
 
-        ArrayList<ArrayList<Object>> input = Parser.ParseInorder(Haus.TechnicalFramework.Controllers.TeacherController.toParse);
+        ArrayList<ArrayList<Object>> input = Parser.ParseInorder(TeacherController.toParse);
         ArrayList<Object> inner  ;
         ArrayList<Object> messages =new ArrayList<>();
 
@@ -221,7 +211,7 @@ public class AnimationController implements Initializable {
      *param Sender , Receiver
      */
     public static boolean checkOrder (String sender, String receiver ){
-        ArrayList<ArrayList<Object>> result = Parser.ParseInorder(Haus.TechnicalFramework.Controllers.TeacherController.toParse);
+        ArrayList<ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse);
 
         int pos1=0;
         int pos2=0;
@@ -271,7 +261,7 @@ public class AnimationController implements Initializable {
               //  System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
             	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
             	for (int b=0;b<mess.length;b++){ // loop through teacher username(s) to find highest priority message
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
+                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send only one message at a time
                     && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
                     System.out.println("Check== " + check[i]); // print message that is being sent
                     sending = check[i];
@@ -281,7 +271,7 @@ public class AnimationController implements Initializable {
                 }}
             }
         } else {
-            String[] check = Haus.TechnicalFramework.Controllers.StudentController.topars[2].split("\\|, ");  //get array of messages
+            String[] check = StudentController.topars[2].split("\\|, ");  //get array of messages
             for (int i = 0; i < check.length; i++) { // loop through array of messages
 
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
@@ -303,7 +293,7 @@ public class AnimationController implements Initializable {
             else{
         		System.out.println("Error sending message. Message is: \"nothing\"");
 
-                Haus.TechnicalFramework.Controllers.UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
+                UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
 
         	}
         } catch (Exception e) {
@@ -314,7 +304,7 @@ public class AnimationController implements Initializable {
     //Messagelog function
     public void logMessages(String msgs) {
         try {
-            logs = Parser.parParsing(Haus.TechnicalFramework.Controllers.TeacherController.toParse); // message list
+            logs = Parser.parParsing(TeacherController.toParse); // message list
             System.out.println("Logs " + logs);
             String transmission;
             ArrayList<Object> inner;
@@ -328,8 +318,8 @@ public class AnimationController implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Before: " + Haus.TechnicalFramework.Controllers.StudentController.topars[2]); // student message list
-            String[] arr1 = Haus.TechnicalFramework.Controllers.StudentController.toMessageLog.split("\\| ");
+            System.out.println("Before: " + StudentController.topars[2]); // student message list
+            String[] arr1 = StudentController.toMessageLog.split("\\| ");
             arr1[0] = arr1[0].substring(1, arr1[0].length());
             arr1[arr1.length - 1] = arr1[arr1.length - 1].substring(0, arr1[arr1.length - 1].length() - 1);
             System.out.println("After: " + arr1[0] + " || " + arr1[arr1.length - 1]);

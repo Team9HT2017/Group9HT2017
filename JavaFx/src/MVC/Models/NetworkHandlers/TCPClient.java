@@ -1,7 +1,7 @@
-package MVC.NetworkHandlers;
+package MVC.Models.NetworkHandlers;
 
-import Haus.TechnicalFramework.Controllers.TeacherController;
-import Haus.TechnicalFramework.DataHandler.Parser;
+import MVC.Controllers.TeacherController;
+import MVC.Models.Parser;
 
 import java.io.*;
 import java.net.*;
