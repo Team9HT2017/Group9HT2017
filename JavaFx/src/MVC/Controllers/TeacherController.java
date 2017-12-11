@@ -1,7 +1,9 @@
-package Haus.TechnicalFramework.Controllers;
+package MVC.Controllers;
 
 import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
+import Haus.TechnicalFramework.Controllers.AnimationController;
+import Haus.TechnicalFramework.Controllers.UserController;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -72,7 +74,7 @@ public class TeacherController extends AnchorPane {
     @FXML
     private Label IPServerTeacher;
 
-    UserController userController = new UserController();
+    Haus.TechnicalFramework.Controllers.UserController userController = new UserController();
     public static String toParse;
     public static String toParseC;
     public static String toParseD;
@@ -163,7 +165,7 @@ public class TeacherController extends AnchorPane {
 
             try {
                 user = "teacher";
-                map = Arrays.deepToString(AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.parParsing(TeacherController.toParse).toString() + "~" + Parser.flows; //parParsing
+                map = Arrays.deepToString(Haus.TechnicalFramework.Controllers.AnimationController.generateMap(sequenceDiag)) + "~" + getHouses() + "~" + Parser.parParsing(TeacherController.toParse).toString() + "~" + Parser.flows; //parParsing
                 progressBarTeacher.setVisible(true);
                 IPServerTeacher.setVisible(true);
                 inProgressBar();
@@ -179,10 +181,10 @@ public class TeacherController extends AnchorPane {
 
                         try {
                             teacherPane.getChildren().clear();
-                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/AnimationPage.fxml")));
+                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Controllers/AnimationPage.fxml")));
 
                         } catch (IOException ex) {
-                            Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Haus.TechnicalFramework.Controllers.AnimationController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 });
@@ -203,7 +205,7 @@ public class TeacherController extends AnchorPane {
      */
     private String getHouses() {
         String houses = "";
-        for (DrawableObject node : AnimationController.nodes) {
+        for (DrawableObject node : Haus.TechnicalFramework.Controllers.AnimationController.nodes) {
             for (int e = 0; e < classDiag.keySet().size(); e++) { // add information from class diagram to each house
 
                 if (node.name.split("\\|")[1].equals((classDiag).keySet().toArray()[e].toString())) {
@@ -226,10 +228,10 @@ public class TeacherController extends AnchorPane {
         if (!deploymentDiag.isEmpty()) {
             Set<String> set = new HashSet<>();
 
-            for (int i = 0; i < AnimationController.nodes.size(); i++) {
-                set.add(AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
+            for (int i = 0; i < Haus.TechnicalFramework.Controllers.AnimationController.nodes.size(); i++) {
+                set.add(Haus.TechnicalFramework.Controllers.AnimationController.nodes.get(i).name.split(Pattern.quote("Device: "))[1]);
             }
-            AnimationController.deviceImages = new ArrayList<Pair<String, Image>>(set.size());
+            Haus.TechnicalFramework.Controllers.AnimationController.deviceImages = new ArrayList<Pair<String, Image>>(set.size());
 
             int counter = 0;
             while (counter < set.size()) {
@@ -242,10 +244,10 @@ public class TeacherController extends AnchorPane {
                     building = new Image("/Haus/DataStorage/img/house.png");
                 }
 
-                AnimationController.deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
+                Haus.TechnicalFramework.Controllers.AnimationController.deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
                 counter++;
             }
-            for (DrawableObject node : AnimationController.nodes) {
+            for (DrawableObject node : Haus.TechnicalFramework.Controllers.AnimationController.nodes) {
                 node.checkDevice();
             }
         } else {
@@ -271,7 +273,7 @@ public class TeacherController extends AnchorPane {
         } else {
             try {
                 teacherPane.getChildren().clear();
-                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/UserSelection.fxml")));
+                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml")));
 
             } catch (Exception e) {
                 e.printStackTrace();

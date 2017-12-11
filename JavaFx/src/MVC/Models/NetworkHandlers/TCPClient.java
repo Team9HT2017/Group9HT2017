@@ -1,4 +1,4 @@
-package Haus.NetworkHandlers;
+package MVC.NetworkHandlers;
 
 import Haus.TechnicalFramework.Controllers.TeacherController;
 import Haus.TechnicalFramework.DataHandler.Parser;

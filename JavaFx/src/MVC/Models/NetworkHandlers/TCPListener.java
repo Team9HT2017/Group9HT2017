@@ -1,4 +1,4 @@
-package Haus.NetworkHandlers;
+package MVC.NetworkHandlers;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -6,6 +6,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Haus.NetworkHandlers.TCPClient;
 import Haus.TechnicalFramework.Controllers.AnimationController;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.util.Pair;
@@ -47,7 +48,7 @@ public class TCPListener extends Thread {
                 srcDest = getSenderRecipient (serverSentence);
                 try {
                     Integer.parseInt (toSend); // try to send confirmation to server, if its message with ID
-                    TCPClient.sendMessage (toSend, true);
+                    Haus.NetworkHandlers.TCPClient.sendMessage (toSend, true);
                 } catch (Exception e) {
                 	String [] elem = serverSentence.split("=")[1].split("@");
                 	int one = Integer.parseInt(elem[0].trim());

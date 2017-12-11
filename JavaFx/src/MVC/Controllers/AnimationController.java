@@ -1,4 +1,4 @@
-package Haus.TechnicalFramework.Controllers;
+package MVC.Controllers;
 
 import Haus.NetworkHandlers.TCPClient;
 import Haus.NetworkHandlers.TCPListener;
@@ -7,6 +7,9 @@ import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.AnimationObjects.Graph;
 import Haus.TechnicalFramework.AnimationObjects.Road;
 import Haus.PresentationUI.Main;
+import Haus.TechnicalFramework.Controllers.StudentController;
+import Haus.TechnicalFramework.Controllers.TeacherController;
+import Haus.TechnicalFramework.Controllers.UserController;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -106,22 +109,22 @@ public class AnimationController implements Initializable {
 
 
     //Load images:
-    Image roadCross = new Image("/Haus/DataStorage/img/Isotile_roadCross.png");
-    Image roadTminY = new Image("/Haus/DataStorage/img/Isotile_roadT-Y.png");
-    Image roadTplsY = new Image("/Haus/DataStorage/img/Isotile_roadT+Y.png");
-    Image roadTminX = new Image("/Haus/DataStorage/img/Isotile_roadT-X.png");
-    Image roadTplsX = new Image("/Haus/DataStorage/img/Isotile_roadT+X.png");
-    Image roadCurveSouth = new Image("/Haus/DataStorage/img/Isotile_road^.png");
-    Image roadCurveWest = new Image("/Haus/DataStorage/img/Isotile_road}.png");
-    Image roadCurveNorth = new Image("/Haus/DataStorage/img/Isotile_roadv.png");
-    Image roadCurveEast = new Image("/Haus/DataStorage/img/Isotile_road{.png");
-    Image roadYY = new Image("/Haus/DataStorage/img/Isotile_roadY.png");
-    Image roadXX = new Image("/Haus/DataStorage/img/Isotile_road.png");
+    Image roadCross = new Image("MVC/Content/img/Isotile_roadCross.png");
+    Image roadTminY = new Image("MVC/Content/img/Isotile_roadT-Y.png");
+    Image roadTplsY = new Image("MVC/Content/img/Isotile_roadT+Y.png");
+    Image roadTminX = new Image("MVC/Content/img/Isotile_roadT-X.png");
+    Image roadTplsX = new Image("MVC/Content/img/Isotile_roadT+X.png");
+    Image roadCurveSouth = new Image("MVC/Content/img/Isotile_road^.png");
+    Image roadCurveWest = new Image("MVC/Content/img/Isotile_road}.png");
+    Image roadCurveNorth = new Image("MVC/Content/img/Isotile_roadv.png");
+    Image roadCurveEast = new Image("MVC/Content/img/Isotile_road{.png");
+    Image roadYY = new Image("MVC/Content/img/Isotile_roadY.png");
+    Image roadXX = new Image("MVC/Content/img/img/Isotile_road.png");
     //Aesthetic images
-    Image tree = new Image("/Haus/DataStorage/img/Isotile_tree.png");
-    Image grass = new Image("/Haus/DataStorage/img/Isotile_grass.png");
+    Image tree = new Image("MVC/Content/img/Isotile_tree.png");
+    Image grass = new Image("MVC/Content/img/Isotile_grass.png");
     //Bubble image
-    Image bubble = new Image("/Haus/DataStorage/img/bubble.png");
+    Image bubble = new Image("MVC/Content/img/bubble.png");
 
     public static int x = 0, y = 0;
 
@@ -159,18 +162,18 @@ public class AnimationController implements Initializable {
     private void leaveAnimation() throws Exception {
         String stopServer;
 
-        if (TeacherController.user == "teacher") {
+        if (Haus.TechnicalFramework.Controllers.TeacherController.user == "teacher") {
             stopServer = "./stopserver.sh";
-            TeacherController.alert.close ();
-            TeacherController.uploaded = false;
+            Haus.TechnicalFramework.Controllers.TeacherController.alert.close ();
+            Haus.TechnicalFramework.Controllers.TeacherController.uploaded = false;
             if (TCPClient.studentUsername.isEmpty ()) {
-                TeacherController.runScript (stopServer);
+                Haus.TechnicalFramework.Controllers.TeacherController.runScript (stopServer);
             }
         }
             messageLog.setText ("");
             TCPListener.messageReceiveLog = "";
             stage1 = (Stage) leaveAnimation.getScene ().getWindow ();
-            root = FXMLLoader.load (getClass ().getResource ("../../PresentationUI/FXML/UserSelection.fxml"));
+            root = FXMLLoader.load (getClass ().getResource ("../Views/UserSelection.fxml"));
             Main.getScene (root, stage1);
 
 
@@ -181,7 +184,7 @@ public class AnimationController implements Initializable {
      */
     private  ArrayList<Object> priorityMessaging (String message ) {
 
-        ArrayList<ArrayList<Object>> input = Parser.ParseInorder(TeacherController.toParse);
+        ArrayList<ArrayList<Object>> input = Parser.ParseInorder(Haus.TechnicalFramework.Controllers.TeacherController.toParse);
         ArrayList<Object> inner  ;
         ArrayList<Object> messages =new ArrayList<>();
 
@@ -218,7 +221,7 @@ public class AnimationController implements Initializable {
      *param Sender , Receiver
      */
     public static boolean checkOrder (String sender, String receiver ){
-        ArrayList<ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse);
+        ArrayList<ArrayList<Object>> result = Parser.ParseInorder(Haus.TechnicalFramework.Controllers.TeacherController.toParse);
 
         int pos1=0;
         int pos2=0;
@@ -278,7 +281,7 @@ public class AnimationController implements Initializable {
                 }}
             }
         } else {
-            String[] check = StudentController.topars[2].split("\\|, ");  //get array of messages       
+            String[] check = Haus.TechnicalFramework.Controllers.StudentController.topars[2].split("\\|, ");  //get array of messages
             for (int i = 0; i < check.length; i++) { // loop through array of messages
 
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
@@ -300,7 +303,7 @@ public class AnimationController implements Initializable {
             else{
         		System.out.println("Error sending message. Message is: \"nothing\"");
 
-                UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
+                Haus.TechnicalFramework.Controllers.UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
 
         	}
         } catch (Exception e) {
@@ -311,7 +314,7 @@ public class AnimationController implements Initializable {
     //Messagelog function
     public void logMessages(String msgs) {
         try {
-            logs = Parser.parParsing(TeacherController.toParse); // message list
+            logs = Parser.parParsing(Haus.TechnicalFramework.Controllers.TeacherController.toParse); // message list
             System.out.println("Logs " + logs);
             String transmission;
             ArrayList<Object> inner;
@@ -325,8 +328,8 @@ public class AnimationController implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Before: " + StudentController.topars[2]); // student message list
-            String[] arr1 = StudentController.toMessageLog.split("\\| ");
+            System.out.println("Before: " + Haus.TechnicalFramework.Controllers.StudentController.topars[2]); // student message list
+            String[] arr1 = Haus.TechnicalFramework.Controllers.StudentController.toMessageLog.split("\\| ");
             arr1[0] = arr1[0].substring(1, arr1[0].length());
             arr1[arr1.length - 1] = arr1[arr1.length - 1].substring(0, arr1[arr1.length - 1].length() - 1);
             System.out.println("After: " + arr1[0] + " || " + arr1[arr1.length - 1]);
@@ -446,7 +449,7 @@ public class AnimationController implements Initializable {
         System.out.println("Initializing AnimationPage");
 
         //Case for when the current user is a teacher
-        if (TeacherController.user == "teacher") {
+        if (Haus.TechnicalFramework.Controllers.TeacherController.user == "teacher") {
 
             //TeacherController.map = userNames.split(Pattern.quote("~"))[1];
 
@@ -698,11 +701,11 @@ public class AnimationController implements Initializable {
             while (counter < set.size()) {
 
                 if (counter == 0) {
-                    building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
+                    building = new Image("MVC/Content/img/apartmentbuilding.png");
                 } else if (counter == 1) {
-                    building = new Image("/Haus/DataStorage/img/school.png");
+                    building = new Image("MVC/Content/img/img/school.png");
                 } else {
-                    building = new Image("/Haus/DataStorage/img/house.png");
+                    building = new Image("MVC/Content/img/img/house.png");
                 }
 
                 deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
@@ -714,7 +717,7 @@ public class AnimationController implements Initializable {
         }
         else {
             for (DrawableObject node : AnimationController.nodes) {
-                node.image = new Image("/Haus/DataStorage/img/house.png");
+                node.image = new Image("MVC/Content/img/house.png");
             }
         }
 

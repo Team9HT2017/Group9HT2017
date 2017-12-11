@@ -1,4 +1,4 @@
-package Haus.TechnicalFramework.AnimationObjects;
+package MVC.TechnicalFramework.AnimationObjects;
 
 import Haus.TechnicalFramework.Controllers.AnimationController;
 import Haus.TechnicalFramework.Controllers.TeacherController;

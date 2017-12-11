@@ -1,4 +1,4 @@
-package Haus.TechnicalFramework.AnimationObjects;
+package MVC.TechnicalFramework.AnimationObjects;
 
 import java.awt.*;
 import java.util.*;

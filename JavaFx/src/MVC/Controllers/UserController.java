@@ -1,4 +1,4 @@
-package Haus.TechnicalFramework.Controllers;
+package MVC.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +45,7 @@ public class UserController {
             // clearing the first (UserSelection) pane
             first.getChildren().clear();
             // adding TeacherMain anchorPane instead of the UserSelection anchorPane
-            first.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/TeacherMain.fxml")));
+            first.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/TeacherMain.fxml")));
 
         } catch (IOException e) {
             dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);
@@ -64,7 +64,7 @@ public class UserController {
             // clearing the first (UserSelection) pane.
             first.getChildren().clear();
             // adding StudentMain anchorPane instead of the UserSelection anchorPane
-            first.getChildren().add(FXMLLoader.load(getClass().getResource("../../PresentationUI/FXML/StudentMain.fxml")));
+            first.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/StudentMain.fxml")));
 
         } catch (IOException e) {
             dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);

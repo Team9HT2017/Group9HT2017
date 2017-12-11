@@ -1,5 +1,6 @@
-package Haus.TechnicalFramework.AnimationObjects;
+package MVC.TechnicalFramework.AnimationObjects;
 
+import Haus.TechnicalFramework.AnimationObjects.DrawableObject;
 import Haus.TechnicalFramework.Controllers.AnimationController;
 import javafx.util.Pair;
 
@@ -23,15 +24,15 @@ public class Road {
     int xOrigin, yOrigin;
     int xDestination, yDestination;
     int xDiff, yDiff;
-    DrawableObject origin;
-    DrawableObject destination;
+    Haus.TechnicalFramework.AnimationObjects.DrawableObject origin;
+    Haus.TechnicalFramework.AnimationObjects.DrawableObject destination;
 
 
     //static variables
     public static ArrayList<Pair>[] segments = new ArrayList[AnimationController.nodes.size ()];
     static int counter = 0;
 
-    public Road (DrawableObject origin, DrawableObject destination) {
+    public Road (Haus.TechnicalFramework.AnimationObjects.DrawableObject origin, DrawableObject destination) {
         Arrays.fill (segments, new ArrayList<Pair> ());
 
         this.origin = origin;

@@ -1,4 +1,4 @@
-package Haus.PresentationUI;
+package MVC.PresentationUI;
 
 import Haus.NetworkHandlers.TCPListener;
 import Haus.TechnicalFramework.Controllers.TeacherController;
@@ -68,7 +68,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent Root = FXMLLoader.load(getClass().getResource("../PresentationUI/FXML/UserSelection.fxml"));
+        Parent Root = FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml"));
         getScene(Root, primaryStage);
     }
 
@@ -84,7 +84,7 @@ public class Main extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight() * 0.94);
         primaryStage.setTitle("Haus Diagram Simulator");
-        primaryStage.getIcons().add(new Image("/Haus/DataStorage/img/HAUSIcon.png"));
+        //primaryStage.getIcons().add(new Image("/Content/img/HAUSIcon.png"));
         primaryStage.setResizable(false);
         primaryStage.setX(0);
         primaryStage.setY(0);

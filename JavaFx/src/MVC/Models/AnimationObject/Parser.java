@@ -1,4 +1,4 @@
-package Haus.TechnicalFramework.DataHandler;
+package MVC.TechnicalFramework.DataHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

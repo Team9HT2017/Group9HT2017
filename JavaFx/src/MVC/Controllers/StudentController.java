@@ -1,6 +1,8 @@
-package Haus.TechnicalFramework.Controllers;
+package MVC.Controllers;
 
 import Haus.NetworkHandlers.TCPClient;
+import Haus.TechnicalFramework.Controllers.AnimationController;
+import Haus.TechnicalFramework.Controllers.UserController;
 import Haus.TechnicalFramework.DataHandler.Parser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -58,7 +60,7 @@ public class StudentController extends AnchorPane {
     @FXML
     private Label IPServerStudent;
 
-    UserController userController = new UserController();
+    Haus.TechnicalFramework.Controllers.UserController userController = new UserController();
     public static String[] topars;
     public static String toMessageLog;
     public static String user;
