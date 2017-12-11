@@ -181,7 +181,7 @@ public class TeacherController extends AnchorPane {
 
                         try {
                             teacherPane.getChildren().clear();
-                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/AnimationPage.fxml")));
+                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("/MVC/Views/AnimationPage.fxml")));
 
                         } catch (IOException ex) {
                             Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -273,7 +273,7 @@ public class TeacherController extends AnchorPane {
         } else {
             try {
                 teacherPane.getChildren().clear();
-                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml")));
+                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("/MVC/Views/UserSelection.fxml")));
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -151,7 +151,7 @@ public class AnimationController implements Initializable {
         messageLog.setText("");
         TCPListener.messageReceiveLog = "";
         stage1 = (Stage) leaveAnimation.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/MVC/Views/UserSelection.fxml"));
         Main.getScene(root, stage1);
 
 

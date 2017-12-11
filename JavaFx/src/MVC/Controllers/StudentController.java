@@ -145,7 +145,7 @@ public class StudentController extends AnchorPane {
 
                         try {
                             studentPane.getChildren().clear();
-                            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/AnimationPage.fxml")));
+                            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("/MVC/Views/AnimationPage.fxml")));
 
                         } catch (IOException ex) {
                             Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,7 +172,7 @@ public class StudentController extends AnchorPane {
     private void backButton() throws IOException {
         try {
             studentPane.getChildren().clear();
-            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml")));
+            studentPane.getChildren().add(FXMLLoader.load(getClass().getResource("/MVC/Views/UserSelection.fxml")));
         } catch (Exception e) {
             e.printStackTrace();
             userController.dialog("Loading Error", "Something went wrong!" + "\n" + "Please try again ...", Alert.AlertType.ERROR);

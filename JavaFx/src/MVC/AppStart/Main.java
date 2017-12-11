@@ -67,7 +67,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent Root = FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml"));
+        Parent Root = FXMLLoader.load(getClass().getResource("/MVC/Views/UserSelection.fxml"));
         getScene(Root, primaryStage);
     }
 
