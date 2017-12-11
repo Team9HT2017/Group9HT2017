@@ -2,8 +2,6 @@ package MVC.Controllers;
 
 import MVC.Models.NetworkHandlers.TCPClient;
 import MVC.Models.AnimationObject.DrawableObject;
-import MVC.Controllers.AnimationController;
-import MVC.Controllers.UserController;
 import MVC.Models.Parser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -23,7 +21,6 @@ import java.util.Scanner;
 
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -181,7 +178,7 @@ public class TeacherController extends AnchorPane {
 
                         try {
                             teacherPane.getChildren().clear();
-                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Controllers/AnimationPage.fxml")));
+                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("MVC/Views/AnimationPage.fxml")));
 
                         } catch (IOException ex) {
                             Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -237,11 +234,11 @@ public class TeacherController extends AnchorPane {
             while (counter < set.size()) {
 
                 if (counter == 0) {
-                    building = new Image("/Haus/DataStorage/img/apartmentbuilding.png");
+                    building = new Image("MVC/Content/img/apartmentbuilding.png");
                 } else if (counter == 1) {
-                    building = new Image("/Haus/DataStorage/img/school.png");
+                    building = new Image("MVC/Content/img/school.png");
                 } else {
-                    building = new Image("/Haus/DataStorage/img/house.png");
+                    building = new Image("MVC/Content/img/house.png");
                 }
 
                 AnimationController.deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
@@ -252,7 +249,7 @@ public class TeacherController extends AnchorPane {
             }
         } else {
             for (DrawableObject node : AnimationController.nodes) {
-                node.image = new Image("/Haus/DataStorage/img/house.png");
+                node.image = new Image("MVC/Content/img/house.png");
             }
         }
         return houses;
@@ -273,7 +270,7 @@ public class TeacherController extends AnchorPane {
         } else {
             try {
                 teacherPane.getChildren().clear();
-                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml")));
+                teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("MVC/Views/UserSelection.fxml")));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -346,7 +343,6 @@ public class TeacherController extends AnchorPane {
 
                 OutputStream output = process.getOutputStream();
                 System.out.println(output.toString());
-                System.out.println("Nope, it doesnt...again.");
             } catch (InterruptedException v) {
                 System.out.println(v);
             } catch (IOException e) {
