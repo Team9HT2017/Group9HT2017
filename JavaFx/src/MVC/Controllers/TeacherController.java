@@ -181,7 +181,7 @@ public class TeacherController extends AnchorPane {
 
                         try {
                             teacherPane.getChildren().clear();
-                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Controllers/AnimationPage.fxml")));
+                            teacherPane.getChildren().add(FXMLLoader.load(getClass().getResource("../Views/AnimationPage.fxml")));
 
                         } catch (IOException ex) {
                             Logger.getLogger(AnimationController.class.getName()).log(Level.SEVERE, null, ex);

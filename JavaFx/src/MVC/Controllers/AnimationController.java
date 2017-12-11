@@ -51,38 +51,6 @@ import javafx.scene.shape.Rectangle;
  */
 public class AnimationController implements Initializable {
 
-    GraphicsContext gc;
-
-    public static boolean doAnimate = false;
-    public static boolean runFirstFrame = false;
-    public static boolean firstMapDraw = true;
-    int dX, dY;
-    int i = 1;
-
-    int housecontrol=0;
-
-    private ArrayList <Pair<Rectangle, DrawableObject>> houseinfo = new ArrayList <Pair<Rectangle,DrawableObject>>();
-
-    public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
-
-    public static char[][] grid;
-
-    static ArrayList<Road> roads = new ArrayList<Road>();
-
-    static double mapScale;
-
-    private ArrayList<ArrayList<Object>> logs;
-
-    static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
-
-    private Stage stage1;
-
-    Parent root;
-
-    private Stage stage = new Stage();
-
-    private String messageLogCheck="";
-
     @FXML
     public Button leaveAnimation;
 
@@ -98,10 +66,30 @@ public class AnimationController implements Initializable {
     @FXML
     private Label username;
 
-    String userNames;
+    GraphicsContext gc;
+    Parent root;
 
-    int framesPerSecond;
+    int dX, dY;
+    int i = 1;
+    int housecontrol = 0;
 
+    public static ArrayList<DrawableObject> nodes = new ArrayList<DrawableObject>();
+    public static boolean doAnimate = false;
+    public static boolean runFirstFrame = false;
+    public static boolean firstMapDraw = true;
+    public static char[][] grid;
+    public static int x = 0, y = 0;
+    public static List<Pair<String, Image>> deviceImages;
+
+    static double mapScale;
+    static ArrayList<DjikstraNode> djikstraNodes = new ArrayList<DjikstraNode>();
+
+    private ArrayList<Pair<Rectangle, DrawableObject>> houseinfo = new ArrayList<Pair<Rectangle, DrawableObject>>();
+    private ArrayList<ArrayList<Object>> logs;
+    private Stage stage1;
+    private String messageLogCheck = "";
+
+    long lastUpdate = 0;
 
     //Load images:
     Image roadCross = new Image("MVC/Content/img/Isotile_roadCross.png");
@@ -121,11 +109,6 @@ public class AnimationController implements Initializable {
     //Bubble image
     Image bubble = new Image("MVC/Content/img/bubble.png");
 
-    public static int x = 0, y = 0;
-
-    public static List<Pair <String, Image>> deviceImages;
-
-    long lastUpdate = 0;
 
     AnimationTimer frameTimer = new AnimationTimer() {
         @Override
@@ -142,7 +125,7 @@ public class AnimationController implements Initializable {
                     messageLog.appendText(TCPListener.messageReceiveLog);
                     messageLogCheck = TCPListener.messageReceiveLog;
                 }
-                lastUpdate = now ;
+                lastUpdate = now;
             }
         }
     };
@@ -159,88 +142,18 @@ public class AnimationController implements Initializable {
 
         if (TeacherController.user == "teacher") {
             stopServer = "./stopserver.sh";
-            TeacherController.alert.close ();
+            TeacherController.alert.close();
             TeacherController.uploaded = false;
-            if (TCPClient.studentUsername.isEmpty ()) {
-                TeacherController.runScript (stopServer);
+            if (TCPClient.studentUsername.isEmpty()) {
+                TeacherController.runScript(stopServer);
             }
         }
-            messageLog.setText ("");
-            TCPListener.messageReceiveLog = "";
-            stage1 = (Stage) leaveAnimation.getScene ().getWindow ();
-            root = FXMLLoader.load (getClass ().getResource ("../Views/UserSelection.fxml"));
-            Main.getScene (root, stage1);
+        messageLog.setText("");
+        TCPListener.messageReceiveLog = "";
+        stage1 = (Stage) leaveAnimation.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("../Views/UserSelection.fxml"));
+        Main.getScene(root, stage1);
 
-
-    }
-    /**
-     * Method to extract the last exchange between a specific sender and receiver .
-     *param ArrayList of objects
-     */
-    private  ArrayList<Object> priorityMessaging (String message ) {
-
-        ArrayList<ArrayList<Object>> input = Parser.ParseInorder(TeacherController.toParse);
-        ArrayList<Object> inner  ;
-        ArrayList<Object> messages =new ArrayList<>();
-
-        ArrayList<Object> one= new  ArrayList<>(1) ;
-
-        one.add(message);
-        int position=input.indexOf(one);
-        int pos=0;
-        for (int i =0 ; i< input.size() ; i ++) {
-            inner = input.get(i);
-
-            for (int j = 0; j < inner.size(); j++) {
-                String[] split = message.split(",");
-
-                if ((inner.get(j).toString().substring(inner.indexOf("{ ") + 2, inner.indexOf(",")).equals(split[0].substring(split[0].indexOf("{")) + 1) &&
-                        inner.get(j).toString().substring(inner.toString().indexOf(",", 8) + 2, inner.indexOf(",")).equals(split[2].substring(split[2].indexOf("to")) + 1)) && message.equals(split[3].substring(24))) {
-                    pos = input.indexOf(inner);
-
-                }
-                if (pos < position) {
-
-                    messages= inner;
-                }
-
-
-            }
-        }
-        return messages;
-
-    }
-
-    /**
-     * Method to check whether the message exchanged between sender and receiver is a reply or not .
-     *param Sender , Receiver
-     */
-    public static boolean checkOrder (String sender, String receiver ){
-        ArrayList<ArrayList<Object>> result = Parser.ParseInorder(TeacherController.toParse);
-
-        int pos1=0;
-        int pos2=0;
-        ArrayList<Object> inner  ;
-        for (int j = 0; j < result.size(); j++) {
-            inner = result.get(j);
-
-            String index0 = (String) inner.get(0);
-            String index1 = (String) inner.get(1);
-            String index2 = (String) inner.get(2);
-            String index3 = (String) inner.get(3);
-            if (sender.equals(index0.substring(1)) && receiver.equals(index2.substring(2,index2.length()))) {
-                pos1 = inner.indexOf(j);
-            }
-            if (receiver.equals(index0.substring(1)) && sender.equals(index2.substring(2,index2.length()))) {
-                pos2 = inner.indexOf(j);
-            }
-        }
-        if (pos2>=pos1) {
-
-            return true;
-        } else {
-            return false;
-        }
 
     }
 
@@ -249,58 +162,52 @@ public class AnimationController implements Initializable {
      *
      * @throws IOException
      */
-
-
     @FXML
     private void sendMessage() throws IOException {
         String sending = "nothing";
         int control = 0;
-     //   System.out.println(Arrays.toString(logs.toString().split("\\|,")));
 
-      if (logs != null && logs.isEmpty()!=true) { // if user is teacher
+        if (logs != null && logs.isEmpty() != true) { // if user is teacher
             String[] check = logs.toString().split("\\|,"); // get array of messages
             for (int i = 0; i < check.length; i++) { // loop through array of messages
-            	String [] mess = TCPClient.teacherUsername.trim().split(","); // get list of teacher username(s)
-            	System.out.println((check[0].split("=")[1].split("@")[0]));
-            	System.out.println(Arrays.toString(mess));
-              //  System.out.println(TCPListener.allowMessage+"ii"+Integer.parseInt((check[i].split("\\?")[1].split("\\]")[0])));
-            	//System.out.println(Arrays.toString(mess).trim()+" 1 ="+mess[1].trim()+"77"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"77");//+"00"+check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim()+"00");
-            	for (int b=0;b<mess.length;b++){ // loop through teacher username(s) to find highest priority message
-                if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send only one message at a time
-                    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
-                    System.out.println("Check== " + check[i]); // print message that is being sent
-                    sending = check[i];
-                    control++;
-                   // logs.remove(i); //delete this message after sending
-                    System.out.println("New logs "+logs);
-                }}
+                String[] mess = TCPClient.teacherUsername.trim().split(","); // get list of teacher username(s)
+                System.out.println((check[0].split("=")[1].split("@")[0]));
+                System.out.println(Arrays.toString(mess));
+
+                for (int b = 0; b < mess.length; b++) { // loop through teacher username(s) to find highest priority message
+                    if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send only one message at a time
+                            && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0]))) == Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                        System.out.println("Check== " + check[i]); // print message that is being sent
+                        sending = check[i];
+                        control++;
+                        System.out.println("New logs " + logs);
+                    }
+                }
             }
         } else {
             String[] check = StudentController.topars[2].split("\\|, ");  //get array of messages
             for (int i = 0; i < check.length; i++) { // loop through array of messages
 
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
-                	    && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0])))==Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                        && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0]))) == Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
 
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
-                    //StudentController.topars[2].replaceAll(check[i].substring(0, check[i].length()-2), ""); //delete this message after sending
                     control++;
                 }
             }
         }
         try {
             //TCPClient.sendMessage(" [{ u2,  send, to g,  the following message [lol] } ]",false);
-        	if (!sending.equals("nothing")) { // if no message is available to send, nothing is sent to server
-                TCPClient.sendMessage (sending.replaceAll ("\\\\", ""), false);// sending message if it was found
-               // UserController.dialog ("Error sending message", "You have no messages to send");
+            if (!sending.equals("nothing")) { // if no message is available to send, nothing is sent to server
+                TCPClient.sendMessage(sending.replaceAll("\\\\", ""), false);// sending message if it was found
+                // UserController.dialog ("Error sending message", "You have no messages to send");
+            } else {
+                System.out.println("Error sending message. Message is: \"nothing\"");
+
+                UserController.dialog("No message to be send", "You have no messages to send", Alert.AlertType.INFORMATION);
+
             }
-            else{
-        		System.out.println("Error sending message. Message is: \"nothing\"");
-
-                UserController.dialog ("No message to be send","You have no messages to send", Alert.AlertType.INFORMATION);
-
-        	}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -318,7 +225,6 @@ public class AnimationController implements Initializable {
                 inner = logs.get(j);
                 for (int i = 0; i < inner.size(); i++) {
                     transmission = String.format("%s%n", inner.get(i));
-                   // this.messageLog.appendText("" + transmission);
                 }
             }
         } catch (Exception e) {
@@ -341,7 +247,7 @@ public class AnimationController implements Initializable {
         }
     }
 
-    /*
+    /**
      * Method to random generate map on teachers end (previously runAnim)
      */
     public static char[][] generateMap(Map<?, ?> map) {
@@ -360,7 +266,7 @@ public class AnimationController implements Initializable {
         nodes.clear();
         for (Object obj : map.keySet()) {
             //if (TeacherController.user.equals("teacher")) {
-                nodes.add(new DrawableObject(obj, mapSize, mapSize));
+            nodes.add(new DrawableObject(obj, mapSize, mapSize));
             //}
         }
 
@@ -368,7 +274,6 @@ public class AnimationController implements Initializable {
         for (int i = 0; i < mapSize; i++) {
             Arrays.fill(grid[i], 'G');
         }
-
 
         String[] houseLocs = new String[nodes.size()]; // array for near-house locations
         // Build 2d grid map ('H'ouse)
@@ -419,7 +324,6 @@ public class AnimationController implements Initializable {
 
                 }
             }
-
         }
 
         // Print 2d char map to terminal for debugging purposes
@@ -446,9 +350,6 @@ public class AnimationController implements Initializable {
         //Case for when the current user is a teacher
         if (TeacherController.user == "teacher") {
 
-            //TeacherController.map = userNames.split(Pattern.quote("~"))[1];
-
-
             String map = TeacherController.map;
             String[] mapArr = map.split(Pattern.quote("~"));
             username.setText(TCPClient.teacherUsername);
@@ -460,21 +361,16 @@ public class AnimationController implements Initializable {
             initAnim(mapArr[0]);
             frameTimer.start();
 
-
-            //redraw();
         }
         //case for when the current user is not a teacher (e.g. student) sets variables not set because of lack of runanim
         else {
             String[] data = StudentController.topars;
             createStudentObjects(data[1]);
             username.setText(TCPClient.studentUsername);
-            //int mapSize = (data[0].split(Pattern.quote("], ["))[0].length()) / 3;
             mapScale = 3 * Math.pow((double) nodes.size(), -0.6) * 2;
             grid = new char[(int) (nodes.size() * mapScale)][(int) (nodes.size() * mapScale)];
-            //logMessages(data[2]);
             initAnim(data[0]);
             frameTimer.start();
-            //redraw();
 
         }
     }
@@ -484,7 +380,6 @@ public class AnimationController implements Initializable {
      */
     public void redraw() {
 
-        //System.out.println("Redrawing Canvas, FPS: " + framesPerSecond);
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         DrawableObject node;
@@ -626,7 +521,6 @@ public class AnimationController implements Initializable {
         if (doAnimate && i != -1) {
 
             pDest = twoDToIso(new Point(Graph.pathArrayList.get(i).x * 16, Graph.pathArrayList.get(i).y * 16));
-           // if(x > pDest.x && x < pDest.x + 32 && y > pDest.y && y < pDest.y + 16){
             if (x == pDest.x + 16 && y == pDest.y + 8) {
                 x = pDest.x + 16;
                 y = pDest.y + 8;
@@ -653,18 +547,17 @@ public class AnimationController implements Initializable {
         }
     }
 
-    public void runDjikstra(){
+    public void runDjikstra() {
         // ......... Dijkstra section ...........
-        //ArrayList<SourceDestinationPair> pairSequence = fillSDPairs ();
+
         for (DjikstraNode djiNode : djikstraNodes) {
-            djiNode.addNiegbours (djikstraNodes);
+            djiNode.addNiegbours(djikstraNodes);
         }
 
         Pair<DjikstraNode, DjikstraNode> nodePair = fillSDPairs();
-        DjikstraNode.shortestPathAlgorithm (nodePair.getKey(), nodePair.getValue(), djikstraNodes);
-        for (int i = 0; i < Graph.pathArrayList.size (); i++) {
-            PathPoint pathNode = pathPointDrawableObject (Graph.pathArrayList.get (i));
-            //gc.drawImage (new Image ("/Haus/DataStorage/img/NodeImg.png"), twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).x, twoDToIso (new Point (pathNode.x * 16, pathNode.y * 16)).y);
+        DjikstraNode.shortestPathAlgorithm(nodePair.getKey(), nodePair.getValue(), djikstraNodes);
+        for (int i = 0; i < Graph.pathArrayList.size(); i++) {
+            PathPoint pathNode = pathPointDrawableObject(Graph.pathArrayList.get(i));
         }
     }
 
@@ -672,14 +565,14 @@ public class AnimationController implements Initializable {
     public void createStudentObjects(String objString) {
 
         //Split the string into subcomponents to separate variables
-        String[] objArray = objString.split (Pattern.quote ("}{"));
-        objArray[0] = objArray[0].split (Pattern.quote ("{"))[1];
-        objArray[objArray.length - 1] = objArray[objArray.length - 1].split (Pattern.quote ("}"))[0];
+        String[] objArray = objString.split(Pattern.quote("}{"));
+        objArray[0] = objArray[0].split(Pattern.quote("{"))[1];
+        objArray[objArray.length - 1] = objArray[objArray.length - 1].split(Pattern.quote("}"))[0];
 
 
         for (String str : objArray) {
-            String[] houseInfoArr = str.split (Pattern.quote (","));
-            nodes.add (new DrawableObject (houseInfoArr[0], Integer.parseInt (houseInfoArr[1]), Integer.parseInt (houseInfoArr[2])));
+            String[] houseInfoArr = str.split(Pattern.quote(","));
+            nodes.add(new DrawableObject(houseInfoArr[0], Integer.parseInt(houseInfoArr[1]), Integer.parseInt(houseInfoArr[2])));
         }
 
         Image building;
@@ -698,9 +591,9 @@ public class AnimationController implements Initializable {
                 if (counter == 0) {
                     building = new Image("MVC/Content/img/apartmentbuilding.png");
                 } else if (counter == 1) {
-                    building = new Image("MVC/Content/img/img/school.png");
+                    building = new Image("MVC/Content/img/school.png");
                 } else {
-                    building = new Image("MVC/Content/img/img/house.png");
+                    building = new Image("MVC/Content/img/house.png");
                 }
 
                 deviceImages.add(new Pair<String, Image>(set.toArray()[counter].toString(), building));
@@ -709,63 +602,57 @@ public class AnimationController implements Initializable {
             for (DrawableObject node : AnimationController.nodes) {
                 node.checkDevice();
             }
-        }
-        else {
+        } else {
             for (DrawableObject node : AnimationController.nodes) {
                 node.image = new Image("MVC/Content/img/house.png");
             }
         }
+    }
+
+    private class PathPoint {
+        public int x, y;
+
+        public PathPoint(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    private PathPoint pathPointDrawableObject(Point pathPoint) {
+        //String[] cooardinates = pathPoint.split (",");
+        return new PathPoint(pathPoint.x, pathPoint.y);
+    }
+
+    /**
+     * Method to add the roads injections to be dijkstraNodes.
+     *
+     * @param i: represetns the dijkstra's x coordinate of the house/ injection (road).
+     * @param j  :
+     *           represetns the dijkstra's y coordinate of the house/injection (road).
+     */
+    private static void addToDjikstraNodes(int i, int j, char type, String name) {
+        DjikstraNode dn = new DjikstraNode(i, j, type, name);
+        if (!djikstraNodes.contains(dn))
+            djikstraNodes.add(dn);
+    }
+
+    private Pair<DjikstraNode, DjikstraNode> fillSDPairs() {
+        Pair<DjikstraNode, DjikstraNode> pair = new Pair<DjikstraNode, DjikstraNode>(findNodebyName(TCPListener.srcDest[0]), findNodebyName(TCPListener.srcDest[1]));
+        return pair;
 
     }
 
+    private DjikstraNode findNodebyName(String name) {
+        for (int i = 0; i < djikstraNodes.size(); i++) {
 
-        private class PathPoint {
-            public int x, y;
+            if (djikstraNodes.get(i).name != null && djikstraNodes.get(i).name.contains(name + "|")) {
 
-            public PathPoint (int x, int y) {
-                this.x = x;
-                this.y = y;
+                return djikstraNodes.get(i);
             }
         }
-
-        private PathPoint pathPointDrawableObject (Point pathPoint){
-            //String[] cooardinates = pathPoint.split (",");
-            return new PathPoint (pathPoint.x, pathPoint.y);
-        }
-
-        /**
-         * Method to add the roads injections to be dijkstraNodes.
-         *
-         * @param i: represetns the dijkstra's x coordinate of the house/ injection (road).
-         * @param j  :
-         *           represetns the dijkstra's y coordinate of the house/injection (road).
-         */
-        private static void addToDjikstraNodes ( int i, int j, char type, String name){
-            DjikstraNode dn = new DjikstraNode (i, j, type, name);
-            if (!djikstraNodes.contains (dn))
-                djikstraNodes.add (dn);
-        }
-
-
-        private Pair<DjikstraNode, DjikstraNode> fillSDPairs () {
-            Pair<DjikstraNode, DjikstraNode> pair = new Pair<DjikstraNode, DjikstraNode> (findNodebyName (TCPListener.srcDest[0]), findNodebyName (TCPListener.srcDest[1]));
-            return  pair;
-                //pairs.add (new Pair<DjikstraNode, DjikstraNode> (findNodebyName (TCPListener.srcDest[0]), findNodebyName (TCPListener.srcDest[1])));
-        }
-
-
-        private DjikstraNode findNodebyName (String name){
-            for (int i = 0; i < djikstraNodes.size (); i++) {
-                //if (djikstraNodes.get (i).name == null)
-                //    continue;
-                if (djikstraNodes.get (i).name != null && djikstraNodes.get (i).name.contains (name + "|")) {
-                    // System.out.println ("  [#] found " + name + "=" + djikstraNodes.get (i).name + "  at " + djikstraNodes.get (i).x + "," + djikstraNodes.get (i).y);
-                    return djikstraNodes.get (i);
-                }
-            }
-            System.out.println ("Should not reach this point");
-            return null;
-        }
+        System.out.println("Should not reach this point");
+        return null;
+    }
 
     //Function for initialising the animation on the canvas required for both the teacher and the student
     public void initAnim(String map) {
@@ -774,20 +661,20 @@ public class AnimationController implements Initializable {
         canvas.setWidth((nodes.size() * 32) * mapScale + 80);
         canvas.setHeight((nodes.size() * 16) * mapScale + 80);
         canvas.setOnMouseClicked( // add mouse listener to call extended information pop-up when house is clicked
-    	        new EventHandler<MouseEvent>() {
-    	            @Override
-    	            public void handle(MouseEvent t) {
-    	                 for (int m=0;m<houseinfo.size();m++){
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent t) {
+                        for (int m = 0; m < houseinfo.size(); m++) {
 
-    	                	// System.out.println(Arrays.toString(houseinfo.toArray()));
-    	                	 if (houseinfo.get(m).getKey().contains(t.getX(),t.getY())){
+                            // System.out.println(Arrays.toString(houseinfo.toArray()));
+                            if (houseinfo.get(m).getKey().contains(t.getX(), t.getY())) {
 
-    	                		 UserController.dialog("House info", houseinfo.get(m).getValue().name, Alert.AlertType.INFORMATION);
-    	                	 }
+                                UserController.dialog("House info", houseinfo.get(m).getValue().name, Alert.AlertType.INFORMATION);
+                            }
 
-    	                 }
-    	            }
-    	        });
+                        }
+                    }
+                });
         canvas.setFocusTraversable(false);
 
         gc = canvas.getGraphicsContext2D();
@@ -795,7 +682,6 @@ public class AnimationController implements Initializable {
         gc.setFontSmoothingType(FontSmoothingType.GRAY);
         gc.setLineWidth(4);
         gc.setStroke(new Color(1, 1, 1, 1));
-
 
         ArrayList<ArrayList<Character>> chararr = new ArrayList<ArrayList<Character>>();
 
@@ -819,7 +705,6 @@ public class AnimationController implements Initializable {
                 }
                 i++;
             }
-
             //Insert x/y array into grid for drawing
             for (int j = 0; j < chararr.size(); j++)
                 for (int k = 0; k < chararr.get(j).size(); k++)
