@@ -1,6 +1,6 @@
-package MVC.TechnicalFramework.AnimationObjects;
+package MVC.Models.AnimationObject;
 
-import Haus.TechnicalFramework.AnimationObjects.Graph;
+import MVC.Models.AnimationObject.Graph;
 
 import java.util.ArrayList;
 
@@ -90,12 +90,12 @@ public class DjikstraNode {
      */
     //source https://rosettacode.org/wiki/Dijkstra%27s_algorithm#Java
     public static void shortestPathAlgorithm(DjikstraNode source, DjikstraNode destination, ArrayList<DjikstraNode> nodes) {
-        ArrayList<Haus.TechnicalFramework.AnimationObjects.Graph.Edge> edges = new ArrayList<Haus.TechnicalFramework.AnimationObjects.Graph.Edge> ();
+        ArrayList<Graph.Edge> edges = new ArrayList<Graph.Edge> ();
         for (DjikstraNode dji : nodes)
             for (int i = 0; i < dji.neigbours.size (); i++) {
-                edges.add (new Haus.TechnicalFramework.AnimationObjects.Graph.Edge(dji.x + "," + dji.y, dji.neigbours.get (i).x + "," + dji.neigbours.get (i).y, dji.nodeDistances[i]));
+                edges.add (new Graph.Edge(dji.x + "," + dji.y, dji.neigbours.get (i).x + "," + dji.neigbours.get (i).y, dji.nodeDistances[i]));
             }
-        Haus.TechnicalFramework.AnimationObjects.Graph g = new Haus.TechnicalFramework.AnimationObjects.Graph(edges.toArray (new Graph.Edge[edges.size ()]));
+        Graph g = new Graph(edges.toArray (new Graph.Edge[edges.size ()]));
         g.dijkstra (source.x + "," + source.y);
         g.printPath (destination.x + "," + destination.y);
     }

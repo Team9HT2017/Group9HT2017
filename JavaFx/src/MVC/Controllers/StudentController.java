@@ -1,9 +1,9 @@
 package MVC.Controllers;
 
-import Haus.NetworkHandlers.TCPClient;
-import Haus.TechnicalFramework.Controllers.AnimationController;
-import Haus.TechnicalFramework.Controllers.UserController;
-import Haus.TechnicalFramework.DataHandler.Parser;
+import MVC.Models.NetworkHandlers.TCPClient;
+import MVC.Controllers.AnimationController;
+import MVC.Controllers.UserController;
+import MVC.Models.Parser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

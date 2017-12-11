@@ -1,5 +1,8 @@
 package MVC.Models.AnimationObject;
 
+
+import MVC.Controllers.AnimationController;
+import MVC.Controllers.TeacherController;
 import javafx.scene.image.Image;
 import javafx.util.Pair;
 
