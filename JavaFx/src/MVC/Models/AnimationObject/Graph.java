@@ -1,4 +1,4 @@
-package MVC.TechnicalFramework.AnimationObjects;
+package MVC.Models.AnimationObject;
 
 import java.awt.*;
 import java.util.*;
