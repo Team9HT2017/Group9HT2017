@@ -1,8 +1,13 @@
 package MVC.Controllers;
 
+import MVC.AppStart.Main;
+import MVC.Models.AnimationObject.DjikstraNode;
 import MVC.Models.AnimationObject.DrawableObject;
+import MVC.Models.AnimationObject.Graph;
 import MVC.Models.AnimationObject.Road;
 import MVC.Models.NetworkHandlers.TCPClient;
+import MVC.Models.NetworkHandlers.TCPListener;
+import MVC.Models.Parser;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -439,7 +444,7 @@ public class AnimationController implements Initializable {
         System.out.println("Initializing AnimationPage");
 
         //Case for when the current user is a teacher
-        if (Haus.TechnicalFramework.Controllers.TeacherController.user == "teacher") {
+        if (TeacherController.user == "teacher") {
 
             //TeacherController.map = userNames.split(Pattern.quote("~"))[1];
 
