@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author LFigueroa
+%%% @author Laiz Figueroa
 %%% @copyright (C) 2017, Haus Project
 %%% @doc
 %%% This third level of the Supervisor Tree being a supervisor for
@@ -52,7 +52,7 @@ init(none) ->
   %% huge amount of children.
   %% Integers = MaxRestart, MaxTime
 
-  Client    = {ehaus_client, %% ChildId - Used for debugging
+  Client = {ehaus_client, %% ChildId - Used for debugging
     {ehaus_client, start_link, []}, %% Start function -> {Module,
     %% Function, Argument}
     transient, %% Restart = transient -> It is a process that are
@@ -61,6 +61,6 @@ init(none) ->
     brutal_kill,
     worker, %% Shutdown
     [ehaus_client]},%% Modules -> The name of the callback module used
-    %% by the child behaviour
+  %% by the child behaviour
 
   {ok, {RestartStrategy, [Client]}}.

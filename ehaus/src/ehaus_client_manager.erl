@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author LFigueroa
+%%% @author Laiz Figueroa
 %%% @copyright (C) 2017, Haus Project
 %%% @doc
 %%% This is a gen_server with all the functions to start a process and
@@ -62,8 +62,8 @@ terminate(_, _) ->
 
 do_listen(PortNum, State = #s{port_num = none}) ->
   SocketOptions =
-    [{active,    once},
-      {mode,      binary},
+    [{active, once},
+      {mode, binary},
       {packet, 2},
       {keepalive, true},
       {reuseaddr, true}],

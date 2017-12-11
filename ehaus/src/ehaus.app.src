@@ -1,6 +1,6 @@
 {application, ehaus,
-  [{description, "An OTP application"},
-    {vsn, "1.0"},
+  [{description, "Haus Server Application"},
+    {vsn, "0.1.0"},
     {registered, []},
     {mod, {ehaus, []}},
     {applications,
@@ -15,7 +15,7 @@
       ehaus_client,
       ehaus_client_manager]},
 
-    {maintainers, ["Laiz Figueroa"]},
+    {maintainers, ["Laiz Figueroa, Anthony Path and Fahd Debbiche"]},
     {licenses, ["Apache 2.0"]},
     {links, []}
   ]}.

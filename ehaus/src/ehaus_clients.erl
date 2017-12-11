@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author LFigueroa
+%%% @author Laiz Figueroa
 %%% @copyright (C) 2017, Haus Project
 %%% @doc
 %%% This is the second level of the Supervisor Tree being a supervisor
@@ -48,7 +48,7 @@ init(none) ->
     5000, %% Shutdown
     supervisor,%% Type = supervisor
     [ehaus_client_sup]}, %% Modules -> The name of the callback module
-    %% used by the child behaviour
+  %% used by the child behaviour
 
   ClientMan = {ehaus_client_manager, %% ChildId - Used for debugging
     {ehaus_client_manager, start_link, []}, %% Start function -> {Module,
@@ -59,8 +59,8 @@ init(none) ->
     5000, %% Shutdown
     worker,%% Type = worker
     [ehaus_client_manager]}, %% Modules -> The name of the callback
-    %% module used by the child behaviour
+  %% module used by the child behaviour
 
-  Children  = [ClientSup, ClientMan],
+  Children = [ClientSup, ClientMan],
 
   {ok, {RestartStrategy, Children}}.

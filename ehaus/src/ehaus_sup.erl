@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author LFigueroa
+%%% @author Laiz Figueroa
 %%% @copyright (C) 2017, Haus Project
 %%% @doc
 %%% This is top-level of the Supervisor Tree being a supervisor for

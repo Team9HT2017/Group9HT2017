@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author LFigueroa
+%%% @author Laiz Figueroa
 %%% @copyright (C) 2017, Haus Project
 %%% @doc
 %%% This class runs the Erlang application calling the client manager
@@ -26,7 +26,7 @@
 %% @end
 %%--------------------------------------------------------------------
 listen(PortNum) ->
-    ehaus_client_manager:listen(PortNum).
+  ehaus_client_manager:listen(PortNum).
 
 %%--------------------------------------------------------------------
 %% @private
@@ -37,7 +37,7 @@ listen(PortNum) ->
 %% @end
 %%--------------------------------------------------------------------
 ignore() ->
-    ehaus_client_manager:ignore().
+  ehaus_client_manager:ignore().
 
 %%--------------------------------------------------------------------
 %% @private
@@ -52,9 +52,9 @@ ignore() ->
 %% @end
 %%--------------------------------------------------------------------
 start() ->
-    application:ensure_started(sasl),
-    application:start(?MODULE),
-    io:format("Starting server...").
+  application:ensure_started(sasl),
+  application:start(?MODULE),
+  io:format("Starting server...").
 
 %%--------------------------------------------------------------------
 %% @private
@@ -70,9 +70,9 @@ start() ->
 start(?PORT) ->
   ok = start(),
   ok = ehaus_client_manager:listen(?PORT),
-    %% ok = function -> always check that the returned value was the expected
-    %% one, and not invisible errors happening in the background.
-    io:format("Startup complete, listening on ~w~n", [?PORT]).
+  %% ok = function -> always check that the returned value was the expected
+  %% one, and not invisible errors happening in the background.
+  io:format("Startup complete, listening on ~w~n", [?PORT]).
 
 %%--------------------------------------------------------------------
 %% @private
@@ -85,8 +85,8 @@ start(?PORT) ->
 %% @end
 %%--------------------------------------------------------------------
 start(normal, _Args) ->
-    ehaus_sup:start_link(),
-    ehaus_client_manager:listen(?PORT).
+  ehaus_sup:start_link(),
+  ehaus_client_manager:listen(?PORT).
 
 
 %%--------------------------------------------------------------------
@@ -99,4 +99,4 @@ start(normal, _Args) ->
 %% @end
 %%--------------------------------------------------------------------
 stop(_State) ->
-    ok.
+  ok.
