@@ -545,6 +545,8 @@ public class AnimationController implements Initializable {
             Graph.pathArrayList.clear();
             sendMessage.setDisable(false);
         }
+        if(x < 0 || y < 0 || x > canvas.getWidth() || y > canvas.getHeight())
+            sendMessage.setDisable(false);
     }
 
     public void runDjikstra() {
