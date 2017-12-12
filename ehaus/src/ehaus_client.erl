@@ -113,8 +113,13 @@ loop(Parent, Debug, State = #s{socket = Socket}) ->
               io:format("Users2: ~p~n", [Check]),
               distribute(NoDups, Distributive)
 
-          end,
-          loop(Parent, Debug, State)
+          end;
+          <<"SEARCH\n">> ->
+            User=userNameHandler:add_name(Message),
+            io:format("~p the message sent: ~n",User),
+            %Lis=userNameHandler:add_name(Message),
+            %gen_tcp:send(Socket,[Lis, <<"&">>, "Remoove", "\n"]),
+            loop(Parent, Debug, State)
       end;
     {tcp_closed, Socket} ->
       ok = io:format("~p Socket closed, retiring.~n", [self()]),

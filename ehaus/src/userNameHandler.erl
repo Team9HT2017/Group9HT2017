@@ -8,7 +8,7 @@
 %%%-------------------------------------------------------------------
 -module(userNameHandler).
 
--export([start/0, putUserNames/1, get_list/0, assignUserName/1, get_Username/1, assignTeacher/1, findElement/2]).
+-export([start/0, putUserNames/1, get_list/0, assignUserName/1, get_Username/1, assignTeacher/1, findElement/2,add_name/1]).
 
 %Functions related to storing and sending user names on the server
 start() ->
@@ -46,7 +46,14 @@ get_Username(Name) ->  % function to get a specific username from a list
   userNameHandler ! {self(), search, Name},
   receive {found, UsernameID} -> UsernameID;
     not_found -> not_found end.
-
+%add_name(Name) ->  %% adds a name if it does not exists in the list
+% userNameHandler ! {self(),add,Name},
+%receive {found, Name}-> Name
+%end.
+add_name(Name) ->  %% adds a name if it does not exists in the list
+  userNameHandler ! {self(),add,Name},
+  receive {found, Name}-> Name
+  end.
 
 findElement(0, [E | T]) -> E;
 findElement(ElemIndex, [E | T]) ->
@@ -87,12 +94,27 @@ loopUserNames(List, Teacher, Usernames) -> % User names handling loop, which is 
           Pid ! {self, Username, ok},
           io:format("~p New List ~n", [NewList]),
           loopUserNames(NewList, Teacher, Usernames)
+
+      %% list flatten send to teacher username the new added name the above one is just adding the remoan username .
       end;
     {Pid, search, Name} ->
       io:format("~p Name: ~n", [Name]),
       L = [{Socket, Name} || {Socket, Username} <- List, Name =:= Username],
       Pid ! {found, L},
       loopUserNames(List, Teacher, Usernames);
+    {Pid,add,Name}  ->
+      io:format("~p add this name: ~n",[Name]),
+      Newlist=[{IP,Username} ||{IP,Username} <- List ,  Name=/=Username ],
+      Pid ! {filled,Name},
+      Pair={Teacher,Name},
+      List2=[Pair|Newlist],
+      Pid ! {filled,Name},
+      Tosend = [lists:flatten([",", US]) || {IPC, US} <- List2, IPC =:= Teacher],
+      {ok, SocketSend} = gen_tcp:connect(Teacher, 6789, []),
+      ok = gen_tcp:send(SocketSend, [list_to_binary([Tosend | <<"!US!">>]), "\n"]),
+      % io:format("~p new list: ~n",[AddList]),
+      loopUserNames(List2,Teacher,Usernames);
+
     {Pid, get} ->
       Pid ! {self(), List},
       loopUserNames(List, Teacher, Usernames)
