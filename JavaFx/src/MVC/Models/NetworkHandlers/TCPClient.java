@@ -82,9 +82,9 @@ public class TCPClient {
             clientSocket.close();
             System.out.println("Socket closed!");
         } else {
-            SocketAddress sockaddr = new InetSocketAddress(ip, 8080);
-            Socket clientSocket = new Socket();
-            clientSocket.connect(sockaddr, 5000);
+          //  SocketAddress sockaddr = new InetSocketAddress(ip, 8080);
+            Socket clientSocket = new Socket(ip,8080);
+         //   clientSocket.connect(sockaddr, 5000);
             System.out.println(clientSocket);
 
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
@@ -139,6 +139,17 @@ public class TCPClient {
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
         String sendToServer = message.toString();
         outToServer.writeUTF(sendToServer + "!?!SEARCH" + '\n');
+        clientSocket.close();
+
+    }
+
+    public static void searchQuit(String  message ) throws  IOException{
+        Socket clientSocket = new Socket(globalIP, 8080);
+        System.out.println(clientSocket);
+
+        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        outToServer.writeUTF(message + "!?!" + "SEARCH\n" );
+        System.out.println(" In tcp client" + message);
         clientSocket.close();
 
     }

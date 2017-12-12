@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import javafx.scene.control.*;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
@@ -147,23 +148,35 @@ public class AnimationController implements Initializable {
             if (TCPClient.studentUsername.isEmpty()) {
                 TeacherController.runScript(stopServer);
             }
+
+        }else if (TCPClient.teacherUsername.isEmpty()) {
+                System.out.println("get inside the student");
+                try {
+                    TCPClient.searchQuit(username.getText());
+                    System.out.println("the username senttt" + username.getText());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            messageLog.setText("");
+            TCPListener.messageReceiveLog = "";
+            stage1 = (Stage) leaveAnimation.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("/MVC/Views/UserSelection.fxml"));
+            Main.getScene(root, stage1);
+
+
         }
-        messageLog.setText("");
-        TCPListener.messageReceiveLog = "";
-        stage1 = (Stage) leaveAnimation.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("/MVC/Views/UserSelection.fxml"));
-        Main.getScene(root, stage1);
 
-
-    }
 
     /**
      * Method to send a message when send button is clicked.
      *
      * @throws IOException
      */
+
     @FXML
-    private void sendMessage() throws IOException {
+    private void sendMessage () throws IOException {
         String sending = "nothing";
         int control = 0;
 
