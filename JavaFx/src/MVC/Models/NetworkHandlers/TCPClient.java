@@ -35,7 +35,6 @@ public class TCPClient {
         globalIP = ip;
 
         if (user == "teacher") {
-            //String message = Parser.Parse2(TeacherController.toParse,true).toString()+"~"+Parser.ParseInorder(TeacherController.toParse).toString();
             Reader inputData = new StringReader(message);
             BufferedReader inFromUser = new BufferedReader(inputData);
 
@@ -82,9 +81,9 @@ public class TCPClient {
             clientSocket.close();
             System.out.println("Socket closed!");
         } else {
-          //  SocketAddress sockaddr = new InetSocketAddress(ip, 8080);
-            Socket clientSocket = new Socket(ip,8080);
-         //   clientSocket.connect(sockaddr, 5000);
+            SocketAddress sockaddr = new InetSocketAddress(ip, 8080);
+            Socket clientSocket = new Socket();
+            clientSocket.connect(sockaddr, 5000);
             System.out.println(clientSocket);
 
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
@@ -115,10 +114,9 @@ public class TCPClient {
      *
      * @param message
      * @param confirm
-     * @throws UnknownHostException
      * @throws IOException
      */
-    public static void sendMessage(String message, boolean confirm) throws UnknownHostException, IOException {
+    public static void sendMessage(String message, boolean confirm) throws IOException {
         Socket clientSocket = new Socket(globalIP, 8080);
         System.out.println(clientSocket);
 
@@ -132,18 +130,14 @@ public class TCPClient {
 
     }
 
-    public static void searchMeassage(ArrayList<? extends Object> message) throws IOException {
-        Socket clientSocket = new Socket(globalIP, 8080);
-        System.out.println(clientSocket);
-
-        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-        String sendToServer = message.toString();
-        outToServer.writeUTF(sendToServer + "!?!SEARCH" + '\n');
-        clientSocket.close();
-
-    }
-
-    public static void searchQuit(String  message ) throws  IOException{
+    /**
+     * Method to close the sockets when the leave animation button is
+     * selected on the animation page.
+     *
+     * @param message
+     * @throws IOException
+     */
+    public static void searchQuit(String  message) throws  IOException{
         Socket clientSocket = new Socket(globalIP, 8080);
         System.out.println(clientSocket);
 

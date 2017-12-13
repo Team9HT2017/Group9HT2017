@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -83,7 +84,7 @@ public class Main extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         scene = new Scene(root, screenBounds.getHeight() + 200, screenBounds.getHeight() * 0.94);
         primaryStage.setTitle("Haus Diagram Simulator");
-        //primaryStage.getIcons().add(new Image("/Content/img/HAUSIcon.png"));
+        primaryStage.getIcons().add(new Image("/Content/img/HAUSIcon.png"));
         primaryStage.setResizable(false);
         primaryStage.setX(0);
         primaryStage.setY(0);
