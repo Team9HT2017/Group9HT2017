@@ -189,7 +189,7 @@ public class AnimationController implements Initializable {
 
                 for (int b = 0; b < mess.length; b++) { // loop through teacher username(s) to find highest priority message
                     if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(mess[b].replaceAll("\\[", "").replaceAll("\\]", "").trim()) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send only one message at a time
-                            && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0]))) == Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                            && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0]))) == Integer.parseInt(check[i].replaceAll("\\|]]", "").split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
                         System.out.println("Check== " + check[i]); // print message that is being sent
                         sending = check[i];
                         control++;
@@ -202,7 +202,7 @@ public class AnimationController implements Initializable {
             for (int i = 0; i < check.length; i++) { // loop through array of messages
 
                 if (check[i].substring(check[i].indexOf("{ ") + 2, check[i].indexOf(",")).trim().equals(TCPClient.studentUsername.split("\\|")[0]) && control < 1 // compare each message's sender to sending user to find his/her highest priority message, control is used to send onlu one message at a time
-                        && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0]))) == Integer.parseInt(check[i].split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
+                        && Parser.flows.get(Integer.parseInt((check[i].split("=")[1].split("@")[0]))) == Integer.parseInt(check[i].replaceAll("\\|]]", "").split("=")[1].split("@")[1])) { //priority counter that allows to send messages only in correct order
 
                     System.out.println("Check== " + check[i]);
                     sending = check[i];
